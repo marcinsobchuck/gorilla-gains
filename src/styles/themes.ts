@@ -4,7 +4,7 @@ export const lightTheme = {
     backgroundColor: "white",
     borderColor: "green",
   },
-  backgroundColor: "slate",
+  backgroundColor: "white",
 }
 export const darkTheme = {
   button: {
