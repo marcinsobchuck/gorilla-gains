@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
 
-export const ActivityHistory = () => {
+export const Activities = () => {
   return (
     <>
-      <div>History</div>
+      <div>Activities</div>
       <Outlet />
     </>
   )
