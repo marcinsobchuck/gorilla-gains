@@ -1,16 +1,16 @@
 export const lightTheme = {
-  button: {
-    color: "green",
-    backgroundColor: "white",
-    borderColor: "green",
-  },
-  backgroundColor: "white",
+  backgroundColor: "#f2f2f2",
+  primary: "#0E1111",
+  primaryMedium: "#0E111199",
+  primaryDisabled: "#0E111140",
+
+  secondary: "#75E83F",
 }
 export const darkTheme = {
-  button: {
-    color: "white",
-    backgroundColor: "black",
-    borderColor: "blue",
-  },
-  backgroundColor: "darkgray",
+  backgroundColor: "#121212",
+  primary: "#FFFFFFDE",
+  primaryMedium: "#FFFFFF99",
+  primaryDisabled: "#FFFFFF40",
+
+  secondary: "#A1D890",
 }

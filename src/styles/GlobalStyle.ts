@@ -16,6 +16,7 @@ export const GlobalStyle = styled.createGlobalStyle`
     list-style: none;
     outline: none;
     font-family: "Montserrat", sans-serif;
+    color: ${({ theme }) => theme.primary};
   }
 
   input,

@@ -2,10 +2,17 @@ import { createSlice } from "@reduxjs/toolkit"
 
 import { InitialState } from "./themeSlice.types"
 
-const darkThemeMql = window.matchMedia("(prefers-color-scheme: dark)")
+const getTheme = () => {
+  const darkThemeMql = window.matchMedia("(prefers-color-scheme: dark)")
+  const theme = window.localStorage.getItem("theme")
+  if (theme) {
+    return JSON.parse(theme)
+  }
+  return darkThemeMql.matches ? "dark" : "light"
+}
 
 const initialState: InitialState = {
-  currentTheme: darkThemeMql.matches ? "dark" : "light",
+  currentTheme: getTheme(),
 }
 
 const themeSlice = createSlice({

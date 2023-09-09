@@ -1,3 +1,3 @@
 export interface InitialState {
-  currentTheme: "light" | "dark"
+  currentTheme: string
 }
