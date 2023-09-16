@@ -11,12 +11,10 @@ const Wrapper = styled.div`
 
 export const RootLayout = () => {
   return (
-    <>
-      <Wrapper>
-        <Switch />
-        <div>Root layout</div>
-        <Outlet />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Switch />
+
+      <Outlet />
+    </Wrapper>
   )
 }
