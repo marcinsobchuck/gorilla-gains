@@ -23,13 +23,12 @@ export const router = createBrowserRouter(
           </Route>
           <Route path='calendar' element={<Calendar />} />
         </Route>
-
-        <Route path='/auth' element={<AuthLayout />}>
-          <Route index element={<Login />} />
-          <Route path='register' element={<Register />} />
-        </Route>
-        <Route path='*' element={<NotFound />} />
       </Route>
+      <Route path='/auth' element={<AuthLayout />}>
+        <Route index element={<Login />} />
+        <Route path='register' element={<Register />} />
+      </Route>
+      <Route path='*' element={<NotFound />} />
     </>
   )
 )

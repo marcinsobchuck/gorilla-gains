@@ -49,4 +49,9 @@ export const GlobalStyle = styled.createGlobalStyle`
     border: none;
     cursor: pointer;
   }
+
+  body {
+    background-color: ${({ theme }) => theme.backgroundColor};
+    transition: background-color 0.3s;
+  }
 `
