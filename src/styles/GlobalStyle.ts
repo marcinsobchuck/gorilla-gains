@@ -1,8 +1,13 @@
-import { createGlobalStyle } from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
 
-const styled = { createGlobalStyle }
+const globalStyle = { createGlobalStyle }
 
-export const GlobalStyle = styled.createGlobalStyle`
+export const Background = styled.div`
+  background-color: ${({ theme }) => theme.backgroundColor};
+  transition: background-color 0.3s;
+`
+
+export const GlobalStyle = globalStyle.createGlobalStyle`
   *,
   *::before,
   *::after {
@@ -50,8 +55,5 @@ export const GlobalStyle = styled.createGlobalStyle`
     cursor: pointer;
   }
 
-  body {
-    background-color: ${({ theme }) => theme.backgroundColor};
-    transition: background-color 0.3s;
-  }
+  
 `
