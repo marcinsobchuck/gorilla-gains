@@ -17,6 +17,8 @@ export const lightTheme = {
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
+
+  primaryButtonColor: "#fafafa",
 }
 export const darkTheme = {
   backgroundColor: "#121212",
@@ -37,4 +39,6 @@ export const darkTheme = {
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
+
+  primaryButtonColor: "#121212",
 }
