@@ -2,11 +2,10 @@ import { SubmitHandler } from "react-hook-form"
 
 import {
   Accent,
-  AuthActionText,
+  AuthActionContainer,
   ContentWrapper,
   FormHeaderWrapper,
   StyledImage,
-  StyledLink,
   Subtitle,
   Title,
   ViewInfoHeading,
@@ -15,6 +14,7 @@ import {
 import authGorilla from "../../assets/authGorilla.png"
 import { AuthForm } from "../../components/AuthForm/AuthForm"
 import { FormValues } from "../../components/AuthForm/AuthForm.types"
+import { Button } from "../../components/Button/Button"
 
 export const Register = () => {
   const handleRegister: SubmitHandler<FormValues> = (values) => {
@@ -32,9 +32,10 @@ export const Register = () => {
           <Subtitle>
             Become Gorilla<Accent>.</Accent>
           </Subtitle>
-          <AuthActionText>
-            Already a member? <StyledLink to='/auth'>Log in</StyledLink>
-          </AuthActionText>
+          <AuthActionContainer>
+            <span>Already a member?</span>
+            <Button text='Log in' buttonType='link' to='/auth' variant='secondary' />
+          </AuthActionContainer>
         </FormHeaderWrapper>
 
         <AuthForm onSubmit={handleRegister} isRegister />

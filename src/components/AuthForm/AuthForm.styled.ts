@@ -1,5 +1,7 @@
 import svg from "react-inlinesvg"
 import styled, { css } from "styled-components"
+
+import { Button } from "../Button/Button"
 interface InputWrapperProps {
   $shouldTransition?: boolean
 }
@@ -43,6 +45,7 @@ export const StyledInput = styled.input`
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   outline: ${({ theme }) => theme.secondaryOpacity};
   transition: all 0.3s;
+
   transition-delay: 0.1s;
 
   &:focus {
@@ -68,7 +71,6 @@ export const StyledError = styled.p<StyledErrorProps>`
   margin-top: 4px;
   min-height: 24px;
   color: ${({ theme }) => theme.errorColor};
-  text-transform: uppercase;
   font-weight: 500;
   font-size: 12px;
   border-radius: 9px;
@@ -86,17 +88,7 @@ export const InputStatusIcon = styled(svg)<InputStatusIconProps>`
   height: 24px;
 `
 
-export const SubmitButton = styled.button`
-  display: block;
-  padding: 16px 24px;
+export const SubmitButton = styled(Button)`
   margin: 0 auto;
   margin-top: 24px;
-
-  font-weight: 500;
-  color: ${({ theme }) => theme.backgroundColor};
-  background-color: ${({ theme }) => theme.secondary};
-
-  border-radius: 56px;
-
-  width: 240px;
 `

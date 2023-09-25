@@ -2,11 +2,10 @@ import { SubmitHandler } from "react-hook-form"
 
 import {
   Accent,
-  AuthActionText,
+  AuthActionContainer,
   ContentWrapper,
   FormHeaderWrapper,
   StyledImage,
-  StyledLink,
   Subtitle,
   Title,
   ViewInfoHeading,
@@ -15,6 +14,7 @@ import {
 import authGorilla from "../../assets/authGorilla.png"
 import { AuthForm } from "../../components/AuthForm/AuthForm"
 import { FormValues } from "../../components/AuthForm/AuthForm.types"
+import { Button } from "../../components/Button/Button"
 
 export const Login = () => {
   const handleLogin: SubmitHandler<FormValues> = (values) => {
@@ -32,9 +32,10 @@ export const Login = () => {
           <Subtitle>
             Time to train<Accent>.</Accent>
           </Subtitle>
-          <AuthActionText>
-            Not a member? <StyledLink to='/auth/register'>Sign up</StyledLink>
-          </AuthActionText>
+          <AuthActionContainer>
+            <span>Not a member?</span>
+            <Button text='Sign up' buttonType='link' to='/auth/register' variant='secondary' />
+          </AuthActionContainer>
         </FormHeaderWrapper>
         <AuthForm onSubmit={handleLogin} />
       </ContentWrapper>

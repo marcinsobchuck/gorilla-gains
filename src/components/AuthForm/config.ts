@@ -22,3 +22,12 @@ export const registerSchema = z
       path: ["passwordConfirmation"],
     }
   )
+
+export const loginSchema = z.object({
+  email: z.string().nonempty("Email is required").email("Invalid email address"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .trim()
+    .min(6, { message: "Min. 6 characters" }),
+})

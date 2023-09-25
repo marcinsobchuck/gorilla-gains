@@ -10,13 +10,13 @@ import {
   StyledLabel,
   SubmitButton,
 } from "./AuthForm.styled"
-import { AuthFormProps, FormValues } from "./AuthForm.types"
-import { registerSchema } from "./config"
+import { AuthFormProps, LoginFormValues, RegisterFormValues } from "./AuthForm.types"
+import { loginSchema, registerSchema } from "./config"
 import errorIcon from "../../assets/error.svg"
 import successIcon from "../../assets/success.svg"
 
 const registerInputsData: {
-  id: keyof FormValues
+  id: keyof RegisterFormValues
   label: string
   type: "text" | "email" | "password"
 }[] = [
@@ -43,7 +43,7 @@ const registerInputsData: {
 ]
 
 const loginInputsData: {
-  id: keyof FormValues
+  id: keyof LoginFormValues
   label: string
   type: "email" | "password"
 }[] = [
@@ -66,7 +66,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
     formState: { errors },
     control,
     setFocus,
-  } = useForm<FormValues>({
+  } = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -75,7 +75,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
     },
 
     mode: "all",
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(isRegister ? registerSchema : loginSchema),
   })
 
   const formValues = useWatch({ control })
@@ -106,7 +106,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
           </InputWrapper>
         )
       })}
-      <SubmitButton type='submit'>Submit</SubmitButton>
+      <SubmitButton
+        text={isRegister ? "Register" : "Login"}
+        variant='primary'
+        width={200}
+        type='submit'
+      />
     </form>
   )
 }

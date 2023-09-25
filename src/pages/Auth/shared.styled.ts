@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const StyledImage = styled.img`
@@ -56,12 +55,11 @@ export const Subtitle = styled.h3`
 export const Accent = styled.span`
   color: ${({ theme }) => theme.secondary};
 `
-export const AuthActionText = styled.p`
-  font-size: 14px;
-  color: ${({ theme }) => theme.primaryMedium};
-  font-weight: 500;
-`
-
-export const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.secondary};
+export const AuthActionContainer = styled.div`
+  span {
+    font-size: 14px;
+    color: ${({ theme }) => theme.primaryMedium};
+    font-weight: 500;
+    margin-right: 3px;
+  }
 `
