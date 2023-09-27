@@ -5,7 +5,7 @@ import { StyledButton, StyledLink } from "./Button.styled"
 import { ButtonProps } from "./Button.types"
 
 export const Button: React.FC<ButtonProps> = ({
-  buttonType = "button",
+  buttonType,
   variant = "primary",
   width,
   text,

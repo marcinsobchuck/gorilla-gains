@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { LoginFormValues, RegisterFormValues } from "./AuthForm.types"
+
 export const registerSchema = z
   .object({
     name: z.string().nonempty("Name is required").trim().min(5, {
@@ -31,3 +33,59 @@ export const loginSchema = z.object({
     .trim()
     .min(6, { message: "Min. 6 characters" }),
 })
+
+export const registerInputsData: {
+  id: keyof RegisterFormValues
+  label: string
+  type: "text" | "email" | "password"
+}[] = [
+  {
+    id: "name",
+    label: "Name",
+    type: "text",
+  },
+  {
+    id: "email",
+    label: "Email",
+    type: "email",
+  },
+  {
+    id: "password",
+    label: "Password",
+    type: "password",
+  },
+  {
+    id: "passwordConfirmation",
+    label: "Confirm password",
+    type: "password",
+  },
+]
+
+export const loginInputsData: {
+  id: keyof LoginFormValues
+  label: string
+  type: "email" | "password"
+}[] = [
+  {
+    id: "email",
+    label: "Email",
+    type: "email",
+  },
+  {
+    id: "password",
+    label: "Password",
+    type: "password",
+  },
+]
+
+export const registerValues: RegisterFormValues = {
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+}
+
+export const loginValues: LoginFormValues = {
+  email: "",
+  password: "",
+}

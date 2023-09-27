@@ -25,7 +25,7 @@ export const router = createBrowserRouter(
         </Route>
       </Route>
       <Route path='/auth' element={<AuthLayout />}>
-        <Route index element={<Login />} />
+        <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Route>
       <Route path='*' element={<NotFound />} />

@@ -7,7 +7,7 @@ interface SharedProps {
 }
 
 type RegularButtonProps = {
-  buttonType?: "button"
+  buttonType: "button"
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 type RouterLinkProps = {

@@ -34,7 +34,7 @@ export const Register = () => {
           </Subtitle>
           <AuthActionContainer>
             <span>Already a member?</span>
-            <Button text='Log in' buttonType='link' to='/auth' variant='secondary' />
+            <Button text='Log in' buttonType='link' to='/auth/login' variant='secondary' />
           </AuthActionContainer>
         </FormHeaderWrapper>
 
