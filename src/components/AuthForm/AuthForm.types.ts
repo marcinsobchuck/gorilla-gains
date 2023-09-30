@@ -1,17 +1,13 @@
 import { SubmitHandler } from "react-hook-form"
 
-export interface RegisterFormValues {
+export interface FormValues {
   name: string
   email: string
   password: string
   passwordConfirmation: string
 }
 
-export type LoginFormValues = Pick<RegisterFormValues, "email" | "password">
-
-export type FormValues = LoginFormValues | RegisterFormValues
-
-export interface AuthFormProps {
+export type AuthFormProps = {
   onSubmit: SubmitHandler<FormValues>
   isRegister?: boolean
 }

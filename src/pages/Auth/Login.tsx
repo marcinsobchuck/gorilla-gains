@@ -1,4 +1,6 @@
+import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 
 import {
   Accent,
@@ -11,14 +13,27 @@ import {
   ViewInfoHeading,
   Wrapper,
 } from "./shared.styled"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
 import { AuthForm } from "../../components/AuthForm/AuthForm"
 import { FormValues } from "../../components/AuthForm/AuthForm.types"
 import { Button } from "../../components/Button/Button"
+import { loginUserAction } from "../../features/auth/authActions"
 
 export const Login = () => {
-  const handleLogin: SubmitHandler<FormValues> = (values) => {
-    console.log(values)
+  const isSuccess = useAppSelector((state) => state.auth.success)
+  const navigate = useNavigate()
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/")
+    }
+  }, [isSuccess, navigate])
+
+  const handleLogin: SubmitHandler<FormValues> = ({ email, password }) => {
+    dispatch(loginUserAction({ email, password }))
   }
 
   return (

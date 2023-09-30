@@ -3,7 +3,7 @@ import React, { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
 import { SubmitButton } from "./AuthForm.styled"
-import { AuthFormProps, LoginFormValues, RegisterFormValues } from "./AuthForm.types"
+import { AuthFormProps, FormValues } from "./AuthForm.types"
 import {
   loginInputsData,
   loginSchema,
@@ -15,9 +15,8 @@ import {
 import { Input } from "../Input/Input"
 
 export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
-  const methods = useForm<RegisterFormValues | LoginFormValues>({
+  const methods = useForm<FormValues>({
     defaultValues: isRegister ? registerValues : loginValues,
-
     mode: "all",
     resolver: zodResolver(isRegister ? registerSchema : loginSchema),
   })

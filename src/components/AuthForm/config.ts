@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { LoginFormValues, RegisterFormValues } from "./AuthForm.types"
+import { FormValues } from "./AuthForm.types"
 
 export const registerSchema = z
   .object({
@@ -35,7 +35,7 @@ export const loginSchema = z.object({
 })
 
 export const registerInputsData: {
-  id: keyof RegisterFormValues
+  id: keyof FormValues
   label: string
   type: "text" | "email" | "password"
 }[] = [
@@ -62,7 +62,7 @@ export const registerInputsData: {
 ]
 
 export const loginInputsData: {
-  id: keyof LoginFormValues
+  id: keyof Omit<FormValues, "passwordConfirmation" | "name">
   label: string
   type: "email" | "password"
 }[] = [
@@ -78,14 +78,14 @@ export const loginInputsData: {
   },
 ]
 
-export const registerValues: RegisterFormValues = {
+export const registerValues = {
   name: "",
   email: "",
   password: "",
   passwordConfirmation: "",
 }
 
-export const loginValues: LoginFormValues = {
+export const loginValues = {
   email: "",
   password: "",
 }

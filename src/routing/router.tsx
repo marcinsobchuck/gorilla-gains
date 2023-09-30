@@ -17,10 +17,8 @@ export const router = createBrowserRouter(
       <Route path='/' element={<RootLayout />}>
         <Route element={<PrivateRoute />}>
           <Route index element={<Dashboard />} />
-          <Route path='activities'>
-            <Route index element={<Activities />} />
-            <Route path=':id' element={<ActivitiesOfUser />} />
-          </Route>
+          <Route path='activities' element={<Activities />} />
+          <Route path='activities/:id' element={<ActivitiesOfUser />} />
           <Route path='calendar' element={<Calendar />} />
         </Route>
       </Route>

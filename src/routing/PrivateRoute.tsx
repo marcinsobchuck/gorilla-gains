@@ -1,8 +1,8 @@
-import { useState } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 
-export const PrivateRoute = () => {
-  const [currentUser] = useState(true)
+import { useAppSelector } from "../app/hooks"
 
-  return currentUser ? <Outlet /> : <Navigate to='/' />
+export const PrivateRoute = () => {
+  const accessToken = useAppSelector((state) => state.auth.accessToken)
+  return accessToken ? <Outlet /> : <Navigate to='auth/login' />
 }
