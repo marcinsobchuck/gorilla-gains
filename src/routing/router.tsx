@@ -3,8 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import { PrivateRoute } from "./PrivateRoute"
 import { AuthLayout } from "../layouts/AuthLayout"
 import { RootLayout } from "../layouts/RootLayout"
-import { Activities } from "../pages/Activities/Activities"
-import { ActivitiesOfUser } from "../pages/Activities/ActivitiesOfUser"
+import { ActivityHistory } from "../pages/ActivityHistory/ActivityHistory"
 import { Login } from "../pages/Auth/Login"
 import { Register } from "../pages/Auth/Register"
 import { Calendar } from "../pages/Calendar/Calendar"
@@ -17,8 +16,7 @@ export const router = createBrowserRouter(
       <Route path='/' element={<RootLayout />}>
         <Route element={<PrivateRoute />}>
           <Route index element={<Dashboard />} />
-          <Route path='activities' element={<Activities />} />
-          <Route path='activities/:id' element={<ActivitiesOfUser />} />
+          <Route path='activityHistory' element={<ActivityHistory />} />
           <Route path='calendar' element={<Calendar />} />
         </Route>
       </Route>

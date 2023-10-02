@@ -8,16 +8,17 @@ export const LogoWrapper = styled.div`
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
-
-  img {
-    width: 320px;
-    height: 320px;
-  }
 `
 export const LogoSVG = styled(svg)`
+  fill: ${({ theme }) => theme.primary};
+
   width: 32px;
   height: 32px;
-  fill: ${({ theme }) => theme.primary};
+
+  @media (min-width: 1024px) {
+    width: 52px;
+    height: 52px;
+  }
 `
 
 export const LogoText = styled.p`
@@ -26,4 +27,8 @@ export const LogoText = styled.p`
   font-weight: 600;
   letter-spacing: -1px;
   text-transform: uppercase;
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+  }
 `

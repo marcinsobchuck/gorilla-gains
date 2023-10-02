@@ -2,6 +2,8 @@ export const lightTheme = {
   backgroundColor: "#fafafa",
   inputBackgroundColor: "#F3F6FB",
 
+  navBackgroundColor: "#F6F6F6",
+
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
 
@@ -19,10 +21,14 @@ export const lightTheme = {
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
 
   primaryButtonColor: "#fafafa",
+
+  borderColor: "#F0F1F0",
 }
 export const darkTheme = {
   backgroundColor: "#121212",
   inputBackgroundColor: "#32364499",
+
+  navBackgroundColor: "#F9F8F8",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",
@@ -41,4 +47,6 @@ export const darkTheme = {
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
 
   primaryButtonColor: "#121212",
+
+  borderColor: "#F0F1F0",
 }
