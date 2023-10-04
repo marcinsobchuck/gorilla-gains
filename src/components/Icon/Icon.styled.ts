@@ -1,0 +1,13 @@
+import svg from "react-inlinesvg"
+import styled from "styled-components"
+
+interface StyledIconProps {
+  width?: number
+  height?: number
+}
+
+export const StyledIcon = styled(svg)<StyledIconProps>`
+  width: ${({ width }) => (width ? `${width}px` : "22px")};
+  height: ${({ height }) => (height ? `${height}px` : "22px")};
+  fill: ${({ theme }) => theme.primaryDisabled};
+`
