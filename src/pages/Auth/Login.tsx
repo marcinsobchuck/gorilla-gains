@@ -49,7 +49,9 @@ export const Login = () => {
           </Subtitle>
           <AuthActionContainer>
             <span>Not a member?</span>
-            <Button text='Sign up' buttonType='link' to='/auth/register' variant='secondary' />
+            <Button buttonType='link' to='/auth/register' variant='secondary'>
+              Sign up
+            </Button>
           </AuthActionContainer>
         </FormHeaderWrapper>
         <AuthForm onSubmit={handleLogin} />

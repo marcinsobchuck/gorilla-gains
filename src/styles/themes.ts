@@ -14,6 +14,7 @@ export const lightTheme = {
   primaryDisabled: "#0E111140",
 
   secondary: "#75E83F",
+  secondaryText: "#4CB129",
   secondaryOpacity: "#75E83F1F",
 
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
@@ -40,6 +41,7 @@ export const darkTheme = {
   primaryDisabled: "#FFFFFF40",
 
   secondary: "#A1D890",
+  secondaryText: "#4CB129",
   secondaryOpacity: "#A1D8901F",
 
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),

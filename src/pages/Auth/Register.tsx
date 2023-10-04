@@ -48,7 +48,9 @@ export const Register = () => {
           </Subtitle>
           <AuthActionContainer>
             <span>Already a member?</span>
-            <Button text='Log in' buttonType='link' to='/auth/login' variant='secondary' />
+            <Button buttonType='link' to='/auth/login' variant='secondary'>
+              Log in
+            </Button>
           </AuthActionContainer>
         </FormHeaderWrapper>
         <AuthForm onSubmit={handleRegister} isRegister />

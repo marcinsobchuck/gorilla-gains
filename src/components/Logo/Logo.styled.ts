@@ -1,5 +1,6 @@
-import svg from "react-inlinesvg"
 import styled from "styled-components"
+
+import { Icon } from "../Icon/Icon"
 
 export const LogoWrapper = styled.div`
   position: relative;
@@ -9,11 +10,8 @@ export const LogoWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
 `
-export const LogoSVG = styled(svg)`
+export const LogoSVG = styled(Icon)`
   fill: ${({ theme }) => theme.primary};
-
-  width: 32px;
-  height: 32px;
 
   @media (min-width: 1024px) {
     width: 52px;

@@ -1,9 +1,14 @@
 import { LinkProps } from "react-router-dom"
 
+import { IconName } from "../Icon/Icon.types"
+
+export type Variant = "primary" | "secondary" | "tertiary"
+
 interface SharedProps {
-  variant?: "primary" | "secondary"
+  variant?: Variant
   width?: number
-  text: string
+  icon?: IconName
+  textColor?: string
 }
 
 type RegularButtonProps = {
@@ -11,7 +16,7 @@ type RegularButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 type RouterLinkProps = {
-  buttonType: "link"
+  buttonType: "link" | "navLink"
 } & (LinkProps & React.RefAttributes<HTMLAnchorElement>)
 
 export type ButtonProps = SharedProps & (RegularButtonProps | RouterLinkProps)

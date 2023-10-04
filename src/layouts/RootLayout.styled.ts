@@ -1,4 +1,3 @@
-import svg from "react-inlinesvg"
 import styled from "styled-components"
 
 const headerHeight = "84px"
@@ -20,7 +19,7 @@ export const LeftSideWrapper = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
   padding-left: 32px;
   border-right: 1px solid ${({ theme }) => theme.borderColor};
-  flex-basis: 36%;
+  width: 36%;
 `
 
 export const RightSideWrapper = styled.div`
@@ -31,36 +30,71 @@ export const RightSideWrapper = styled.div`
 
   padding-right: 24px;
 `
-
-export const Menu = styled.nav`
-  padding: 64px 0px 24px 32px;
-  border-right: 1px solid ${({ theme }) => theme.borderColor};
-  flex-basis: 15%;
-  background-color: ${({ theme }) => theme.navBackgroundColor};
+export const FlexContainer = styled.div`
+  display: flex;
   height: calc(100vh - ${headerHeight});
 `
 
-export const MenuItem = styled.li`
-  font-size: 14px;
-  margin-bottom: 24px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.primary};
-`
-export const MenuItemIcon = styled(svg)`
-  display: inline-block;
-  margin-right: 9px;
-  width: 18px;
-  height: 18px;
-  fill: ${({ theme }) => theme.primaryDisabled};
+export const Menu = styled.nav`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 32px 44px 32px;
+  border-right: 1px solid ${({ theme }) => theme.borderColor};
+  width: 15%;
+  background-color: ${({ theme }) => theme.navBackgroundColor};
 `
 
-export const FlexContainer = styled.div`
-  display: flex;
-`
 export const Sidebar = styled.aside`
-  flex-basis: 21%;
+  width: 21%;
   border-right: 1px solid ${({ theme }) => theme.borderColor};
 `
 export const MainContentWrapper = styled.main`
   flex-grow: 1;
+`
+
+export const UserInfo = styled.div`
+  padding-bottom: 24px;
+  margin-right: 32px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+`
+
+export const UserImage = styled.img`
+  background-color: ${({ theme }) => theme.backgroundColor};
+  object-fit: cover;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+
+  margin-bottom: 16px;
+  padding: 3px;
+
+  border: 2px solid ${({ theme }) => theme.secondary};
+`
+
+export const UserName = styled.p`
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.primary};
+  margin-bottom: 6px;
+`
+
+export const UserEmail = styled.p`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.primaryDisabled};
+`
+
+export const SettingsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  p {
+    font-size: 15px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.primaryMedium};
+  }
 `

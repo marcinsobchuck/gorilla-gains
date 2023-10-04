@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
 import { LogoSVG, LogoText, LogoWrapper } from "./Logo.styled"
-import gorilla from "../../assets/gorilla.svg"
 
 export const Logo = () => {
   const navigate = useNavigate()
@@ -10,7 +9,7 @@ export const Logo = () => {
 
   return (
     <LogoWrapper onClick={handleLogoClick}>
-      <LogoSVG src={gorilla} />
+      <LogoSVG name='gorilla' width={32} height={32} />
       <LogoText>Gorilla Gains</LogoText>
     </LogoWrapper>
   )

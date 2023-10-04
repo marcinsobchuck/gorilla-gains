@@ -1,20 +1,35 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import styled, { css } from "styled-components"
 
+import { Variant } from "./Button.types"
+
 interface Props {
-  $variant: "primary" | "secondary"
+  $variant: Variant
   width?: number
+  $textColor?: string
 }
 
-const sharedStyles = (width?: number) => {
+const sharedStyles = (width?: number, textColor?: string) => {
   return css`
     width: ${width && `${width}px`};
+    color: ${textColor && textColor};
+    transition: all 0.3s;
+
+    svg {
+      transition: fill 0.3s;
+    }
+
+    cursor: pointer;
   `
 }
 
 const variants = {
   primary: css`
-    display: block;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 16px 24px;
     border-radius: 54px;
 
@@ -22,24 +37,63 @@ const variants = {
 
     color: ${({ theme }) => theme.primaryButtonColor};
     background-color: ${({ theme }) => theme.secondary};
+
+    svg {
+      position: absolute;
+      left: 12%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   `,
   secondary: css`
-    display: inline;
-
+    display: inline-flex;
+    align-items: center;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
 
-    color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.secondaryText};
     background-color: transparent;
+
+    svg {
+      margin-right: 12px;
+    }
+  `,
+  tertiary: css`
+    display: flex;
+    align-items: center;
+    padding: 12px;
+
+    gap: 12px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+
+    color: ${({ theme }) => theme.primary};
+
+    &[class*="active"] {
+      color: ${({ theme }) => theme.secondaryText};
+      svg {
+        fill: ${({ theme }) => theme.secondaryText};
+      }
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.secondaryOpacity};
+    }
   `,
 }
 
 export const StyledButton = styled.button<Props>`
-  ${({ width }) => sharedStyles(width)};
   ${({ $variant }) => variants[$variant]}
+  ${({ width, $textColor }) => sharedStyles(width, $textColor)};
 `
 
 export const StyledLink = styled(Link)<Props>`
-  ${({ width }) => sharedStyles(width)};
   ${({ $variant }) => variants[$variant]}
+  ${({ width, $textColor }) => sharedStyles(width, $textColor)};
+`
+
+export const StyledNavLink = styled(NavLink)<Props>`
+  ${({ $variant }) => variants[$variant]}
+  ${({ width, $textColor }) => sharedStyles(width, $textColor)};
 `

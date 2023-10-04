@@ -38,13 +38,9 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
 
           return <Input key={id} id={id} label={label} type={type} {...register(id)} />
         })}
-        <SubmitButton
-          buttonType='button'
-          text={isRegister ? "Register" : "Login"}
-          variant='primary'
-          width={200}
-          type='submit'
-        />
+        <SubmitButton buttonType='button' width={200} type='submit'>
+          {isRegister ? "Register" : "Login"}
+        </SubmitButton>
       </form>
     </FormProvider>
   )

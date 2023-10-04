@@ -1,5 +1,6 @@
-import svg from "react-inlinesvg"
 import styled, { css } from "styled-components"
+
+import { Icon } from "../Icon/Icon"
 
 interface Props {
   $currentTheme: string
@@ -55,9 +56,7 @@ export const SwitchWrapper = styled.button<Props>`
   }
 `
 
-export const StyledIcon = styled(svg)`
+export const StyledIcon = styled(Icon)`
   margin-bottom: 2px;
   flex-basis: 50%;
-  width: 18px;
-  height: 18px;
 `

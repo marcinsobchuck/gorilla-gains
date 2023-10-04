@@ -1,19 +1,23 @@
 import React from "react"
 import { LinkProps } from "react-router-dom"
 
-import { StyledButton, StyledLink } from "./Button.styled"
+import { StyledButton, StyledLink, StyledNavLink } from "./Button.styled"
 import { ButtonProps } from "./Button.types"
+import { Icon } from "../Icon/Icon"
 
 export const Button: React.FC<ButtonProps> = ({
   buttonType,
   variant = "primary",
   width,
-  text,
+  children,
+  icon,
+  textColor,
   ...rest
 }) => {
   const sharedProps = {
     $variant: variant,
     width,
+    $textColor: textColor,
   }
 
   if (buttonType === "link") {
@@ -22,14 +26,28 @@ export const Button: React.FC<ButtonProps> = ({
         {...sharedProps}
         {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
-        {text}
+        <Icon name={icon} />
+        {children}
       </StyledLink>
+    )
+  }
+
+  if (buttonType === "navLink") {
+    return (
+      <StyledNavLink
+        {...sharedProps}
+        {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
+        <Icon name={icon} />
+        {children}
+      </StyledNavLink>
     )
   }
 
   return (
     <StyledButton {...sharedProps} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
-      {text}
+      <Icon name={icon} />
+      {children}
     </StyledButton>
   )
 }
