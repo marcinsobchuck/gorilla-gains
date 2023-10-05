@@ -2,22 +2,12 @@ import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import {
-  Accent,
-  AuthActionContainer,
-  ContentWrapper,
-  FormHeaderWrapper,
-  StyledImage,
-  Subtitle,
-  Title,
-  ViewInfoHeading,
-  Wrapper,
-} from "./shared.styled"
+import { FormHeader } from "./components/FormHeader"
+import { LoginForm } from "./components/LoginForm"
+import { ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
+import { LoginFormValues } from "./types/LoginForm.types"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
-import { AuthForm } from "../../components/AuthForm/AuthForm"
-import { FormValues } from "../../components/AuthForm/AuthForm.types"
-import { Button } from "../../components/Button/Button"
 import { loginUserAction } from "../../features/auth/authActions"
 
 export const Login = () => {
@@ -32,29 +22,22 @@ export const Login = () => {
     }
   }, [isSuccess, navigate])
 
-  const handleLogin: SubmitHandler<FormValues> = ({ email, password }) => {
+  const handleLogin: SubmitHandler<LoginFormValues> = ({ email, password }) => {
     dispatch(loginUserAction({ email, password }))
   }
 
   return (
     <Wrapper>
       <ContentWrapper>
-        <FormHeaderWrapper>
-          <ViewInfoHeading>Login</ViewInfoHeading>
-          <Title>
-            Sign in Gorilla<Accent>.</Accent>
-          </Title>
-          <Subtitle>
-            Time to train<Accent>.</Accent>
-          </Subtitle>
-          <AuthActionContainer>
-            <span>Not a member?</span>
-            <Button buttonType='link' to='/auth/register' variant='secondary'>
-              Sign up
-            </Button>
-          </AuthActionContainer>
-        </FormHeaderWrapper>
-        <AuthForm onSubmit={handleLogin} />
+        <FormHeader
+          heading='Login'
+          title='Sign in Gorilla'
+          subtitle='Time to train'
+          actionText='Not a member?'
+          buttonText='Sign up'
+          to='/auth/register'
+        />
+        <LoginForm onSubmit={handleLogin} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>

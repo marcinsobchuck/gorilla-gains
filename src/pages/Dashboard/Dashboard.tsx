@@ -1,10 +1,10 @@
-import { MainContentWrapper, Sidebar } from "../../layouts/RootLayout.styled"
+import { MainContentWrapper, Sidebar } from "../../layouts/RootLayout/RootLayout.styled"
 
 export const Dashboard = () => {
   return (
     <>
-      <Sidebar>dasas</Sidebar>
-      <MainContentWrapper>das</MainContentWrapper>
+      <Sidebar>User info</Sidebar>
+      <MainContentWrapper>Dashboard</MainContentWrapper>
     </>
   )
 }

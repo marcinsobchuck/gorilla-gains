@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { FormValues } from "./AuthForm.types"
-
 export const registerSchema = z
   .object({
     name: z.string().nonempty("Name is required").trim().min(5, {
@@ -35,7 +33,7 @@ export const loginSchema = z.object({
 })
 
 export const registerInputsData: {
-  id: keyof FormValues
+  id: "name" | "email" | "password" | "passwordConfirmation"
   label: string
   type: "text" | "email" | "password"
 }[] = [
@@ -62,7 +60,7 @@ export const registerInputsData: {
 ]
 
 export const loginInputsData: {
-  id: keyof Omit<FormValues, "passwordConfirmation" | "name">
+  id: "email" | "password"
   label: string
   type: "email" | "password"
 }[] = [

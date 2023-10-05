@@ -71,7 +71,10 @@ const variants = {
     color: ${({ theme }) => theme.primary};
 
     &[class*="active"] {
-      color: ${({ theme }) => theme.secondaryText};
+      p {
+        color: ${({ theme }) => theme.secondaryText};
+      }
+
       svg {
         fill: ${({ theme }) => theme.secondaryText};
       }

@@ -1,7 +1,10 @@
+import { MainContentWrapper, Sidebar } from "../../layouts/RootLayout/RootLayout.styled"
+
 export const ActivityHistory = () => {
   return (
-    <div>
-      <aside></aside>
-    </div>
+    <>
+      <Sidebar>History calendar</Sidebar>
+      <MainContentWrapper>Activities</MainContentWrapper>
+    </>
   )
 }

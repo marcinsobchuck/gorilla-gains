@@ -1,0 +1,39 @@
+import { zodResolver } from "@hookform/resolvers/zod"
+import React, { useEffect } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+
+import { loginInputsData, loginSchema, loginValues } from "./config"
+import { Input } from "../../../components/Input/Input"
+import { SubmitButton } from "../shared.styled"
+import { LoginFormProps } from "../types/LoginForm.types"
+
+export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+  const methods = useForm({
+    defaultValues: loginValues,
+    mode: "all",
+    resolver: zodResolver(loginSchema),
+  })
+
+  const { register, handleSubmit, setFocus } = methods
+
+  const focusedInput = "email"
+
+  useEffect(() => {
+    setFocus(focusedInput)
+  }, [focusedInput, setFocus])
+
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {loginInputsData.map((input) => {
+          const { id, label, type } = input
+
+          return <Input key={id} id={id} label={label} type={type} {...register(id)} />
+        })}
+        <SubmitButton buttonType='button' width={200} type='submit'>
+          Login
+        </SubmitButton>
+      </form>
+    </FormProvider>
+  )
+}

@@ -2,7 +2,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 
 import { PrivateRoute } from "./PrivateRoute"
 import { AuthLayout } from "../layouts/AuthLayout"
-import { RootLayout } from "../layouts/RootLayout"
+import { RootLayout } from "../layouts/RootLayout/RootLayout"
 import { ActivityHistory } from "../pages/ActivityHistory/ActivityHistory"
 import { Login } from "../pages/Auth/Login"
 import { Register } from "../pages/Auth/Register"

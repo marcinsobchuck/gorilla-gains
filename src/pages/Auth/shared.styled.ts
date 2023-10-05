@@ -1,5 +1,12 @@
 import styled from "styled-components"
 
+import { Button } from "../../components/Button/Button"
+
+export const SubmitButton = styled(Button)`
+  margin: 0 auto;
+  margin-top: 24px;
+`
+
 export const StyledImage = styled.img`
   display: none;
 

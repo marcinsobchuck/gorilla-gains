@@ -2,22 +2,12 @@ import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import {
-  Accent,
-  AuthActionContainer,
-  ContentWrapper,
-  FormHeaderWrapper,
-  StyledImage,
-  Subtitle,
-  Title,
-  ViewInfoHeading,
-  Wrapper,
-} from "./shared.styled"
+import { FormHeader } from "./components/FormHeader"
+import { RegisterForm } from "./components/RegisterForm"
+import { ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
+import { RegisterFormValues } from "./types/RegisterForm.types"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
-import { AuthForm } from "../../components/AuthForm/AuthForm"
-import { FormValues } from "../../components/AuthForm/AuthForm.types"
-import { Button } from "../../components/Button/Button"
 import { registerUserAction } from "../../features/auth/authActions"
 
 export const Register = () => {
@@ -25,7 +15,7 @@ export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const handleRegister: SubmitHandler<FormValues> = ({ email, name, password }) => {
+  const handleRegister: SubmitHandler<RegisterFormValues> = ({ email, name, password }) => {
     dispatch(registerUserAction({ name, email, password }))
   }
 
@@ -38,22 +28,15 @@ export const Register = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <FormHeaderWrapper>
-          <ViewInfoHeading>Register</ViewInfoHeading>
-          <Title>
-            Create an account<Accent>.</Accent>
-          </Title>
-          <Subtitle>
-            Become Gorilla<Accent>.</Accent>
-          </Subtitle>
-          <AuthActionContainer>
-            <span>Already a member?</span>
-            <Button buttonType='link' to='/auth/login' variant='secondary'>
-              Log in
-            </Button>
-          </AuthActionContainer>
-        </FormHeaderWrapper>
-        <AuthForm onSubmit={handleRegister} isRegister />
+        <FormHeader
+          heading='Register'
+          title='Create an account'
+          subtitle='Become Gorilla'
+          actionText='Already a member?'
+          buttonText='Log in'
+          to='/auth/login'
+        />
+        <RegisterForm onSubmit={handleRegister} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>
