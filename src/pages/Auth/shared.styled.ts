@@ -2,9 +2,13 @@ import styled from "styled-components"
 
 import { Button } from "../../components/Button/Button"
 
+interface AuthErrorProps {
+  $isVisible: boolean
+}
+
 export const SubmitButton = styled(Button)`
   margin: 0 auto;
-  margin-top: 24px;
+  margin-top: 18px;
 `
 
 export const StyledImage = styled.img`
@@ -30,7 +34,7 @@ export const Wrapper = styled.div`
 `
 
 export const FormHeaderWrapper = styled.div`
-  margin-bottom: 46px;
+  /* margin-bottom: 46px; */
 `
 
 export const ContentWrapper = styled.div`
@@ -68,5 +72,20 @@ export const AuthActionContainer = styled.div`
     color: ${({ theme }) => theme.primaryMedium};
     font-weight: 500;
     margin-right: 3px;
+  }
+`
+
+export const AuthError = styled.div<AuthErrorProps>`
+  border-radius: 9px;
+  background-color: ${({ theme }) => theme.errorBackgroundColor};
+  padding: 9px 12px;
+  margin: 9px 0px;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+
+  transition: 0.3s;
+
+  p {
+    font-size: 14px;
+    color: ${({ theme }) => theme.errorColor};
   }
 `

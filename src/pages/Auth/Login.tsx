@@ -4,27 +4,35 @@ import { useNavigate } from "react-router-dom"
 
 import { FormHeader } from "./components/FormHeader"
 import { LoginForm } from "./components/LoginForm"
-import { ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
+import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
 import { LoginFormValues } from "./types/LoginForm.types"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
 import { loginUserAction } from "../../features/auth/authActions"
+import { resetAuthFormError } from "../../features/auth/authSlice"
 
 export const Login = () => {
-  const isSuccess = useAppSelector((state) => state.auth.success)
+  const auth = useAppSelector((state) => state.auth)
   const navigate = useNavigate()
-
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/")
-    }
-  }, [isSuccess, navigate])
+  const { error, success } = auth
 
   const handleLogin: SubmitHandler<LoginFormValues> = ({ email, password }) => {
     dispatch(loginUserAction({ email, password }))
   }
+
+  useEffect(() => {
+    if (success) {
+      navigate("/")
+    }
+
+    return () => {
+      if (error !== "") {
+        dispatch(resetAuthFormError())
+      }
+    }
+  }, [success, navigate, dispatch, error])
 
   return (
     <Wrapper>
@@ -37,6 +45,9 @@ export const Login = () => {
           buttonText='Sign up'
           to='/auth/register'
         />
+        <AuthError $isVisible={Boolean(error)}>
+          {typeof error === "string" && Boolean(error) ? <p>{error}</p> : <p>error space</p>}
+        </AuthError>
         <LoginForm onSubmit={handleLogin} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />

@@ -4,26 +4,35 @@ import { useNavigate } from "react-router-dom"
 
 import { FormHeader } from "./components/FormHeader"
 import { RegisterForm } from "./components/RegisterForm"
-import { ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
+import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
 import { RegisterFormValues } from "./types/RegisterForm.types"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
 import { registerUserAction } from "../../features/auth/authActions"
+import { resetAuthFormError } from "../../features/auth/authSlice"
 
 export const Register = () => {
-  const isSuccess = useAppSelector((state) => state.auth.success)
+  const auth = useAppSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const { error, success } = auth
 
   const handleRegister: SubmitHandler<RegisterFormValues> = ({ email, name, password }) => {
     dispatch(registerUserAction({ name, email, password }))
   }
 
   useEffect(() => {
-    if (isSuccess) {
+    if (success) {
       navigate("/")
     }
-  }, [isSuccess, navigate])
+
+    return () => {
+      if (error !== "") {
+        dispatch(resetAuthFormError())
+      }
+    }
+  }, [success, navigate, dispatch, error])
 
   return (
     <Wrapper>
@@ -36,6 +45,9 @@ export const Register = () => {
           buttonText='Log in'
           to='/auth/login'
         />
+        <AuthError $isVisible={Boolean(error)}>
+          {typeof error === "string" && Boolean(error) ? <p>{error}</p> : <p>error space</p>}
+        </AuthError>
         <RegisterForm onSubmit={handleRegister} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />

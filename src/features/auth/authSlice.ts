@@ -14,12 +14,15 @@ const initialState: InitialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuthFormError: (state) => {
+      state.error = ""
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUserAction.pending, (state) => {
       state.loading = true
       state.success = false
-      state.error = ""
     })
     builder.addCase(registerUserAction.fulfilled, (state, action) => {
       state.loading = false
@@ -35,7 +38,6 @@ export const authSlice = createSlice({
     builder.addCase(loginUserAction.pending, (state) => {
       state.loading = true
       state.success = false
-      state.error = ""
     })
     builder.addCase(loginUserAction.fulfilled, (state, action) => {
       state.loading = false
@@ -52,3 +54,4 @@ export const authSlice = createSlice({
 })
 
 export default authSlice.reducer
+export const { resetAuthFormError } = authSlice.actions

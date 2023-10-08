@@ -29,7 +29,6 @@ export const registerUserAction = createAsyncThunk(
       return accessToken
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log(error)
         return rejectWithValue(error.response?.data)
       } else if (error instanceof Error) {
         return rejectWithValue(error.message)
@@ -51,7 +50,6 @@ export const loginUserAction = createAsyncThunk(
       return accessToken
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log(error)
         return rejectWithValue(error.response?.data)
       } else if (error instanceof Error) {
         return rejectWithValue(error.message)

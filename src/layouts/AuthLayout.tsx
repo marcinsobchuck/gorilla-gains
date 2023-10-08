@@ -73,7 +73,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 100px;
+  margin-bottom: 86px;
 `
 
 export const AuthLayout = () => {
