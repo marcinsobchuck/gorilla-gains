@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { Button } from "../../../components/Button/Button"
+import { Breakpoints } from "../../../enums/breakpoints.enum"
 
 export const MenuWrapper = styled.nav`
   display: flex;
@@ -20,17 +21,17 @@ export const MenuWrapper = styled.nav`
 
   background-color: ${({ theme }) => theme.navBackgroundColor};
 
-  @media (min-width: 640px) {
+  @media ${Breakpoints.SMALL} {
     width: 70%;
   }
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     padding: 24px 6px;
     position: static;
     width: 5%;
   }
 
-  @media (min-width: 1360px) {
+  @media ${Breakpoints.LARGE} {
     padding: 64px 32px 44px 32px;
     border-right: 1px solid ${({ theme }) => theme.borderColor};
     width: 15%;
@@ -44,7 +45,7 @@ export const StyledButton = styled(Button)`
     min-width: 22px;
   }
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     justify-content: center;
 
     p {
@@ -52,7 +53,7 @@ export const StyledButton = styled(Button)`
     }
   }
 
-  @media (min-width: 1360px) {
+  @media ${Breakpoints.LARGE} {
     justify-content: flex-start;
 
     p {
@@ -66,11 +67,11 @@ export const UserInfo = styled.div`
   margin-bottom: 24px;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     display: none;
   }
 
-  @media (min-width: 1360px) {
+  @media ${Breakpoints.LARGE} {
     display: block;
   }
 `

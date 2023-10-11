@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 import { InitialState } from "./themeSlice.types"
+import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const getTheme = () => {
   const darkThemeMql = window.matchMedia("(prefers-color-scheme: dark)")
-  const theme = window.localStorage.getItem("theme")
+  const theme = window.localStorage.getItem(LocalStorageKeys.THEME)
   if (theme) {
     return JSON.parse(theme)
   }

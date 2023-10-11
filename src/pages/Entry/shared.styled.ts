@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { Button } from "../../components/Button/Button"
+import { Breakpoints } from "../../enums/breakpoints.enum"
 
 interface AuthErrorProps {
   $isVisible: boolean
@@ -14,7 +15,7 @@ export const SubmitButton = styled(Button)`
 export const StyledImage = styled.img`
   display: none;
 
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     display: block;
     margin-left: auto;
     width: 520px;
@@ -26,7 +27,7 @@ export const StyledImage = styled.img`
 
 export const Wrapper = styled.div`
   position: relative;
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     margin: 0 auto;
     max-width: 1024px;
     display: flex;
@@ -38,7 +39,7 @@ export const FormHeaderWrapper = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     width: 100%;
     padding-right: 64px;
   }

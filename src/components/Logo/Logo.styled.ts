@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import { Breakpoints } from "../../enums/breakpoints.enum"
 import { Icon } from "../Icon/Icon"
 
 export const LogoWrapper = styled.div`
@@ -13,7 +14,7 @@ export const LogoWrapper = styled.div`
 export const LogoSVG = styled(Icon)`
   fill: ${({ theme }) => theme.primary};
 
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     width: 52px;
     height: 52px;
   }
@@ -26,7 +27,7 @@ export const LogoText = styled.p`
   letter-spacing: -1px;
   text-transform: uppercase;
 
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     font-size: 18px;
   }
 `

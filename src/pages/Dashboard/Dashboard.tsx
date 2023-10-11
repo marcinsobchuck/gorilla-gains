@@ -4,7 +4,7 @@ export const Dashboard = () => {
   return (
     <>
       <Sidebar>User info</Sidebar>
-      <MainContentWrapper>Dashboard</MainContentWrapper>
+      <MainContentWrapper>Dashboard</MainContentWrapper>{" "}
     </>
   )
 }

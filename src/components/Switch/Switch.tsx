@@ -1,12 +1,16 @@
 import { StyledIcon, SwitchWrapper } from "./Switch.styled"
 import { useAppDispatch } from "../../app/hooks"
+import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 import { setCurrentTheme } from "../../features/theme/themeSlice"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 
 const darkThemeMql = window.matchMedia("(prefers-color-scheme: dark)")
 
 export const Switch = () => {
-  const [theme, setTheme] = useLocalStorage("theme", darkThemeMql.matches ? "dark" : "light")
+  const [theme, setTheme] = useLocalStorage(
+    LocalStorageKeys.THEME,
+    darkThemeMql.matches ? "dark" : "light"
+  )
 
   const dispatch = useAppDispatch()
 

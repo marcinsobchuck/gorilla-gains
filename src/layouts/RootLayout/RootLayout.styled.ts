@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
+import { Breakpoints } from "../../enums/breakpoints.enum"
+
 const headerHeight = "84px"
 
 export const Wrapper = styled.div`
@@ -23,7 +25,7 @@ export const LeftSideWrapper = styled.div`
 
   border-right: 1px solid ${({ theme }) => theme.borderColor};
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     justify-content: flex-start;
 
     width: 36%;
@@ -39,7 +41,7 @@ export const RightSideWrapper = styled.div`
 
   padding-right: 0;
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     padding-right: 32px;
     justify-content: flex-end;
   }
@@ -52,7 +54,7 @@ export const FlexContainer = styled.div`
 
   height: calc(100vh - ${headerHeight});
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     flex-direction: row;
   }
 `
@@ -60,11 +62,11 @@ export const FlexContainer = styled.div`
 export const Sidebar = styled.aside`
   border-right: 1px solid ${({ theme }) => theme.borderColor};
 
-  @media (min-width: 960px) {
+  @media ${Breakpoints.MEDIUM} {
     width: 31%;
   }
 
-  @media (min-width: 1360px) {
+  @media ${Breakpoints.LARGE} {
     width: 21%;
   }
 `

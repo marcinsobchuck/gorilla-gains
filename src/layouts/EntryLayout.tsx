@@ -6,6 +6,7 @@ import github from "../assets/github.svg"
 import linkedin from "../assets/linkedin.svg"
 import { Logo } from "../components/Logo/Logo"
 import { Switch } from "../components/Switch/Switch"
+import { Breakpoints } from "../enums/breakpoints.enum"
 import { Background } from "../styles/GlobalStyle"
 
 const SocialIconsWrapper = styled.div`
@@ -60,7 +61,7 @@ const Wrapper = styled.div`
     background-color: ${({ theme }) => theme.secondary};
   }
 
-  @media (min-width: 1024px) {
+  @media ${Breakpoints.MEDIUM_LARGE} {
     &:before,
     &:after,
     ${SocialIconsWrapper} {
@@ -76,7 +77,7 @@ const Header = styled.header`
   margin-bottom: 86px;
 `
 
-export const AuthLayout = () => {
+export const EntryLayout = () => {
   return (
     <Background>
       <Wrapper>

@@ -1,18 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 
+import { LoginUserData, RegisterUserData } from "./authSlice.types"
 import * as authService from "../../api/authService"
-
-interface RegisterUserData {
-  name: string
-  email: string
-  password: string
-}
-
-interface LoginUserData {
-  email: string
-  password: string
-}
+import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const saveToLocalStorage = (key: string, value: string) => {
   window.localStorage.setItem(key, value)
@@ -24,7 +15,7 @@ export const registerUserAction = createAsyncThunk(
     try {
       const response = await authService.registerUser(data)
       const accessToken = response.data
-      saveToLocalStorage("accessToken", accessToken)
+      saveToLocalStorage(LocalStorageKeys.ACCESS_TOKEN, accessToken)
 
       return accessToken
     } catch (error) {
@@ -45,7 +36,7 @@ export const loginUserAction = createAsyncThunk(
     try {
       const response = await authService.loginUser(data)
       const accessToken = response.data
-      saveToLocalStorage("accessToken", accessToken)
+      saveToLocalStorage(LocalStorageKeys.ACCESS_TOKEN, accessToken)
 
       return accessToken
     } catch (error) {

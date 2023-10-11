@@ -3,23 +3,24 @@ import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
 import { FormHeader } from "./components/FormHeader"
-import { LoginForm } from "./components/LoginForm"
+import { RegisterForm } from "./components/RegisterForm"
 import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
-import { LoginFormValues } from "./types/LoginForm.types"
+import { RegisterFormValues } from "./types/RegisterForm.types"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import authGorilla from "../../assets/authGorilla.png"
-import { loginUserAction } from "../../features/auth/authActions"
+import { Routes } from "../../enums/routes.enum"
+import { registerUserAction } from "../../features/auth/authActions"
 import { resetAuthFormError } from "../../features/auth/authSlice"
 
-export const Login = () => {
+export const Register = () => {
   const auth = useAppSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const { error, success } = auth
 
-  const handleLogin: SubmitHandler<LoginFormValues> = ({ email, password }) => {
-    dispatch(loginUserAction({ email, password }))
+  const handleRegister: SubmitHandler<RegisterFormValues> = ({ email, name, password }) => {
+    dispatch(registerUserAction({ name, email, password }))
   }
 
   useEffect(() => {
@@ -38,17 +39,17 @@ export const Login = () => {
     <Wrapper>
       <ContentWrapper>
         <FormHeader
-          heading='Login'
-          title='Sign in Gorilla'
-          subtitle='Time to train'
-          actionText='Not a member?'
-          buttonText='Sign up'
-          to='/auth/register'
+          heading='Register'
+          title='Create an account'
+          subtitle='Become Gorilla'
+          actionText='Already a member?'
+          buttonText='Log in'
+          to={Routes.LOGIN}
         />
         <AuthError $isVisible={Boolean(error)}>
           {typeof error === "string" && Boolean(error) ? <p>{error}</p> : <p>error space</p>}
         </AuthError>
-        <LoginForm onSubmit={handleLogin} />
+        <RegisterForm onSubmit={handleRegister} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>

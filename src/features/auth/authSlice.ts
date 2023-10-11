@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit"
 
 import { loginUserAction, registerUserAction } from "./authActions"
 import { InitialState } from "./authSlice.types"
+import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const initialState: InitialState = {
-  accessToken: window.localStorage.getItem("accessToken"),
+  accessToken: window.localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN),
   loading: false,
   success: false,
   userInfo: null,

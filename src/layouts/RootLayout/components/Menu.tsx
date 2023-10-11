@@ -4,6 +4,7 @@ import { listItems } from "./config"
 import { MenuWrapper, StyledButton, UserEmail, UserImage, UserInfo, UserName } from "./Menu.styled"
 import { ListItem } from "./Menu.types"
 import gorillaPhoto from "../../../assets/gorillaPhoto.jpg"
+import { Routes } from "../../../enums/routes.enum"
 import { useJwtDecoded } from "../../../hooks/useJwtDecoded"
 
 export const Menu = () => {
@@ -37,7 +38,7 @@ export const Menu = () => {
           <UserName>{decodedToken?.name}</UserName>
           <UserEmail>{decodedToken?.email}</UserEmail>
         </UserInfo>
-        <StyledButton to='/settings' buttonType='navLink' variant='tertiary' icon='settings'>
+        <StyledButton to={Routes.SETTINGS} buttonType='navLink' variant='tertiary' icon='settings'>
           <p>Settings</p>
         </StyledButton>
       </div>
