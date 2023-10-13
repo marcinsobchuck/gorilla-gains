@@ -10,17 +10,27 @@ import { RegisterFormProps } from "../types/RegisterForm.types"
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const methods = useForm({
     defaultValues: registerValues,
+    reValidateMode: "onChange",
     mode: "all",
     resolver: zodResolver(registerSchema),
   })
 
-  const { register, handleSubmit, setFocus } = methods
+  const { register, handleSubmit, setFocus, watch, trigger } = methods
 
   const focusedInput = "name"
+
+  watch()
+
+  const password = watch("password")
+  const passwordConfirmation = watch("passwordConfirmation")
 
   useEffect(() => {
     setFocus(focusedInput)
   }, [focusedInput, setFocus])
+
+  useEffect(() => {
+    trigger("passwordConfirmation")
+  }, [password, passwordConfirmation, trigger])
 
   return (
     <FormProvider {...methods}>

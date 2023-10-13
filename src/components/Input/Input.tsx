@@ -31,7 +31,7 @@ export const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, In
         <StyledLabel htmlFor={id}>{label}</StyledLabel>
         <InputStatusIcon
           $isVisible={isError || isNotEmpty}
-          $isValid={!errors[id]}
+          $isValid={!isError}
           src={errors[id] ? errorIcon : successIcon}
         />
         <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
