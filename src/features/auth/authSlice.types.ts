@@ -9,7 +9,7 @@ export interface InitialState {
   loading: boolean
   success: boolean
   userInfo: UserInfo | null
-  error: unknown
+  error: string
 }
 
 export interface RegisterUserData {

@@ -47,7 +47,7 @@ export const Login = () => {
           to={Routes.REGISTER}
         />
         <AuthError $isVisible={Boolean(error)}>
-          {typeof error === "string" && Boolean(error) ? <p>{error}</p> : <p>error space</p>}
+          {error ? <p>{error}</p> : <p>error space</p>}
         </AuthError>
         <LoginForm onSubmit={handleLogin} />
       </ContentWrapper>
