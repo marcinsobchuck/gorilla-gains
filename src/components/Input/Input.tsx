@@ -12,30 +12,28 @@ import { InputProps } from "./Input.types"
 import errorIcon from "../../assets/error.svg"
 import successIcon from "../../assets/success.svg"
 
-export const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ id, type, label }, ref) => {
-    const {
-      register,
-      control,
-      formState: { errors },
-    } = useFormContext()
+export const Input: React.FC<InputProps> = ({ id, type, label }) => {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext()
 
-    const formValues = useWatch({ control })
+  const formValues = useWatch({ control })
 
-    const isError = Boolean(errors[id])
-    const isNotEmpty = formValues[id] !== ""
+  const isError = Boolean(errors[id])
+  const isNotEmpty = formValues[id] !== ""
 
-    return (
-      <InputWrapper key={id} $shouldTransition={isNotEmpty}>
-        <StyledInput id={id} type={type} {...register(id)} ref={ref} />
-        <StyledLabel htmlFor={id}>{label}</StyledLabel>
-        <InputStatusIcon
-          $isVisible={isError || isNotEmpty}
-          $isValid={!isError}
-          src={errors[id] ? errorIcon : successIcon}
-        />
-        <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
-      </InputWrapper>
-    )
-  }
-)
+  return (
+    <InputWrapper key={id} $shouldTransition={isNotEmpty}>
+      <StyledInput id={id} type={type} {...register(id)} />
+      <StyledLabel htmlFor={id}>{label}</StyledLabel>
+      <InputStatusIcon
+        $isVisible={isError || isNotEmpty}
+        $isValid={!isError}
+        src={errors[id] ? errorIcon : successIcon}
+      />
+      <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
+    </InputWrapper>
+  )
+}

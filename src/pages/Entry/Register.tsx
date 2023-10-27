@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import { FormHeader } from "./components/FormHeader"
+import { AuthFormHeader } from "./components/AuthFormHeader"
 import { RegisterForm } from "./components/RegisterForm"
 import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
 import { RegisterFormValues } from "./types/RegisterForm.types"
@@ -25,7 +25,7 @@ export const Register = () => {
 
   useEffect(() => {
     if (success) {
-      navigate("/")
+      navigate(Routes.USER_DETAILS)
     }
 
     return () => {
@@ -38,7 +38,7 @@ export const Register = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <FormHeader
+        <AuthFormHeader
           heading='Register'
           title='Create an account'
           subtitle='Become Gorilla'

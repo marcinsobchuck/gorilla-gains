@@ -13,7 +13,7 @@ const sharedStyles = (width?: number, textColor?: string) => {
   return css`
     width: ${width && `${width}px`};
     color: ${textColor && textColor};
-    transition: all 0.3s;
+    transition: background-color 0.3s;
 
     svg {
       transition: fill 0.3s;

@@ -51,6 +51,16 @@ export const StyledInput = styled.input`
     border-color: ${({ theme }) => theme.secondary};
     box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};
   }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
 `
 
 export const StyledLabel = styled.label`

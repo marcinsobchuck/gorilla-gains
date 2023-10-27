@@ -9,6 +9,7 @@ import { Calendar } from "../pages/Calendar/Calendar"
 import { Dashboard } from "../pages/Dashboard/Dashboard"
 import { Login } from "../pages/Entry/Login"
 import { Register } from "../pages/Entry/Register"
+import { UserDetails } from "../pages/Entry/UserDetails"
 import { NotFound } from "../pages/NotFound/NotFound"
 
 export const router = createBrowserRouter(
@@ -16,7 +17,6 @@ export const router = createBrowserRouter(
     <>
       <Route path={Routes.HOME} element={<RootLayout />}>
         <Route element={<PrivateRoute />}>
-          <Route index element={<Dashboard />} />
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />
           <Route path={Routes.CALENDAR} element={<Calendar />} />
@@ -27,7 +27,7 @@ export const router = createBrowserRouter(
         <Route path={Routes.LOGIN} element={<Login />} />
         <Route path={Routes.REGISTER} element={<Register />} />
         <Route element={<PrivateRoute />}>
-          <Route path={Routes.USER_DETAILS} element={<div>Multistep form</div>} />
+          <Route path={Routes.USER_DETAILS} element={<UserDetails />} />
         </Route>
       </Route>
       <Route path='*' element={<NotFound />} />

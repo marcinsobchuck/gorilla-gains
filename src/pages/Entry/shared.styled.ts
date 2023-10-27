@@ -34,10 +34,6 @@ export const Wrapper = styled.div`
   }
 `
 
-export const FormHeaderWrapper = styled.div`
-  /* margin-bottom: 46px; */
-`
-
 export const ContentWrapper = styled.div`
   @media ${Breakpoints.MEDIUM_LARGE} {
     width: 100%;

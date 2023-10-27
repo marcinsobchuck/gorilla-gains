@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import { FormHeader } from "./components/FormHeader"
+import { AuthFormHeader } from "./components/AuthFormHeader"
 import { LoginForm } from "./components/LoginForm"
 import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
 import { LoginFormValues } from "./types/LoginForm.types"
@@ -25,7 +25,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (success) {
-      navigate("/")
+      navigate(Routes.DASHBOARD)
     }
 
     return () => {
@@ -38,7 +38,7 @@ export const Login = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <FormHeader
+        <AuthFormHeader
           heading='Login'
           title='Sign in Gorilla'
           subtitle='Time to train'

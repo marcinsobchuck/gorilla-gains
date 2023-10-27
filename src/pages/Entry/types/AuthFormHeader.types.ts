@@ -1,4 +1,4 @@
-export interface FormHeaderProps {
+export interface AuthFormHeaderProps {
   heading: string
   title: string
   subtitle: string

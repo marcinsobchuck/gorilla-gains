@@ -1,15 +1,8 @@
 import { Button } from "../../../components/Button/Button"
-import {
-  Accent,
-  AuthActionContainer,
-  FormHeaderWrapper,
-  Subtitle,
-  Title,
-  ViewInfoHeading,
-} from "../shared.styled"
-import { FormHeaderProps } from "../types/FormHeader.types"
+import { Accent, AuthActionContainer, Subtitle, Title, ViewInfoHeading } from "../shared.styled"
+import { AuthFormHeaderProps } from "../types/AuthFormHeader.types"
 
-export const FormHeader: React.FC<FormHeaderProps> = ({
+export const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({
   heading,
   title,
   subtitle,
@@ -18,7 +11,7 @@ export const FormHeader: React.FC<FormHeaderProps> = ({
   to,
 }) => {
   return (
-    <FormHeaderWrapper>
+    <>
       <ViewInfoHeading>{heading}</ViewInfoHeading>
       <Title>
         {title}
@@ -34,6 +27,6 @@ export const FormHeader: React.FC<FormHeaderProps> = ({
           {buttonText}
         </Button>
       </AuthActionContainer>
-    </FormHeaderWrapper>
+    </>
   )
 }
