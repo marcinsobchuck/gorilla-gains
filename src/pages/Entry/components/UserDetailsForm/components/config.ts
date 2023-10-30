@@ -60,3 +60,11 @@ export const userDetailsSchema = z.object({
     }),
   activityLevel: z.string(),
 })
+
+export const activityLevelOptions = [
+  { value: "extremely inactive", label: "Extremely inactive" },
+  { value: "sedentary", label: "Sedentary" },
+  { value: "moderately active", label: "Moderately active" },
+  { value: "vigorously active", label: "Vigorously active" },
+  { value: "extremely active", label: "Extremely active" },
+]
