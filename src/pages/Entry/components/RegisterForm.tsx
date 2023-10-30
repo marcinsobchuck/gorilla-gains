@@ -10,16 +10,13 @@ import { RegisterFormProps } from "../types/RegisterForm.types"
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const methods = useForm({
     defaultValues: registerValues,
-    reValidateMode: "onChange",
     mode: "all",
     resolver: zodResolver(registerSchema),
   })
 
-  const { register, handleSubmit, setFocus, watch, trigger } = methods
+  const { handleSubmit, setFocus, watch, trigger } = methods
 
   const focusedInput = "name"
-
-  watch()
 
   const password = watch("password")
   const passwordConfirmation = watch("passwordConfirmation")
@@ -38,7 +35,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         {registerInputsData.map((input) => {
           const { id, label, type } = input
 
-          return <Input key={id} id={id} label={label} type={type} {...register(id)} />
+          return <Input key={id} id={id} label={label} type={type} />
         })}
         <SubmitButton buttonType='button' width={200} type='submit'>
           Register

@@ -26,13 +26,23 @@ export const Input: React.FC<InputProps> = ({ id, type, label }) => {
 
   return (
     <InputWrapper key={id} $shouldTransition={isNotEmpty}>
-      <StyledInput id={id} type={type} {...register(id)} />
+      <StyledInput
+        id={id}
+        type={type}
+        {...register(id, {
+          ...(type === "number" && {
+            setValueAs: (v) => (v === "" ? "" : +v),
+          }),
+        })}
+      />
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
+
       <InputStatusIcon
         $isVisible={isError || isNotEmpty}
         $isValid={!isError}
         src={errors[id] ? errorIcon : successIcon}
       />
+
       <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
     </InputWrapper>
   )

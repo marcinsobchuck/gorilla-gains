@@ -2,15 +2,11 @@ import { z } from "zod"
 
 export const registerSchema = z
   .object({
-    name: z.string().nonempty("Name is required").trim().min(5, {
-      message: "Min. 5 characters",
+    name: z.string().trim().min(5, {
+      message: "Required. Min. 5 characters",
     }),
-    email: z.string().nonempty("Email is required").email("Invalid email address"),
-    password: z
-      .string()
-      .nonempty("Password is required")
-      .trim()
-      .min(6, { message: "Min. 6 characters" }),
+    email: z.string().email("Invalid email address"),
+    password: z.string().trim().min(6, { message: "Required. Min. 6 characters" }),
     passwordConfirmation: z.string(),
   })
   .refine(
@@ -24,12 +20,8 @@ export const registerSchema = z
   )
 
 export const loginSchema = z.object({
-  email: z.string().nonempty("Email is required").email("Invalid email address"),
-  password: z
-    .string()
-    .nonempty("Password is required")
-    .trim()
-    .min(6, { message: "Min. 6 characters" }),
+  email: z.string().email("Required. Invalid email address"),
+  password: z.string().trim().min(6, { message: "Required. Min. 6 characters" }),
 })
 
 export const registerInputsData: {

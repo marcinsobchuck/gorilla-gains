@@ -5,8 +5,8 @@ export enum Routes {
   USER_DETAILS = "/entry/user-details",
 
   HOME = "/",
-  DASHBOARD = "dashboard",
-  ACTIVITY_HISTORY = "activity-history",
-  CALENDAR = "calendar",
-  SETTINGS = "settings",
+  DASHBOARD = "/dashboard",
+  ACTIVITY_HISTORY = "/activity-history",
+  CALENDAR = "/calendar",
+  SETTINGS = "/settings",
 }

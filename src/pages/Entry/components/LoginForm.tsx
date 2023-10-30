@@ -14,7 +14,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     resolver: zodResolver(loginSchema),
   })
 
-  const { register, handleSubmit, setFocus } = methods
+  const { handleSubmit, setFocus } = methods
 
   const focusedInput = "email"
 
@@ -28,7 +28,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         {loginInputsData.map((input) => {
           const { id, label, type } = input
 
-          return <Input key={id} id={id} label={label} type={type} {...register(id)} />
+          return <Input key={id} id={id} label={label} type={type} />
         })}
         <SubmitButton buttonType='button' width={200} type='submit'>
           Login
