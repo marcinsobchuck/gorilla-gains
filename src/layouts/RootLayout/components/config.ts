@@ -1,5 +1,6 @@
+import { Routes } from "@enums/routes.enum"
+
 import { ListItem } from "./Menu.types"
-import { Routes } from "../../../enums/routes.enum"
 
 export const listItems: ListItem[] = [
   {

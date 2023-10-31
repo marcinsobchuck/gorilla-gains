@@ -2,15 +2,16 @@ import { useEffect } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
+import { useAppDispatch, useAppSelector } from "@app/hooks"
+import authGorilla from "@assets/authGorilla.png"
+import { Routes } from "@enums/routes.enum"
+import { loginUserAction } from "@features/auth/authActions"
+import { resetAuthFormError } from "@features/auth/authSlice"
+
 import { AuthFormHeader } from "./components/AuthFormHeader"
 import { LoginForm } from "./components/LoginForm"
 import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
 import { LoginFormValues } from "./types/LoginForm.types"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import authGorilla from "../../assets/authGorilla.png"
-import { Routes } from "../../enums/routes.enum"
-import { loginUserAction } from "../../features/auth/authActions"
-import { resetAuthFormError } from "../../features/auth/authSlice"
 
 export const Login = () => {
   const auth = useAppSelector((state) => state.auth)

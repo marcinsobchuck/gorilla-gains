@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
+import { Input } from "@components/Input/Input"
+
 import { loginInputsData, loginSchema, loginValues } from "./config"
-import { Input } from "../../../components/Input/Input"
 import { SubmitButton } from "../shared.styled"
 import { LoginFormProps } from "../types/LoginForm.types"
 

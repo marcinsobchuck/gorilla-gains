@@ -1,5 +1,9 @@
 import { Outlet } from "react-router-dom"
 
+import { Button } from "@components/Button/Button.tsx"
+import { Logo } from "@components/Logo/Logo.tsx"
+import { Background } from "@styles/GlobalStyle.ts"
+
 import { Menu } from "./components/Menu.tsx"
 import {
   FlexContainer,
@@ -8,9 +12,6 @@ import {
   RightSideWrapper,
   Wrapper,
 } from "./RootLayout.styled.ts"
-import { Button } from "../../components/Button/Button.tsx"
-import { Logo } from "../../components/Logo/Logo.tsx"
-import { Background } from "../../styles/GlobalStyle.ts"
 
 export const RootLayout = () => {
   return (

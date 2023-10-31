@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 
-import { useAppSelector } from "../app/hooks"
-import { Routes } from "../enums/routes.enum"
+import { useAppSelector } from "@app/hooks"
+import { Routes } from "@enums/routes.enum"
 
 export const PrivateRoute = () => {
   const accessToken = useAppSelector((state) => state.auth.accessToken)

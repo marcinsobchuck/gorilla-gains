@@ -2,13 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
+import { Button } from "@components/Button/Button"
+import { useJwtDecoded } from "@hooks/useJwtDecoded"
+
 import { userDetailsSchema } from "./components/config"
 import { Goals } from "./components/Goals"
 import { PersonalInfo } from "./components/PersonalInfo"
 import { PhysicalDetails } from "./components/PhysicalDetails"
 import { ButtonsWrapper, StyledForm } from "./UserDetailsForm.styled"
-import { Button } from "../../../../components/Button/Button"
-import { useJwtDecoded } from "../../../../hooks/useJwtDecoded"
 
 interface UserDetailsFormProps {
   currentStep: number

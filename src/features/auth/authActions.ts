@@ -1,9 +1,10 @@
 import { isAxiosError } from "axios"
 
+import * as authService from "@api/authService"
+import { createAppAsyncThunk } from "@app/hooks"
+import { LocalStorageKeys } from "@enums/localStorageKeys.enum"
+
 import { LoginUserData, RegisterUserData } from "./authSlice.types"
-import * as authService from "../../api/authService"
-import { createAppAsyncThunk } from "../../app/hooks"
-import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const saveToLocalStorage = (key: string, value: string) => {
   window.localStorage.setItem(key, value)

@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom"
 
+import { Routes } from "@enums/routes.enum"
+
 import { LogoSVG, LogoText, LogoWrapper } from "./Logo.styled"
-import { Routes } from "../../enums/routes.enum"
 
 export const Logo = () => {
   const navigate = useNavigate()

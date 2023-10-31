@@ -2,12 +2,12 @@ import svg from "react-inlinesvg"
 import { Outlet } from "react-router-dom"
 import styled from "styled-components"
 
-import github from "../assets/github.svg"
-import linkedin from "../assets/linkedin.svg"
-import { Logo } from "../components/Logo/Logo"
-import { Switch } from "../components/Switch/Switch"
-import { Breakpoints } from "../enums/breakpoints.enum"
-import { Background } from "../styles/GlobalStyle"
+import github from "@assets/github.svg"
+import linkedin from "@assets/linkedin.svg"
+import { Logo } from "@components/Logo/Logo"
+import { Switch } from "@components/Switch/Switch"
+import { Breakpoints } from "@enums/breakpoints.enum"
+import { Background } from "@styles/GlobalStyle"
 
 const SocialIconsWrapper = styled.div`
   position: absolute;

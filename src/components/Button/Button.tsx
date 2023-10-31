@@ -1,4 +1,3 @@
-import React from "react"
 import { LinkProps } from "react-router-dom"
 
 import { StyledButton, StyledLink, StyledNavLink } from "./Button.styled"

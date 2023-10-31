@@ -1,8 +1,9 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 
+import { LocalStorageKeys } from "@enums/localStorageKeys.enum"
+
 import { loginUserAction, registerUserAction } from "./authActions"
 import { InitialState } from "./authSlice.types"
-import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const initialState: InitialState = {
   accessToken: window.localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN),

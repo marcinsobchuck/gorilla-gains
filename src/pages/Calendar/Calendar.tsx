@@ -1,4 +1,4 @@
-import { MainContentWrapper, Sidebar } from "../../layouts/RootLayout/RootLayout.styled"
+import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
 export const Calendar = () => {
   return (

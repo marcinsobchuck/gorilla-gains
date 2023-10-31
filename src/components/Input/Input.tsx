@@ -1,5 +1,7 @@
-import React from "react"
 import { useFormContext, useWatch } from "react-hook-form"
+
+import errorIcon from "@assets/error.svg"
+import successIcon from "@assets/success.svg"
 
 import {
   InputStatusIcon,
@@ -9,8 +11,6 @@ import {
   StyledLabel,
 } from "./Input.styled"
 import { InputProps } from "./Input.types"
-import errorIcon from "../../assets/error.svg"
-import successIcon from "../../assets/success.svg"
 
 export const Input: React.FC<InputProps> = ({ id, type, label }) => {
   const {

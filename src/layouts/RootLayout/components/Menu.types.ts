@@ -1,5 +1,5 @@
-import { IconName } from "../../../components/Icon/Icon.types"
-import { Routes } from "../../../enums/routes.enum"
+import { IconName } from "@components/Icon/Icon.types"
+import { Routes } from "@enums/routes.enum"
 
 type ItemName = "Dashboard" | "History" | "Calendar"
 

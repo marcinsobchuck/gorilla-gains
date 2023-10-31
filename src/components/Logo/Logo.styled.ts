@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
-import { Breakpoints } from "../../enums/breakpoints.enum"
+import { Breakpoints } from "@enums/breakpoints.enum"
+
 import { Icon } from "../Icon/Icon"
 
 export const LogoWrapper = styled.div`

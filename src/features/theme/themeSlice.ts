@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+import { LocalStorageKeys } from "@enums/localStorageKeys.enum"
+
 import { InitialState } from "./themeSlice.types"
-import { LocalStorageKeys } from "../../enums/localStorageKeys.enum"
 
 const getTheme = () => {
   const darkThemeMql = window.matchMedia("(prefers-color-scheme: dark)")

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 
+import notFound from "@assets/notFound.png"
+import { Routes } from "@enums/routes.enum"
+
 import { ContentWrapper, NotFoundImage, Wrapper } from "./NotFound.styled"
-import notFound from "../../assets/notFound.png"
-import { Routes } from "../../enums/routes.enum"
 
 export const NotFound = () => {
   return (

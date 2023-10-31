@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode"
 import { useEffect, useState } from "react"
 
-import { useAppSelector } from "../app/hooks"
+import { useAppSelector } from "@app/hooks"
 
 interface DecodedToken {
   email: string

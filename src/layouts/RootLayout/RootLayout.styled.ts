@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { Breakpoints } from "../../enums/breakpoints.enum"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 const headerHeight = "84px"
 
