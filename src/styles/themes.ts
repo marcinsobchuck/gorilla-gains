@@ -1,6 +1,7 @@
 export const lightTheme = {
   backgroundColor: "#fafafa",
   inputBackgroundColor: "#F3F6FB",
+  selectBackgroundColor: "#EDEDED",
 
   navBackgroundColor: "#F6F6F6",
 
@@ -28,8 +29,9 @@ export const lightTheme = {
 export const darkTheme = {
   backgroundColor: "#121212",
   inputBackgroundColor: "#32364499",
+  selectBackgroundColor: "#2a2a2a",
 
-  navBackgroundColor: "#F9F8F8",
+  navBackgroundColor: "#1e1e1e",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",

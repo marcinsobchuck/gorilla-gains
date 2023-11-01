@@ -9,7 +9,7 @@ export const PhysicalDetails = () => {
       <Input id='height' label='Height' type='number' />
       <Input id='weight' label='Weight' type='number' />
       <label htmlFor='activityLevel'>
-        <Select options={activityLevelOptions} />
+        <Select options={activityLevelOptions} labelText='Activity level' />
       </label>
     </div>
   )
