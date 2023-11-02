@@ -1,4 +1,7 @@
 import { Input } from "@components/Input/Input"
+import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
+
+import { genderRadioItems } from "./config"
 
 export const PersonalInfo = () => {
   return (
@@ -6,7 +9,7 @@ export const PersonalInfo = () => {
       <Input id='name' label='Name' type='text' />
       <Input id='surname' label='Surname' type='text' />
       <Input id='age' label='Age' type='number' />
-      <Input id='gender' label='Gender' type='text' />
+      <RadioButtonGroup items={genderRadioItems} groupTitle='Gender' name='gender' />
     </div>
   )
 }

@@ -29,7 +29,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
       name: "",
       surname: "",
       age: "",
-      gender: "",
+      gender: "male",
       height: "",
       weight: "",
       desiredWeight: "",

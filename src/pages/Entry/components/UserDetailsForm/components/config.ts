@@ -68,3 +68,11 @@ export const activityLevelOptions = [
   { value: "vigorously active", label: "Vigorously active" },
   { value: "extremely active", label: "Extremely active" },
 ]
+
+export const genderRadioItems = [
+  {
+    labelText: "Male",
+    value: "male",
+  },
+  { labelText: "Female", value: "female" },
+]

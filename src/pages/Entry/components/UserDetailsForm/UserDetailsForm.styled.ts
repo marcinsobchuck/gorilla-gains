@@ -8,6 +8,7 @@ export const StyledForm = styled.form`
 
 export const ButtonsWrapper = styled.div`
   margin-top: auto;
+  margin-bottom: 36px;
 
   display: flex;
   justify-content: space-between;
