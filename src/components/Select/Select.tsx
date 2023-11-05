@@ -8,7 +8,7 @@ import { Control } from "./components/Control"
 import { selectStyles } from "./Select.styles"
 import { Option, SelectProps } from "./Select.types"
 
-export const Select: React.FC<SelectProps> = ({ options, labelText }) => {
+export const Select: React.FC<SelectProps> = ({ options, labelText, name }) => {
   const { control } = useFormContext()
   const theme = useTheme()
 
@@ -26,8 +26,11 @@ export const Select: React.FC<SelectProps> = ({ options, labelText }) => {
             onChange(selectedOption?.value)
           }}
           components={{ Control }}
+          openMenuOnFocus
           // @ts-ignore <- https://react-select.com/components
           labelText={labelText}
+          name={name}
+          inputId={name}
           placeholder=''
         />
       )}

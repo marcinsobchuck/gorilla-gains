@@ -6,4 +6,5 @@ export interface Option {
 export interface SelectProps {
   options: Option[]
   labelText?: string
+  name?: string
 }
