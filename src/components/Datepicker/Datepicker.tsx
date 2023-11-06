@@ -31,8 +31,8 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name }) => {
       control={control}
       render={({ field: { value, ...field } }) => (
         <DatePickerWrapper
-          isCalendarOpen={isCalendarOpen}
-          isFloating={isCalendarOpen || Boolean(value)}
+          $isCalendarOpen={isCalendarOpen}
+          $isFloating={isCalendarOpen || Boolean(value)}
         >
           <ReactDatePicker
             id={name}
@@ -42,6 +42,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name }) => {
             dateFormat='dd/MM/yyyy'
             onCalendarClose={toggleCalendarOpen}
             popperPlacement='bottom-end'
+            minDate={new Date()}
             {...field}
           />
         </DatePickerWrapper>

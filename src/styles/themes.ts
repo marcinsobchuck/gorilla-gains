@@ -4,6 +4,7 @@ export const lightTheme = {
   selectBackgroundColor: "#EDEDED",
 
   navBackgroundColor: "#F6F6F6",
+  datePickerBackgroundColor: "#F3F6FB",
 
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
@@ -21,6 +22,9 @@ export const lightTheme = {
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
+  popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+  rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+  rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
 
   primaryButtonColor: "#fafafa",
 
@@ -32,6 +36,7 @@ export const darkTheme = {
   selectBackgroundColor: "#2a2a2a",
 
   navBackgroundColor: "#1e1e1e",
+  datePickerBackgroundColor: "#252730",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",
@@ -49,6 +54,9 @@ export const darkTheme = {
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
+  popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+  rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+  rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
 
   primaryButtonColor: "#121212",
 
