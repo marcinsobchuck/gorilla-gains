@@ -76,3 +76,30 @@ export const genderRadioItems = [
   },
   { labelText: "Female", value: "female" },
 ]
+
+export const goals = [
+  {
+    label: "Muscle gain",
+    value: "muscle gain",
+  },
+  {
+    label: "Weight loss",
+    value: "weight loss",
+  },
+  {
+    label: "Improve endurance",
+    value: "improve endurance",
+  },
+  {
+    label: "Mental well-being",
+    value: "mental well-being",
+  },
+  {
+    label: "Overall health",
+    value: "overall health",
+  },
+  {
+    label: "Consistency",
+    value: "consistency",
+  },
+]
