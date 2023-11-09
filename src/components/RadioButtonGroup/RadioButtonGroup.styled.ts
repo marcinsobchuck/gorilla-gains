@@ -5,6 +5,9 @@ export const RadioButtonGroupWrapper = styled.div`
 
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   border-radius: 9px;
+
+  transition: all 0.3s;
+  transition-delay: 0.1s;
 `
 
 export const GroupTitle = styled.p`

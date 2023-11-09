@@ -1,22 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import { FormProvider, useForm } from "react-hook-form"
+import { FormProvider, useForm, useFormState } from "react-hook-form"
 
 import { Button } from "@components/Button/Button"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
 import { userDetailsSchema } from "./components/config"
-import { Goals } from "./components/Goals"
-import { PersonalInfo } from "./components/PersonalInfo"
-import { PhysicalDetails } from "./components/PhysicalDetails"
-import { ButtonsWrapper, StyledForm } from "./UserDetailsForm.styled"
-
-interface UserDetailsFormProps {
-  currentStep: number
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>
-}
-
-const userDetailsSteps = [<PersonalInfo />, <PhysicalDetails />, <Goals />]
+import { defaultValues, stepInputs, userDetailsSteps } from "./config"
+import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
+import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
 
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   currentStep,
@@ -25,22 +17,14 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   const decodedJwt = useJwtDecoded()
 
   const methods = useForm({
-    defaultValues: {
-      name: "",
-      surname: "",
-      age: "",
-      gender: "male",
-      height: "",
-      weight: "",
-      desiredWeight: "",
-      dueDateWeight: "",
-      activityLevel: "",
-    },
+    defaultValues,
     mode: "all",
     resolver: zodResolver(userDetailsSchema),
   })
 
-  const { handleSubmit, setValue, getValues } = methods
+  const { handleSubmit, setValue, control, watch, setFocus } = methods
+
+  const formState = useFormState({ control })
 
   const lastStep = currentStep === userDetailsSteps.length
   const firstStep = currentStep === 1
@@ -59,16 +43,54 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     console.log("submitaz")
   }
 
+  const getNumberOfInvalidInputs = (inputsNames: InputsNames) => {
+    const errorFieldsKeys = Object.keys(formState.errors)
+    const emptyFieldsPerStep = inputsNames.filter((inputName) => watch(inputName) === "")
+
+    const invalidInputsNumber = inputsNames.filter(
+      (inputName) => emptyFieldsPerStep.includes(inputName) || errorFieldsKeys.includes(inputName)
+    ).length
+
+    return invalidInputsNumber
+  }
+
+  const getNumberOfInvalidInputsPerStep = () => {
+    switch (currentStep) {
+      case 1:
+        return getNumberOfInvalidInputs(stepInputs[0])
+      case 2:
+        return getNumberOfInvalidInputs(stepInputs[1])
+      case 3:
+        return getNumberOfInvalidInputs(stepInputs[2])
+      default:
+        return 0
+    }
+  }
+
+  useEffect(() => {
+    switch (currentStep) {
+      case 1:
+        return setFocus("name")
+      case 2:
+        return setFocus("height")
+      case 3:
+        return setFocus("desiredWeight")
+    }
+  }, [currentStep, setFocus])
+
   useEffect(() => {
     if (decodedJwt?.name) {
       setValue("name", decodedJwt.name)
     }
   }, [decodedJwt, setValue])
 
-  console.log(getValues())
-
   return (
     <FormProvider {...methods}>
+      <ProgressBar
+        $numberOfInputs={stepInputs[currentStep - 1].length}
+        $validInputs={stepInputs[currentStep - 1].length - getNumberOfInvalidInputsPerStep()}
+      />
+
       <StyledForm onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
         {userDetailsSteps[currentStep - 1]}
         <ButtonsWrapper>

@@ -1,20 +1,36 @@
-import { Step, StepName, StepNumber, Wrapper } from "./Stepper.styled"
+import { Step, StepName, StepNumber, StepsWrapper, Wrapper } from "./Stepper.styled"
+import { StepperProps } from "./Stepper.types"
 
-export const Stepper = () => {
+const steps = [
+  {
+    id: 1,
+    name: "Personal info",
+  },
+  {
+    id: 2,
+    name: "Physical details",
+  },
+  {
+    id: 3,
+    name: "Goals",
+  },
+]
+
+export const Stepper: React.FC<StepperProps> = ({ currentStep, setCurrentStep }) => {
   return (
     <Wrapper>
-      <Step>
-        <StepNumber>1</StepNumber>
-        <StepName>Personal info</StepName>
-      </Step>
-      <Step>
-        <StepNumber>2</StepNumber>
-        <StepName>Physical details</StepName>
-      </Step>
-      <Step>
-        <StepNumber>3</StepNumber>
-        <StepName>Goals</StepName>
-      </Step>
+      <StepsWrapper>
+        {steps.map((step) => (
+          <Step
+            key={step.id}
+            $isActive={currentStep === step.id}
+            onClick={() => setCurrentStep(step.id)}
+          >
+            <StepNumber>{step.id}</StepNumber>
+            <StepName>{step.name}</StepName>
+          </Step>
+        ))}
+      </StepsWrapper>
     </Wrapper>
   )
 }

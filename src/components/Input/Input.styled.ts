@@ -40,7 +40,6 @@ export const StyledInput = styled.input`
   width: 100%;
   border: 2px solid transparent;
   border-radius: 9px;
-  backdrop-filter: blur(10px);
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   outline: ${({ theme }) => theme.secondaryOpacity};
   transition: all 0.3s;

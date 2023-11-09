@@ -11,7 +11,7 @@ export const UserDetails = () => {
 
   return (
     <UserDetailsWrapper>
-      <Stepper />
+      <Stepper {...commonProps} />
       <UserDetailsForm {...commonProps} />
     </UserDetailsWrapper>
   )
