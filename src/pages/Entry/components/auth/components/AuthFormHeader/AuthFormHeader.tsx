@@ -1,6 +1,6 @@
-import { Button } from "../../../components/Button/Button"
-import { Accent, AuthActionContainer, Subtitle, Title, ViewInfoHeading } from "../shared.styled"
-import { AuthFormHeaderProps } from "../types/AuthFormHeader.types"
+import { AuthFormHeaderProps } from "./AuthFormHeader.types"
+import { Button } from "../../../../../../components/Button/Button"
+import { Accent, AuthActionContainer, Subtitle, Title, ViewInfoHeading } from "../../shared.styled"
 
 export const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({
   heading,

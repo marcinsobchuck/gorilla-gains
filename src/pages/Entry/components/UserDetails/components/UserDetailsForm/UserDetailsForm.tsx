@@ -5,10 +5,10 @@ import { FormProvider, useForm, useFormState } from "react-hook-form"
 import { Button } from "@components/Button/Button"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
-import { userDetailsSchema } from "./components/config"
-import { defaultValues, stepInputs, userDetailsSteps } from "./config"
+import { userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
 import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
+import { defaultValues, stepInputs, userDetailsSteps } from "../Stepper/config"
 
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   currentStep,
@@ -18,7 +18,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
 
   const methods = useForm({
     defaultValues,
-    mode: "all",
+    mode: "onChange",
     resolver: zodResolver(userDetailsSchema),
   })
 
@@ -67,6 +67,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     }
   }
 
+  console.log(getNumberOfInvalidInputsPerStep())
   useEffect(() => {
     switch (currentStep) {
       case 1:

@@ -5,28 +5,28 @@ import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import authGorilla from "@assets/authGorilla.png"
 import { Routes } from "@enums/routes.enum"
-import { loginUserAction } from "@features/auth/authActions"
+import { registerUserAction } from "@features/auth/authActions"
 import { resetAuthFormError } from "@features/auth/authSlice"
 
-import { AuthFormHeader } from "./components/AuthFormHeader"
-import { LoginForm } from "./components/LoginForm"
-import { AuthError, ContentWrapper, StyledImage, Wrapper } from "./shared.styled"
-import { LoginFormValues } from "./types/LoginForm.types"
+import { RegisterForm } from "./components/RegisterForm"
+import { RegisterFormValues } from "./RegisterForm.types"
+import { AuthError, ContentWrapper, StyledImage, Wrapper } from "../../shared.styled"
+import { AuthFormHeader } from "../AuthFormHeader/AuthFormHeader"
 
-export const Login = () => {
+export const Register = () => {
   const auth = useAppSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const { error, success } = auth
 
-  const handleLogin: SubmitHandler<LoginFormValues> = ({ email, password }) => {
-    dispatch(loginUserAction({ email, password }))
+  const handleRegister: SubmitHandler<RegisterFormValues> = ({ email, name, password }) => {
+    dispatch(registerUserAction({ name, email, password }))
   }
 
   useEffect(() => {
     if (success) {
-      navigate(Routes.DASHBOARD)
+      navigate(Routes.USER_DETAILS)
     }
 
     return () => {
@@ -40,17 +40,17 @@ export const Login = () => {
     <Wrapper>
       <ContentWrapper>
         <AuthFormHeader
-          heading='Login'
-          title='Sign in Gorilla'
-          subtitle='Time to train'
-          actionText='Not a member?'
-          buttonText='Sign up'
-          to={Routes.REGISTER}
+          heading='Register'
+          title='Create an account'
+          subtitle='Become Gorilla'
+          actionText='Already a member?'
+          buttonText='Log in'
+          to={Routes.LOGIN}
         />
         <AuthError $isVisible={Boolean(error)}>
-          {error ? <p>{error}</p> : <p>error space</p>}
+          {typeof error === "string" && Boolean(error) ? <p>{error}</p> : <p>error space</p>}
         </AuthError>
-        <LoginForm onSubmit={handleLogin} />
+        <RegisterForm onSubmit={handleRegister} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>

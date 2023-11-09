@@ -4,9 +4,9 @@ import { FormProvider, useForm } from "react-hook-form"
 
 import { Input } from "@components/Input/Input"
 
-import { registerInputsData, registerSchema, registerValues } from "./config"
-import { SubmitButton } from "../shared.styled"
-import { RegisterFormProps } from "../types/RegisterForm.types"
+import { registerInputsData, registerSchema, registerValues } from "../../../config"
+import { SubmitButton } from "../../../shared.styled"
+import { RegisterFormProps } from "../RegisterForm.types"
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const methods = useForm({

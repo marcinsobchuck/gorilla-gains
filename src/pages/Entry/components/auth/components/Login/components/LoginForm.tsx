@@ -4,9 +4,9 @@ import { FormProvider, useForm } from "react-hook-form"
 
 import { Input } from "@components/Input/Input"
 
-import { loginInputsData, loginSchema, loginValues } from "./config"
-import { SubmitButton } from "../shared.styled"
-import { LoginFormProps } from "../types/LoginForm.types"
+import { loginInputsData, loginSchema, loginValues } from "../../../config"
+import { SubmitButton } from "../../../shared.styled"
+import { LoginFormProps } from "../LoginForm.types"
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const methods = useForm({

@@ -1,8 +1,8 @@
 import { CheckboxTile } from "@components/CheckboxTile/CheckboxTile"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Input } from "@components/Input/Input"
+import { goals } from "@pages/Entry/components/UserDetails/components/UserDetailsForm/config"
 
-import { goals } from "./config"
 import { GoalsTitle, GoalsWrapper, TilesWrapper } from "./Goals.styled"
 
 export const Goals = () => {

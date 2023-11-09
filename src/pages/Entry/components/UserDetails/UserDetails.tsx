@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Stepper } from "./components/Stepper"
+import { Stepper } from "./components/Stepper/Stepper"
 import { UserDetailsForm } from "./components/UserDetailsForm/UserDetailsForm"
 import { UserDetailsWrapper } from "./UserDetails.styled"
 

@@ -7,9 +7,9 @@ import { RootLayout } from "../layouts/RootLayout/RootLayout"
 import { ActivityHistory } from "../pages/ActivityHistory/ActivityHistory"
 import { Calendar } from "../pages/Calendar/Calendar"
 import { Dashboard } from "../pages/Dashboard/Dashboard"
-import { Login } from "../pages/Entry/Login"
-import { Register } from "../pages/Entry/Register"
-import { UserDetails } from "../pages/Entry/UserDetails"
+import { Login } from "../pages/Entry/components/auth/components/Login/Login"
+import { Register } from "../pages/Entry/components/auth/components/Register/Register"
+import { UserDetails } from "../pages/Entry/components/UserDetails/UserDetails"
 import { NotFound } from "../pages/NotFound/NotFound"
 
 export const router = createBrowserRouter(

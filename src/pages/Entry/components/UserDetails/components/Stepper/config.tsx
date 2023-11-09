@@ -1,7 +1,7 @@
-import { Goals } from "./components/Goals"
-import { PersonalInfo } from "./components/PersonalInfo"
-import { PhysicalDetails } from "./components/PhysicalDetails"
-import { InputsNames } from "./UserDetailsForm.types"
+import { Goals } from "../UserDetailsForm/steps/Goals/Goals"
+import { PersonalInfo } from "../UserDetailsForm/steps/PersonalInfo/PersonalInfo"
+import { PhysicalDetails } from "../UserDetailsForm/steps/PhysicalDetails/PhysicalDetails"
+import { InputsNames } from "../UserDetailsForm/UserDetailsForm.types"
 
 export const defaultValues = {
   name: "",

@@ -1,7 +1,7 @@
 import { Input } from "@components/Input/Input"
 import { Select } from "@components/Select/Select"
 
-import { activityLevelOptions } from "./config"
+import { activityLevelOptions } from "../../config"
 
 export const PhysicalDetails = () => {
   return (

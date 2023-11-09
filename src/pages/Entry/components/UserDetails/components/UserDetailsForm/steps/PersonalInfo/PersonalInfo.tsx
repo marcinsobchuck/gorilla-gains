@@ -1,7 +1,7 @@
 import { Input } from "@components/Input/Input"
 import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 
-import { genderRadioItems } from "./config"
+import { genderRadioItems } from "../../config"
 
 export const PersonalInfo = () => {
   return (
