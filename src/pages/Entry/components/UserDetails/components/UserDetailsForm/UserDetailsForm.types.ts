@@ -1,6 +1,10 @@
 export interface UserDetailsFormProps {
+  step: JSX.Element
   currentStep: number
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+  isFirstStep: boolean
+  isLastStep: boolean
+  handleNextStep: () => void
+  handlePreviousStep: () => void
 }
 
 type AllInputs =

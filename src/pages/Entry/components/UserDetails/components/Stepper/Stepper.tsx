@@ -16,7 +16,7 @@ const steps = [
   },
 ]
 
-export const Stepper: React.FC<StepperProps> = ({ currentStep, setCurrentStep }) => {
+export const Stepper: React.FC<StepperProps> = ({ currentStep, onStepClick }) => {
   return (
     <Wrapper>
       <StepsWrapper>
@@ -24,7 +24,7 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, setCurrentStep })
           <Step
             key={step.id}
             $isActive={currentStep === step.id}
-            onClick={() => setCurrentStep(step.id)}
+            onClick={() => onStepClick(step.id)}
           >
             <StepNumber>{step.id}</StepNumber>
             <StepName>{step.name}</StepName>

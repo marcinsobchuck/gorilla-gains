@@ -8,11 +8,15 @@ import { useJwtDecoded } from "@hooks/useJwtDecoded"
 import { userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
 import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
-import { defaultValues, stepInputs, userDetailsSteps } from "../Stepper/config"
+import { defaultValues, stepInputs } from "../Stepper/config"
 
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
+  step,
   currentStep,
-  setCurrentStep,
+  isFirstStep,
+  isLastStep,
+  handleNextStep,
+  handlePreviousStep,
 }) => {
   const decodedJwt = useJwtDecoded()
 
@@ -23,21 +27,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   })
 
   const { handleSubmit, setValue, control, watch, setFocus } = methods
-
   const formState = useFormState({ control })
-
-  const lastStep = currentStep === userDetailsSteps.length
-  const firstStep = currentStep === 1
-
-  const handleNextStep = () => {
-    if (lastStep) return
-    setCurrentStep((prevStep) => prevStep + 1)
-  }
-
-  const handlePreviousStep = () => {
-    if (firstStep) return
-    setCurrentStep((prevStep) => prevStep - 1)
-  }
 
   const onSubmit = () => {
     console.log("submitaz")
@@ -67,7 +57,6 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     }
   }
 
-  console.log(getNumberOfInvalidInputsPerStep())
   useEffect(() => {
     switch (currentStep) {
       case 1:
@@ -93,9 +82,9 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
       />
 
       <StyledForm onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
-        {userDetailsSteps[currentStep - 1]}
+        {step}
         <ButtonsWrapper>
-          {!firstStep && (
+          {!isFirstStep && (
             <Button
               variant='primary'
               buttonType='button'
@@ -105,7 +94,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
               Previous
             </Button>
           )}
-          {lastStep ? (
+          {isLastStep ? (
             <Button key='submit' buttonType='button' type='submit'>
               Submit
             </Button>
