@@ -1,9 +1,9 @@
 import { Stepper } from "./components/Stepper/Stepper"
-import { useMultiStepForm } from "./components/UserDetailsForm/hooks/useMultiStepForm"
 import { Goals } from "./components/UserDetailsForm/steps/Goals/Goals"
 import { PersonalInfo } from "./components/UserDetailsForm/steps/PersonalInfo/PersonalInfo"
 import { PhysicalDetails } from "./components/UserDetailsForm/steps/PhysicalDetails/PhysicalDetails"
 import { UserDetailsForm } from "./components/UserDetailsForm/UserDetailsForm"
+import { useMultiStepForm } from "./hooks/useMultiStepForm"
 import { UserDetailsWrapper } from "./UserDetails.styled"
 
 const userDetailsSteps = [<PersonalInfo />, <PhysicalDetails />, <Goals />]

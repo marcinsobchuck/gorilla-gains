@@ -58,7 +58,28 @@ export const userDetailsSchema = z.object({
     .positive({
       message: "Weight must be positive",
     }),
-  activityLevel: z.string(),
+  activityLevel: z.enum([
+    "extremely inactive",
+    "sedentary",
+    "moderately active",
+    "vigorously active",
+    "extremely active",
+  ]),
+  dueDateWeight: z.date(),
+  goals: z
+    .array(
+      z.enum([
+        "muscle gain",
+        "weight loss",
+        "improve endurance",
+        "mental well-being",
+        "overall health",
+        "consistency",
+      ])
+    )
+    .refine((data) => data.length > 0, {
+      message: "At least one goal must be selected.",
+    }),
 })
 
 export const activityLevelOptions = [
@@ -103,3 +124,16 @@ export const goals = [
     value: "consistency",
   },
 ]
+
+export const defaultValues = {
+  name: "",
+  surname: "",
+  age: "",
+  gender: "male",
+  height: "",
+  weight: "",
+  desiredWeight: "",
+  dueDateWeight: "",
+  activityLevel: "",
+  goals: "",
+}

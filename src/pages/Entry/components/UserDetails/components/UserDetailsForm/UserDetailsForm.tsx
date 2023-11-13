@@ -2,13 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { FormProvider, useForm, useFormState } from "react-hook-form"
 
+import { useAppDispatch } from "@app/hooks"
 import { Button } from "@components/Button/Button"
+import { changeUserInfoAction } from "@features/user/userActions"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
-import { userDetailsSchema } from "./config"
+import { defaultValues, userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
-import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
-import { defaultValues, stepInputs } from "../Stepper/config"
+import { InputsNames, UserDetailsFormProps, UserDetailsFormValues } from "./UserDetailsForm.types"
+import { stepInputs } from "../Stepper/config"
 
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   step,
@@ -18,9 +20,10 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   handleNextStep,
   handlePreviousStep,
 }) => {
+  const dispatch = useAppDispatch()
   const decodedJwt = useJwtDecoded()
 
-  const methods = useForm({
+  const methods = useForm<UserDetailsFormValues>({
     defaultValues,
     mode: "onChange",
     resolver: zodResolver(userDetailsSchema),
@@ -29,9 +32,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   const { handleSubmit, setValue, control, watch, setFocus } = methods
   const formState = useFormState({ control })
 
-  const onSubmit = () => {
-    console.log("submitaz")
-  }
+  const onSubmit = handleSubmit((values) => dispatch(changeUserInfoAction(values)))
 
   const getNumberOfInvalidInputs = (inputsNames: InputsNames) => {
     const errorFieldsKeys = Object.keys(formState.errors)
@@ -81,7 +82,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         $validInputs={stepInputs[currentStep - 1].length - getNumberOfInvalidInputsPerStep()}
       />
 
-      <StyledForm onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
+      <StyledForm onSubmit={onSubmit}>
         {step}
         <ButtonsWrapper>
           {!isFirstStep && (
