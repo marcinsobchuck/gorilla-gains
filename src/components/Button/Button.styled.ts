@@ -44,6 +44,19 @@ const variants = {
       top: 50%;
       transform: translateY(-50%);
     }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.secondaryHover};
+    }
+
+    &:active {
+      background-color: ${({ theme }) => theme.secondaryActive};
+    }
+
+    &:disabled {
+      background-color: ${({ theme }) => theme.secondaryDisabled};
+      cursor: not-allowed;
+    }
   `,
   secondary: css`
     display: inline-flex;

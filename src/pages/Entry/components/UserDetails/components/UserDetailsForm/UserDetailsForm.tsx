@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { FormProvider, useForm, useFormState } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 
 import { useAppDispatch } from "@app/hooks"
 import { Button } from "@components/Button/Button"
+import { Routes } from "@enums/routes.enum"
 import { changeUserInfoAction } from "@features/user/userActions"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
@@ -21,18 +23,33 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   handlePreviousStep,
 }) => {
   const dispatch = useAppDispatch()
-  const decodedJwt = useJwtDecoded()
 
+  const decodedJwt = useJwtDecoded()
+  const navigate = useNavigate()
   const methods = useForm<UserDetailsFormValues>({
     defaultValues,
     mode: "onChange",
     resolver: zodResolver(userDetailsSchema),
   })
 
-  const { handleSubmit, setValue, control, watch, setFocus } = methods
+  const {
+    handleSubmit,
+    setValue,
+    control,
+    watch,
+    setFocus,
+    formState: { isSubmitting },
+  } = methods
   const formState = useFormState({ control })
 
-  const onSubmit = handleSubmit((values) => dispatch(changeUserInfoAction(values)))
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      await dispatch(changeUserInfoAction(values)).unwrap()
+      navigate(Routes.DASHBOARD)
+    } catch (err) {
+      console.error(err)
+    }
+  })
 
   const getNumberOfInvalidInputs = (inputsNames: InputsNames) => {
     const errorFieldsKeys = Object.keys(formState.errors)
@@ -96,7 +113,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
             </Button>
           )}
           {isLastStep ? (
-            <Button key='submit' buttonType='button' type='submit'>
+            <Button disabled={isSubmitting} key='submit' buttonType='button' type='submit'>
               Submit
             </Button>
           ) : (

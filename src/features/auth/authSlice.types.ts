@@ -1,3 +1,5 @@
+import { RequestStatuses } from "@enums/requestStatuses.enum"
+
 interface UserInfo {
   id: string
   name: string
@@ -6,8 +8,7 @@ interface UserInfo {
 
 export interface InitialState {
   accessToken: string | null
-  loading: boolean
-  success: boolean
+  status: RequestStatuses
   userInfo: UserInfo | null
   error: string
 }

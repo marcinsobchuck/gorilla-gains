@@ -14,8 +14,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     mode: "all",
     resolver: zodResolver(loginSchema),
   })
-
-  const { handleSubmit, setFocus } = methods
+  const {
+    handleSubmit,
+    setFocus,
+    formState: { isSubmitting },
+  } = methods
 
   const focusedInput = "email"
 
@@ -31,7 +34,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
           return <Input key={id} id={id} label={label} type={type} />
         })}
-        <SubmitButton buttonType='button' width={200} type='submit'>
+        <SubmitButton buttonType='button' width={200} type='submit' disabled={isSubmitting}>
           Login
         </SubmitButton>
       </form>

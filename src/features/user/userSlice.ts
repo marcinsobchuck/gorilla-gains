@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { changeUserInfoAction } from "./userActions"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-const initialState = {
-  status: "idle",
-  error: "",
+import { changeUserInfoAction } from "./userActions"
+import { InitialState } from "./userSlice.types"
+
+const initialState: InitialState = {
+  status: RequestStatuses.IDLE,
 }
 
 export const userSlice = createSlice({
@@ -13,13 +15,14 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(changeUserInfoAction.pending, (state) => {
-      state.status = "loading"
+      state.status = RequestStatuses.LOADING
     })
-    builder.addCase(changeUserInfoAction.fulfilled, (state) => {
-      state.status = "success"
+    builder.addCase(changeUserInfoAction.fulfilled, (state, action) => {
+      state.data = action.payload
+      state.status = RequestStatuses.SUCCESS
     })
     builder.addCase(changeUserInfoAction.rejected, (state, action) => {
-      state.status = "failed"
+      state.status = RequestStatuses.FAILED
       if (action.payload) {
         state.error = action.payload
       }

@@ -9,7 +9,6 @@ export const changeUserInfoAction = createAppAsyncThunk(
   async (data: ChangeUserInfoData, { rejectWithValue }) => {
     try {
       const response = await changeUserInfo(data)
-      console.log(response.data)
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

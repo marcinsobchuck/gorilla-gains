@@ -9,10 +9,11 @@ export const Wrapper = styled.div`
 `
 
 export const Header = styled.header`
+  position: relative;
+  z-index: 2;
   display: flex;
   height: 84px;
-
-  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 `
 
 export const LeftSideWrapper = styled.div`

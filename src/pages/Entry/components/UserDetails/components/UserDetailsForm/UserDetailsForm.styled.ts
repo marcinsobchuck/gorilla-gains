@@ -36,7 +36,7 @@ export const ProgressBar = styled.div<ProgressBarProps>`
     content: "";
     display: block;
     width: ${({ $numberOfInputs, $validInputs }) =>
-      `calc((100% / ${$numberOfInputs}) * ${$validInputs})`};
+      `calc((${$validInputs} / ${$numberOfInputs}) * 100%)`};
     height: 100%;
     background-color: ${({ theme }) => theme.secondary};
 

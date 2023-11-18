@@ -16,6 +16,9 @@ export const lightTheme = {
   primaryDisabled: "#0E111140",
 
   secondary: "#75E83F",
+  secondaryHover: "#5CC72D",
+  secondaryActive: "#489A21",
+  secondaryDisabled: "#C1E69E",
   secondaryText: "#4CB129",
   secondaryOpacity: "#75E83F1F",
 
@@ -25,6 +28,7 @@ export const lightTheme = {
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
+  elevationBoxShadow: "0 1px 2px rgba(0,0,0,.13) ,0 0px 2px rgba(0,0,0,.08)",
 
   primaryButtonColor: "#fafafa",
 
@@ -48,6 +52,9 @@ export const darkTheme = {
   primaryDisabled: "#FFFFFF40",
 
   secondary: "#A1D890",
+  secondaryHover: "#8CCB77",
+  secondaryActive: "#6EAF5E",
+  secondaryDisabled: "#DCECCF",
   secondaryText: "#4CB129",
   secondaryOpacity: "#A1D8901F",
 
@@ -57,8 +64,9 @@ export const darkTheme = {
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
+  elevationBoxShadow: "0 1px 2px rgba(0,0,0,.5) ,0 0px 2px rgba(0,0,0,.6)",
 
   primaryButtonColor: "#121212",
 
-  borderColor: "#F0F1F0",
+  borderColor: "#00000099",
 }

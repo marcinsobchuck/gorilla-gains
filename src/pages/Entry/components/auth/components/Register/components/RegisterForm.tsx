@@ -15,7 +15,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
     resolver: zodResolver(registerSchema),
   })
 
-  const { handleSubmit, setFocus, watch, trigger } = methods
+  const {
+    handleSubmit,
+    setFocus,
+    watch,
+    trigger,
+    formState: { isSubmitting },
+  } = methods
 
   const focusedInput = "name"
 
@@ -38,7 +44,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
           return <Input key={id} id={id} label={label} type={type} />
         })}
-        <SubmitButton buttonType='button' width={200} type='submit'>
+        <SubmitButton buttonType='button' width={200} type='submit' disabled={isSubmitting}>
           Register
         </SubmitButton>
       </form>

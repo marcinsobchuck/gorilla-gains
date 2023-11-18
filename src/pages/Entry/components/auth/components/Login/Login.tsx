@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import authGorilla from "@assets/authGorilla.png"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
 import { loginUserAction } from "@features/auth/authActions"
 import { resetAuthFormError } from "@features/auth/authSlice"
@@ -18,14 +19,14 @@ export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { error, success } = auth
+  const { error, status } = auth
 
-  const handleLogin: SubmitHandler<LoginFormValues> = ({ email, password }) => {
-    dispatch(loginUserAction({ email, password }))
+  const handleLogin: SubmitHandler<LoginFormValues> = async ({ email, password }) => {
+    await dispatch(loginUserAction({ email, password }))
   }
 
   useEffect(() => {
-    if (success) {
+    if (status === RequestStatuses.SUCCESS) {
       navigate(Routes.DASHBOARD)
     }
 
@@ -34,7 +35,7 @@ export const Login = () => {
         dispatch(resetAuthFormError())
       }
     }
-  }, [success, navigate, dispatch, error])
+  }, [navigate, dispatch, error, status])
 
   return (
     <Wrapper>
