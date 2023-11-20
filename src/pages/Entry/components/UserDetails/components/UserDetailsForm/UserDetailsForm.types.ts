@@ -21,5 +21,5 @@ export interface UserDetailsFormValues {
   desiredWeight: string
   dueDateWeight: Date | string
   activityLevel: string
-  goals: string[] | string
+  goals: string[]
 }

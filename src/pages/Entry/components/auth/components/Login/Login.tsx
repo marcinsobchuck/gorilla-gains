@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import authGorilla from "@assets/authGorilla.png"
-import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
 import { loginUserAction } from "@features/auth/authActions"
 import { resetAuthFormError } from "@features/auth/authSlice"
@@ -22,14 +21,11 @@ export const Login = () => {
   const { error, status } = auth
 
   const handleLogin: SubmitHandler<LoginFormValues> = async ({ email, password }) => {
-    await dispatch(loginUserAction({ email, password }))
+    await dispatch(loginUserAction({ email, password })).unwrap()
+    navigate(Routes.DASHBOARD)
   }
 
   useEffect(() => {
-    if (status === RequestStatuses.SUCCESS) {
-      navigate(Routes.DASHBOARD)
-    }
-
     return () => {
       if (error !== "") {
         dispatch(resetAuthFormError())

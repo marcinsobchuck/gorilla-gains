@@ -135,5 +135,5 @@ export const defaultValues = {
   desiredWeight: "",
   dueDateWeight: "",
   activityLevel: "",
-  goals: "",
+  goals: [],
 }

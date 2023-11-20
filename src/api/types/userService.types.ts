@@ -1,3 +1,18 @@
+export interface User {
+  _id: string
+  name: string
+  surname: string
+  email: string
+  age: number
+  gender: string
+  weight: number
+  activityLevel: string
+  desiredWeight: number
+  height: number
+  dueDateWeight: Date
+  goals: string[]
+}
+
 export interface ChangeUserInfoData {
   name?: string
   surname?: string
@@ -8,5 +23,5 @@ export interface ChangeUserInfoData {
   desiredWeight?: string
   dueDateWeight?: Date | string
   activityLevel?: string
-  goals?: string[] | string
+  goals?: string[]
 }
