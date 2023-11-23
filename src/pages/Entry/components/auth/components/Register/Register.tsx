@@ -21,8 +21,12 @@ export const Register = () => {
   const { error, status } = auth
 
   const handleRegister: SubmitHandler<RegisterFormValues> = async ({ email, name, password }) => {
-    await dispatch(registerUserAction({ name, email, password })).unwrap()
-    navigate(Routes.USER_DETAILS)
+    try {
+      await dispatch(registerUserAction({ name, email, password })).unwrap()
+      navigate(Routes.USER_DETAILS)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   useEffect(() => {

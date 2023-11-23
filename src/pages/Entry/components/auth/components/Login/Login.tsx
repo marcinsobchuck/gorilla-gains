@@ -21,8 +21,12 @@ export const Login = () => {
   const { error, status } = auth
 
   const handleLogin: SubmitHandler<LoginFormValues> = async ({ email, password }) => {
-    await dispatch(loginUserAction({ email, password })).unwrap()
-    navigate(Routes.DASHBOARD)
+    try {
+      await dispatch(loginUserAction({ email, password })).unwrap()
+      navigate(Routes.DASHBOARD)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   useEffect(() => {
