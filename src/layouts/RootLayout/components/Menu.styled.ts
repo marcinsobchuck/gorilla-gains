@@ -2,8 +2,13 @@ import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
 import { Breakpoints } from "@enums/breakpoints.enum"
+import { ZIndex } from "@enums/zIndex.enum"
 
-export const MenuWrapper = styled.nav`
+interface MenuWrapperProps {
+  $isOpen: boolean
+}
+
+export const MenuWrapper = styled.nav<MenuWrapperProps>`
   display: flex;
   flex-direction: column;
 
@@ -11,7 +16,7 @@ export const MenuWrapper = styled.nav`
   padding: 64px 36px 44px 36px;
 
   position: absolute;
-  z-index: 1;
+  z-index: ${ZIndex.MENU};
   left: 0;
   right: 0;
   top: 0;
@@ -20,6 +25,11 @@ export const MenuWrapper = styled.nav`
   height: 100%;
 
   background-color: ${({ theme }) => theme.navBackgroundColor};
+  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+
+  transform: ${({ $isOpen }) => (!$isOpen ? `translateX(0)` : `translate(-100%)`)};
+
+  transition: 0.3s ease-in-out;
 
   @media ${Breakpoints.SMALL} {
     width: 70%;
@@ -29,11 +39,11 @@ export const MenuWrapper = styled.nav`
     padding: 24px 6px;
     position: static;
     width: 5%;
+    transform: translateX(0);
   }
 
   @media ${Breakpoints.LARGE} {
     padding: 64px 32px 44px 32px;
-    border-right: 1px solid ${({ theme }) => theme.borderColor};
     width: 15%;
   }
 `

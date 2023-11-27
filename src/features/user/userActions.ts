@@ -22,9 +22,9 @@ export const changeUserInfoAction = createAppAsyncThunk(
 
 export const getCurrentUserInfoAction = createAppAsyncThunk(
   "users/getCurrentUserUserInfo",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, signal }) => {
     try {
-      const response = await getCurrentUserInfo()
+      const response = await getCurrentUserInfo(signal)
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

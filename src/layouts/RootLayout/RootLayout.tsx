@@ -1,6 +1,6 @@
+import { useState } from "react"
 import { Outlet } from "react-router-dom"
 
-import { Button } from "@components/Button/Button.tsx"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Background } from "@styles/GlobalStyle.ts"
 
@@ -9,11 +9,15 @@ import {
   FlexContainer,
   Header,
   LeftSideWrapper,
+  MenuIcon,
   RightSideWrapper,
+  StyledButton,
   Wrapper,
 } from "./RootLayout.styled.ts"
 
 export const RootLayout = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <Background>
       <Wrapper>
@@ -22,11 +26,20 @@ export const RootLayout = () => {
             <Logo />
           </LeftSideWrapper>
           <RightSideWrapper>
-            <Button buttonType='button'>Create activity</Button>
+            <StyledButton buttonType='button' variant='primary' icon='add'>
+              <p>Add activity</p>
+            </StyledButton>
+
+            <MenuIcon
+              height={36}
+              width={36}
+              name='menu'
+              onClick={() => setIsOpen((prev) => !prev)}
+            />
           </RightSideWrapper>
         </Header>
         <FlexContainer>
-          <Menu />
+          <Menu isOpen={isOpen} setIsOpen={setIsOpen} />
           <Outlet />
         </FlexContainer>
       </Wrapper>

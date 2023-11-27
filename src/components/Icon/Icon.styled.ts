@@ -1,7 +1,8 @@
+import { SVGProps } from "react"
 import svg from "react-inlinesvg"
 import styled from "styled-components"
 
-interface StyledIconProps {
+interface StyledIconProps extends SVGProps<SVGElement> {
   width?: number
   height?: number
 }

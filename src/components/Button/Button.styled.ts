@@ -34,16 +34,10 @@ const variants = {
     border-radius: 54px;
 
     font-weight: 600;
+    gap: 6px;
 
     color: ${({ theme }) => theme.primaryButtonColor};
     background-color: ${({ theme }) => theme.secondary};
-
-    svg {
-      position: absolute;
-      left: 12%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
 
     &:hover {
       background-color: ${({ theme }) => theme.secondaryHover};
@@ -75,6 +69,7 @@ const variants = {
     display: flex;
     align-items: center;
     padding: 12px;
+    background-color: transparent;
 
     gap: 12px;
     border-radius: 9px;

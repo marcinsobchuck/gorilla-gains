@@ -18,7 +18,7 @@ export const UserInfo = () => {
 
   const userItems = [
     { label: "Name", value: name },
-    { label: "Surname", value: surname || "-" },
+    { label: "Surname", value: surname },
     { label: "Age", value: age },
     { label: "Gender", value: gender },
     { label: "Height", value: height },
@@ -29,7 +29,9 @@ export const UserInfo = () => {
 
   useEffect(() => {
     if (!userInfo.data) {
-      dispatch(getCurrentUserInfoAction())
+      const promise = dispatch(getCurrentUserInfoAction())
+
+      return () => promise.abort()
     }
   }, [dispatch, userInfo.data])
 
@@ -38,7 +40,7 @@ export const UserInfo = () => {
       <UserInfoTitle>Basic info</UserInfoTitle>
       <UserInfoItems>
         {userItems.map((item) => (
-          <UserInfoItem key={item.label} label={item.label} value={item.value} />
+          <UserInfoItem key={item.label} label={item.label} value={item.value || "-"} />
         ))}
       </UserInfoItems>
     </Wrapper>

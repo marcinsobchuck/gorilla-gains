@@ -8,3 +8,8 @@ export interface ListItem {
   icon: IconName
   path: Routes.DASHBOARD | Routes.ACTIVITY_HISTORY | Routes.CALENDAR
 }
+
+export interface MenuProps {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}

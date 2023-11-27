@@ -1,3 +1,5 @@
+import { SVGProps } from "react"
+
 export type IconName =
   | "calendar"
   | "dashboard"
@@ -10,8 +12,10 @@ export type IconName =
   | "settings"
   | "success"
   | "sun"
+  | "menu"
+  | "add"
 
-export interface IconProps {
+export interface IconProps extends SVGProps<SVGElement> {
   name?: IconName
   width?: number
   height?: number

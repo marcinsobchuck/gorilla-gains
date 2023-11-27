@@ -1,3 +1,4 @@
+import add from "@assets/add.svg"
 import calendar from "@assets/calendar.svg"
 import dashboard from "@assets/dashboard.svg"
 import error from "@assets/error.svg"
@@ -5,6 +6,7 @@ import github from "@assets/github.svg"
 import gorilla from "@assets/gorilla.svg"
 import history from "@assets/history.svg"
 import linkedin from "@assets/linkedin.svg"
+import menu from "@assets/menu.svg"
 import moon from "@assets/moon.svg"
 import settings from "@assets/settings.svg"
 import success from "@assets/success.svg"
@@ -32,6 +34,8 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     settings: <StyledIcon src={settings} {...SVGProps} />,
     success: <StyledIcon src={success} {...SVGProps} />,
     sun: <StyledIcon src={sun} {...SVGProps} />,
+    menu: <StyledIcon src={menu} {...SVGProps} />,
+    add: <StyledIcon src={add} {...SVGProps} />,
   }
 
   if (name) {
