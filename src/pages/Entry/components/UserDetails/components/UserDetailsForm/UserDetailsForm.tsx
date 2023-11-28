@@ -53,7 +53,11 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
 
   const getNumberOfInvalidInputs = (inputsNames: InputsNames) => {
     const errorFieldsKeys = Object.keys(formState.errors)
-    const emptyFieldsPerStep = inputsNames.filter((inputName) => watch(inputName) === "")
+    const emptyFieldsPerStep = inputsNames.filter((inputName) => {
+      const value = watch(inputName)
+
+      return value === "" || (Array.isArray(value) && value.length === 0)
+    })
 
     const invalidInputsNumber = inputsNames.filter(
       (inputName) => emptyFieldsPerStep.includes(inputName) || errorFieldsKeys.includes(inputName)

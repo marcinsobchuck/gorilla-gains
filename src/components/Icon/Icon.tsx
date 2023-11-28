@@ -1,5 +1,6 @@
 import add from "@assets/add.svg"
 import calendar from "@assets/calendar.svg"
+import close from "@assets/close.svg"
 import dashboard from "@assets/dashboard.svg"
 import error from "@assets/error.svg"
 import github from "@assets/github.svg"
@@ -36,6 +37,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     sun: <StyledIcon src={sun} {...SVGProps} />,
     menu: <StyledIcon src={menu} {...SVGProps} />,
     add: <StyledIcon src={add} {...SVGProps} />,
+    close: <StyledIcon src={close} {...SVGProps} />,
   }
 
   if (name) {

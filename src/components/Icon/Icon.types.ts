@@ -14,6 +14,7 @@ export type IconName =
   | "sun"
   | "menu"
   | "add"
+  | "close"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name?: IconName

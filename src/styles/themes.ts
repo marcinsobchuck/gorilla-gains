@@ -5,6 +5,7 @@ export const lightTheme = {
 
   navBackgroundColor: "#F6F6F6",
   datePickerBackgroundColor: "#F3F6FB",
+  modalOverlayBackgroundColo: "#00000080",
 
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
@@ -41,6 +42,7 @@ export const darkTheme = {
 
   navBackgroundColor: "#1e1e1e",
   datePickerBackgroundColor: "#252730",
+  modalOverlayBackgroundColo: "#00000080",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",
