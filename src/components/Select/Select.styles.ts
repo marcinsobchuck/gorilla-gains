@@ -5,6 +5,13 @@ import { Option } from "./Select.types"
 
 export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> => {
   const styles: StylesConfig<Option, false> = {
+    // container: (baseStyles) => {
+    //   return {
+    //     ...baseStyles,
+    //     marginBottom: "24px",
+    //   }
+    // },
+
     control: (baseStyles, state) => {
       return {
         ...baseStyles,
@@ -55,6 +62,7 @@ export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> =
       ...baseStyles,
       borderRadius: "9px",
       overflow: "hidden",
+      zIndex: 2,
       backgroundColor: theme.selectBackgroundColor,
     }),
 

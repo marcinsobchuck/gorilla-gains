@@ -5,7 +5,8 @@ import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
 import { Background } from "@styles/GlobalStyle.ts"
 
-import { Menu } from "./components/Menu.tsx"
+import { AddActivityForm } from "./components/AddActivityForm/AddActivityForm.tsx"
+import { Menu } from "./components/Menu/Menu.tsx"
 import {
   FlexContainer,
   Header,
@@ -27,7 +28,7 @@ export const RootLayout = () => {
         onCloseButtonClick={() => setIsActivityModalOpen((prev) => !prev)}
         title='Add activity'
       >
-        Inputs
+        <AddActivityForm />
       </Modal>
       <Wrapper>
         <Header>

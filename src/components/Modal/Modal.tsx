@@ -2,7 +2,14 @@ import { useRef } from "react"
 
 import { useOnClickOutside } from "@hooks/useOnClickOutside"
 
-import { CloseIcon, Heading, ModalHeader, ModalOverlay, ModalWrapper } from "./Modal.styled"
+import {
+  CloseIcon,
+  ContentWrapper,
+  Heading,
+  ModalHeader,
+  ModalOverlay,
+  ModalWrapper,
+} from "./Modal.styled"
 import { ModalProps } from "./Modal.types"
 
 export const Modal: React.FC<ModalProps> = ({ children, title, onCloseButtonClick, isVisible }) => {
@@ -21,7 +28,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, onCloseButtonClic
           <Heading>{title}</Heading>
           <CloseIcon name='close' width={32} height={32} onClick={onCloseButtonClick} />
         </ModalHeader>
-        {children}
+        <ContentWrapper>{children}</ContentWrapper>
       </ModalWrapper>
     </ModalOverlay>
   )

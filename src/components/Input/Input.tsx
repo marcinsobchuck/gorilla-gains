@@ -12,17 +12,18 @@ import {
 } from "./Input.styled"
 import { InputProps } from "./Input.types"
 
-export const Input: React.FC<InputProps> = ({ id, type, label }) => {
+export const Input: React.FC<InputProps> = ({ id, type, label, withIcon = "true" }) => {
   const {
     register,
-    control,
     formState: { errors },
   } = useFormContext()
-
-  const formValues = useWatch({ control })
-
+  const formValues = useWatch({
+    name: id,
+    exact: true,
+  })
   const isError = Boolean(errors[id])
-  const isNotEmpty = formValues[id] !== ""
+
+  const isNotEmpty = formValues !== undefined && formValues !== null && formValues !== ""
 
   return (
     <InputWrapper key={id} $shouldTransition={isNotEmpty}>
@@ -36,12 +37,13 @@ export const Input: React.FC<InputProps> = ({ id, type, label }) => {
         })}
       />
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-
-      <InputStatusIcon
-        $isVisible={isError || isNotEmpty}
-        $isValid={!isError}
-        src={errors[id] ? errorIcon : successIcon}
-      />
+      {withIcon && (
+        <InputStatusIcon
+          $isVisible={isError || isNotEmpty}
+          $isValid={!isError}
+          src={errors[id] ? errorIcon : successIcon}
+        />
+      )}
 
       <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
     </InputWrapper>

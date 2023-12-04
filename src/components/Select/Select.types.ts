@@ -3,8 +3,10 @@ export interface Option {
   label: string
 }
 
-export interface SelectProps {
+export interface Props {
   options: Option[]
   labelText?: string
-  name?: string
+  name: string
 }
+
+export type SelectProps = Props & React.HTMLAttributes<HTMLDivElement>

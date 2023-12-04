@@ -17,12 +17,16 @@ export const ModalOverlay = styled.div`
   background-color: ${({ theme }) => theme.modalOverlayBackgroundColo};
 `
 export const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   padding: 24px;
   border-radius: 9px;
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
+  overflow-y: auto;
+
   @media ${Breakpoints.SMALL} {
     height: 90vh;
 
@@ -35,6 +39,7 @@ export const ModalWrapper = styled.div`
 `
 
 export const ModalHeader = styled.div`
+  position: sticky;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -60,3 +65,5 @@ export const CloseIcon = styled(Icon)`
     fill: ${({ theme }) => theme.secondaryActive};
   }
 `
+
+export const ContentWrapper = styled.div``

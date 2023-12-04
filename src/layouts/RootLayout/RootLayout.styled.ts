@@ -13,7 +13,6 @@ export const Wrapper = styled.div`
 
 export const Header = styled.header`
   position: sticky;
-  position: relative;
   z-index: ${ZIndex.HEADER};
   display: flex;
   height: 84px;

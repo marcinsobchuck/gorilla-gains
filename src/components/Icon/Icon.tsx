@@ -9,6 +9,7 @@ import history from "@assets/history.svg"
 import linkedin from "@assets/linkedin.svg"
 import menu from "@assets/menu.svg"
 import moon from "@assets/moon.svg"
+import remove from "@assets/remove.svg"
 import settings from "@assets/settings.svg"
 import success from "@assets/success.svg"
 import sun from "@assets/sun.svg"
@@ -38,6 +39,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     menu: <StyledIcon src={menu} {...SVGProps} />,
     add: <StyledIcon src={add} {...SVGProps} />,
     close: <StyledIcon src={close} {...SVGProps} />,
+    remove: <StyledIcon src={remove} {...SVGProps} />,
   }
 
   if (name) {

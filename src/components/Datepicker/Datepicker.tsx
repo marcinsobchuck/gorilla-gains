@@ -9,18 +9,24 @@ import { Icon } from "@components/Icon/Icon"
 import { DatePickerWrapper } from "./Datepicker.styled"
 import { DatepickerProps } from "./Datepicker.types"
 
+interface ReactDatePickerInputProps {
+  id: string
+  label: string
+}
+
 const ReactDatePickerInput = forwardRef<
   HTMLInputElement,
-  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+  ReactDatePickerInputProps &
+    React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 >((props, ref) => (
   <>
     <input ref={ref} {...props} />
-    <label htmlFor='dueDateWeight'>Due date weight</label>
+    <label htmlFor={props.id}>{props.label}</label>
     <Icon height={20} width={20} name='calendar' />
   </>
 ))
 
-export const Datepicker: React.FC<DatepickerProps> = ({ name }) => {
+export const Datepicker: React.FC<DatepickerProps> = ({ name, label }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const { control } = useFormContext()
 
@@ -36,7 +42,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name }) => {
         >
           <ReactDatePicker
             id={name}
-            customInput={<ReactDatePickerInput />}
+            customInput={<ReactDatePickerInput id={name} label={label} />}
             selected={value}
             onCalendarOpen={toggleCalendarOpen}
             dateFormat='dd/MM/yyyy'
