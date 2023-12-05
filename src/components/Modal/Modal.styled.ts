@@ -66,4 +66,6 @@ export const CloseIcon = styled(Icon)`
   }
 `
 
-export const ContentWrapper = styled.div``
+export const ContentWrapper = styled.div`
+  position: relative;
+`

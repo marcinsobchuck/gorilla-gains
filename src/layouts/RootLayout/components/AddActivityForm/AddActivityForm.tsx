@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { Control, FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { Datepicker } from "@components/Datepicker/Datepicker"
@@ -46,58 +47,78 @@ interface NestedSetsFieldArrayProps {
 }
 
 const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseIndex, control }) => {
+  const ref = useRef<HTMLDivElement>(null)
+
   const { append, remove, fields } = useFieldArray({
     control,
     name: `exercises.${exerciseIndex}.sets`,
   })
 
+  useEffect(() => {}, [fields.length])
+
+  const handleAddSetField = () => {
+    append({
+      sets: [{ reps: "", load: "" }],
+    })
+    setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
+  }
+
+  const handleRemoveSetField = (index: number) => remove(index)
+
   return (
-    <div>
-      {fields.map((set, setIndex) => {
+    <div key={exerciseIndex}>
+      {fields.map((set, setOfExerciseIndex) => {
         return (
           <div key={set.id}>
-            <p>Set {setIndex + 1}</p>
+            <p>Set {setOfExerciseIndex + 1}</p>
             <div style={{ display: "flex", gap: "12px" }}>
               <Input
-                id={`exercises.${exerciseIndex}.sets.${setIndex}.reps`}
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
                 type='number'
                 label='Reps'
                 withIcon={false}
               />
               <Input
-                id={`exercises.${exerciseIndex}.sets.${setIndex}.load`}
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
                 type='number'
                 label='Load'
                 withIcon={false}
               />
-              <StyledRemoveIcon name='remove' onClick={() => remove(setIndex)} />
+              <StyledRemoveIcon
+                name='remove'
+                onClick={() => handleRemoveSetField(setOfExerciseIndex)}
+              />
             </div>
           </div>
         )
       })}
-      <Icon
-        name='add'
-        width={28}
-        height={28}
-        onClick={() => {
-          append({
-            sets: [{ reps: "", load: "" }],
-          })
-        }}
-      />
+      <div ref={ref} style={{ scrollMarginBottom: "120px" }}>
+        <Icon name='add' width={28} height={28} onClick={handleAddSetField} />
+      </div>
     </div>
   )
 }
 
 export const AddActivityForm: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null)
   const methods = useForm({
     mode: "all",
   })
   const { control } = methods
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
   })
+
+  const handleAddExerciseField = () => {
+    append({
+      exercise: "",
+      sets: [{ reps: "", load: "" }],
+    })
+    setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
+  }
+
+  const handleRemoveExerciseField = (index: number) => remove(index)
 
   return (
     <FormProvider {...methods}>
@@ -114,6 +135,12 @@ export const AddActivityForm: React.FC = () => {
               borderRadius: "9px",
             }}
           >
+            <h1>{exerciseIndex + 1}</h1>
+            <Icon
+              name='remove'
+              onClick={() => handleRemoveExerciseField(exerciseIndex)}
+              style={{ fill: "red", marginLeft: "auto" }}
+            />
             <StyledSelect
               options={exercises}
               name={`exercises.${exerciseIndex}.exercise`}
@@ -124,17 +151,10 @@ export const AddActivityForm: React.FC = () => {
           </div>
         )
       })}
-      <Icon
-        name='add'
-        width={48}
-        height={48}
-        onClick={() =>
-          append({
-            exercise: "",
-            sets: [{ reps: "", load: "" }],
-          })
-        }
-      />
+
+      <div ref={ref} style={{ scrollMarginBottom: "60px" }}>
+        <Icon name='add' width={48} height={48} onClick={handleAddExerciseField} />
+      </div>
     </FormProvider>
   )
 }
