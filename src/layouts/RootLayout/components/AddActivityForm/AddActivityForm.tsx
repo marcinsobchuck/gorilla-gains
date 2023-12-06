@@ -4,6 +4,7 @@ import { Control, FormProvider, useFieldArray, useForm } from "react-hook-form"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
+import { Textarea } from "@components/Textarea/Textarea"
 
 import { StyledRemoveIcon, StyledSelect } from "./AddActivityForm.styled"
 
@@ -93,7 +94,13 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
         )
       })}
       <div ref={ref} style={{ scrollMarginBottom: "120px" }}>
-        <Icon name='add' width={28} height={28} onClick={handleAddSetField} />
+        <Icon
+          name='add'
+          width={28}
+          height={28}
+          onClick={handleAddSetField}
+          style={{ margin: "0 auto" }}
+        />
       </div>
     </div>
   )
@@ -111,10 +118,13 @@ export const AddActivityForm: React.FC = () => {
   })
 
   const handleAddExerciseField = () => {
-    append({
-      exercise: "",
-      sets: [{ reps: "", load: "" }],
-    })
+    append(
+      {
+        exercise: "",
+        sets: [{ reps: "", load: "" }],
+      },
+      { shouldFocus: false }
+    )
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
 
@@ -151,10 +161,16 @@ export const AddActivityForm: React.FC = () => {
           </div>
         )
       })}
-
-      <div ref={ref} style={{ scrollMarginBottom: "60px" }}>
-        <Icon name='add' width={48} height={48} onClick={handleAddExerciseField} />
+      <div ref={ref} style={{ scrollMarginBottom: "60px", marginBottom: "24px" }}>
+        <Icon
+          name='add'
+          width={48}
+          height={48}
+          onClick={handleAddExerciseField}
+          style={{ margin: "0 auto" }}
+        />
       </div>
+      <Textarea label='Notes' name='notes' placeholder='Comments, reflections, or reminders...' />
     </FormProvider>
   )
 }
