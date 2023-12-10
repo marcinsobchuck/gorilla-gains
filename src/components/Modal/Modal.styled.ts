@@ -26,6 +26,12 @@ export const ModalWrapper = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
   overflow-y: auto;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
 
   @media ${Breakpoints.SMALL} {
     height: 90vh;

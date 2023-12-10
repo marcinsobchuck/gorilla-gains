@@ -12,7 +12,14 @@ import {
 } from "./Input.styled"
 import { InputProps } from "./Input.types"
 
-export const Input: React.FC<InputProps> = ({ id, type, label, withIcon = "true" }) => {
+export const Input: React.FC<InputProps> = ({
+  id,
+  type,
+  label,
+  withIcon = true,
+  withError = true,
+  className,
+}) => {
   const {
     register,
     formState: { errors },
@@ -26,7 +33,7 @@ export const Input: React.FC<InputProps> = ({ id, type, label, withIcon = "true"
   const isNotEmpty = formValues !== undefined && formValues !== null && formValues !== ""
 
   return (
-    <InputWrapper key={id} $shouldTransition={isNotEmpty}>
+    <InputWrapper key={id} $shouldTransition={isNotEmpty} className={className}>
       <StyledInput
         id={id}
         type={type}
@@ -44,8 +51,9 @@ export const Input: React.FC<InputProps> = ({ id, type, label, withIcon = "true"
           src={errors[id] ? errorIcon : successIcon}
         />
       )}
-
-      <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
+      {withError && (
+        <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
+      )}
     </InputWrapper>
   )
 }

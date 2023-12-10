@@ -3,4 +3,6 @@ export interface InputProps {
   type: string
   label: string
   withIcon?: boolean
+  withError?: boolean
+  className?: string
 }

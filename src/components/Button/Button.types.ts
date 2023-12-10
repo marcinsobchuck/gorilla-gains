@@ -17,6 +17,6 @@ type RegularButtonProps = {
 
 type RouterLinkProps = {
   buttonType: "link" | "navLink"
-} & (LinkProps & React.RefAttributes<HTMLAnchorElement>)
+} & (LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)
 
 export type ButtonProps = SharedProps & (RegularButtonProps | RouterLinkProps)

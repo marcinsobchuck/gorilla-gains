@@ -1,12 +1,28 @@
-import { useEffect, useRef } from "react"
-import { Control, FormProvider, useFieldArray, useForm } from "react-hook-form"
+import { useRef } from "react"
+import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Icon } from "@components/Icon/Icon"
-import { Input } from "@components/Input/Input"
 import { Textarea } from "@components/Textarea/Textarea"
 
-import { StyledRemoveIcon, StyledSelect } from "./AddActivityForm.styled"
+import {
+  AddExerciseButton,
+  AddSetButton,
+  ExerciseHeader,
+  ExerciseIndex,
+  ExerciseWrapper,
+  FieldsWrapper,
+  NestedInput,
+  SetIndex,
+  SetWrapper,
+  SetsText,
+  StyledForm,
+  StyledRemoveIcon,
+  StyledSelect,
+  SubmitButton,
+  X,
+} from "./AddActivityForm.styled"
+import { NestedSetsFieldArrayProps } from "./AddActivityForm.types"
 
 const activityTypes = [
   {
@@ -42,20 +58,13 @@ const exercises = [
   },
 ]
 
-interface NestedSetsFieldArrayProps {
-  exerciseIndex: number
-  control: Control
-}
-
 const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseIndex, control }) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLButtonElement>(null)
 
   const { append, remove, fields } = useFieldArray({
     control,
     name: `exercises.${exerciseIndex}.sets`,
   })
-
-  useEffect(() => {}, [fields.length])
 
   const handleAddSetField = () => {
     append({
@@ -70,48 +79,52 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
     <div key={exerciseIndex}>
       {fields.map((set, setOfExerciseIndex) => {
         return (
-          <div key={set.id}>
-            <p>Set {setOfExerciseIndex + 1}</p>
-            <div style={{ display: "flex", gap: "12px" }}>
-              <Input
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
-                type='number'
-                label='Reps'
-                withIcon={false}
-              />
-              <Input
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
-                type='number'
-                label='Load'
-                withIcon={false}
-              />
-              <StyledRemoveIcon
-                name='remove'
-                onClick={() => handleRemoveSetField(setOfExerciseIndex)}
-              />
-            </div>
-          </div>
+          <SetWrapper key={set.id}>
+            <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
+            <NestedInput
+              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
+              type='number'
+              label='Reps'
+              withIcon={false}
+              withError={false}
+            />
+            <X>X</X>
+            <NestedInput
+              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
+              type='number'
+              label='Load'
+              withIcon={false}
+              withError={false}
+            />
+
+            <StyledRemoveIcon
+              name='remove'
+              width={20}
+              height={20}
+              onClick={() => handleRemoveSetField(setOfExerciseIndex)}
+            />
+          </SetWrapper>
         )
       })}
-      <div ref={ref} style={{ scrollMarginBottom: "120px" }}>
-        <Icon
-          name='add'
-          width={28}
-          height={28}
-          onClick={handleAddSetField}
-          style={{ margin: "0 auto" }}
-        />
-      </div>
+
+      <AddSetButton
+        ref={ref}
+        icon='add'
+        buttonType='button'
+        type='button'
+        variant='secondary'
+        onClick={handleAddSetField}
+      />
     </div>
   )
 }
 
 export const AddActivityForm: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLButtonElement>(null)
   const methods = useForm({
     mode: "all",
   })
-  const { control } = methods
+  const { control, handleSubmit } = methods
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
@@ -130,47 +143,52 @@ export const AddActivityForm: React.FC = () => {
 
   const handleRemoveExerciseField = (index: number) => remove(index)
 
+  const onSubmit = handleSubmit((values) => {
+    console.log(values)
+  })
+
   return (
     <FormProvider {...methods}>
-      <StyledSelect options={activityTypes} name='activityType' labelText='Activity type' />
-      <Datepicker name='date' label='Date' />
-      {fields.map((field, exerciseIndex) => {
-        return (
-          <div
-            key={field.id}
-            style={{
-              marginBottom: "12px",
-              padding: "24px",
-              backgroundColor: "gray",
-              borderRadius: "9px",
-            }}
-          >
-            <h1>{exerciseIndex + 1}</h1>
-            <Icon
-              name='remove'
-              onClick={() => handleRemoveExerciseField(exerciseIndex)}
-              style={{ fill: "red", marginLeft: "auto" }}
-            />
-            <StyledSelect
-              options={exercises}
-              name={`exercises.${exerciseIndex}.exercise`}
-              labelText='Exercise'
-            />
-            <p>Sets</p>
-            <NestedSetsFieldArray control={control} exerciseIndex={exerciseIndex} />
-          </div>
-        )
-      })}
-      <div ref={ref} style={{ scrollMarginBottom: "60px", marginBottom: "24px" }}>
-        <Icon
-          name='add'
-          width={48}
-          height={48}
-          onClick={handleAddExerciseField}
-          style={{ margin: "0 auto" }}
-        />
-      </div>
-      <Textarea label='Notes' name='notes' placeholder='Comments, reflections, or reminders...' />
+      <StyledForm onSubmit={onSubmit}>
+        <FieldsWrapper>
+          <StyledSelect options={activityTypes} name='activityType' labelText='Activity type' />
+          <Datepicker name='date' label='Date' />
+          {fields.map((field, exerciseIndex) => {
+            return (
+              <ExerciseWrapper key={field.id}>
+                <ExerciseHeader>
+                  <ExerciseIndex>{exerciseIndex + 1}</ExerciseIndex>
+                  <Icon name='close' onClick={() => handleRemoveExerciseField(exerciseIndex)} />
+                </ExerciseHeader>
+
+                <StyledSelect
+                  options={exercises}
+                  name={`exercises.${exerciseIndex}.exercise`}
+                  labelText='Exercise'
+                />
+                <SetsText>Sets</SetsText>
+                <NestedSetsFieldArray control={control} exerciseIndex={exerciseIndex} />
+              </ExerciseWrapper>
+            )
+          })}
+          <AddExerciseButton
+            ref={ref}
+            buttonType='button'
+            type='button'
+            icon='add'
+            onClick={handleAddExerciseField}
+          />
+          <Textarea
+            label='Notes'
+            name='notes'
+            placeholder='Comments, reflections, or reminders...'
+          />
+        </FieldsWrapper>
+
+        <SubmitButton buttonType='button' type='submit' width={260}>
+          Submit
+        </SubmitButton>
+      </StyledForm>
     </FormProvider>
   )
 }
