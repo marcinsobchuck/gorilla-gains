@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
+import { getActivityTypes } from "@api/activityTypesService"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Icon } from "@components/Icon/Icon"
 import { Textarea } from "@components/Textarea/Textarea"
@@ -23,29 +24,6 @@ import {
   X,
 } from "./AddActivityForm.styled"
 import { NestedSetsFieldArrayProps } from "./AddActivityForm.types"
-
-const activityTypes = [
-  {
-    value: "calisthenics",
-    label: "Calisthenics",
-  },
-  {
-    value: "weight lifting",
-    label: "Weight lifting",
-  },
-  {
-    value: "walking",
-    label: "Walking",
-  },
-  {
-    value: "running",
-    label: "Running",
-  },
-  {
-    value: "swimming",
-    label: "Swimming",
-  },
-]
 
 const exercises = [
   {
@@ -147,17 +125,35 @@ export const AddActivityForm: React.FC = () => {
     console.log(values)
   })
 
+  const loadActivityTypes = async (inputValue: string) => {
+    const response = await getActivityTypes()
+    const activityTypes = response.data
+
+    return activityTypes
+      .map((activityType) => ({
+        value: activityType.type,
+        label: activityType.type,
+      }))
+      .filter((activityType) => activityType.label.toLowerCase().includes(inputValue.toLowerCase()))
+  }
+
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
         <FieldsWrapper>
-          <StyledSelect options={activityTypes} name='activityType' labelText='Activity type' />
+          <StyledSelect
+            defaultOptions
+            name='activityType'
+            labelText='Activity type'
+            cacheOptions
+            loadOptions={loadActivityTypes}
+          />
           <Datepicker name='date' label='Date' />
           {fields.map((field, exerciseIndex) => {
             return (
               <ExerciseWrapper key={field.id}>
                 <ExerciseHeader>
-                  <ExerciseIndex>{exerciseIndex + 1}</ExerciseIndex>
+                  <ExerciseIndex>Activity {exerciseIndex + 1}</ExerciseIndex>
                   <Icon name='close' onClick={() => handleRemoveExerciseField(exerciseIndex)} />
                 </ExerciseHeader>
 

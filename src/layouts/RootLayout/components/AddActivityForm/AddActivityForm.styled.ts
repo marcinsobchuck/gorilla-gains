@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Button } from "@components/Button/Button"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
-import { Select } from "@components/Select/Select"
+import { SelectAsync } from "@components/SelectAsync/SelectAsync"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const StyledForm = styled.form`
@@ -15,7 +15,7 @@ export const FieldsWrapper = styled.div`
   margin-bottom: 36px;
 `
 
-export const StyledSelect = styled(Select)`
+export const StyledSelect = styled(SelectAsync)`
   margin-bottom: 24px;
 `
 
@@ -63,10 +63,9 @@ export const ExerciseWrapper = styled.div`
 export const ExerciseHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   padding-bottom: 12px;
   padding-left: 12px;
-  border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
 
   svg {
     cursor: pointer;
@@ -78,9 +77,9 @@ export const ExerciseHeader = styled.div`
 `
 
 export const ExerciseIndex = styled.p`
-  font-size: 16px;
-  font-weight: 300;
-  color: ${({ theme }) => theme.primaryMedium};
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.secondary};
 `
 
 export const SetsText = styled.p`
