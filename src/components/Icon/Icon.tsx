@@ -1,5 +1,6 @@
 import add from "@assets/add.svg"
 import calendar from "@assets/calendar.svg"
+import checkmark from "@assets/checkmark.svg"
 import close from "@assets/close.svg"
 import dashboard from "@assets/dashboard.svg"
 import error from "@assets/error.svg"
@@ -40,6 +41,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     add: <StyledIcon src={add} {...SVGProps} />,
     close: <StyledIcon src={close} {...SVGProps} />,
     remove: <StyledIcon src={remove} {...SVGProps} />,
+    checkmark: <StyledIcon src={checkmark} {...SVGProps} />,
   }
 
   if (name) {

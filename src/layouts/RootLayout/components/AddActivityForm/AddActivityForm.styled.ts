@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
+import { Checkbox } from "@components/Checkbox/Checkbox"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
 import { SelectAsync } from "@components/SelectAsync/SelectAsync"
@@ -19,6 +20,10 @@ export const StyledSelect = styled(SelectAsync)`
   margin-bottom: 24px;
 `
 
+export const StyledCheckbox = styled(Checkbox)`
+  margin-bottom: 36px;
+`
+
 export const StyledRemoveIcon = styled(Icon)`
   fill: ${({ theme }) => theme.secondary};
   cursor: pointer;
@@ -27,7 +32,7 @@ export const StyledRemoveIcon = styled(Icon)`
 export const AddExerciseButton = styled(Button)`
   padding: 0;
   scroll-margin-bottom: 60px;
-  margin: 24px auto 24px auto;
+  margin: 24px auto 36px auto;
 
   svg {
     width: 56px;

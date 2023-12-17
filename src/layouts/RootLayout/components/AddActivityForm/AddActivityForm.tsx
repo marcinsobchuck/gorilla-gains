@@ -2,9 +2,12 @@ import { useRef } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
+import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Icon } from "@components/Icon/Icon"
 import { Textarea } from "@components/Textarea/Textarea"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
 
 import {
   AddExerciseButton,
@@ -17,6 +20,7 @@ import {
   SetIndex,
   SetWrapper,
   SetsText,
+  StyledCheckbox,
   StyledForm,
   StyledRemoveIcon,
   StyledSelect,
@@ -98,15 +102,24 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
 }
 
 export const AddActivityForm: React.FC = () => {
+  const activityTypes = useAppSelector((state) => state.activityTypes)
+  const dispatch = useAppDispatch()
   const ref = useRef<HTMLButtonElement>(null)
   const methods = useForm({
     mode: "all",
   })
-  const { control, handleSubmit } = methods
+  const { control, handleSubmit, watch } = methods
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
   })
+
+  const transformIntoOption = () => {
+    return activityTypes.data?.map((item) => ({
+      value: item.type,
+      label: item.type,
+    }))
+  }
 
   const handleAddExerciseField = () => {
     append(
@@ -137,18 +150,29 @@ export const AddActivityForm: React.FC = () => {
       .filter((activityType) => activityType.label.toLowerCase().includes(inputValue.toLowerCase()))
   }
 
+  console.log(watch("warmup"))
+
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
         <FieldsWrapper>
           <StyledSelect
-            defaultOptions
             name='activityType'
             labelText='Activity type'
             cacheOptions
+            defaultOptions={transformIntoOption()}
+            isLoading={activityTypes.status === RequestStatuses.LOADING}
             loadOptions={loadActivityTypes}
+            onFocus={async () => {
+              if (activityTypes.data) {
+                return
+              }
+              await dispatch(getActivityTypesAction())
+            }}
           />
           <Datepicker name='date' label='Date' />
+          <StyledCheckbox name='warmup' label='Warmup done?' />
+
           {fields.map((field, exerciseIndex) => {
             return (
               <ExerciseWrapper key={field.id}>
@@ -174,6 +198,7 @@ export const AddActivityForm: React.FC = () => {
             icon='add'
             onClick={handleAddExerciseField}
           />
+
           <Textarea
             label='Notes'
             name='notes'

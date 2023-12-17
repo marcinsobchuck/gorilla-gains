@@ -5,13 +5,6 @@ import { Option } from "./Select.types"
 
 export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> => {
   const styles: StylesConfig<Option, false> = {
-    // container: (baseStyles) => {
-    //   return {
-    //     ...baseStyles,
-    //     marginBottom: "24px",
-    //   }
-    // },
-
     control: (baseStyles, state) => {
       return {
         ...baseStyles,
@@ -77,6 +70,7 @@ export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> =
       color: state.isSelected ? theme.primaryButtonColor : theme.primary,
       fontWeight: state.isSelected ? 600 : 400,
       paddingBottom: "12px",
+      textTransform: "capitalize",
 
       "&:hover": {
         backgroundColor: !state.isSelected ? `${theme.primaryDisabled}` : theme.secondary,

@@ -13,7 +13,7 @@ export const TextareaWrapper = styled.div`
 
   &:focus-within {
     border-color: ${({ theme }) => theme.secondary};
-    box-shadow: ${({ theme }) => theme.boxShadow};
+    box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};
   }
 `
 
