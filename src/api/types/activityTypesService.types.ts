@@ -3,3 +3,7 @@ export interface ActivityType {
   type: string
   category: string
 }
+
+export interface GetActivityTypesQueryParams {
+  filterText?: string
+}

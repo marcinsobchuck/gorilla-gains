@@ -25,6 +25,9 @@ export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> =
         "&:hover": {
           borderColor: state.menuIsOpen || state.isFocused ? `${theme.secondary}` : "transparent",
         },
+        "div[class*='singleValue']": {
+          color: state.menuIsOpen ? "transparent" : `${theme.primary}`,
+        },
       }
     },
     dropdownIndicator: (baseStyles) => ({
@@ -49,6 +52,7 @@ export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> =
       ...baseStyles,
       margin: 0,
       padding: 0,
+      color: `${theme.primary}`,
     }),
 
     menu: (baseStyles) => ({
@@ -79,7 +83,7 @@ export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> =
     singleValue: (baseStyles) => ({
       ...baseStyles,
       margin: 0,
-      color: theme.primary,
+      textTransform: "capitalize",
     }),
     valueContainer: (baseStyles) => ({
       ...baseStyles,

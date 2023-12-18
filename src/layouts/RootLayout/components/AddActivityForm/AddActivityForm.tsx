@@ -108,7 +108,7 @@ export const AddActivityForm: React.FC = () => {
   const methods = useForm({
     mode: "all",
   })
-  const { control, handleSubmit, watch } = methods
+  const { control, handleSubmit } = methods
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
@@ -139,18 +139,14 @@ export const AddActivityForm: React.FC = () => {
   })
 
   const loadActivityTypes = async (inputValue: string) => {
-    const response = await getActivityTypes()
+    const response = await getActivityTypes({ filterText: inputValue })
     const activityTypes = response.data
 
-    return activityTypes
-      .map((activityType) => ({
-        value: activityType.type,
-        label: activityType.type,
-      }))
-      .filter((activityType) => activityType.label.toLowerCase().includes(inputValue.toLowerCase()))
+    return activityTypes.map((activityType) => ({
+      value: activityType.type,
+      label: activityType.type,
+    }))
   }
-
-  console.log(watch("warmup"))
 
   return (
     <FormProvider {...methods}>
