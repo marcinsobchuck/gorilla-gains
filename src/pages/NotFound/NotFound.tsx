@@ -12,7 +12,7 @@ export const NotFound = () => {
         <NotFoundImage src={notFound} />
         <div>
           <h1>Page not found!</h1>
-          <Link to={Routes.HOME}>Go home</Link>
+          <Link to={Routes.DASHBOARD}>Go home</Link>
         </div>
       </ContentWrapper>
     </Wrapper>

@@ -4,4 +4,5 @@ export enum ApiEndpoints {
   USERS = "/users",
   ACTIVITIES = "/users/activities",
   ACTIVITIY_TYPES = "/activityTypes",
+  EXERCISES = "/exercises",
 }
