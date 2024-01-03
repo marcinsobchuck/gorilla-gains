@@ -1,4 +1,5 @@
-import { useRef, useState } from "react"
+import debounce from "lodash.debounce"
+import { useCallback, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
@@ -142,6 +143,16 @@ export const AddActivityForm: React.FC = () => {
     return transformActivityTypesIntoOption(activityTypes)
   }
 
+  const debouncedActivityTypes = useCallback(
+    debounce((inputText, callback) => {
+      getActivityTypesOptions(inputText).then((options) => {
+        console.log(options)
+        callback(options)
+      })
+    }, 500),
+    []
+  )
+
   const loadExercises = async (inputValue: string) => {
     const response = await getExercisesByActivityType({
       activityTypeId: watch("activityType").value,
@@ -166,7 +177,7 @@ export const AddActivityForm: React.FC = () => {
             defaultOptions={transformActivityTypesIntoOption(activityTypes.data)}
             isLoading={activityTypes.status === RequestStatuses.LOADING}
             cacheOptions
-            loadOptions={getActivityTypesOptions}
+            loadOptions={debouncedActivityTypes}
             value={selectValue}
             onChange={(newValue) => {
               if (currentActivityType && newValue?.value !== currentActivityType.value) {
