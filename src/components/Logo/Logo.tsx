@@ -7,7 +7,7 @@ import { LogoSVG, LogoText, LogoWrapper } from "./Logo.styled"
 export const Logo = () => {
   const navigate = useNavigate()
 
-  const handleLogoClick = () => navigate(Routes.HOME)
+  const handleLogoClick = () => navigate(Routes.DASHBOARD)
 
   return (
     <LogoWrapper onClick={handleLogoClick}>

@@ -6,6 +6,6 @@ import { privateApiService } from "./api"
 import { ActivityType, GetActivityTypesQueryParams } from "./types/activityTypesService.types"
 
 export const getActivityTypes = async (
-  params: GetActivityTypesQueryParams
+  params?: GetActivityTypesQueryParams
 ): Promise<AxiosResponse<ActivityType[]>> =>
   await privateApiService.get(ApiEndpoints.ACTIVITIY_TYPES, { params })

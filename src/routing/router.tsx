@@ -15,7 +15,7 @@ import { NotFound } from "../pages/NotFound/NotFound"
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path={Routes.HOME} element={<RootLayout />}>
+      <Route element={<RootLayout />}>
         <Route element={<PrivateRoute />}>
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />

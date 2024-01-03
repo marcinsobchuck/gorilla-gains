@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
 import { Checkbox } from "@components/Checkbox/Checkbox"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
 import { SelectAsync } from "@components/SelectAsync/SelectAsync"
@@ -17,6 +18,7 @@ export const FieldsWrapper = styled.div`
 `
 
 export const StyledSelect = styled(SelectAsync)`
+  position: relative;
   margin-bottom: 24px;
 `
 
@@ -126,4 +128,16 @@ export const X = styled.span`
 
 export const SubmitButton = styled(Button)`
   align-self: center;
+`
+
+export const InputWarning = styled(FlexContainer)`
+  padding: 9px 24px;
+  margin-bottom: 24px;
+  border: 1px solid pink;
+  background-color: ${({ theme }) => theme.errorBackgroundColor};
+  border-radius: 9px;
+
+  p {
+    font-size: 14px;
+  }
 `

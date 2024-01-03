@@ -19,27 +19,30 @@ export const SelectAsync: React.FC<AsyncSelectProps> = ({
 }) => {
   const { control } = useFormContext()
   const theme = useTheme()
+
   return (
     <div className={className}>
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange } }) => (
-          <ReactSelectAsync
-            {...rest}
-            styles={selectStyles(theme)}
-            onChange={(selectedOption: SingleValue<Option>) => {
-              onChange(selectedOption?.value)
-            }}
-            components={{ Control }}
-            openMenuOnFocus
-            // @ts-ignore <- https://react-select.com/components
-            labelText={labelText}
-            name={name}
-            inputId={name}
-            placeholder=''
-          />
-        )}
+        render={({ field: { onChange } }) => {
+          return (
+            <ReactSelectAsync
+              styles={selectStyles(theme)}
+              onChange={(selectedOption: SingleValue<Option>) => {
+                onChange(selectedOption?.value)
+              }}
+              components={{ Control }}
+              openMenuOnFocus
+              // @ts-ignore <- https://react-select.com/components
+              labelText={labelText}
+              name={name}
+              inputId={name}
+              placeholder=''
+              {...rest}
+            />
+          )
+        }}
       />
     </div>
   )

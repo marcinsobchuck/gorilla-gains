@@ -1,13 +1,18 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
+import { getExercisesByActivityType } from "@api/exercisesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { Button } from "@components/Button/Button"
 import { Datepicker } from "@components/Datepicker/Datepicker"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { Option } from "@components/Select/Select.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
+import { getExercisesByActivityTypeAction } from "@features/exercises/exercisesActions"
 
 import {
   AddExerciseButton,
@@ -16,6 +21,7 @@ import {
   ExerciseIndex,
   ExerciseWrapper,
   FieldsWrapper,
+  InputWarning,
   NestedInput,
   SetIndex,
   SetWrapper,
@@ -28,17 +34,7 @@ import {
   X,
 } from "./AddActivityForm.styled"
 import { NestedSetsFieldArrayProps } from "./AddActivityForm.types"
-
-const exercises = [
-  {
-    value: "pull up",
-    label: "Pull up",
-  },
-  {
-    value: "push up",
-    label: "Push up",
-  },
-]
+import { transformActivityTypesIntoOption, transformExerciseIntoOption } from "./utils"
 
 const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseIndex, control }) => {
   const ref = useRef<HTMLButtonElement>(null)
@@ -102,24 +98,29 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
 }
 
 export const AddActivityForm: React.FC = () => {
+  const [selectValue, setSelectValue] = useState<Option | null>(null)
+  const [isWarningVisible, setIsWarningVisible] = useState(false)
+
   const activityTypes = useAppSelector((state) => state.activityTypes)
+  const exercises = useAppSelector((state) => state.exercises)
   const dispatch = useAppDispatch()
+
   const ref = useRef<HTMLButtonElement>(null)
+
   const methods = useForm({
     mode: "all",
   })
-  const { control, handleSubmit } = methods
-  const { fields, append, remove } = useFieldArray({
+  const { control, handleSubmit, watch, setValue, getValues } = methods
+  const {
+    fields,
+    append,
+    remove: removeExercises,
+  } = useFieldArray({
     control,
     name: "exercises",
   })
 
-  const transformIntoOption = () => {
-    return activityTypes.data?.map((item) => ({
-      value: item.type,
-      label: item.type,
-    }))
-  }
+  const currentActivityType = getValues("activityType")
 
   const handleAddExerciseField = () => {
     append(
@@ -132,21 +133,28 @@ export const AddActivityForm: React.FC = () => {
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
 
-  const handleRemoveExerciseField = (index: number) => remove(index)
+  const handleRemoveExerciseField = (index: number) => removeExercises(index)
 
-  const onSubmit = handleSubmit((values) => {
-    console.log(values)
-  })
-
-  const loadActivityTypes = async (inputValue: string) => {
+  const getActivityTypesOptions = async (inputValue: string) => {
     const response = await getActivityTypes({ filterText: inputValue })
     const activityTypes = response.data
 
-    return activityTypes.map((activityType) => ({
-      value: activityType.type,
-      label: activityType.type,
-    }))
+    return transformActivityTypesIntoOption(activityTypes)
   }
+
+  const loadExercises = async (inputValue: string) => {
+    const response = await getExercisesByActivityType({
+      activityTypeId: watch("activityType").value,
+      filterText: inputValue,
+    })
+
+    const exercises = response.data
+
+    return transformExerciseIntoOption(exercises)
+  }
+  const onSubmit = handleSubmit((values) => {
+    console.log(values)
+  })
 
   return (
     <FormProvider {...methods}>
@@ -155,10 +163,23 @@ export const AddActivityForm: React.FC = () => {
           <StyledSelect
             name='activityType'
             labelText='Activity type'
-            cacheOptions
-            defaultOptions={transformIntoOption()}
+            defaultOptions={transformActivityTypesIntoOption(activityTypes.data)}
             isLoading={activityTypes.status === RequestStatuses.LOADING}
-            loadOptions={loadActivityTypes}
+            cacheOptions
+            loadOptions={getActivityTypesOptions}
+            value={selectValue}
+            onChange={(newValue) => {
+              if (currentActivityType && newValue?.value !== currentActivityType.value) {
+                setIsWarningVisible(true)
+                setSelectValue(newValue)
+              } else if (currentActivityType?.value === newValue?.value) {
+                setIsWarningVisible(false)
+                setSelectValue(currentActivityType)
+              } else {
+                setSelectValue(currentActivityType)
+                setValue("activityType", newValue)
+              }
+            }}
             onFocus={async () => {
               if (activityTypes.data) {
                 return
@@ -166,6 +187,37 @@ export const AddActivityForm: React.FC = () => {
               await dispatch(getActivityTypesAction())
             }}
           />
+          {isWarningVisible && (
+            <InputWarning align='center' justify='space-between'>
+              <p>
+                This change will reset all exercises. <b>Are you sure?</b>
+              </p>
+
+              <FlexContainer>
+                <Button
+                  buttonType='button'
+                  variant='tertiary'
+                  onClick={() => {
+                    removeExercises()
+                    setValue("activityType", selectValue)
+                    setIsWarningVisible(false)
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  buttonType='button'
+                  variant='tertiary'
+                  onClick={() => {
+                    setSelectValue(currentActivityType)
+                    setIsWarningVisible(false)
+                  }}
+                >
+                  No
+                </Button>
+              </FlexContainer>
+            </InputWarning>
+          )}
           <Datepicker name='date' label='Date' />
           <StyledCheckbox name='warmup' label='Warmup done?' />
 
@@ -173,12 +225,25 @@ export const AddActivityForm: React.FC = () => {
             return (
               <ExerciseWrapper key={field.id}>
                 <ExerciseHeader>
-                  <ExerciseIndex>Activity {exerciseIndex + 1}</ExerciseIndex>
+                  <ExerciseIndex>Exercise {exerciseIndex + 1}</ExerciseIndex>
                   <Icon name='close' onClick={() => handleRemoveExerciseField(exerciseIndex)} />
                 </ExerciseHeader>
 
                 <StyledSelect
-                  options={exercises}
+                  defaultOptions={
+                    exercises.status !== RequestStatuses.LOADING &&
+                    transformExerciseIntoOption(exercises.data)
+                  }
+                  cacheOptions
+                  isLoading={exercises.status === RequestStatuses.LOADING}
+                  loadOptions={loadExercises}
+                  onFocus={async () => {
+                    await dispatch(
+                      getExercisesByActivityTypeAction({
+                        activityTypeId: currentActivityType.value,
+                      })
+                    )
+                  }}
                   name={`exercises.${exerciseIndex}.exercise`}
                   labelText='Exercise'
                 />
@@ -193,6 +258,7 @@ export const AddActivityForm: React.FC = () => {
             type='button'
             icon='add'
             onClick={handleAddExerciseField}
+            disabled={!currentActivityType}
           />
 
           <Textarea

@@ -10,7 +10,7 @@ const initialState: InitialState = {
 }
 
 export const activityTypesSlice = createSlice({
-  name: "user",
+  name: "activityTypes",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
