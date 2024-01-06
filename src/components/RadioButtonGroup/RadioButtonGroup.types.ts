@@ -5,6 +5,7 @@ interface RadioItem {
 
 export interface RadioButtonGroupProps {
   items: RadioItem[]
-  groupTitle: string
+  groupTitle?: string
   name: string
+  buttonVariant?: "tile"
 }

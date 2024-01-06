@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const CheckboxTileWrapper = styled.div`
+export const TileInputButtonWrapper = styled.div`
   display: flex;
   transition: 0.3s;
 
@@ -16,7 +16,7 @@ export const CheckboxTileWrapper = styled.div`
   }
 `
 
-export const CheckboxTileLabel = styled.label`
+export const TileInputButtonLabel = styled.label`
   display: flex;
   width: 100%;
   align-items: center;
@@ -31,7 +31,7 @@ export const CheckboxTileLabel = styled.label`
 
   cursor: pointer;
 `
-export const CheckboxTileInput = styled.input`
+export const TileInputButtonInput = styled.input`
   appearance: none;
   -webkit-appearance: none;
 `

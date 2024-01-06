@@ -1,6 +1,6 @@
-import { CheckboxTile } from "@components/CheckboxTile/CheckboxTile"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Input } from "@components/Input/Input"
+import { TileInputButton } from "@components/TileInputButton/TileInputButton"
 import { goals } from "@pages/Entry/components/UserDetails/components/UserDetailsForm/config"
 
 import { GoalsTitle, GoalsWrapper, TilesWrapper } from "./Goals.styled"
@@ -15,7 +15,7 @@ export const Goals = () => {
 
         <TilesWrapper>
           {goals.map((goal) => (
-            <CheckboxTile key={goal.value} name='goals' value={goal.value} label={goal.label} />
+            <TileInputButton key={goal.value} name='goals' value={goal.value} label={goal.label} />
           ))}
         </TilesWrapper>
       </GoalsWrapper>
