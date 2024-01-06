@@ -1,14 +1,16 @@
 import debounce from "lodash.debounce"
-import { useCallback, useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
 import { getExercisesByActivityType } from "@api/exercisesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Button } from "@components/Button/Button"
+import { Checkbox } from "@components/Checkbox/Checkbox"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 import { Option } from "@components/Select/Select.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -18,6 +20,7 @@ import { getExercisesByActivityTypeAction } from "@features/exercises/exercisesA
 import {
   AddExerciseButton,
   AddSetButton,
+  BreaksWrapper,
   ExerciseHeader,
   ExerciseIndex,
   ExerciseWrapper,
@@ -37,7 +40,35 @@ import {
 import { NestedSetsFieldArrayProps } from "./AddActivityForm.types"
 import { transformActivityTypesIntoOption, transformExerciseIntoOption } from "./utils"
 
-const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseIndex, control }) => {
+const breaksButtonsData = [
+  {
+    labelText: "30s",
+    value: "30", //seconds
+  },
+  {
+    labelText: "60s",
+    value: "60",
+  },
+  {
+    labelText: "90s",
+    value: "90",
+  },
+  {
+    labelText: "120s",
+    value: "120",
+  },
+  {
+    labelText: "150s",
+    value: "150",
+  },
+]
+
+const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
+  exerciseIndex,
+  lastExerciseIndex,
+  withBreaks = false,
+  control,
+}) => {
   const ref = useRef<HTMLButtonElement>(null)
 
   const { append, remove, fields } = useFieldArray({
@@ -54,35 +85,54 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
 
   const handleRemoveSetField = (index: number) => remove(index)
 
+  const getIsLastSetOfLastExercise = (setOfExerciseIndex: number) => {
+    const lastSetIndex = fields.length - 1
+    const isLastExercise = exerciseIndex === lastExerciseIndex
+    const isLastSetOfLastExercise = isLastExercise && setOfExerciseIndex === lastSetIndex
+
+    return isLastSetOfLastExercise
+  }
+
   return (
-    <div key={exerciseIndex}>
+    <React.Fragment key={exerciseIndex}>
       {fields.map((set, setOfExerciseIndex) => {
         return (
-          <SetWrapper key={set.id}>
-            <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
-            <NestedInput
-              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
-              type='number'
-              label='Reps'
-              withIcon={false}
-              withError={false}
-            />
-            <X>X</X>
-            <NestedInput
-              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
-              type='number'
-              label='Load'
-              withIcon={false}
-              withError={false}
-            />
+          <React.Fragment key={set.id}>
+            <SetWrapper>
+              <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
+              <NestedInput
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
+                type='number'
+                label='Reps'
+                withIcon={false}
+                withError={false}
+              />
+              <X>X</X>
+              <NestedInput
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
+                type='number'
+                label='Load'
+                withIcon={false}
+                withError={false}
+              />
 
-            <StyledRemoveIcon
-              name='remove'
-              width={20}
-              height={20}
-              onClick={() => handleRemoveSetField(setOfExerciseIndex)}
-            />
-          </SetWrapper>
+              <StyledRemoveIcon
+                name='remove'
+                width={20}
+                height={20}
+                onClick={() => handleRemoveSetField(setOfExerciseIndex)}
+              />
+            </SetWrapper>
+            {withBreaks && !getIsLastSetOfLastExercise(setOfExerciseIndex) && (
+              <BreaksWrapper justify='center' align='center'>
+                <RadioButtonGroup
+                  items={breaksButtonsData}
+                  buttonVariant='tile'
+                  name={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`}
+                />
+              </BreaksWrapper>
+            )}
+          </React.Fragment>
         )
       })}
 
@@ -94,7 +144,7 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({ exerciseInd
         variant='secondary'
         onClick={handleAddSetField}
       />
-    </div>
+    </React.Fragment>
   )
 }
 
@@ -122,6 +172,17 @@ export const AddActivityForm: React.FC = () => {
   })
 
   const currentActivityType = getValues("activityType")
+  const withBreaks = (exerciseIndex: number) => watch(`exercises.${exerciseIndex}.withBreaks`)
+  const lastExerciseIndex = fields.length - 1
+
+  const renderContentPerActivityTypeCategory = (activityTypeCategory: string) => {
+    switch (activityTypeCategory) {
+      case "strength":
+        return <div style={{ color: "red" }}>strength</div>
+      case "endurance":
+        return <div style={{ color: "red" }}>endurance</div>
+    }
+  } //temporary
 
   const handleAddExerciseField = () => {
     append(
@@ -144,25 +205,30 @@ export const AddActivityForm: React.FC = () => {
   }
 
   const debouncedActivityTypes = useCallback(
-    debounce((inputText, callback) => {
-      getActivityTypesOptions(inputText).then((options) => {
-        console.log(options)
+    debounce((inputValue, callback) => {
+      getActivityTypesOptions(inputValue).then((options) => {
         callback(options)
       })
     }, 500),
     []
   )
 
-  const loadExercises = async (inputValue: string) => {
+  const getExercisesOptions = async (inputValue: string) => {
     const response = await getExercisesByActivityType({
       activityTypeId: watch("activityType").value,
       filterText: inputValue,
     })
-
     const exercises = response.data
 
     return transformExerciseIntoOption(exercises)
   }
+
+  const debouncedExercises = useCallback(
+    debounce((inputValue, callback) => {
+      getExercisesOptions(inputValue).then((options) => callback(options))
+    }, 500),
+    []
+  )
   const onSubmit = handleSubmit((values) => {
     console.log(values)
   })
@@ -231,7 +297,7 @@ export const AddActivityForm: React.FC = () => {
           )}
           <Datepicker name='date' label='Date' />
           <StyledCheckbox name='warmup' label='Warmup done?' />
-
+          {renderContentPerActivityTypeCategory(currentActivityType?.category)}
           {fields.map((field, exerciseIndex) => {
             return (
               <ExerciseWrapper key={field.id}>
@@ -247,7 +313,7 @@ export const AddActivityForm: React.FC = () => {
                   }
                   cacheOptions
                   isLoading={exercises.status === RequestStatuses.LOADING}
-                  loadOptions={loadExercises}
+                  loadOptions={debouncedExercises}
                   onFocus={async () => {
                     await dispatch(
                       getExercisesByActivityTypeAction({
@@ -258,8 +324,14 @@ export const AddActivityForm: React.FC = () => {
                   name={`exercises.${exerciseIndex}.exercise`}
                   labelText='Exercise'
                 />
+                <Checkbox label='Add breaks' name={`exercises.${exerciseIndex}.withBreaks`} />
                 <SetsText>Sets</SetsText>
-                <NestedSetsFieldArray control={control} exerciseIndex={exerciseIndex} />
+                <NestedSetsFieldArray
+                  control={control}
+                  exerciseIndex={exerciseIndex}
+                  lastExerciseIndex={lastExerciseIndex}
+                  withBreaks={withBreaks(exerciseIndex)}
+                />
               </ExerciseWrapper>
             )
           })}

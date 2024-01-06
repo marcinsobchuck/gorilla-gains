@@ -95,7 +95,7 @@ export const SetsText = styled.p`
   color: ${({ theme }) => theme.primaryMedium};
   padding-bottom: 6px;
   padding-left: 12px;
-  margin-bottom: 24px;
+  margin: 24px 0;
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
 `
 
@@ -140,4 +140,14 @@ export const InputWarning = styled(FlexContainer)`
   p {
     font-size: 14px;
   }
+`
+
+export const BreaksButton = styled(Button)`
+  font-size: 12px;
+  padding: 6px;
+`
+
+export const BreaksWrapper = styled(FlexContainer)`
+  gap: 12px;
+  margin-bottom: 12px;
 `

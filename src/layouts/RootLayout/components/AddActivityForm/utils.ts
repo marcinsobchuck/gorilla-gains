@@ -8,6 +8,7 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]) => {
   return data.map((item) => ({
     value: item._id,
     label: item.type,
+    category: item.category,
   }))
 }
 
