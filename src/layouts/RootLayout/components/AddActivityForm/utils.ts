@@ -12,11 +12,14 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]) => {
   }))
 }
 
-export const transformExerciseIntoOption = (data?: Exercise[]) => {
+export const transformExerciseIntoOption = (currentExercises: string[], data?: Exercise[]) => {
   if (!data) {
     return []
   }
-  return data?.map((item) => ({
+
+  const filteredExercises = data.filter((item) => !currentExercises?.includes(item.name))
+
+  return filteredExercises.map((item) => ({
     value: item.name,
     label: item.name,
   }))

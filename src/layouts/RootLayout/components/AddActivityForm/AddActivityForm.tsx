@@ -172,6 +172,9 @@ export const AddActivityForm: React.FC = () => {
   })
 
   const currentActivityType = getValues("activityType")
+  const currentExercises = watch("exercises")
+  const exercisesNames = currentExercises?.map((exercise) => exercise.exercise)
+
   const withBreaks = (exerciseIndex: number) => watch(`exercises.${exerciseIndex}.withBreaks`)
   const lastExerciseIndex = fields.length - 1
 
@@ -188,7 +191,8 @@ export const AddActivityForm: React.FC = () => {
     append(
       {
         exercise: "",
-        sets: [{ reps: "", load: "" }],
+        sets: [{ reps: null, load: null }],
+        withBreaks: false,
       },
       { shouldFocus: false }
     )
@@ -219,8 +223,10 @@ export const AddActivityForm: React.FC = () => {
       filterText: inputValue,
     })
     const exercises = response.data
+    const currentExercises = watch("exercises")
+    const exercisesNames = currentExercises?.map((exercise) => exercise.exercise)
 
-    return transformExerciseIntoOption(exercises)
+    return transformExerciseIntoOption(exercisesNames, exercises)
   }
 
   const debouncedExercises = useCallback(
@@ -309,9 +315,8 @@ export const AddActivityForm: React.FC = () => {
                 <StyledSelect
                   defaultOptions={
                     exercises.status !== RequestStatuses.LOADING &&
-                    transformExerciseIntoOption(exercises.data)
+                    transformExerciseIntoOption(exercisesNames, exercises.data)
                   }
-                  cacheOptions
                   isLoading={exercises.status === RequestStatuses.LOADING}
                   loadOptions={debouncedExercises}
                   onFocus={async () => {

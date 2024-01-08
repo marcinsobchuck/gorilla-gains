@@ -11,7 +11,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 }) => {
   return (
     <RadioButtonGroupWrapper>
-      <GroupTitle>{groupTitle}</GroupTitle>
+      {groupTitle && <GroupTitle>{groupTitle}</GroupTitle>}
       <RadiosWrapper>
         {items.map((item) => (
           <RadioButton
