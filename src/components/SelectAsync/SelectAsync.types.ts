@@ -1,12 +1,16 @@
 import { GroupBase } from "react-select"
 import { AsyncProps } from "react-select/async"
 
-import { Option } from "../Select/Select.types"
-
 interface PropsAsync {
   labelText?: string
   name: string
 }
 
-export type AsyncSelectProps<IsMulti extends boolean = false> = PropsAsync &
-  AsyncProps<Option, IsMulti, GroupBase<Option>>
+export interface AsyncOption {
+  value: string
+  label: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: unknown
+}
+
+export type AsyncSelectProps = PropsAsync & AsyncProps<AsyncOption, false, GroupBase<AsyncOption>>

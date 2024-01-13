@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { Controller, useFormContext } from "react-hook-form"
-import ReactSelect, { SingleValue } from "react-select"
+import ReactSelect from "react-select"
 import { useTheme } from "styled-components"
 
 import { Control } from "./components/Control"
 import { selectStyles } from "./Select.styles"
 import { Option, SelectProps } from "./Select.types"
 
-export const Select: React.FC<SelectProps> = ({ options, labelText, name, className }) => {
+export const Select: React.FC<SelectProps> = ({ options, labelText, name, className, ...rest }) => {
   const { control } = useFormContext()
   const theme = useTheme()
 
@@ -20,8 +20,8 @@ export const Select: React.FC<SelectProps> = ({ options, labelText, name, classN
         render={({ field: { onChange } }) => (
           <ReactSelect
             options={options}
-            styles={selectStyles(theme)}
-            onChange={(selectedOption: SingleValue<Option>) => {
+            styles={selectStyles<Option>(theme)}
+            onChange={(selectedOption) => {
               onChange(selectedOption?.value)
             }}
             components={{ Control }}
@@ -31,6 +31,7 @@ export const Select: React.FC<SelectProps> = ({ options, labelText, name, classN
             name={name}
             inputId={name}
             placeholder=''
+            {...rest}
           />
         )}
       />

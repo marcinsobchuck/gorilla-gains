@@ -11,7 +11,7 @@ import { Datepicker } from "@components/Datepicker/Datepicker"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
-import { Option } from "@components/Select/Select.types"
+import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
@@ -149,7 +149,7 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
 }
 
 export const AddActivityForm: React.FC = () => {
-  const [selectValue, setSelectValue] = useState<Option | null>(null)
+  const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
   const activityTypes = useAppSelector((state) => state.activityTypes)
@@ -208,6 +208,7 @@ export const AddActivityForm: React.FC = () => {
     return transformActivityTypesIntoOption(activityTypes)
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedActivityTypes = useCallback(
     debounce((inputValue, callback) => {
       getActivityTypesOptions(inputValue).then((options) => {
@@ -229,6 +230,7 @@ export const AddActivityForm: React.FC = () => {
     return transformExerciseIntoOption(exercisesNames, exercises)
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedExercises = useCallback(
     debounce((inputValue, callback) => {
       getExercisesOptions(inputValue).then((options) => callback(options))

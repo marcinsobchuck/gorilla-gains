@@ -1,10 +1,8 @@
 import { StylesConfig } from "react-select"
 import { DefaultTheme } from "styled-components"
 
-import { Option } from "./Select.types"
-
-export const selectStyles = (theme: DefaultTheme): StylesConfig<Option, false> => {
-  const styles: StylesConfig<Option, false> = {
+export const selectStyles = <T>(theme: DefaultTheme) => {
+  const styles: StylesConfig<T> = {
     control: (baseStyles, state) => {
       return {
         ...baseStyles,
