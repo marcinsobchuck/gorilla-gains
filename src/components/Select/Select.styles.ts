@@ -72,8 +72,10 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
       color: state.isSelected ? theme.primaryButtonColor : theme.primary,
       fontWeight: state.isSelected ? 600 : 400,
       paddingBottom: "12px",
-      textTransform: "capitalize",
 
+      "&::first-letter": {
+        textTransform: "capitalize",
+      },
       "&:hover": {
         backgroundColor: !state.isSelected ? `${theme.primaryDisabled}` : theme.secondary,
       },
@@ -81,7 +83,9 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
     singleValue: (baseStyles) => ({
       ...baseStyles,
       margin: 0,
-      textTransform: "capitalize",
+      "&::first-letter": {
+        textTransform: "capitalize",
+      },
     }),
     valueContainer: (baseStyles) => ({
       ...baseStyles,

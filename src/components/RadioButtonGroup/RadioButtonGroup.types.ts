@@ -1,6 +1,6 @@
 interface RadioItem {
   labelText: string
-  value: string
+  value: string | number
 }
 
 export interface RadioButtonGroupProps {

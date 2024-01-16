@@ -14,7 +14,7 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
 }
 
 export const transformExerciseIntoOption = (
-  currentExercises: string[],
+  currentExercises?: string[],
   data?: Exercise[]
 ): AsyncOption[] => {
   if (!data) {

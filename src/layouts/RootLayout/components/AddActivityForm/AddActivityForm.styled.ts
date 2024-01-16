@@ -99,10 +99,7 @@ export const SetsText = styled.p`
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
 `
 
-export const SetWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+export const SetWrapper = styled(FlexContainer)`
   margin-bottom: 12px;
 
   &:last-of-type {
@@ -119,6 +116,14 @@ export const SetIndex = styled.div`
 
 export const NestedInput = styled(Input)`
   width: 40%;
+`
+
+export const OthersWrapper = styled(FlexContainer)`
+  margin-bottom: 36px;
+`
+
+export const OthersInput = styled(Input)`
+  width: 46%;
 `
 
 export const X = styled.span`

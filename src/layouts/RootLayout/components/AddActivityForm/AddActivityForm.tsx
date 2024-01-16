@@ -27,6 +27,8 @@ import {
   FieldsWrapper,
   InputWarning,
   NestedInput,
+  OthersInput,
+  OthersWrapper,
   SetIndex,
   SetWrapper,
   SetsText,
@@ -37,29 +39,35 @@ import {
   SubmitButton,
   X,
 } from "./AddActivityForm.styled"
-import { NestedSetsFieldArrayProps } from "./AddActivityForm.types"
+import {
+  ActivityType,
+  AddActivityFormValues,
+  Category,
+  NestedSetsFieldArrayProps,
+  SetsFormFields,
+} from "./AddActivityForm.types"
 import { transformActivityTypesIntoOption, transformExerciseIntoOption } from "./utils"
 
 const breaksButtonsData = [
   {
     labelText: "30s",
-    value: "30", //seconds
+    value: 30, //seconds
   },
   {
     labelText: "60s",
-    value: "60",
+    value: 60,
   },
   {
     labelText: "90s",
-    value: "90",
+    value: 90,
   },
   {
     labelText: "120s",
-    value: "120",
+    value: 120,
   },
   {
     labelText: "150s",
-    value: "150",
+    value: 150,
   },
 ]
 
@@ -67,6 +75,7 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
   exerciseIndex,
   lastExerciseIndex,
   withBreaks = false,
+  setsFormFields,
   control,
 }) => {
   const ref = useRef<HTMLButtonElement>(null)
@@ -77,13 +86,13 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
   })
 
   const handleAddSetField = () => {
-    append({
-      sets: [{ reps: "", load: "" }],
-    })
+    append(setsFormFields)
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
 
   const handleRemoveSetField = (index: number) => remove(index)
+
+  const fieldsKeys = Object.keys(setsFormFields as SetsFormFields)
 
   const getIsLastSetOfLastExercise = (setOfExerciseIndex: number) => {
     const lastSetIndex = fields.length - 1
@@ -98,20 +107,20 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
       {fields.map((set, setOfExerciseIndex) => {
         return (
           <React.Fragment key={set.id}>
-            <SetWrapper>
+            <SetWrapper justify='space-between' align='center'>
               <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
               <NestedInput
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.${fieldsKeys[0]}`}
                 type='number'
-                label='Reps'
+                label={fieldsKeys[0]}
                 withIcon={false}
                 withError={false}
               />
               <X>X</X>
               <NestedInput
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
+                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.${fieldsKeys[1]}`}
                 type='number'
-                label='Load'
+                label={fieldsKeys[1]}
                 withIcon={false}
                 withError={false}
               />
@@ -158,7 +167,7 @@ export const AddActivityForm: React.FC = () => {
 
   const ref = useRef<HTMLButtonElement>(null)
 
-  const methods = useForm({
+  const methods = useForm<AddActivityFormValues>({
     mode: "all",
   })
   const { control, handleSubmit, watch, setValue, getValues } = methods
@@ -170,35 +179,81 @@ export const AddActivityForm: React.FC = () => {
     control,
     name: "exercises",
   })
-
   const currentActivityType = getValues("activityType")
   const currentExercises = watch("exercises")
-  const exercisesNames = currentExercises?.map((exercise) => exercise.exercise)
+  const exercisesNames = currentExercises?.map((exercise) => exercise.exercise.label)
 
   const withBreaks = (exerciseIndex: number) => watch(`exercises.${exerciseIndex}.withBreaks`)
   const lastExerciseIndex = fields.length - 1
 
-  const renderContentPerActivityTypeCategory = (activityTypeCategory: string) => {
-    switch (activityTypeCategory) {
-      case "strength":
-        return <div style={{ color: "red" }}>strength</div>
-      case "endurance":
-        return <div style={{ color: "red" }}>endurance</div>
-    }
-  } //temporary
-
   const handleAddExerciseField = () => {
     append(
       {
-        exercise: "",
-        sets: [{ reps: null, load: null }],
+        exercise: {
+          label: "",
+          value: "",
+        },
+        sets: [setsFormFields],
         withBreaks: false,
       },
       { shouldFocus: false }
     )
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
+  const AddExerciseElement = (
+    <AddExerciseButton
+      ref={ref}
+      buttonType='button'
+      type='button'
+      icon='add'
+      onClick={handleAddExerciseField}
+      disabled={!currentActivityType}
+    />
+  )
+  const getRenderInfoPerActivityTypeCategory = (activityTypeCategory: Category) => {
+    switch (activityTypeCategory) {
+      case "strength":
+        return {
+          element: AddExerciseElement,
+          formFields: { reps: null, load: null },
+        }
+      case "endurance":
+        return {
+          element: AddExerciseElement,
+          formFields: { duration: null, distance: null },
+        }
+      case "other":
+        return {
+          element: (
+            <OthersWrapper justify='space-between' align='center'>
+              <OthersInput
+                id='duration'
+                type='number'
+                label='duration'
+                withIcon={false}
+                withError={false}
+              />
+              <X>X</X>
+              <OthersInput
+                id='distance'
+                type='number'
+                label='distance'
+                withIcon={false}
+                withError={false}
+              />
+            </OthersWrapper>
+          ),
+          formFields: {},
+        }
+    }
+  }
+  const renderElementPerActivityTypeCategory =
+    currentActivityType &&
+    getRenderInfoPerActivityTypeCategory(currentActivityType.category).element
 
+  const setsFormFields =
+    currentActivityType &&
+    getRenderInfoPerActivityTypeCategory(currentActivityType.category).formFields
   const handleRemoveExerciseField = (index: number) => removeExercises(index)
 
   const getActivityTypesOptions = async (inputValue: string) => {
@@ -225,7 +280,7 @@ export const AddActivityForm: React.FC = () => {
     })
     const exercises = response.data
     const currentExercises = watch("exercises")
-    const exercisesNames = currentExercises?.map((exercise) => exercise.exercise)
+    const exercisesNames = currentExercises?.map((exercise) => exercise.exercise.label)
 
     return transformExerciseIntoOption(exercisesNames, exercises)
   }
@@ -262,7 +317,7 @@ export const AddActivityForm: React.FC = () => {
                 setSelectValue(currentActivityType)
               } else {
                 setSelectValue(currentActivityType)
-                setValue("activityType", newValue)
+                setValue("activityType", newValue as ActivityType)
               }
             }}
             onFocus={async () => {
@@ -284,7 +339,7 @@ export const AddActivityForm: React.FC = () => {
                   variant='tertiary'
                   onClick={() => {
                     removeExercises()
-                    setValue("activityType", selectValue)
+                    setValue("activityType", selectValue as ActivityType)
                     setIsWarningVisible(false)
                   }}
                 >
@@ -305,7 +360,6 @@ export const AddActivityForm: React.FC = () => {
           )}
           <Datepicker name='date' label='Date' />
           <StyledCheckbox name='warmup' label='Warmup done?' />
-          {renderContentPerActivityTypeCategory(currentActivityType?.category)}
           {fields.map((field, exerciseIndex) => {
             return (
               <ExerciseWrapper key={field.id}>
@@ -337,19 +391,13 @@ export const AddActivityForm: React.FC = () => {
                   control={control}
                   exerciseIndex={exerciseIndex}
                   lastExerciseIndex={lastExerciseIndex}
+                  setsFormFields={setsFormFields}
                   withBreaks={withBreaks(exerciseIndex)}
                 />
               </ExerciseWrapper>
             )
           })}
-          <AddExerciseButton
-            ref={ref}
-            buttonType='button'
-            type='button'
-            icon='add'
-            onClick={handleAddExerciseField}
-            disabled={!currentActivityType}
-          />
+          {renderElementPerActivityTypeCategory}
 
           <Textarea
             label='Notes'

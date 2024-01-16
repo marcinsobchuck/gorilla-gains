@@ -9,8 +9,7 @@ interface PropsAsync {
 export interface AsyncOption {
   value: string
   label: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [x: string]: unknown
+  [x: string]: string
 }
 
 export type AsyncSelectProps = PropsAsync & AsyncProps<AsyncOption, false, GroupBase<AsyncOption>>
