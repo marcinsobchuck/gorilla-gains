@@ -10,7 +10,6 @@ import { Checkbox } from "@components/Checkbox/Checkbox"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
-import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -21,6 +20,7 @@ import {
   AddExerciseButton,
   AddSetButton,
   BreaksWrapper,
+  CustomBreakInput,
   ExerciseHeader,
   ExerciseIndex,
   ExerciseWrapper,
@@ -34,6 +34,7 @@ import {
   SetsText,
   StyledCheckbox,
   StyledForm,
+  StyledRadioButtonGroup,
   StyledRemoveIcon,
   StyledSelect,
   SubmitButton,
@@ -58,16 +59,8 @@ const breaksButtonsData = [
     value: 60,
   },
   {
-    labelText: "90s",
-    value: 90,
-  },
-  {
     labelText: "120s",
     value: 120,
-  },
-  {
-    labelText: "150s",
-    value: 150,
   },
 ]
 
@@ -77,6 +70,8 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
   withBreaks = false,
   setsFormFields,
   control,
+  watch,
+  setValue,
 }) => {
   const ref = useRef<HTMLButtonElement>(null)
 
@@ -100,6 +95,18 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
     const isLastSetOfLastExercise = isLastExercise && setOfExerciseIndex === lastSetIndex
 
     return isLastSetOfLastExercise
+  }
+
+  const getValue = (setOfExerciseIndex: number) => {
+    const currentValue = watch(`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`)
+
+    if (
+      currentValue &&
+      breaksButtonsData.map((buttonData) => buttonData.value).includes(+currentValue)
+    ) {
+      return ""
+    }
+    return currentValue
   }
 
   return (
@@ -134,10 +141,21 @@ const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
             </SetWrapper>
             {withBreaks && !getIsLastSetOfLastExercise(setOfExerciseIndex) && (
               <BreaksWrapper justify='center' align='center'>
-                <RadioButtonGroup
+                <StyledRadioButtonGroup
                   items={breaksButtonsData}
                   buttonVariant='tile'
                   name={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`}
+                />
+                <CustomBreakInput
+                  type='number'
+                  placeholder='custom'
+                  value={getValue(setOfExerciseIndex)}
+                  onChange={(e) =>
+                    setValue(
+                      `exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`,
+                      parseInt(e.currentTarget.value)
+                    )
+                  }
                 />
               </BreaksWrapper>
             )}
@@ -215,12 +233,12 @@ export const AddActivityForm: React.FC = () => {
       case "strength":
         return {
           element: AddExerciseElement,
-          formFields: { reps: null, load: null },
+          formFields: { reps: "", load: "" },
         }
       case "endurance":
         return {
           element: AddExerciseElement,
-          formFields: { duration: null, distance: null },
+          formFields: { duration: "", distance: "" },
         }
       case "other":
         return {
@@ -389,10 +407,12 @@ export const AddActivityForm: React.FC = () => {
                 <SetsText>Sets</SetsText>
                 <NestedSetsFieldArray
                   control={control}
+                  watch={watch}
                   exerciseIndex={exerciseIndex}
                   lastExerciseIndex={lastExerciseIndex}
                   setsFormFields={setsFormFields}
                   withBreaks={withBreaks(exerciseIndex)}
+                  setValue={setValue}
                 />
               </ExerciseWrapper>
             )

@@ -19,6 +19,7 @@ export const Input: React.FC<InputProps> = ({
   withIcon = true,
   withError = true,
   className,
+  ...props
 }) => {
   const {
     register,
@@ -42,6 +43,7 @@ export const Input: React.FC<InputProps> = ({
             setValueAs: (v) => (v === "" ? "" : +v),
           }),
         })}
+        {...props}
       />
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
       {withIcon && (

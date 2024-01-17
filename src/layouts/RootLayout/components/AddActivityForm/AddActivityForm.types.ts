@@ -1,4 +1,4 @@
-import { Control } from "react-hook-form"
+import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
 interface EnduranceFields {
   duration?: number
@@ -18,6 +18,8 @@ export interface NestedSetsFieldArrayProps {
   setsFormFields: SetsFormFields
   control: Control<AddActivityFormValues>
   withBreaks: boolean
+  setValue: UseFormSetValue<AddActivityFormValues>
+  watch: UseFormWatch<AddActivityFormValues>
 }
 
 export type Category = "strength" | "endurance" | "other"
@@ -30,11 +32,11 @@ export interface ActivityType {
 }
 
 interface Set {
-  load?: number | null
-  reps?: number | null
-  duration?: number | null
-  distance?: number | null
-  break?: number | null
+  load?: number | string
+  reps?: number | string
+  duration?: number | string
+  distance?: number | string
+  break?: number | string
 }
 
 interface Exercise {

@@ -8,9 +8,10 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   groupTitle,
   name,
   buttonVariant,
+  className,
 }) => {
   return (
-    <RadioButtonGroupWrapper>
+    <RadioButtonGroupWrapper className={className}>
       {groupTitle && <GroupTitle>{groupTitle}</GroupTitle>}
       <RadiosWrapper>
         {items.map((item) => (

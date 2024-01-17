@@ -5,7 +5,9 @@ import { Checkbox } from "@components/Checkbox/Checkbox"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
+import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 import { SelectAsync } from "@components/SelectAsync/SelectAsync"
+import { TileInputButtonWrapper } from "@components/TileInputButton/TileInputButton.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const StyledForm = styled.form`
@@ -144,6 +146,7 @@ export const InputWarning = styled(FlexContainer)`
 
   p {
     font-size: 14px;
+    text-align: left;
   }
 `
 
@@ -153,6 +156,50 @@ export const BreaksButton = styled(Button)`
 `
 
 export const BreaksWrapper = styled(FlexContainer)`
+  display: flex;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+`
+
+export const StyledRadioButtonGroup = styled(RadioButtonGroup)`
+  background-color: transparent;
+  padding: 0;
+  ${TileInputButtonWrapper} {
+    label {
+      font-size: 12px;
+      padding: 9px;
+    }
+  }
+`
+
+export const CustomBreakInput = styled.input`
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px;
+  width: 82px;
+  background-color: ${({ theme }) => theme.inputBackgroundColor};
+  border: 2px solid ${({ theme }) => theme.secondary};
+  border-radius: 9px;
+
+  &::placeholder {
+    font-size: 12px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.primary};
+    text-align: center;
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
 `

@@ -1,6 +1,6 @@
 export interface RadioButtonProps {
   labelText: string
   name: string
-  value: string
+  value: string | number
   variant?: "tile"
 }

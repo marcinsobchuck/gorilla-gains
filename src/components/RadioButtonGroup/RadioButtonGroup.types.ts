@@ -8,4 +8,5 @@ export interface RadioButtonGroupProps {
   groupTitle?: string
   name: string
   buttonVariant?: "tile"
+  className?: string
 }
