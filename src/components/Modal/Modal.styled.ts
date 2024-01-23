@@ -34,7 +34,7 @@ export const ModalWrapper = styled.div`
   }
 
   @media ${Breakpoints.SMALL} {
-    height: 90vh;
+    height: 94vh;
 
     width: 640px;
   }

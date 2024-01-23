@@ -4,7 +4,7 @@ export const TileInputButtonWrapper = styled.div`
   display: flex;
   transition: 0.3s;
 
-  &:hover :not(input:focus) ~ label {
+  &:hover :not(input:checked) ~ label {
     background-color: ${({ theme }) => theme.secondaryOpacity};
     box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};
   }

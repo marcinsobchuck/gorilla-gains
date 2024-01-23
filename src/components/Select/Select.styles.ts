@@ -60,6 +60,24 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
       zIndex: 2,
       backgroundColor: theme.selectBackgroundColor,
     }),
+    menuList: (baseStyles) => ({
+      ...baseStyles,
+      "::-webkit-scrollbar": {
+        width: "18px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: theme.backgroundColor,
+      },
+      "::-webkit-scrollbar-thumb": {
+        borderRadius: "9px",
+        border: `6px solid ${theme.backgroundColor}`,
+        backgroundClip: "content-box",
+        background: theme.secondary,
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: theme.secondaryActive,
+      },
+    }),
 
     option: (baseStyles, state) => ({
       ...baseStyles,

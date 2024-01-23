@@ -18,162 +18,23 @@ import { getExercisesByActivityTypeAction } from "@features/exercises/exercisesA
 
 import {
   AddExerciseButton,
-  AddSetButton,
-  BreaksWrapper,
-  CustomBreakInput,
   ExerciseHeader,
   ExerciseIndex,
   ExerciseWrapper,
   FieldsWrapper,
   InputWarning,
-  NestedInput,
   OthersInput,
   OthersWrapper,
-  SetIndex,
-  SetWrapper,
   SetsText,
   StyledCheckbox,
   StyledForm,
-  StyledRadioButtonGroup,
-  StyledRemoveIcon,
   StyledSelect,
   SubmitButton,
   X,
 } from "./AddActivityForm.styled"
-import {
-  ActivityType,
-  AddActivityFormValues,
-  Category,
-  NestedSetsFieldArrayProps,
-  SetsFormFields,
-} from "./AddActivityForm.types"
+import { ActivityType, AddActivityFormValues, Category } from "./AddActivityForm.types"
+import { NestedSetsFieldArray } from "./components/NestedSetsFieldArray/NestedSetsFieldArray"
 import { transformActivityTypesIntoOption, transformExerciseIntoOption } from "./utils"
-
-const breaksButtonsData = [
-  {
-    labelText: "30s",
-    value: 30, //seconds
-  },
-  {
-    labelText: "60s",
-    value: 60,
-  },
-  {
-    labelText: "120s",
-    value: 120,
-  },
-]
-
-const NestedSetsFieldArray: React.FC<NestedSetsFieldArrayProps> = ({
-  exerciseIndex,
-  lastExerciseIndex,
-  withBreaks = false,
-  setsFormFields,
-  control,
-  watch,
-  setValue,
-}) => {
-  const ref = useRef<HTMLButtonElement>(null)
-
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: `exercises.${exerciseIndex}.sets`,
-  })
-
-  const handleAddSetField = () => {
-    append(setsFormFields)
-    setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
-  }
-
-  const handleRemoveSetField = (index: number) => remove(index)
-
-  const fieldsKeys = Object.keys(setsFormFields as SetsFormFields)
-
-  const getIsLastSetOfLastExercise = (setOfExerciseIndex: number) => {
-    const lastSetIndex = fields.length - 1
-    const isLastExercise = exerciseIndex === lastExerciseIndex
-    const isLastSetOfLastExercise = isLastExercise && setOfExerciseIndex === lastSetIndex
-
-    return isLastSetOfLastExercise
-  }
-
-  const getValue = (setOfExerciseIndex: number) => {
-    const currentValue = watch(`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`)
-
-    if (
-      currentValue &&
-      breaksButtonsData.map((buttonData) => buttonData.value).includes(+currentValue)
-    ) {
-      return ""
-    }
-    return currentValue
-  }
-
-  return (
-    <React.Fragment key={exerciseIndex}>
-      {fields.map((set, setOfExerciseIndex) => {
-        return (
-          <React.Fragment key={set.id}>
-            <SetWrapper justify='space-between' align='center'>
-              <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
-              <NestedInput
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.${fieldsKeys[0]}`}
-                type='number'
-                label={fieldsKeys[0]}
-                withIcon={false}
-                withError={false}
-              />
-              <X>X</X>
-              <NestedInput
-                id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.${fieldsKeys[1]}`}
-                type='number'
-                label={fieldsKeys[1]}
-                withIcon={false}
-                withError={false}
-              />
-
-              <StyledRemoveIcon
-                name='remove'
-                width={20}
-                height={20}
-                onClick={() => handleRemoveSetField(setOfExerciseIndex)}
-              />
-            </SetWrapper>
-            {withBreaks && !getIsLastSetOfLastExercise(setOfExerciseIndex) && (
-              <BreaksWrapper justify='center' align='center'>
-                <StyledRadioButtonGroup
-                  items={breaksButtonsData}
-                  buttonVariant='tile'
-                  name={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`}
-                />
-                <CustomBreakInput
-                  type='number'
-                  placeholder='custom'
-                  value={getValue(setOfExerciseIndex)}
-                  onChange={(e) =>
-                    setValue(
-                      `exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`,
-                      parseInt(e.currentTarget.value)
-                    )
-                  }
-                />
-              </BreaksWrapper>
-            )}
-          </React.Fragment>
-        )
-      })}
-
-      <AddSetButton
-        ref={ref}
-        icon='add'
-        buttonType='button'
-        type='button'
-        variant='secondary'
-        onClick={handleAddSetField}
-      />
-    </React.Fragment>
-  )
-}
 
 export const AddActivityForm: React.FC = () => {
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
@@ -216,8 +77,18 @@ export const AddActivityForm: React.FC = () => {
       },
       { shouldFocus: false }
     )
+
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
+
+  const handleWarningYesOption = (category: Category) => {
+    if (category === "other") {
+      removeExercises()
+    } else {
+      handleAddExerciseField()
+    }
+  }
+
   const AddExerciseElement = (
     <AddExerciseButton
       ref={ref}
@@ -228,17 +99,42 @@ export const AddActivityForm: React.FC = () => {
       disabled={!currentActivityType}
     />
   )
+
   const getRenderInfoPerActivityTypeCategory = (activityTypeCategory: Category) => {
     switch (activityTypeCategory) {
       case "strength":
         return {
           element: AddExerciseElement,
-          formFields: { reps: "", load: "" },
+          setsFormFields: { reps: "", load: "" },
+          addExercise: () =>
+            append(
+              {
+                exercise: {
+                  label: "",
+                  value: "",
+                },
+                sets: [{ reps: "", load: "" }],
+                withBreaks: false,
+              },
+              { shouldFocus: false }
+            ),
         }
       case "endurance":
         return {
           element: AddExerciseElement,
-          formFields: { duration: "", distance: "" },
+          setsFormFields: { duration: "", distance: "" },
+          addExercise: () =>
+            append(
+              {
+                exercise: {
+                  label: "",
+                  value: "",
+                },
+                sets: [{ duration: "", distance: "" }],
+                withBreaks: false,
+              },
+              { shouldFocus: false }
+            ),
         }
       case "other":
         return {
@@ -261,7 +157,8 @@ export const AddActivityForm: React.FC = () => {
               />
             </OthersWrapper>
           ),
-          formFields: {},
+          setsFormFields: {},
+          addExercise: () => {},
         }
     }
   }
@@ -271,7 +168,8 @@ export const AddActivityForm: React.FC = () => {
 
   const setsFormFields =
     currentActivityType &&
-    getRenderInfoPerActivityTypeCategory(currentActivityType.category).formFields
+    getRenderInfoPerActivityTypeCategory(currentActivityType.category).setsFormFields
+
   const handleRemoveExerciseField = (index: number) => removeExercises(index)
 
   const getActivityTypesOptions = async (inputValue: string) => {
@@ -336,6 +234,7 @@ export const AddActivityForm: React.FC = () => {
               } else {
                 setSelectValue(currentActivityType)
                 setValue("activityType", newValue as ActivityType)
+                getRenderInfoPerActivityTypeCategory(newValue?.category as Category).addExercise()
               }
             }}
             onFocus={async () => {
@@ -358,6 +257,7 @@ export const AddActivityForm: React.FC = () => {
                   onClick={() => {
                     removeExercises()
                     setValue("activityType", selectValue as ActivityType)
+                    handleWarningYesOption(selectValue?.category as Category)
                     setIsWarningVisible(false)
                   }}
                 >

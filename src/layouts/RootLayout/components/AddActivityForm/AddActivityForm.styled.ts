@@ -10,6 +10,10 @@ import { SelectAsync } from "@components/SelectAsync/SelectAsync"
 import { TileInputButtonWrapper } from "@components/TileInputButton/TileInputButton.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
+interface CustomBreakInputProps {
+  $isActive: boolean
+}
+
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -172,15 +176,18 @@ export const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   }
 `
 
-export const CustomBreakInput = styled.input`
+export const CustomBreakInput = styled.input<CustomBreakInputProps>`
   text-align: center;
   font-size: 12px;
   font-weight: 500;
   padding: 9px;
   width: 82px;
-  background-color: ${({ theme }) => theme.inputBackgroundColor};
+  background-color: ${({ $isActive, theme }) =>
+    $isActive ? theme.secondaryOpacity : "transparent"};
   border: 2px solid ${({ theme }) => theme.secondary};
   border-radius: 9px;
+
+  transition: 0.3s;
 
   &::placeholder {
     font-size: 12px;
