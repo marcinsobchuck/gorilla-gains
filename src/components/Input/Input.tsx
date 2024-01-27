@@ -1,3 +1,4 @@
+import get from "lodash.get"
 import { useFormContext, useWatch } from "react-hook-form"
 
 import errorIcon from "@assets/error.svg"
@@ -29,12 +30,21 @@ export const Input: React.FC<InputProps> = ({
     name: id,
     exact: true,
   })
-  const isError = Boolean(errors[id])
+
+  const error = get(errors, id)?.message?.toString()
+
+  const isError = Boolean(error)
 
   const isNotEmpty = formValues !== undefined && formValues !== null && formValues !== ""
 
+  console.log(error)
   return (
-    <InputWrapper key={id} $shouldTransition={isNotEmpty} className={className}>
+    <InputWrapper
+      key={id}
+      $shouldTransition={isNotEmpty}
+      $withError={withError}
+      className={className}
+    >
       <StyledInput
         id={id}
         type={type}
@@ -53,9 +63,7 @@ export const Input: React.FC<InputProps> = ({
           src={errors[id] ? errorIcon : successIcon}
         />
       )}
-      {withError && (
-        <StyledError $isVisible={isError}>{errors[id]?.message?.toString()}</StyledError>
-      )}
+      {withError && <StyledError $isVisible={isError}>{error}</StyledError>}
     </InputWrapper>
   )
 }

@@ -3,6 +3,7 @@ import styled, { css } from "styled-components"
 
 interface InputWrapperProps {
   $shouldTransition?: boolean
+  $withError?: boolean
 }
 
 interface StyledErrorProps {
@@ -15,6 +16,7 @@ interface InputStatusIconProps extends StyledErrorProps {
 
 export const InputWrapper = styled.div<InputWrapperProps>`
   position: relative;
+  margin-bottom: ${({ $withError = true }) => $withError && "28px"};
 
   ${({ $shouldTransition }) =>
     $shouldTransition &&
@@ -75,9 +77,9 @@ export const StyledLabel = styled.label`
 `
 
 export const StyledError = styled.p<StyledErrorProps>`
-  margin-left: 24px;
-  margin-top: 4px;
-  min-height: 24px;
+  position: absolute;
+  bottom: -18px;
+  left: 24px;
   color: ${({ theme }) => theme.errorColor};
   font-weight: 500;
   font-size: 12px;

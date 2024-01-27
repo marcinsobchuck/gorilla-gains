@@ -1,7 +1,7 @@
 import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
 interface EnduranceFields {
-  duration?: number
+  duration?: Duration
   distance?: number
 }
 
@@ -34,7 +34,7 @@ export interface ActivityType {
 interface Set {
   load?: number | string
   reps?: number | string
-  duration?: number | string
+  duration?: Duration | string
   distance?: number | string
   break?: number | string
 }
@@ -48,12 +48,19 @@ interface Exercise {
   withBreaks: boolean
 }
 
+interface Duration {
+  hours: number
+  minutes: number
+  seconds: number
+}
+
 export interface AddActivityFormValues {
   activityType: ActivityType
   date: Date | string
-  duration?: number
+  duration?: Duration
   distance?: number
   exercises?: Exercise[]
   notes: string
   warmup: boolean
+  testing: string
 }

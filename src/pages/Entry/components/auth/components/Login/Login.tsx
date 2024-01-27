@@ -48,9 +48,7 @@ export const Login = () => {
           buttonText='Sign up'
           to={Routes.REGISTER}
         />
-        <AuthError $isVisible={Boolean(error)}>
-          {error ? <p>{error}</p> : <p>error space</p>}
-        </AuthError>
+        <AuthError $isVisible={Boolean(error)}>{error ? <p>{error}</p> : <p>&nbsp;</p>}</AuthError>
         <LoginForm onSubmit={handleLogin} />
       </ContentWrapper>
       <StyledImage src={authGorilla} />

@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import debounce from "lodash.debounce"
 import React, { useCallback, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
@@ -30,10 +31,11 @@ import {
   StyledForm,
   StyledSelect,
   SubmitButton,
-  X,
 } from "./AddActivityForm.styled"
 import { ActivityType, AddActivityFormValues, Category } from "./AddActivityForm.types"
+import { DurationInput } from "./components/DurationInput/DurationInput"
 import { NestedSetsFieldArray } from "./components/NestedSetsFieldArray/NestedSetsFieldArray"
+import { addActivityFormSchema } from "./config"
 import { transformActivityTypesIntoOption, transformExerciseIntoOption } from "./utils"
 
 export const AddActivityForm: React.FC = () => {
@@ -48,8 +50,16 @@ export const AddActivityForm: React.FC = () => {
 
   const methods = useForm<AddActivityFormValues>({
     mode: "all",
+    resolver: zodResolver(addActivityFormSchema),
   })
-  const { control, handleSubmit, watch, setValue, getValues } = methods
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = methods
   const {
     fields,
     append,
@@ -139,15 +149,8 @@ export const AddActivityForm: React.FC = () => {
       case "other":
         return {
           element: (
-            <OthersWrapper justify='space-between' align='center'>
-              <OthersInput
-                id='duration'
-                type='number'
-                label='duration'
-                withIcon={false}
-                withError={false}
-              />
-              <X>X</X>
+            <OthersWrapper direction='column' justify='space-between'>
+              <DurationInput />
               <OthersInput
                 id='distance'
                 type='number'
@@ -162,6 +165,7 @@ export const AddActivityForm: React.FC = () => {
         }
     }
   }
+
   const renderElementPerActivityTypeCategory =
     currentActivityType &&
     getRenderInfoPerActivityTypeCategory(currentActivityType.category).element
@@ -212,6 +216,7 @@ export const AddActivityForm: React.FC = () => {
     console.log(values)
   })
 
+  console.log(errors)
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
@@ -276,7 +281,7 @@ export const AddActivityForm: React.FC = () => {
               </FlexContainer>
             </InputWarning>
           )}
-          <Datepicker name='date' label='Date' />
+          <Datepicker name='date' label='Date' withError />
           <StyledCheckbox name='warmup' label='Warmup done?' />
           {fields.map((field, exerciseIndex) => {
             return (

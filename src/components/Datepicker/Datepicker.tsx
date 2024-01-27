@@ -35,14 +35,14 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name, label }) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { value, ...field } }) => (
+      render={({ field: { value, ref, ...field } }) => (
         <DatePickerWrapper
           $isCalendarOpen={isCalendarOpen}
           $isFloating={isCalendarOpen || Boolean(value)}
         >
           <ReactDatePicker
             id={name}
-            customInput={<ReactDatePickerInput id={name} label={label} />}
+            customInput={<ReactDatePickerInput id={name} ref={ref} label={label} />}
             selected={value}
             onCalendarOpen={toggleCalendarOpen}
             dateFormat='dd/MM/yyyy'
