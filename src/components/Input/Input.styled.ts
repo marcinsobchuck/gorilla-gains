@@ -88,6 +88,16 @@ export const StyledError = styled.p<StyledErrorProps>`
   transition: all 0.3s ease-in-out;
 `
 
+export const UnitSymbol = styled.div`
+  position: absolute;
+  right: 24px;
+  bottom: 8px;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.primary};
+  font-weight: 500;
+  font-size: 14px;
+`
+
 export const InputStatusIcon = styled(svg)<InputStatusIconProps>`
   position: absolute;
   right: 24px;

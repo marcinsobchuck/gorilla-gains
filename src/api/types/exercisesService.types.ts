@@ -1,7 +1,7 @@
 export interface Exercise {
   _id: string
   name: string
-  areasFatigued?: string[]
+  isStatic?: boolean
 }
 
 export interface GetExercisesByActivityTypeQueryParams {

@@ -85,8 +85,8 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
       backgroundColor: state.isSelected
         ? theme.secondary
         : state.isFocused
-        ? theme.primaryDisabled
-        : "transparent",
+          ? theme.primaryDisabled
+          : "transparent",
       color: state.isSelected ? theme.primaryButtonColor : theme.primary,
       fontWeight: state.isSelected ? 600 : 400,
       paddingBottom: "12px",

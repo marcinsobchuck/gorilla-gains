@@ -22,6 +22,8 @@ export interface ChangeUserInfoData {
   weight?: string
   desiredWeight?: string
   dueDateWeight?: Date | string
-  activityLevel?: string
+  activityLevel?: {
+    label: string
+  }
   goals?: string[]
 }

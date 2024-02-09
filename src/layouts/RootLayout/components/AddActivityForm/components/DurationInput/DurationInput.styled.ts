@@ -7,14 +7,14 @@ export const Wrapper = styled(FlexContainer)`
   border-radius: 9px;
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   margin-bottom: 28px;
-  padding-top: 6px;
 `
 
 export const Label = styled.label`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
+  padding-top: 6px;
   padding-left: 24px;
-  color: ${({ theme }) => theme.primaryMedium};
+  color: ${({ theme }) => theme.primaryDisabled};
   margin-bottom: 9px;
   text-transform: uppercase;
   text-align: left;

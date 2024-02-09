@@ -22,9 +22,17 @@ const otherActivityTypeFieldsSchema = z
         minutes: z.coerce.number(),
         seconds: z.coerce.number(),
       })
-      .refine((data) => !!data.hours || !!data.minutes || !!data.seconds, {
-        message: "At least one required bruv",
-        path: ["hours"],
+      .superRefine((data, ctx) => {
+        if (!data.hours && !data.minutes && !data.seconds) {
+          const fields = ["hours", "minutes", "seconds"]
+          fields.forEach((field) => {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `At least one`,
+              path: [field],
+            })
+          })
+        }
       }),
     distance: z.coerce.number().optional(),
   })

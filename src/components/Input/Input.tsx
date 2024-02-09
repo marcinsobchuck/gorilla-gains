@@ -10,6 +10,7 @@ import {
   StyledError,
   StyledInput,
   StyledLabel,
+  UnitSymbol,
 } from "./Input.styled"
 import { InputProps } from "./Input.types"
 
@@ -19,12 +20,15 @@ export const Input: React.FC<InputProps> = ({
   label,
   withIcon = true,
   withError = true,
+  unitSymbol,
   className,
+  triggerValidationFor = [],
   ...props
 }) => {
   const {
     register,
     formState: { errors },
+    trigger,
   } = useFormContext()
   const formValues = useWatch({
     name: id,
@@ -37,7 +41,12 @@ export const Input: React.FC<InputProps> = ({
 
   const isNotEmpty = formValues !== undefined && formValues !== null && formValues !== ""
 
-  console.log(error)
+  const handleValidationTrigger = async () => {
+    if (triggerValidationFor.length > 0) {
+      await trigger(triggerValidationFor)
+    }
+  }
+
   return (
     <InputWrapper
       key={id}
@@ -51,6 +60,8 @@ export const Input: React.FC<InputProps> = ({
         {...register(id, {
           ...(type === "number" && {
             setValueAs: (v) => (v === "" ? "" : +v),
+            onChange: handleValidationTrigger,
+            onBlur: handleValidationTrigger,
           }),
         })}
         {...props}
@@ -63,6 +74,7 @@ export const Input: React.FC<InputProps> = ({
           src={errors[id] ? errorIcon : successIcon}
         />
       )}
+      {unitSymbol && <UnitSymbol>{unitSymbol}</UnitSymbol>}
       {withError && <StyledError $isVisible={isError}>{error}</StyledError>}
     </InputWrapper>
   )

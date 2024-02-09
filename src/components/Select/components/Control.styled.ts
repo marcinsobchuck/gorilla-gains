@@ -2,7 +2,6 @@ import styled from "styled-components"
 
 interface LabelProps {
   $isFloating?: boolean
-  $isEmpty?: boolean
 }
 
 export const Label = styled.label<LabelProps>`
@@ -10,7 +9,7 @@ export const Label = styled.label<LabelProps>`
 
   font-weight: 500;
   text-transform: uppercase;
-  color: ${({ theme, $isEmpty }) => (!$isEmpty ? theme.primaryMedium : theme.primaryDisabled)};
+  color: ${({ theme, $isFloating }) => ($isFloating ? theme.primaryDisabled : theme.primaryMedium)};
   transition: all 0.2s ease-out;
   position: absolute;
   z-index: 1;

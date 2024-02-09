@@ -6,7 +6,9 @@ export interface Props {
   label: string
   withIcon?: boolean
   withError?: boolean
+  unitSymbol?: string
   className?: string
+  triggerValidationFor?: string[]
 }
 
 export type InputProps = Props & InputHTMLAttributes<HTMLInputElement>

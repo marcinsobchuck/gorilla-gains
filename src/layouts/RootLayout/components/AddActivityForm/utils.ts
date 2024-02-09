@@ -26,5 +26,6 @@ export const transformExerciseIntoOption = (
   return filteredExercises.map((item) => ({
     value: item.name,
     label: item.name,
+    isStatic: item.isStatic,
   }))
 }

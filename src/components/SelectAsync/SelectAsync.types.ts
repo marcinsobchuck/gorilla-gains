@@ -9,7 +9,7 @@ interface PropsAsync {
 export interface AsyncOption {
   value: string
   label: string
-  [x: string]: string
+  [x: string]: unknown
 }
 
 export type AsyncSelectProps = PropsAsync & AsyncProps<AsyncOption, false, GroupBase<AsyncOption>>

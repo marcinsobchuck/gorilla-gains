@@ -5,16 +5,36 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Label, StyledInput, Wrapper } from "./DurationInput.styled"
 import { DurationInputProps } from "./DurationInput.types"
 
-export const DurationInput: React.FC<DurationInputProps> = ({ withHours = true }) => {
+export const DurationInput: React.FC<DurationInputProps> = ({ id, withHours = true, label }) => {
+  const fieldsIds = [`${id}.hours`, `${id}.minutes`, `${id}.seconds`]
+
   return (
     <Wrapper direction='column'>
-      <Label htmlFor='duration.hours'>Duration</Label>
+      {label && <Label htmlFor={`${id}.hours`}>{label}</Label>}
       <FlexContainer>
         {withHours && (
-          <StyledInput id='duration.hours' type='number' label='hours' withIcon={false} />
+          <StyledInput
+            id={`${id}.hours`}
+            type='number'
+            label='hours'
+            withIcon={false}
+            triggerValidationFor={fieldsIds}
+          />
         )}
-        <StyledInput id='duration.minutes' type='number' label='minutes' withIcon={false} />
-        <StyledInput id='duration.seconds' type='number' label='seconds' withIcon={false} />
+        <StyledInput
+          id={`${id}.minutes`}
+          type='number'
+          label='minutes'
+          withIcon={false}
+          triggerValidationFor={fieldsIds}
+        />
+        <StyledInput
+          id={`${id}.seconds`}
+          type='number'
+          label='seconds'
+          withIcon={false}
+          triggerValidationFor={fieldsIds}
+        />
       </FlexContainer>
     </Wrapper>
   )
