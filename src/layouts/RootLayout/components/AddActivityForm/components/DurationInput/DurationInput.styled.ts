@@ -1,9 +1,11 @@
 import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { FormError } from "@components/FormError/FormError"
 import { Input } from "@components/Input/Input"
 
 export const Wrapper = styled(FlexContainer)`
+  position: relative;
   border-radius: 9px;
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   margin-bottom: 28px;
@@ -40,4 +42,10 @@ export const StyledInput = styled(Input)`
     height: 50%;
     background-color: ${({ theme }) => theme.secondaryOpacity};
   }
+`
+
+export const DurationError = styled(FormError)`
+  top: -18px;
+  left: 24px;
+  bottom: auto;
 `

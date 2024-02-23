@@ -17,6 +17,7 @@ export type IconName =
   | "close"
   | "remove"
   | "checkmark"
+  | "minus"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name?: IconName

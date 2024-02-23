@@ -13,19 +13,15 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
   }))
 }
 
-export const transformExerciseIntoOption = (
-  currentExercises?: string[],
-  data?: Exercise[]
-): AsyncOption[] => {
+export const transformExerciseIntoOption = (data?: Exercise[]): AsyncOption[] => {
   if (!data) {
     return []
   }
 
-  const filteredExercises = data.filter((item) => !currentExercises?.includes(item.name))
-
-  return filteredExercises.map((item) => ({
+  return data.map((item) => ({
     value: item.name,
     label: item.name,
     isStatic: item.isStatic,
+    additionalInfo: item.additionalInfo,
   }))
 }

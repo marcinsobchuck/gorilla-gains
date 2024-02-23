@@ -9,16 +9,18 @@ import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getExercisesByActivityTypeAction } from "@features/exercises/exercisesActions"
 
+import { CustomOptionLabel } from "./CustomOptionLabel"
+import { AddSetButton, SetsError } from "./ExerciseItem.styled"
 import { ExerciseItemProps } from "./ExerciseItem.types"
 import {
-  AddSetButton,
   ExerciseHeader,
   ExerciseIndex,
   ExerciseWrapper,
+  SetsHeading,
   SetsText,
   StyledSelect,
 } from "../../AddActivityForm.styled"
-import { AddActivityFormValues, ExerciseFields } from "../../AddActivityForm.types"
+import { ExerciseFields } from "../../AddActivityForm.types"
 import {
   enduranceExerciseFields,
   staticExerciseFields,
@@ -33,7 +35,11 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   lastExerciseIndex,
   onRemoveExercise,
 }) => {
-  const { watch, setValue } = useFormContext<AddActivityFormValues>()
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext()
 
   const {
     append: addSet,
@@ -45,7 +51,6 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
 
   const currentActivityTypeCategory = watch("activityType").category
   const currentExercise = watch(`exercises.${exerciseIndex}.exercise.value`)
-  const currentExercises = watch("exercises")
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
 
   const getSetsFormFields = (category: string, isExerciseStatic?: boolean) => {
@@ -71,8 +76,6 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   const exercises = useAppSelector((state) => state.exercises)
   const dispatch = useAppDispatch()
 
-  const exercisesNames = currentExercises?.map((exercise) => exercise.exercise.label)
-
   const getExercisesOptions = async (inputValue: string) => {
     try {
       const response = await getExercisesByActivityType({
@@ -81,7 +84,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       })
       const exercises = response.data
 
-      return transformExerciseIntoOption(exercisesNames, exercises)
+      return transformExerciseIntoOption(exercises)
     } catch (err) {
       console.log(err)
     }
@@ -104,7 +107,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       <StyledSelect
         defaultOptions={
           exercises.status !== RequestStatuses.LOADING &&
-          transformExerciseIntoOption(exercisesNames, exercises.data)
+          transformExerciseIntoOption(exercises.data)
         }
         isLoading={exercises.status === RequestStatuses.LOADING}
         loadOptions={debouncedExercises}
@@ -115,10 +118,13 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
             })
           )
         }}
+        formatOptionLabel={(data) => <CustomOptionLabel data={data} />}
         onChange={(newValue) => {
           removeSet()
           handleAddSetField()
-          setValue(`exercises.${exerciseIndex}.exercise`, newValue as ExerciseFields)
+          setValue(`exercises.${exerciseIndex}.exercise`, newValue as ExerciseFields, {
+            shouldValidate: true,
+          })
         }}
         name={`exercises.${exerciseIndex}.exercise`}
         labelText='Exercise'
@@ -126,7 +132,10 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       {Boolean(currentExercise) && (
         <>
           <Checkbox label='Add breaks' name={`exercises.${exerciseIndex}.withBreaks`} />
-          <SetsText>Sets</SetsText>
+          <SetsHeading>
+            <SetsText>Sets</SetsText>
+            <SetsError errors={errors} name={`exercises.${exerciseIndex}.sets`} />
+          </SetsHeading>
         </>
       )}
       {fields.map((set, setOfExerciseIndex) => {

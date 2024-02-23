@@ -9,4 +9,5 @@ export interface RadioButtonGroupProps {
   name: string
   buttonVariant?: "tile"
   className?: string
+  withError?: boolean
 }

@@ -13,7 +13,6 @@ import {
   StyledRemoveIcon,
   X,
 } from "../../AddActivityForm.styled"
-import { AddActivityFormValues } from "../../AddActivityForm.types"
 import { DurationInput } from "../DurationInput/DurationInput"
 
 export const SetItem: React.FC<SetItemProps> = ({
@@ -23,7 +22,7 @@ export const SetItem: React.FC<SetItemProps> = ({
   lastSetIndex,
   onRemoveSet,
 }) => {
-  const { watch, setValue } = useFormContext<AddActivityFormValues>()
+  const { watch, setValue } = useFormContext()
 
   const currentActivityTypeCategory = watch("activityType").category
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
@@ -57,7 +56,6 @@ export const SetItem: React.FC<SetItemProps> = ({
             {isExerciseStatic ? (
               <DurationInput
                 id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`}
-                withHours={false}
               />
             ) : (
               <NestedInput
@@ -80,10 +78,7 @@ export const SetItem: React.FC<SetItemProps> = ({
       case "endurance":
         return (
           <>
-            <DurationInput
-              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}`}
-              withHours={false}
-            />
+            <DurationInput id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`} />
             <X>X</X>
             <NestedInput
               id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.distance`}

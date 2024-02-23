@@ -8,13 +8,13 @@ interface DatePickerWrapperProps {
 export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   .react-datepicker-wrapper {
     width: 100%;
-    margin-bottom: 28px;
   }
 
   .react-datepicker__input-container {
     position: relative;
     z-index: 1;
     display: flex;
+    margin-bottom: 28px;
 
     svg {
       position: absolute;

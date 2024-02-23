@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import { Controller, useFormContext } from "react-hook-form"
 import ReactSelectAsync from "react-select/async"
 import { useTheme } from "styled-components"
 
+import { FormError } from "@components/FormError/FormError"
 import { Control } from "@components/Select/components/Control"
-import { selectStyles } from "@components/Select/Select.styles"
+import { SelectWrapper, selectStyles } from "@components/Select/Select.styles"
 
 import { AsyncOption, AsyncSelectProps } from "./SelectAsync.types"
 
@@ -13,13 +13,17 @@ export const SelectAsync: React.FC<AsyncSelectProps> = ({
   labelText,
   name,
   className,
+  withError = true,
   ...rest
 }) => {
-  const { control } = useFormContext()
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext()
   const theme = useTheme()
 
   return (
-    <div className={className}>
+    <SelectWrapper className={className} $withError={withError}>
       <Controller
         name={name}
         control={control}
@@ -42,6 +46,7 @@ export const SelectAsync: React.FC<AsyncSelectProps> = ({
           )
         }}
       />
-    </div>
+      {withError && <FormError errors={errors} name={name} />}
+    </SelectWrapper>
   )
 }

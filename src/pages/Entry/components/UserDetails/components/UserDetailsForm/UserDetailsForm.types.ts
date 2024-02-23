@@ -13,13 +13,13 @@ export type InputsNames = AllInputs[]
 
 export interface UserDetailsFormValues {
   name: string
-  surname: string
-  age: string
+  surname?: string
+  age: number
   gender: string
-  height: string
-  weight: string
-  desiredWeight: string
-  dueDateWeight: Date | string
+  height: number
+  weight: number
+  desiredWeight?: number
+  dueDateWeight?: Date
   activityLevel: {
     label: string
     value: string

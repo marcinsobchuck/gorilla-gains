@@ -1,5 +1,14 @@
 import { StylesConfig } from "react-select"
-import { DefaultTheme } from "styled-components"
+import { DefaultTheme, styled } from "styled-components"
+
+interface SelectWrapperProps {
+  $withError: boolean
+}
+
+export const SelectWrapper = styled.div<SelectWrapperProps>`
+  position: relative;
+  margin-bottom: ${({ $withError = true }) => $withError && "28px"};
+`
 
 export const selectStyles = <T>(theme: DefaultTheme) => {
   const styles: StylesConfig<T> = {

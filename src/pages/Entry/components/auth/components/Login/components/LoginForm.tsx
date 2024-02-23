@@ -1,4 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
@@ -12,7 +12,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const methods = useForm({
     defaultValues: loginValues,
     mode: "all",
-    resolver: zodResolver(loginSchema),
+    resolver: yupResolver(loginSchema),
   })
   const {
     handleSubmit,

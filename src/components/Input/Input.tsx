@@ -3,15 +3,9 @@ import { useFormContext, useWatch } from "react-hook-form"
 
 import errorIcon from "@assets/error.svg"
 import successIcon from "@assets/success.svg"
+import { FormError } from "@components/FormError/FormError"
 
-import {
-  InputStatusIcon,
-  InputWrapper,
-  StyledError,
-  StyledInput,
-  StyledLabel,
-  UnitSymbol,
-} from "./Input.styled"
+import { InputStatusIcon, InputWrapper, StyledInput, StyledLabel, UnitSymbol } from "./Input.styled"
 import { InputProps } from "./Input.types"
 
 export const Input: React.FC<InputProps> = ({
@@ -36,7 +30,6 @@ export const Input: React.FC<InputProps> = ({
   })
 
   const error = get(errors, id)?.message?.toString()
-
   const isError = Boolean(error)
 
   const isNotEmpty = formValues !== undefined && formValues !== null && formValues !== ""
@@ -75,7 +68,7 @@ export const Input: React.FC<InputProps> = ({
         />
       )}
       {unitSymbol && <UnitSymbol>{unitSymbol}</UnitSymbol>}
-      {withError && <StyledError $isVisible={isError}>{error}</StyledError>}
+      {withError && <FormError errors={errors} name={id} />}
     </InputWrapper>
   )
 }

@@ -1,4 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect } from "react"
 import { FormProvider, useForm, useFormState } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
@@ -9,11 +9,10 @@ import { Routes } from "@enums/routes.enum"
 import { changeUserInfoAction } from "@features/user/userActions"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
-import { defaultValues, userDetailsSchema } from "./config"
+import { userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
-import { InputsNames, UserDetailsFormProps, UserDetailsFormValues } from "./UserDetailsForm.types"
+import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
 import { stepInputs } from "../Stepper/config"
-
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   step,
   currentStep,
@@ -26,10 +25,12 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
 
   const decodedJwt = useJwtDecoded()
   const navigate = useNavigate()
-  const methods = useForm<UserDetailsFormValues>({
-    defaultValues,
+  const methods = useForm({
+    defaultValues: {
+      goals: [],
+    },
     mode: "onChange",
-    resolver: zodResolver(userDetailsSchema),
+    resolver: yupResolver(userDetailsSchema),
   })
 
   const {
@@ -40,8 +41,8 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     setFocus,
     formState: { isSubmitting },
   } = methods
-  const formState = useFormState({ control })
 
+  const formState = useFormState({ control })
   const onSubmit = handleSubmit(async (values) => {
     try {
       await dispatch(changeUserInfoAction(values)).unwrap()
@@ -55,14 +56,16 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     const errorFieldsKeys = Object.keys(formState.errors)
     const emptyFieldsPerStep = inputsNames.filter((inputName) => {
       const value = watch(inputName)
-
-      return value === "" || (Array.isArray(value) && value.length === 0)
+      return (
+        !value ||
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === "object" && value && "value" in value && value.value === "")
+      )
     })
 
     const invalidInputsNumber = inputsNames.filter(
       (inputName) => emptyFieldsPerStep.includes(inputName) || errorFieldsKeys.includes(inputName)
     ).length
-
     return invalidInputsNumber
   }
 

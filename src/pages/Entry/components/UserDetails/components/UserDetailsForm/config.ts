@@ -1,86 +1,68 @@
-import { z } from "zod"
+import { DefaultValues } from "react-hook-form"
+import * as yup from "yup"
 
-export const userDetailsSchema = z.object({
-  name: z.string().trim().min(5, {
-    message: "Required. Min. 5 characters",
-  }),
-  surname: z.string(),
-  age: z.coerce
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const handleIsNaN = (value: any) => (isNaN(value) ? undefined : value)
+
+export const userDetailsSchema = yup.object().shape({
+  name: yup.string().required("Required").min(5, "Min. 5 characters"),
+  surname: yup.string(),
+  age: yup
     .number()
-    .int({ message: "Integer expected" })
-    .min(1, {
-      message: "Minimum value is 1",
-    })
-    .max(100, {
-      message: "Maximum value is 120",
-    })
-    .positive({
-      message: "Age must be positive",
-    }),
-  gender: z.enum(["male", "female"], {
-    errorMap: () => ({
-      message: "Female or male, please",
-    }),
-  }),
-  height: z.coerce
+    .required("Required")
+    .integer("Integer expected")
+    .min(1, "Minimum value is 1")
+    .max(100, "Maximum value is 120")
+    .transform(handleIsNaN),
+  gender: yup.string().required("Required"),
+  height: yup
     .number()
-    .int({ message: "Integer expected" })
-    .min(70, {
-      message: "Minimum value is 70",
-    })
-    .max(250, {
-      message: "Maximum value is 250",
-    })
-    .positive({
-      message: "Height must be positive",
-    }),
-  weight: z.coerce
+    .required("Required")
+    .integer("Integer expected")
+    .min(70, "Minimum value is 70")
+    .max(250, "Maximum value is 250")
+    .transform(handleIsNaN),
+  weight: yup
     .number()
-    .int({ message: "Integer expected" })
-    .min(20, {
-      message: "Minimum value is 20",
-    })
-    .max(500, {
-      message: "Maximum value is 500",
-    })
-    .positive({
-      message: "Weight must be positive",
-    }),
-  desiredWeight: z.coerce
+    .required("Required")
+    .integer("Integer expected")
+    .min(20, "Minimum value is 20")
+    .max(500, "Maximum value is 500")
+    .positive("Weight must be positive")
+    .transform(handleIsNaN),
+  activityLevel: yup.string().required("Required"),
+  desiredWeight: yup
     .number()
-    .int({ message: "Integer expected" })
-    .min(1, {
-      message: "Minimum value is 1",
-    })
-    .max(500, {
-      message: "Maximum value is 500",
-    })
-    .positive({
-      message: "Weight must be positive",
-    }),
-  activityLevel: z.enum([
-    "extremely inactive",
-    "sedentary",
-    "moderately active",
-    "vigorously active",
-    "extremely active",
-  ]),
-  dueDateWeight: z.date(),
-  goals: z
-    .array(
-      z.enum([
-        "muscle gain",
-        "weight loss",
-        "improve endurance",
-        "mental well-being",
-        "overall health",
-        "consistency",
-      ])
+    .integer("Integer expected")
+    .min(1, "Minimum value is 1")
+    .max(500, "Maximum value is 500")
+    .positive("Desired weight must be positive")
+    .transform(handleIsNaN),
+  dueDateWeight: yup.date(),
+  goals: yup
+    .array()
+    .required("Required")
+    .of(
+      yup
+        .string()
+        .required()
+        .oneOf([
+          "muscle gain",
+          "weight loss",
+          "improve endurance",
+          "mental well-being",
+          "overall health",
+          "consistency",
+        ])
     )
-    .refine((data) => data.length > 0, {
-      message: "At least one goal must be selected.",
-    }),
+    .test(
+      "At least one",
+      "At least one goal must be selected",
+      (value) => value && value.length > 0
+    ),
 })
+
+type UserDetailsSchema = yup.InferType<typeof userDetailsSchema>
 
 export const activityLevelOptions = [
   { value: "extremely inactive", label: "Extremely inactive" },
@@ -125,18 +107,6 @@ export const goals = [
   },
 ]
 
-export const defaultValues = {
-  name: "",
-  surname: "",
-  age: "",
-  gender: "male",
-  height: "",
-  weight: "",
-  desiredWeight: "",
-  dueDateWeight: "",
-  activityLevel: {
-    label: "",
-    value: "",
-  },
+export const defaultValues: DefaultValues<UserDetailsSchema> = {
   goals: [],
 }

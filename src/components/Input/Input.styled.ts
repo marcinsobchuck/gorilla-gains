@@ -6,11 +6,8 @@ interface InputWrapperProps {
   $withError?: boolean
 }
 
-interface StyledErrorProps {
+interface InputStatusIconProps {
   $isVisible: boolean
-}
-
-interface InputStatusIconProps extends StyledErrorProps {
   $isValid: boolean
 }
 
@@ -74,18 +71,6 @@ export const StyledLabel = styled.label`
   left: 26px;
   top: 23px;
   transition: all 0.2s ease-out;
-`
-
-export const StyledError = styled.p<StyledErrorProps>`
-  position: absolute;
-  bottom: -18px;
-  left: 24px;
-  color: ${({ theme }) => theme.errorColor};
-  font-weight: 500;
-  font-size: 12px;
-  border-radius: 9px;
-  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: all 0.3s ease-in-out;
 `
 
 export const UnitSymbol = styled.div`

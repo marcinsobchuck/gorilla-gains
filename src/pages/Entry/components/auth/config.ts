@@ -1,27 +1,15 @@
-import { z } from "zod"
+import * as yup from "yup"
 
-export const registerSchema = z
-  .object({
-    name: z.string().trim().min(5, {
-      message: "Required. Min. 5 characters",
-    }),
-    email: z.string().email("Invalid email address"),
-    password: z.string().trim().min(6, { message: "Required. Min. 6 characters" }),
-    passwordConfirmation: z.string(),
-  })
-  .refine(
-    (data) => {
-      return data.password === data.passwordConfirmation
-    },
-    {
-      message: "Password must match",
-      path: ["passwordConfirmation"],
-    }
-  )
+export const registerSchema = yup.object().shape({
+  name: yup.string().required("Required").min(5, "Min. 5 characters"),
+  email: yup.string().email("Invalid email address").required("Required"),
+  password: yup.string().required("Required").trim().min(6, "Min. 6 characters"),
+  passwordConfirmation: yup.string().oneOf([yup.ref("password")], "Password must match"),
+})
 
-export const loginSchema = z.object({
-  email: z.string().email("Required. Invalid email address"),
-  password: z.string().trim().min(6, { message: "Required. Min. 6 characters" }),
+export const loginSchema = yup.object().shape({
+  email: yup.string().required("Required").email("Invalid email address"),
+  password: yup.string().required("Required").trim().min(6, "Min. 6 characters"),
 })
 
 export const registerInputsData: {

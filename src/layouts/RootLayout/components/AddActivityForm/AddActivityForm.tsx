@@ -1,11 +1,13 @@
-// import { zodResolver } from "@hookform/resolvers/zod"
+import { yupResolver } from "@hookform/resolvers/yup"
 import debounce from "lodash.debounce"
 import React, { useCallback, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
+import { FormError } from "@components/FormError/FormError"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -13,6 +15,7 @@ import { getActivityTypesAction } from "@features/activityTypes/activityTypesAct
 
 import {
   AddExerciseButton,
+  AddExerciseWrapper,
   FieldsWrapper,
   OthersInput,
   OthersWrapper,
@@ -21,23 +24,13 @@ import {
   StyledSelect,
   SubmitButton,
 } from "./AddActivityForm.styled"
-import { ActivityType, AddActivityFormValues } from "./AddActivityForm.types"
+import { ActivityType } from "./AddActivityForm.types"
 import { DurationInput } from "./components/DurationInput/DurationInput"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
+import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
 import { transformActivityTypesIntoOption } from "./utils"
-
-const workoutActivity: AddActivityFormValues = {
-  activityType: {
-    category: "",
-    label: "",
-    value: "",
-  },
-  date: "",
-  notes: "",
-  warmup: true,
-}
 
 export const AddActivityForm: React.FC = () => {
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
@@ -48,11 +41,12 @@ export const AddActivityForm: React.FC = () => {
 
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
 
-  const methods = useForm<AddActivityFormValues>({
+  const methods = useForm({
     mode: "all",
-    defaultValues: workoutActivity,
-
-    // resolver: zodResolver(addActivityFormSchema),
+    defaultValues: {
+      repeatExercisesCount: 1,
+    },
+    resolver: yupResolver(addActivityFormSchema),
   })
   const {
     handleSubmit,
@@ -60,6 +54,7 @@ export const AddActivityForm: React.FC = () => {
     getValues,
     control,
     formState: { errors },
+    trigger,
   } = methods
   const {
     fields,
@@ -69,13 +64,14 @@ export const AddActivityForm: React.FC = () => {
     control,
     name: "exercises",
   })
+
   const lastExerciseIndex = fields.length - 1
 
   const currentActivityType = getValues("activityType")
 
   const handleAddExerciseField = () => {
     addExercise(defaultExercise, { shouldFocus: false })
-
+    trigger("exercises")
     setTimeout(
       () => addExerciseButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }),
       0
@@ -92,17 +88,20 @@ export const AddActivityForm: React.FC = () => {
   }
 
   const AddExerciseElement = (
-    <AddExerciseButton
-      ref={addExerciseButtonRef}
-      buttonType='button'
-      type='button'
-      icon='add'
-      onClick={handleAddExerciseField}
-      disabled={!currentActivityType}
-    />
+    <AddExerciseWrapper justify='center'>
+      <AddExerciseButton
+        ref={addExerciseButtonRef}
+        buttonType='button'
+        type='button'
+        icon='add'
+        onClick={handleAddExerciseField}
+        disabled={!currentActivityType}
+      ></AddExerciseButton>
+      <FormError errors={errors} name='exercises' />
+    </AddExerciseWrapper>
   )
 
-  const getRenderInfoPerActivityTypeCategory = (activityTypeCategory: string) => {
+  const getRenderInfoPerActivityTypeCategory = (activityTypeCategory?: string) => {
     switch (activityTypeCategory) {
       case "strength":
         return {
@@ -139,7 +138,6 @@ export const AddActivityForm: React.FC = () => {
                 step='0.001'
                 label='distance'
                 withIcon={false}
-                withError={false}
                 unitSymbol='km'
               />
             </OthersWrapper>
@@ -207,8 +205,8 @@ export const AddActivityForm: React.FC = () => {
                 setIsWarningVisible(false)
                 setSelectValue(currentActivityType)
               } else {
-                setSelectValue(currentActivityType.value === "" ? newValue : currentActivityType)
-                setValue("activityType", newValue as ActivityType)
+                setSelectValue(currentActivityType?.value === "" ? newValue : currentActivityType)
+                setValue("activityType", newValue as ActivityType, { shouldValidate: true })
                 getRenderInfoPerActivityTypeCategory(newValue?.category as string).addExercise()
               }
             }}
@@ -234,6 +232,7 @@ export const AddActivityForm: React.FC = () => {
           />
           <Datepicker name='date' label='Date' withError />
           <StyledCheckbox name='warmup' label='Warmup done?' />
+          {fields.length > 0 && <Counter label='Repeat' id='repeatExercisesCount' />}
 
           {fields.map((field, exerciseIndex) => {
             return (

@@ -37,28 +37,21 @@ export const StyledRemoveIcon = styled(Icon)`
   cursor: pointer;
 `
 
+export const AddExerciseWrapper = styled(FlexContainer)`
+  position: relative;
+  margin: 24px auto 36px auto;
+`
+
 export const AddExerciseButton = styled(Button)`
+  position: relative;
   padding: 0;
   scroll-margin-bottom: 60px;
-  margin: 24px auto 36px auto;
+  margin-bottom: 12px;
 
   svg {
     width: 56px;
     height: 56px;
     fill: ${({ theme }) => theme.backgroundColor};
-  }
-`
-
-export const AddSetButton = styled(Button)`
-  display: block;
-  scroll-margin-bottom: 120px;
-  margin: 0 auto;
-
-  svg {
-    margin: 0;
-    width: 34px;
-    height: 34px;
-    fill: ${({ theme }) => theme.primaryMedium};
   }
 `
 
@@ -95,14 +88,19 @@ export const ExerciseIndex = styled.p`
   color: ${({ theme }) => theme.secondary};
 `
 
-export const SetsText = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.primaryMedium};
+export const SetsHeading = styled.div`
+  position: relative;
   padding-bottom: 6px;
   padding-left: 12px;
   margin: 24px 0;
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
+`
+
+export const SetsText = styled.p`
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primaryMedium};
 `
 
 export const SetWrapper = styled(FlexContainer)`

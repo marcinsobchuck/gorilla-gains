@@ -6,8 +6,9 @@ export interface Option {
 
 export interface SelectAdditionalProps {
   options: Option[]
-  labelText?: string
   name: string
+  labelText?: string
+  withError?: boolean
 }
 
 export type SelectProps = SelectAdditionalProps &

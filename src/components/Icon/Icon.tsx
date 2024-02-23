@@ -9,6 +9,7 @@ import gorilla from "@assets/gorilla.svg"
 import history from "@assets/history.svg"
 import linkedin from "@assets/linkedin.svg"
 import menu from "@assets/menu.svg"
+import minus from "@assets/minus.svg"
 import moon from "@assets/moon.svg"
 import remove from "@assets/remove.svg"
 import settings from "@assets/settings.svg"
@@ -42,6 +43,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     close: <StyledIcon src={close} {...SVGProps} />,
     remove: <StyledIcon src={remove} {...SVGProps} />,
     checkmark: <StyledIcon src={checkmark} {...SVGProps} />,
+    minus: <StyledIcon src={minus} {...SVGProps} />,
   }
 
   if (name) {

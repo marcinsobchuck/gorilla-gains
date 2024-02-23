@@ -88,8 +88,13 @@ const variants = {
       }
     }
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: ${({ theme }) => theme.secondaryOpacity};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: ${({ theme }) => theme.primaryDisabled};
     }
   `,
 }

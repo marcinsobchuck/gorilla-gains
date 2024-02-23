@@ -1,3 +1,6 @@
+import { useFormContext } from "react-hook-form"
+
+import { FormError } from "@components/FormError/FormError"
 import { RadioButton } from "@components/RadioButton/RadioButton"
 
 import { GroupTitle, RadioButtonGroupWrapper, RadiosWrapper } from "./RadioButtonGroup.styled"
@@ -9,7 +12,12 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   name,
   buttonVariant,
   className,
+  withError = true,
 }) => {
+  const {
+    formState: { errors },
+  } = useFormContext()
+
   return (
     <RadioButtonGroupWrapper className={className}>
       {groupTitle && <GroupTitle>{groupTitle}</GroupTitle>}
@@ -24,6 +32,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
           />
         ))}
       </RadiosWrapper>
+      {withError && <FormError errors={errors} name={name} />}
     </RadioButtonGroupWrapper>
   )
 }

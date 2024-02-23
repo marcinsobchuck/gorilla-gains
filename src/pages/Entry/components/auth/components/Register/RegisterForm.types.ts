@@ -4,7 +4,7 @@ export interface RegisterFormValues {
   name: string
   email: string
   password: string
-  passwordConfirmation: string
+  passwordConfirmation?: string
 }
 
 export interface RegisterFormProps {

@@ -1,4 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
@@ -12,7 +12,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const methods = useForm({
     defaultValues: registerValues,
     mode: "all",
-    resolver: zodResolver(registerSchema),
+    resolver: yupResolver(registerSchema),
   })
 
   const {

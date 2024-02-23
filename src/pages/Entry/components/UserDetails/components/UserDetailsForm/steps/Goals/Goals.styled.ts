@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
-export const GoalsWrapper = styled.div``
+export const GoalsWrapper = styled.div`
+  position: relative;
+`
 
 export const TilesWrapper = styled.div`
   display: flex;
@@ -10,7 +12,6 @@ export const TilesWrapper = styled.div`
   border-top: 1px solid ${({ theme }) => theme.primaryDisabled};
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
   padding: 24px 0;
-  margin-bottom: 28px;
 `
 
 export const GoalsTitle = styled.p`

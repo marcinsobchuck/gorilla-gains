@@ -16,14 +16,12 @@ export interface User {
 export interface ChangeUserInfoData {
   name?: string
   surname?: string
-  age?: string
+  age?: number
   gender?: string
-  height?: string
-  weight?: string
-  desiredWeight?: string
-  dueDateWeight?: Date | string
-  activityLevel?: {
-    label: string
-  }
+  height?: number
+  weight?: number
+  desiredWeight?: number
+  dueDateWeight?: Date | null
+  activityLevel?: string
   goals?: string[]
 }

@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 export const RadioButtonGroupWrapper = styled.div`
+  position: relative;
   padding: 6px 24px 16px 24px;
 
   background-color: ${({ theme }) => theme.inputBackgroundColor};
