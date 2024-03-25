@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
 
+import activitiesReducer from "@features/activities/activitiesSlice"
 import activityTypesReducer from "@features/activityTypes/activityTypesSlice"
 import authReducer from "@features/auth/authSlice"
 import exercisesReducer from "@features/exercises/exercisesSlice"
@@ -13,6 +14,7 @@ const store = configureStore({
     user: userReducer,
     activityTypes: activityTypesReducer,
     exercises: exercisesReducer,
+    activities: activitiesReducer,
   },
 })
 

@@ -29,7 +29,7 @@ export const lightTheme = {
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
-  elevationBoxShadow: "0 1px 2px rgba(0,0,0,.13) ,0 0px 2px rgba(0,0,0,.08)",
+  elevationBoxShadow: "0 0px 6px rgba(0,0,0,.08)",
 
   primaryButtonColor: "#fafafa",
 
@@ -66,7 +66,7 @@ export const darkTheme = {
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
-  elevationBoxShadow: "0 1px 2px rgba(0,0,0,.5) ,0 0px 2px rgba(0,0,0,.6)",
+  elevationBoxShadow: "0 3px 6px rgba(0,0,0,.2)",
 
   primaryButtonColor: "#121212",
 

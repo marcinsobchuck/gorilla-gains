@@ -14,16 +14,25 @@ export const defaultExercise = {
   withBreaks: false,
 }
 
-export const staticExerciseFields = {
+export const strengthNonStaticExerciseFields = {
+  reps: "",
+  load: "",
+}
+
+export const strengthStaticExerciseFields = {
   duration: durationField,
   load: "",
 }
 
-export const strengthExerciseFields = {
-  reps: "",
-  load: "",
-}
 export const enduranceExerciseFields = {
   duration: durationField,
   distance: "",
+}
+
+export const flexibilityExerciseFields = {
+  duration: durationField,
+}
+
+export const balanceExerciseFields = {
+  duration: durationField,
 }

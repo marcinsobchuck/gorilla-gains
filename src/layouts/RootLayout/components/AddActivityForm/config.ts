@@ -8,26 +8,33 @@ const getIsExerciseObjectInvalid = (value: ExerciseFields) => {
   return Object.keys(value).length === 0 || !value.value || !value.label
 }
 
-const atLeastOneFieldTest = (message: string = "Fill at least one"): yup.TestConfig<Duration> => {
-  return {
+export const durationSchema = yup
+  .object()
+  .shape({
+    hours: yup.number().transform(handleIsNaN).max(100, "Max is 100").min(0, "Min is 0"),
+    minutes: yup.number().transform(handleIsNaN).max(59, "Max is 59").min(0, "Min is 0"),
+    seconds: yup.number().transform(handleIsNaN).max(59, "Max is 59").min(0, "Min is 0"),
+  })
+  .test({
     name: "AtLeastOne",
     test: (value, { createError, path }) => {
       if (!value.hours && !value.minutes && !value.seconds) {
         return createError({
-          message,
+          message: "Fill at least one",
           path,
         })
       }
       return true
     },
-  }
-}
+  })
 
-export const durationSchema = yup.object().shape({
-  hours: yup.number().transform(handleIsNaN).max(100, "Max is 100").min(0, "Min is 0"),
-  minutes: yup.number().transform(handleIsNaN).max(59, "Max is 59").min(0, "Min is 0"),
-  seconds: yup.number().transform(handleIsNaN).max(59, "Max is 59").min(0, "Min is 0"),
-})
+export const activityTypeSchema = yup
+  .object()
+  .shape({
+    label: yup.string().required(),
+    value: yup.string().required(),
+  })
+  .required()
 
 export const exerciseFieldsSchema = yup
   .object()
@@ -51,64 +58,78 @@ export const exerciseFieldsSchema = yup
     },
   })
 
-export const activityTypeSchema = yup.object().shape({
-  category: yup.string(),
-  label: yup.string(),
-  value: yup.string(),
+const baseExerciseSchema = yup.object().shape({
+  exercise: exerciseFieldsSchema,
+  withBreaks: yup.boolean(),
 })
 
-const strengthExerciseSchema = yup.object().shape({
-  exercise: exerciseFieldsSchema,
-  sets: yup.array().when("exercise", {
-    is: (exercise: ExerciseFields) => exercise.isStatic,
-    then: (schema) => {
-      return schema
-        .of(
-          yup.object().shape({
-            load: yup.number().transform(handleIsNaN),
-            duration: durationSchema.test(atLeastOneFieldTest()),
-            break: yup.number().transform(handleIsNaN),
+const baseSetSchema = yup.object().shape({
+  break: yup.number().transform(handleIsNaN).nullable(),
+})
+
+const strengthExerciseSchema = baseExerciseSchema.shape({
+  sets: yup
+    .array()
+    .min(1, "Add at least one set")
+    .when("exercise", {
+      is: (exercise: ExerciseFields) => exercise.isStatic,
+      then: (schema) => {
+        return schema.of(
+          baseSetSchema.shape({
+            duration: durationSchema,
+            load: yup.number().transform(handleIsNaN).nullable(),
           })
         )
-        .min(1, "Add at least one set")
-    },
-    otherwise: () =>
-      yup
-        .array()
-        .of(
-          yup.object().shape({
-            load: yup
-              .number()
-              .transform(handleIsNaN)
-              .required("Required")
-              .positive("Must be positive"),
+      },
+      otherwise: (schema) =>
+        schema.of(
+          baseSetSchema.shape({
+            load: yup.number().transform(handleIsNaN).positive("Must be positive").nullable(),
             reps: yup
               .number()
               .transform(handleIsNaN)
               .required("Required")
               .positive("Must be positive"),
-            break: yup.number().transform(handleIsNaN),
           })
-        )
-        .min(1, "Add at least one set"),
-  }),
-  withBreaks: yup.boolean(),
+        ),
+    }),
 })
 
-const enduranceExerciseSchema = yup.object().shape({
-  exercise: exerciseFieldsSchema,
+const enduranceExerciseSchema = baseExerciseSchema.shape({
   sets: yup
     .array()
+    .min(1, "Add at least one set")
     .of(
-      yup.object().shape({
-        duration: durationSchema.test(atLeastOneFieldTest()),
-        distance: yup.number().transform(handleIsNaN).required("Required"),
-        break: yup.number().transform(handleIsNaN),
+      baseSetSchema.shape({
+        duration: durationSchema,
+        distance: yup.number().transform(handleIsNaN),
       })
-    )
-    .min(1, "Add at least one set"),
-  withBreaks: yup.boolean(),
+    ),
 })
+
+const flexibilityExerciseSchema = baseExerciseSchema.shape({
+  sets: yup
+    .array()
+    .min(1, "Add at least one set")
+    .of(
+      baseSetSchema.shape({
+        duration: durationSchema,
+      })
+    ),
+})
+
+const balanceExerciseSchema = baseExerciseSchema.shape({
+  sets: yup
+    .array()
+    .min(1, "Add at least one set")
+    .of(
+      baseSetSchema.shape({
+        duration: durationSchema,
+      })
+    ),
+})
+
+// balance, flexibility set fields will potentially change thus two seperate objects
 
 export const addActivityFormSchema = yup.object().shape({
   activityType: activityTypeSchema.test({
@@ -125,33 +146,26 @@ export const addActivityFormSchema = yup.object().shape({
     },
   }),
   date: yup.date().required("Required"),
-  duration: durationSchema.when("activityType", {
-    is: (value: ActivityType) => {
-      return value.category === "other"
-    },
-    then: (schema) => schema.test(atLeastOneFieldTest()),
-  }),
-  distance: yup
-    .number()
-    .transform(handleIsNaN)
-    .when("activityType", {
-      is: (value: ActivityType) => value.category === "other",
-      then: (schema) => {
-        return schema.required("Required")
-      },
-    }),
   exercises: yup
     .array()
+    .min(1, "Add at least one exercise")
     .when("activityType", {
-      is: (value: ActivityType) => value.category === "strength",
+      is: (activityType: ActivityType) => activityType.label === "strength",
       then: (schema) => schema.of(strengthExerciseSchema),
-      otherwise: (schema) => schema.of(enduranceExerciseSchema),
     })
     .when("activityType", {
-      is: (value: ActivityType) => value.category === "strength" || value.category === "endurance",
-      then: (schema) => schema.min(1, "Add an exercise or change the activity type"),
+      is: (activityType: ActivityType) => activityType.label === "endurance",
+      then: (schema) => schema.of(enduranceExerciseSchema),
+    })
+    .when("activityType", {
+      is: (activityType: ActivityType) => activityType.label === "flexibility",
+      then: (schema) => schema.of(flexibilityExerciseSchema),
+    })
+    .when("activityType", {
+      is: (activityType: ActivityType) => activityType.label === "balance",
+      then: (schema) => schema.of(balanceExerciseSchema),
     }),
   notes: yup.string(),
-  warmup: yup.boolean(),
+  warmup: yup.boolean().required(),
   repeatExercisesCount: yup.number().transform(handleIsNaN),
 })

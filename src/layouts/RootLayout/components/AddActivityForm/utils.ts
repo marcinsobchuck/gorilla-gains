@@ -9,7 +9,6 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
   return data.map((item) => ({
     value: item._id,
     label: item.type,
-    category: item.category,
   }))
 }
 
@@ -19,7 +18,7 @@ export const transformExerciseIntoOption = (data?: Exercise[]): AsyncOption[] =>
   }
 
   return data.map((item) => ({
-    value: item.name,
+    value: item._id,
     label: item.name,
     isStatic: item.isStatic,
     additionalInfo: item.additionalInfo,

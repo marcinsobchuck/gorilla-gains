@@ -1,16 +1,28 @@
 interface Set {
-  reps: number
-  load: number
+  reps?: number
+  load?: number
+  duration?: Duration
+  distance?: number
+  break?: number
+}
+
+export interface Duration {
+  hours?: number
+  minutes?: number
+  seconds?: number
 }
 
 interface Exercise {
   exercise: string
   sets: Set[]
+  withBreaks: boolean
 }
 
-export interface Activity {
+export interface CreateActivityData {
   type: string
-  exercises: Exercise[]
+  exercises?: Exercise[]
   date: Date
-  duration: number
+  notes?: string
+  warmup: boolean
+  repeatExercisesCount?: number
 }

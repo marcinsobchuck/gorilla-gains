@@ -2,7 +2,8 @@ export enum ApiEndpoints {
   REGISTER = "/auth/register",
   LOGIN = "/auth/login",
   USERS = "/users",
-  ACTIVITIES = "/users/activities",
+  USER_ACTIVITIES = "/activity/user",
+  ACTIVITIES = "/activity",
   ACTIVITIY_TYPES = "/activityTypes",
   EXERCISES = "/exercises",
 }

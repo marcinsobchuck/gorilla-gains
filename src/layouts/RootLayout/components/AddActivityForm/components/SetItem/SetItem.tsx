@@ -13,6 +13,7 @@ import {
   StyledRemoveIcon,
   X,
 } from "../../AddActivityForm.styled"
+import { AddActivityFormTypes } from "../../AddActivityForm.types"
 import { DurationInput } from "../DurationInput/DurationInput"
 
 export const SetItem: React.FC<SetItemProps> = ({
@@ -22,9 +23,9 @@ export const SetItem: React.FC<SetItemProps> = ({
   lastSetIndex,
   onRemoveSet,
 }) => {
-  const { watch, setValue } = useFormContext()
+  const { watch, setValue } = useFormContext<AddActivityFormTypes>()
 
-  const currentActivityTypeCategory = watch("activityType").category
+  const currentActivityType = watch("activityType").label
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
 
   const withBreaks = watch(`exercises.${exerciseIndex}.withBreaks`)
@@ -48,8 +49,8 @@ export const SetItem: React.FC<SetItemProps> = ({
     return currentValue
   }
 
-  const renderInputs = (category: string, isExerciseStatic?: boolean) => {
-    switch (category) {
+  const renderInputs = (activityType: string, isExerciseStatic?: boolean) => {
+    switch (activityType) {
       case "strength":
         return (
           <>
@@ -89,6 +90,11 @@ export const SetItem: React.FC<SetItemProps> = ({
             />
           </>
         )
+      case "flexibility":
+      case "balance":
+        return (
+          <DurationInput id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`} />
+        )
     }
   }
 
@@ -96,7 +102,7 @@ export const SetItem: React.FC<SetItemProps> = ({
     <>
       <SetWrapper justify='space-between' align='center'>
         <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
-        {renderInputs(currentActivityTypeCategory, isExerciseStatic)}
+        {renderInputs(currentActivityType, isExerciseStatic)}
 
         <StyledRemoveIcon name='remove' width={20} height={20} onClick={() => onRemoveSet()} />
       </SetWrapper>

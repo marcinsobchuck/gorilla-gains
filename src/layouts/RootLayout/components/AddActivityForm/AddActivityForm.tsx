@@ -4,6 +4,7 @@ import React, { useCallback, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
+import { CreateActivityData } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
@@ -11,21 +12,19 @@ import { FormError } from "@components/FormError/FormError"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { createActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
 
 import {
   AddExerciseButton,
   AddExerciseWrapper,
   FieldsWrapper,
-  OthersInput,
-  OthersWrapper,
   StyledCheckbox,
   StyledForm,
   StyledSelect,
   SubmitButton,
 } from "./AddActivityForm.styled"
 import { ActivityType } from "./AddActivityForm.types"
-import { DurationInput } from "./components/DurationInput/DurationInput"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { addActivityFormSchema } from "./config"
@@ -64,9 +63,7 @@ export const AddActivityForm: React.FC = () => {
     control,
     name: "exercises",
   })
-
   const lastExerciseIndex = fields.length - 1
-
   const currentActivityType = getValues("activityType")
 
   const handleAddExerciseField = () => {
@@ -79,82 +76,9 @@ export const AddActivityForm: React.FC = () => {
   }
   const handleRemoveExercise = (exerciseIndex?: number | number[]) => removeExercise(exerciseIndex)
 
-  const handleWarningYesOption = (category: string) => {
-    if (category === "other") {
-      removeExercise()
-    } else {
-      handleAddExerciseField()
-    }
+  const handleWarningYesOption = () => {
+    handleAddExerciseField()
   }
-
-  const AddExerciseElement = (
-    <AddExerciseWrapper justify='center'>
-      <AddExerciseButton
-        ref={addExerciseButtonRef}
-        buttonType='button'
-        type='button'
-        icon='add'
-        onClick={handleAddExerciseField}
-        disabled={!currentActivityType}
-      ></AddExerciseButton>
-      <FormError errors={errors} name='exercises' />
-    </AddExerciseWrapper>
-  )
-
-  const getRenderInfoPerActivityTypeCategory = (activityTypeCategory?: string) => {
-    switch (activityTypeCategory) {
-      case "strength":
-        return {
-          element: AddExerciseElement,
-          addExercise: () =>
-            addExercise(
-              {
-                exercise: exerciseField,
-                withBreaks: false,
-              },
-              { shouldFocus: false }
-            ),
-        }
-      case "endurance":
-        return {
-          element: AddExerciseElement,
-          addExercise: () =>
-            addExercise(
-              {
-                exercise: exerciseField,
-                withBreaks: false,
-              },
-              { shouldFocus: false }
-            ),
-        }
-      case "other":
-        return {
-          element: (
-            <OthersWrapper direction='column' justify='space-between'>
-              <DurationInput id='duration' label='Duration' />
-              <OthersInput
-                id='distance'
-                type='number'
-                step='0.001'
-                label='distance'
-                withIcon={false}
-                unitSymbol='km'
-              />
-            </OthersWrapper>
-          ),
-          addExercise: () => {},
-        }
-      default:
-        return {
-          element: null,
-          addExercise: () => {},
-        }
-    }
-  }
-
-  const renderElementPerActivityTypeCategory =
-    currentActivityType &&
-    getRenderInfoPerActivityTypeCategory(currentActivityType.category).element
 
   const getActivityTypesOptions = async (inputValue: string) => {
     try {
@@ -176,9 +100,30 @@ export const AddActivityForm: React.FC = () => {
     []
   )
 
-  const onSubmit = handleSubmit((values) => {
-    console.log(values)
-    console.log(errors)
+  const onSubmit = handleSubmit(async (values) => {
+    const { activityType, date, notes, repeatExercisesCount, warmup, exercises } = values
+
+    const transformedExercises = exercises?.map((exercise) => {
+      return { ...exercise, exercise: exercise.exercise.value }
+    })
+
+    // if (values.exercises && values.exercises?.length > 0 && repeatExercisesCount) {
+    //   for (let i = 0; i < repeatExercisesCount; i++) {
+    //     exercises.push(...values.exercises)
+    //   }
+    // }
+
+    const dataToSubmit: CreateActivityData = {
+      type: activityType.value,
+      date,
+      notes,
+      warmup,
+      repeatExercisesCount,
+      exercises: transformedExercises,
+    }
+
+    const result = await dispatch(createActivityAction(dataToSubmit))
+    console.log({ dataToSubmit, result, exercises })
   })
 
   return (
@@ -207,7 +152,13 @@ export const AddActivityForm: React.FC = () => {
               } else {
                 setSelectValue(currentActivityType?.value === "" ? newValue : currentActivityType)
                 setValue("activityType", newValue as ActivityType, { shouldValidate: true })
-                getRenderInfoPerActivityTypeCategory(newValue?.category as string).addExercise()
+                addExercise(
+                  {
+                    exercise: exerciseField,
+                    withBreaks: false,
+                  },
+                  { shouldFocus: false }
+                )
               }
             }}
             onFocus={async () => {
@@ -222,7 +173,7 @@ export const AddActivityForm: React.FC = () => {
             onAccept={() => {
               removeExercise()
               setValue("activityType", selectValue as ActivityType)
-              handleWarningYesOption(selectValue?.category as string)
+              handleWarningYesOption()
               setIsWarningVisible(false)
             }}
             onDecline={() => {
@@ -232,7 +183,7 @@ export const AddActivityForm: React.FC = () => {
           />
           <Datepicker name='date' label='Date' withError />
           <StyledCheckbox name='warmup' label='Warmup done?' />
-          {fields.length > 0 && <Counter label='Repeat' id='repeatExercisesCount' />}
+          {fields.length > 0 && <Counter label='Repeat all' id='repeatExercisesCount' />}
 
           {fields.map((field, exerciseIndex) => {
             return (
@@ -246,7 +197,19 @@ export const AddActivityForm: React.FC = () => {
             )
           })}
 
-          {renderElementPerActivityTypeCategory}
+          {currentActivityType && (
+            <AddExerciseWrapper justify='center'>
+              <AddExerciseButton
+                ref={addExerciseButtonRef}
+                buttonType='button'
+                type='button'
+                icon='add'
+                onClick={handleAddExerciseField}
+                disabled={!currentActivityType}
+              ></AddExerciseButton>
+              <FormError errors={errors} name='exercises' />
+            </AddExerciseWrapper>
+          )}
           <Textarea
             label='Notes'
             name='notes'

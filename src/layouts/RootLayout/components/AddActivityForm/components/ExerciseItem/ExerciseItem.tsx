@@ -20,11 +20,13 @@ import {
   SetsText,
   StyledSelect,
 } from "../../AddActivityForm.styled"
-import { ExerciseFields } from "../../AddActivityForm.types"
+import { AddActivityFormTypes, ExerciseFields } from "../../AddActivityForm.types"
 import {
+  balanceExerciseFields,
   enduranceExerciseFields,
-  staticExerciseFields,
-  strengthExerciseFields,
+  flexibilityExerciseFields,
+  strengthNonStaticExerciseFields,
+  strengthStaticExerciseFields,
 } from "../../constants"
 import { transformExerciseIntoOption } from "../../utils"
 import { SetItem } from "../SetItem/SetItem"
@@ -39,7 +41,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
     watch,
     setValue,
     formState: { errors },
-  } = useFormContext()
+  } = useFormContext<AddActivityFormTypes>()
 
   const {
     append: addSet,
@@ -49,16 +51,20 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
     name: `exercises.${exerciseIndex}.sets`,
   })
 
-  const currentActivityTypeCategory = watch("activityType").category
+  const currentActivityType = watch("activityType").label
   const currentExercise = watch(`exercises.${exerciseIndex}.exercise.value`)
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
 
-  const getSetsFormFields = (category: string, isExerciseStatic?: boolean) => {
-    switch (category) {
+  const getSetsFormFields = (activityType: string, isExerciseStatic?: boolean) => {
+    switch (activityType) {
       case "strength":
-        return isExerciseStatic ? staticExerciseFields : strengthExerciseFields
+        return isExerciseStatic ? strengthStaticExerciseFields : strengthNonStaticExerciseFields
       case "endurance":
         return enduranceExerciseFields
+      case "flexibility":
+        return flexibilityExerciseFields
+      case "balance":
+        return balanceExerciseFields
       default:
         return {}
     }
@@ -66,8 +72,9 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
 
   const ref = useRef<HTMLButtonElement>(null)
 
-  const handleAddSetField = () => {
-    addSet(getSetsFormFields(currentActivityTypeCategory, isExerciseStatic), { shouldFocus: false })
+  const handleAddSetField = (isExerciseStatic: boolean) => {
+    console.log(isExerciseStatic)
+    addSet(getSetsFormFields(currentActivityType, isExerciseStatic), { shouldFocus: false })
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
 
@@ -120,11 +127,13 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
         }}
         formatOptionLabel={(data) => <CustomOptionLabel data={data} />}
         onChange={(newValue) => {
-          removeSet()
-          handleAddSetField()
-          setValue(`exercises.${exerciseIndex}.exercise`, newValue as ExerciseFields, {
-            shouldValidate: true,
-          })
+          if (newValue?.value !== currentExercise) {
+            removeSet()
+            handleAddSetField(newValue?.isStatic as boolean)
+            setValue(`exercises.${exerciseIndex}.exercise`, newValue as ExerciseFields, {
+              shouldValidate: true,
+            })
+          }
         }}
         name={`exercises.${exerciseIndex}.exercise`}
         labelText='Exercise'
@@ -157,7 +166,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
           buttonType='button'
           type='button'
           variant='secondary'
-          onClick={handleAddSetField}
+          onClick={() => handleAddSetField(isExerciseStatic)}
         />
       )}
     </ExerciseWrapper>
