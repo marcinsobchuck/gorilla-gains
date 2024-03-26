@@ -132,6 +132,7 @@ const balanceExerciseSchema = baseExerciseSchema.shape({
 // balance, flexibility set fields will potentially change thus two seperate objects
 
 export const addActivityFormSchema = yup.object().shape({
+  title: yup.string().required("Required"),
   activityType: activityTypeSchema.test({
     name: "Activity type is required",
     test: (value, { createError, path }) => {

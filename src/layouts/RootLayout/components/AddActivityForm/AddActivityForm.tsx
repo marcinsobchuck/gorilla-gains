@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import debounce from "lodash.debounce"
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { FormError } from "@components/FormError/FormError"
+import { Input } from "@components/Input/Input"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -29,7 +30,7 @@ import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
-import { transformActivityTypesIntoOption } from "./utils"
+import { capitalizeFirstLetter, transformActivityTypesIntoOption } from "./utils"
 
 export const AddActivityForm: React.FC = () => {
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
@@ -54,6 +55,7 @@ export const AddActivityForm: React.FC = () => {
     control,
     formState: { errors },
     trigger,
+    watch,
   } = methods
   const {
     fields,
@@ -77,7 +79,15 @@ export const AddActivityForm: React.FC = () => {
   const handleRemoveExercise = (exerciseIndex?: number | number[]) => removeExercise(exerciseIndex)
 
   const handleWarningYesOption = () => {
+    removeExercise()
+    setValue("activityType", selectValue as ActivityType)
     handleAddExerciseField()
+    setIsWarningVisible(false)
+  }
+
+  const handleWarningNoOption = () => {
+    setSelectValue(currentActivityType)
+    setIsWarningVisible(false)
   }
 
   const getActivityTypesOptions = async (inputValue: string) => {
@@ -101,19 +111,14 @@ export const AddActivityForm: React.FC = () => {
   )
 
   const onSubmit = handleSubmit(async (values) => {
-    const { activityType, date, notes, repeatExercisesCount, warmup, exercises } = values
+    const { title, activityType, date, notes, repeatExercisesCount, warmup, exercises } = values
 
     const transformedExercises = exercises?.map((exercise) => {
       return { ...exercise, exercise: exercise.exercise.value }
     })
 
-    // if (values.exercises && values.exercises?.length > 0 && repeatExercisesCount) {
-    //   for (let i = 0; i < repeatExercisesCount; i++) {
-    //     exercises.push(...values.exercises)
-    //   }
-    // }
-
     const dataToSubmit: CreateActivityData = {
+      title,
       type: activityType.value,
       date,
       notes,
@@ -126,10 +131,26 @@ export const AddActivityForm: React.FC = () => {
     console.log({ dataToSubmit, result, exercises })
   })
 
+  const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
+  const dateValue = watch("date")?.toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+
+  const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""} ${dateValue ? " - " + dateValue : ""}`
+
+  useEffect(() => {
+    if (activityTypeLabel || dateValue) {
+      setValue("title", defaultTitleValue, { shouldValidate: true })
+    }
+  }, [activityTypeLabel, dateValue, defaultTitleValue, setValue])
+
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
         <FieldsWrapper>
+          <Input id='title' label='Title' type='text' />
           <StyledSelect
             name='activityType'
             labelText='Activity type'
@@ -170,16 +191,8 @@ export const AddActivityForm: React.FC = () => {
           />
           <InputChangeWarning
             isVisible={isWarningVisible}
-            onAccept={() => {
-              removeExercise()
-              setValue("activityType", selectValue as ActivityType)
-              handleWarningYesOption()
-              setIsWarningVisible(false)
-            }}
-            onDecline={() => {
-              setSelectValue(currentActivityType)
-              setIsWarningVisible(false)
-            }}
+            onAccept={handleWarningYesOption}
+            onDecline={handleWarningNoOption}
           />
           <Datepicker name='date' label='Date' withError />
           <StyledCheckbox name='warmup' label='Warmup done?' />

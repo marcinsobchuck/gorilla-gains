@@ -19,6 +19,7 @@ interface Exercise {
 }
 
 export interface CreateActivityData {
+  title: string
   type: string
   exercises?: Exercise[]
   date: Date
