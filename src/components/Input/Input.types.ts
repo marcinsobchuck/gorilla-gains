@@ -9,6 +9,7 @@ export interface Props {
   unitSymbol?: string
   className?: string
   triggerValidationFor?: string[]
+  onChange?: () => void
 }
 
 export type InputProps = Props & InputHTMLAttributes<HTMLInputElement>

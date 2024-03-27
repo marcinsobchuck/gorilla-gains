@@ -33,6 +33,7 @@ import { defaultExercise, exerciseField } from "./constants"
 import { capitalizeFirstLetter, transformActivityTypesIntoOption } from "./utils"
 
 export const AddActivityForm: React.FC = () => {
+  const [isCustomTitle, setIsCustomTitle] = useState(false)
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
@@ -67,7 +68,6 @@ export const AddActivityForm: React.FC = () => {
   })
   const lastExerciseIndex = fields.length - 1
   const currentActivityType = getValues("activityType")
-
   const handleAddExerciseField = () => {
     addExercise(defaultExercise, { shouldFocus: false })
     trigger("exercises")
@@ -137,20 +137,19 @@ export const AddActivityForm: React.FC = () => {
     month: "2-digit",
     year: "numeric",
   })
-
-  const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""} ${dateValue ? " - " + dateValue : ""}`
+  const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""}${dateValue ? " - " + dateValue : ""}`
 
   useEffect(() => {
-    if (activityTypeLabel || dateValue) {
-      setValue("title", defaultTitleValue, { shouldValidate: true })
+    if (!isCustomTitle && (activityTypeLabel || dateValue)) {
+      setValue("title", defaultTitleValue, { shouldValidate: true, shouldDirty: false })
     }
-  }, [activityTypeLabel, dateValue, defaultTitleValue, setValue])
+  }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, setValue])
 
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
         <FieldsWrapper>
-          <Input id='title' label='Title' type='text' />
+          <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} />
           <StyledSelect
             name='activityType'
             labelText='Activity type'

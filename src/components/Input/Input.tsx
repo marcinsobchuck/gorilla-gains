@@ -17,6 +17,7 @@ export const Input: React.FC<InputProps> = ({
   unitSymbol,
   className,
   triggerValidationFor = [],
+  onChange,
   ...props
 }) => {
   const {
@@ -40,6 +41,11 @@ export const Input: React.FC<InputProps> = ({
     }
   }
 
+  const customOnChange = () => {
+    onChange && onChange()
+    handleValidationTrigger()
+  }
+
   return (
     <InputWrapper
       key={id}
@@ -53,9 +59,9 @@ export const Input: React.FC<InputProps> = ({
         {...register(id, {
           ...(type === "number" && {
             setValueAs: (v) => (v === "" ? "" : +v),
-            onChange: handleValidationTrigger,
-            onBlur: handleValidationTrigger,
           }),
+          onChange: customOnChange,
+          onBlur: handleValidationTrigger,
         })}
         {...props}
       />
