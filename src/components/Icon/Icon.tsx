@@ -4,6 +4,7 @@ import checkmark from "@assets/checkmark.svg"
 import close from "@assets/close.svg"
 import dashboard from "@assets/dashboard.svg"
 import error from "@assets/error.svg"
+import fire from "@assets/fireIcon.svg"
 import github from "@assets/github.svg"
 import gorilla from "@assets/gorilla.svg"
 import history from "@assets/history.svg"
@@ -44,6 +45,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, ...rest }) => {
     remove: <StyledIcon src={remove} {...SVGProps} />,
     checkmark: <StyledIcon src={checkmark} {...SVGProps} />,
     minus: <StyledIcon src={minus} {...SVGProps} />,
+    fire: <StyledIcon src={fire} {...SVGProps} />,
   }
 
   if (name) {

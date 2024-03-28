@@ -27,6 +27,7 @@ import {
 } from "./AddActivityForm.styled"
 import { ActivityType } from "./AddActivityForm.types"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
+import { ExertionRating } from "./components/ExertionRating/ExertionRating"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
@@ -109,6 +110,7 @@ export const AddActivityForm: React.FC = () => {
     }, 500),
     []
   )
+  console.log(watch("exertionRating"))
 
   const onSubmit = handleSubmit(async (values) => {
     const { title, activityType, date, notes, repeatExercisesCount, warmup, exercises } = values
@@ -141,7 +143,7 @@ export const AddActivityForm: React.FC = () => {
 
   useEffect(() => {
     if (!isCustomTitle && (activityTypeLabel || dateValue)) {
-      setValue("title", defaultTitleValue, { shouldValidate: true, shouldDirty: false })
+      setValue("title", defaultTitleValue, { shouldValidate: true })
     }
   }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, setValue])
 
@@ -227,6 +229,7 @@ export const AddActivityForm: React.FC = () => {
             name='notes'
             placeholder='Comments, reflections, or reminders...'
           />
+          <ExertionRating />
         </FieldsWrapper>
 
         <SubmitButton buttonType='button' type='submit' width={260}>
