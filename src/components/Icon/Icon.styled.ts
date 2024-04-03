@@ -5,10 +5,11 @@ import styled from "styled-components"
 interface StyledIconProps extends SVGProps<SVGElement> {
   width?: number
   height?: number
+  color?: string
 }
 
 export const StyledIcon = styled(svg)<StyledIconProps>`
   width: ${({ width }) => (width ? `${width}px` : "22px")};
   height: ${({ height }) => (height ? `${height}px` : "22px")};
-  fill: ${({ theme }) => theme.primaryDisabled};
+  fill: ${({ theme, color }) => (color ? color : theme.primaryDisabled)};
 `

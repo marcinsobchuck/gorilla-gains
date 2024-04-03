@@ -24,6 +24,7 @@ export interface CreateActivityData {
   exercises?: Exercise[]
   date: Date
   notes?: string
+  exertionRating?: number
   warmup: boolean
   repeatExercisesCount?: number
 }

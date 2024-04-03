@@ -20,15 +20,23 @@ import {
 export const RootLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false)
+  const [isPresetsVisible, setIsPresetsVisible] = useState(false)
 
   return (
     <Background>
       <Modal
         isVisible={isActivityModalOpen}
-        onCloseButtonClick={() => setIsActivityModalOpen((prev) => !prev)}
+        lockScroll={isPresetsVisible}
+        onCloseButtonClick={() => {
+          setIsActivityModalOpen((prev) => !prev)
+          setIsPresetsVisible(false)
+        }}
         title='Add activity'
       >
-        <AddActivityForm />
+        <AddActivityForm
+          isPresetsVisible={isPresetsVisible}
+          setIsPresetsVisible={setIsPresetsVisible}
+        />
       </Modal>
       <Wrapper>
         <Header>

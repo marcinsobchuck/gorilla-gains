@@ -19,9 +19,16 @@ export type IconName =
   | "checkmark"
   | "minus"
   | "fire"
+  | "leftArrow"
+  | "threeDots"
+  | "strength"
+  | "endurance"
+  | "flexibility"
+  | "balance"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name?: IconName
   width?: number
   height?: number
+  color?: string
 }

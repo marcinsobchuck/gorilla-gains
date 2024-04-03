@@ -139,6 +139,11 @@ export const SubmitButton = styled(Button)`
   align-self: center;
 `
 
+export const PresetsButton = styled(Button)`
+  align-self: center;
+  margin-bottom: 24px;
+`
+
 export const InputWarning = styled(FlexContainer)`
   padding: 9px 24px;
   margin-bottom: 24px;

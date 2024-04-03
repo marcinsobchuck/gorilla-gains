@@ -20,20 +20,25 @@ import {
   AddExerciseButton,
   AddExerciseWrapper,
   FieldsWrapper,
+  PresetsButton,
   StyledCheckbox,
   StyledForm,
   StyledSelect,
   SubmitButton,
 } from "./AddActivityForm.styled"
-import { ActivityType } from "./AddActivityForm.types"
+import { ActivityType, AddActivityFormProps } from "./AddActivityForm.types"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { ExertionRating } from "./components/ExertionRating/ExertionRating"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
+import { PresetsView } from "./components/PresetsView/PresetsView"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
 import { capitalizeFirstLetter, transformActivityTypesIntoOption } from "./utils"
 
-export const AddActivityForm: React.FC = () => {
+export const AddActivityForm: React.FC<AddActivityFormProps> = ({
+  isPresetsVisible,
+  setIsPresetsVisible,
+}) => {
   const [isCustomTitle, setIsCustomTitle] = useState(false)
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
@@ -69,6 +74,7 @@ export const AddActivityForm: React.FC = () => {
   })
   const lastExerciseIndex = fields.length - 1
   const currentActivityType = getValues("activityType")
+
   const handleAddExerciseField = () => {
     addExercise(defaultExercise, { shouldFocus: false })
     trigger("exercises")
@@ -91,6 +97,8 @@ export const AddActivityForm: React.FC = () => {
     setIsWarningVisible(false)
   }
 
+  const handlePresetsButtonClick = () => setIsPresetsVisible(true)
+
   const getActivityTypesOptions = async (inputValue: string) => {
     try {
       const response = await getActivityTypes({ filterText: inputValue })
@@ -110,10 +118,18 @@ export const AddActivityForm: React.FC = () => {
     }, 500),
     []
   )
-  console.log(watch("exertionRating"))
 
   const onSubmit = handleSubmit(async (values) => {
-    const { title, activityType, date, notes, repeatExercisesCount, warmup, exercises } = values
+    const {
+      title,
+      activityType,
+      date,
+      notes,
+      repeatExercisesCount,
+      warmup,
+      exercises,
+      exertionRating,
+    } = values
 
     const transformedExercises = exercises?.map((exercise) => {
       return { ...exercise, exercise: exercise.exercise.value }
@@ -124,6 +140,7 @@ export const AddActivityForm: React.FC = () => {
       type: activityType.value,
       date,
       notes,
+      exertionRating,
       warmup,
       repeatExercisesCount,
       exercises: transformedExercises,
@@ -150,6 +167,10 @@ export const AddActivityForm: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit}>
+        <PresetsButton buttonType='button' variant='primary' onClick={handlePresetsButtonClick}>
+          Add from preset
+        </PresetsButton>
+        <PresetsView isVisible={isPresetsVisible} setIsPresetsVisible={setIsPresetsVisible} />
         <FieldsWrapper>
           <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} />
           <StyledSelect

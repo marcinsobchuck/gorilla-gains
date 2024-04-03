@@ -3,4 +3,5 @@ export interface ModalProps {
   onCloseButtonClick: () => void
   title: string
   isVisible: boolean
+  lockScroll?: boolean
 }
