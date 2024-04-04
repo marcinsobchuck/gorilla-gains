@@ -1,7 +1,9 @@
+import { useState } from "react"
 import { useTheme } from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { Popover } from "@components/Popover/Popover"
 import { ActivityTypes } from "@enums/activityTypes.enum"
 
 import {
@@ -10,36 +12,43 @@ import {
   Heading,
   IconContainer,
   MainText,
+  PopoverOption,
+  PopoverOptions,
   SecondaryText,
   StyledInteractiveIcon,
   TextContentWrapper,
   Wrapper,
 } from "./ActivityCard.styled"
+import { getIconNamePerActivityType } from "./utils"
 
-const getIconNamePerActivityType = (type: ActivityTypes) => {
-  switch (type) {
-    case ActivityTypes.STRENGTH: {
-      return "strength"
-    }
-    case ActivityTypes.ENDURANCE: {
-      return "endurance"
-    }
-    case ActivityTypes.FLEXIBILITY: {
-      return "flexibility"
-    }
-    case ActivityTypes.BALANCE: {
-      return "balance"
-    }
-  }
-}
+const popoverOptions = ["Delete from presets", "Edit"]
 
 export const ActivityCard = () => {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const theme = useTheme()
+
   return (
     <Wrapper>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>Endurancja testowa</Heading>
-        <StyledInteractiveIcon name='threeDots' width={32} height={32} />
+        <div ref={setAnchor} onClick={() => setIsPopoverOpen((prev) => !prev)}>
+          <StyledInteractiveIcon name='threeDots' width={32} height={32} />
+        </div>
+
+        {anchor && isPopoverOpen && (
+          <Popover
+            anchor={anchor}
+            placement='bottom-end'
+            onClickOutside={() => setIsPopoverOpen(false)}
+          >
+            <PopoverOptions>
+              {popoverOptions.map((item, index) => (
+                <PopoverOption key={index}>{item}</PopoverOption>
+              ))}
+            </PopoverOptions>
+          </Popover>
+        )}
       </HeaderWrapper>
       <FlexContainer align='center'>
         <IconContainer align='center' justify='center'>
