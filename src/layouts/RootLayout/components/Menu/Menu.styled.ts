@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
@@ -113,14 +114,24 @@ export const UserEmail = styled.p`
   color: ${({ theme }) => theme.primaryDisabled};
 `
 
-export const SettingsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
+export const SettingsWrapper = styled(FlexContainer)`
+  min-width: 250px;
+  padding: 12px 12px 24px 12px;
+  background-color: ${({ theme }) => theme.popoverBackgroundColor};
+  border-radius: 9px;
+`
 
+export const SettingsOptions = styled.div`
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
+`
+
+export const ThemeSwitchWrapper = styled(FlexContainer)`
+  padding: 0 12px;
+  border-radius: 9px;
   p {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    color: ${({ theme }) => theme.primaryMedium};
   }
 `

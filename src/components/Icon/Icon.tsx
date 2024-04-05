@@ -1,3 +1,4 @@
+import account from "@assets/account.svg"
 import add from "@assets/add.svg"
 import balance from "@assets/balance.svg"
 import calendar from "@assets/calendar.svg"
@@ -13,9 +14,11 @@ import gorilla from "@assets/gorilla.svg"
 import history from "@assets/history.svg"
 import leftArrow from "@assets/leftArrow.svg"
 import linkedin from "@assets/linkedin.svg"
+import logout from "@assets/logout.svg"
 import menu from "@assets/menu.svg"
 import minus from "@assets/minus.svg"
 import moon from "@assets/moon.svg"
+import privacy from "@assets/privacy.svg"
 import remove from "@assets/remove.svg"
 import settings from "@assets/settings.svg"
 import strength from "@assets/strength.svg"
@@ -59,6 +62,9 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, color, ...rest 
     endurance: <StyledIcon src={endurance} {...SVGProps} />,
     flexibility: <StyledIcon src={flexibility} {...SVGProps} />,
     balance: <StyledIcon src={balance} {...SVGProps} />,
+    account: <StyledIcon src={account} {...SVGProps} />,
+    privacy: <StyledIcon src={privacy} {...SVGProps} />,
+    logout: <StyledIcon src={logout} {...SVGProps} />,
   }
 
   if (name) {

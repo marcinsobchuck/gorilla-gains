@@ -25,6 +25,12 @@ export const Popover: React.FC<PopoverProps> = ({
           offset: [0, offsetAway],
         },
       },
+      {
+        name: "flip",
+        options: {
+          fallbackPlacements: ["top-start"],
+        },
+      },
     ],
     placement,
   })

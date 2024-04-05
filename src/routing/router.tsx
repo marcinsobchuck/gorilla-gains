@@ -1,5 +1,7 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 
+import { Settings } from "@pages/Settings/Settings"
+
 import { PrivateRoute } from "./PrivateRoute"
 import { Routes } from "../enums/routes.enum"
 import { EntryLayout } from "../layouts/EntryLayout"
@@ -20,6 +22,7 @@ export const router = createBrowserRouter(
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />
           <Route path={Routes.CALENDAR} element={<Calendar />} />
+          <Route path={Routes.SETTINGS} element={<Settings />} />
         </Route>
       </Route>
       <Route path={Routes.ENTRY} element={<EntryLayout />}>

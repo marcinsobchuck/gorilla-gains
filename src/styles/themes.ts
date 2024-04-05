@@ -2,7 +2,7 @@ export const lightTheme = {
   backgroundColor: "#fafafa",
   inputBackgroundColor: "#F3F6FB",
   selectBackgroundColor: "#EDEDED",
-
+  popoverBackgroundColor: "#F3F6FB",
   navBackgroundColor: "#F6F6F6",
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
@@ -39,7 +39,7 @@ export const darkTheme = {
   backgroundColor: "#121212",
   inputBackgroundColor: "#32364499",
   selectBackgroundColor: "#2a2a2a",
-
+  popoverBackgroundColor: "#252730",
   navBackgroundColor: "#1e1e1e",
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",

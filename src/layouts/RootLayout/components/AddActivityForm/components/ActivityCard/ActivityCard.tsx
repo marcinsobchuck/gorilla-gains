@@ -40,6 +40,7 @@ export const ActivityCard = () => {
           <Popover
             anchor={anchor}
             placement='bottom-end'
+            offsetAway={-32}
             onClickOutside={() => setIsPopoverOpen(false)}
           >
             <PopoverOptions>

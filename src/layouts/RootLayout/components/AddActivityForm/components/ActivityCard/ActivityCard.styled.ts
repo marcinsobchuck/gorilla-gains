@@ -114,14 +114,15 @@ export const SecondaryText = styled.p`
 `
 
 export const PopoverOptions = styled.div`
-  background-color: ${({ theme }) => theme.backgroundColor};
+  background-color: ${({ theme }) => theme.popoverBackgroundColor};
   border-radius: 9px;
   overflow: hidden;
 `
 export const PopoverOption = styled.div`
   cursor: pointer;
   color: ${({ theme }) => theme.primary};
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
   padding: 12px 12px;
 
   &:not(:last-of-type) {
@@ -129,6 +130,6 @@ export const PopoverOption = styled.div`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.selectBackgroundColor};
+    background-color: ${({ theme }) => theme.secondaryOpacity};
   }
 `

@@ -25,6 +25,9 @@ export type IconName =
   | "endurance"
   | "flexibility"
   | "balance"
+  | "account"
+  | "privacy"
+  | "logout"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name?: IconName
