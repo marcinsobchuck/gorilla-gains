@@ -30,7 +30,7 @@ export type IconName =
   | "logout"
 
 export interface IconProps extends SVGProps<SVGElement> {
-  name?: IconName
+  name: IconName
   width?: number
   height?: number
   color?: string

@@ -67,9 +67,5 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, color, ...rest 
     logout: <StyledIcon src={logout} {...SVGProps} />,
   }
 
-  if (name) {
-    return icons[name]
-  }
-
-  return null
+  return icons[name]
 }

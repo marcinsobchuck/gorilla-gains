@@ -12,7 +12,6 @@ export const DurationInput: React.FC<DurationInputProps> = ({ id, withHours = tr
   } = useFormContext()
 
   const fieldsIds = [`${id}.hours`, `${id}.minutes`, `${id}.seconds`, id]
-  console.log(id)
   return (
     <Wrapper direction='column'>
       {label && <Label htmlFor={`${id}.hours`}>{label}</Label>}

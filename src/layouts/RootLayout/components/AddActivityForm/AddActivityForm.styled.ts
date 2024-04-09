@@ -26,6 +26,10 @@ export const FieldsWrapper = styled.div`
 export const StyledSelect = styled(SelectAsync)`
   position: relative;
   margin-bottom: 24px;
+
+  .nested__control {
+    background-color: ${({ theme }) => theme.nestedInputBackgroundColor};
+  }
 `
 
 export const StyledCheckbox = styled(Checkbox)`
@@ -120,6 +124,10 @@ export const SetIndex = styled.div`
 
 export const NestedInput = styled(Input)`
   width: 40%;
+
+  input {
+    background-color: ${({ theme }) => theme.nestedInputBackgroundColor};
+  }
 `
 
 export const OthersWrapper = styled(FlexContainer)`
@@ -135,9 +143,7 @@ export const X = styled.span`
   color: ${({ theme }) => theme.primaryDisabled};
 `
 
-export const SubmitButton = styled(Button)`
-  align-self: center;
-`
+export const SubmitButton = styled(Button)``
 
 export const PresetsButton = styled(Button)`
   align-self: center;

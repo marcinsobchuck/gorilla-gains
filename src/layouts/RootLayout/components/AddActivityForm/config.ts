@@ -67,7 +67,7 @@ const baseSetSchema = yup.object().shape({
   break: yup.number().transform(handleIsNaN).nullable(),
 })
 
-const strengthExerciseSchema = baseExerciseSchema.shape({
+export const strengthExerciseSchema = baseExerciseSchema.shape({
   sets: yup
     .array()
     .min(1, "Add at least one set")
@@ -95,7 +95,7 @@ const strengthExerciseSchema = baseExerciseSchema.shape({
     }),
 })
 
-const enduranceExerciseSchema = baseExerciseSchema.shape({
+export const enduranceExerciseSchema = baseExerciseSchema.shape({
   sets: yup
     .array()
     .min(1, "Add at least one set")
@@ -107,7 +107,7 @@ const enduranceExerciseSchema = baseExerciseSchema.shape({
     ),
 })
 
-const flexibilityExerciseSchema = baseExerciseSchema.shape({
+export const flexibilityExerciseSchema = baseExerciseSchema.shape({
   sets: yup
     .array()
     .min(1, "Add at least one set")
@@ -118,7 +118,7 @@ const flexibilityExerciseSchema = baseExerciseSchema.shape({
     ),
 })
 
-const balanceExerciseSchema = baseExerciseSchema.shape({
+export const balanceExerciseSchema = baseExerciseSchema.shape({
   sets: yup
     .array()
     .min(1, "Add at least one set")

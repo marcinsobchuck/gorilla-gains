@@ -73,7 +73,6 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   const ref = useRef<HTMLButtonElement>(null)
 
   const handleAddSetField = (isExerciseStatic: boolean) => {
-    console.log(isExerciseStatic)
     addSet(getSetsFormFields(currentActivityType, isExerciseStatic), { shouldFocus: false })
     setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0)
   }
@@ -125,6 +124,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
             })
           )
         }}
+        classNamePrefix='nested'
         formatOptionLabel={(data) => <CustomOptionLabel data={data} />}
         onChange={(newValue) => {
           if (newValue?.value !== currentExercise) {

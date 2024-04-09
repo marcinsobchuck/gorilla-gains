@@ -3,10 +3,20 @@ import { AxiosResponse } from "axios"
 import { ApiEndpoints } from "@enums/apiEndpoints.enum"
 
 import { privateApiService } from "./api"
-import { CreateActivityData } from "./types/activitiesService.types"
+import {
+  Activity,
+  CreateActivityData,
+  EditActivityParams,
+  GetActivitiesForCurrentUserParams,
+} from "./types/activitiesService.types"
 
-export const getActivitiesForCurrentUser = async (): Promise<AxiosResponse<string[]>> =>
-  await privateApiService.get(ApiEndpoints.USER_ACTIVITIES)
+export const getActivitiesForCurrentUser = async (
+  params: GetActivitiesForCurrentUserParams
+): Promise<AxiosResponse<Activity[]>> =>
+  await privateApiService.get(ApiEndpoints.USER_ACTIVITIES, { params })
 
 export const createActivity = async (data: CreateActivityData): Promise<AxiosResponse<string[]>> =>
   await privateApiService.post(ApiEndpoints.ACTIVITIES, data)
+
+export const editActivity = async (data: EditActivityParams): Promise<AxiosResponse<string[]>> =>
+  await privateApiService.patch(`${ApiEndpoints.ACTIVITIES}/${data.activityId}`, data.dataToEdit)

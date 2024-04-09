@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   margin-top: 24px;
   padding: 14px 22px 22px;
   border-radius: 16px;
-  background: linear-gradient(to right, #000000, #051201);
+  background: ${({ theme }) => theme.backgroundGradient};
   background-origin: border-box;
   box-shadow: ${({ theme }) => theme.boxShadow};
   border: 2px solid transparent;

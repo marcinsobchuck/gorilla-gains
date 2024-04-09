@@ -7,7 +7,7 @@ import { Input } from "@components/Input/Input"
 export const Wrapper = styled(FlexContainer)`
   position: relative;
   border-radius: 9px;
-  background-color: ${({ theme }) => theme.inputBackgroundColor};
+  background-color: ${({ theme }) => theme.nestedInputBackgroundColor};
   margin-bottom: 28px;
 `
 

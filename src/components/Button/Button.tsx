@@ -20,7 +20,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
           {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           ref={ref as RefObject<HTMLAnchorElement>}
         >
-          <Icon name={icon} />
+          {icon && <Icon name={icon} />}
           {children}
         </StyledLink>
       )
@@ -33,7 +33,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
           {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           ref={ref as RefObject<HTMLAnchorElement>}
         >
-          <Icon name={icon} />
+          {icon && <Icon name={icon} />}
           {children}
         </StyledNavLink>
       )
@@ -45,7 +45,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
         ref={ref as RefObject<HTMLButtonElement>}
       >
-        <Icon name={icon} />
+        {icon && <Icon name={icon} />}
         {children}
       </StyledButton>
     )

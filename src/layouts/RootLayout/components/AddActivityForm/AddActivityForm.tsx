@@ -8,6 +8,7 @@ import { CreateActivityData } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { FormError } from "@components/FormError/FormError"
 import { Input } from "@components/Input/Input"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
@@ -41,6 +42,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
 }) => {
   const [isCustomTitle, setIsCustomTitle] = useState(false)
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
+
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
   const activityTypes = useAppSelector((state) => state.activityTypes)
@@ -97,8 +99,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     setIsWarningVisible(false)
   }
 
-  const handlePresetsButtonClick = () => setIsPresetsVisible(true)
-
   const getActivityTypesOptions = async (inputValue: string) => {
     try {
       const response = await getActivityTypes({ filterText: inputValue })
@@ -119,36 +119,38 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     []
   )
 
-  const onSubmit = handleSubmit(async (values) => {
-    const {
-      title,
-      activityType,
-      date,
-      notes,
-      repeatExercisesCount,
-      warmup,
-      exercises,
-      exertionRating,
-    } = values
+  const onSubmit = (isPreset?: boolean) =>
+    handleSubmit(async (values) => {
+      const {
+        title,
+        activityType,
+        date,
+        notes,
+        repeatExercisesCount,
+        warmup,
+        exercises,
+        exertionRating,
+      } = values
 
-    const transformedExercises = exercises?.map((exercise) => {
-      return { ...exercise, exercise: exercise.exercise.value }
+      const transformedExercises = exercises?.map((exercise) => {
+        return { ...exercise, exercise: exercise.exercise.value }
+      })
+
+      const dataToSubmit: CreateActivityData = {
+        title,
+        type: activityType.value,
+        date,
+        notes,
+        exertionRating,
+        warmup,
+        repeatExercisesCount,
+        exercises: transformedExercises,
+        ...(isPreset && { isPreset: true }),
+      }
+
+      const result = await dispatch(createActivityAction(dataToSubmit))
+      console.log({ dataToSubmit, result, exercises })
     })
-
-    const dataToSubmit: CreateActivityData = {
-      title,
-      type: activityType.value,
-      date,
-      notes,
-      exertionRating,
-      warmup,
-      repeatExercisesCount,
-      exercises: transformedExercises,
-    }
-
-    const result = await dispatch(createActivityAction(dataToSubmit))
-    console.log({ dataToSubmit, result, exercises })
-  })
 
   const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
   const dateValue = watch("date")?.toLocaleDateString("en-US", {
@@ -164,13 +166,22 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     }
   }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, setValue])
 
+  console.log({ inForm: watch("exercises") })
+
   return (
     <FormProvider {...methods}>
-      <StyledForm onSubmit={onSubmit}>
-        <PresetsButton buttonType='button' variant='primary' onClick={handlePresetsButtonClick}>
+      <StyledForm onSubmit={onSubmit()}>
+        <PresetsButton
+          buttonType='button'
+          type='button'
+          variant='primary'
+          onClick={() => setIsPresetsVisible(true)}
+        >
           Add from preset
         </PresetsButton>
-        <PresetsView isVisible={isPresetsVisible} setIsPresetsVisible={setIsPresetsVisible} />
+        {isPresetsVisible && (
+          <PresetsView setIsPresetsVisible={setIsPresetsVisible} setSelectValue={setSelectValue} />
+        )}
         <FieldsWrapper>
           <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} />
           <StyledSelect
@@ -252,10 +263,21 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           />
           <ExertionRating />
         </FieldsWrapper>
-
-        <SubmitButton buttonType='button' type='submit' width={260}>
-          Submit
-        </SubmitButton>
+        <FlexContainer style={{ alignSelf: "center", gap: "12px" }}>
+          <SubmitButton
+            buttonType='button'
+            type='submit'
+            onClick={(e) => {
+              e.preventDefault()
+              onSubmit(true)()
+            }}
+          >
+            Save and add as preset
+          </SubmitButton>
+          <SubmitButton buttonType='button' type='submit' width={120}>
+            Save
+          </SubmitButton>
+        </FlexContainer>
       </StyledForm>
     </FormProvider>
   )

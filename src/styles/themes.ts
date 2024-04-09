@@ -1,11 +1,13 @@
 export const lightTheme = {
   backgroundColor: "#fafafa",
   inputBackgroundColor: "#F3F6FB",
+  nestedInputBackgroundColor: "#F6F9FE",
   selectBackgroundColor: "#EDEDED",
   popoverBackgroundColor: "#F3F6FB",
   navBackgroundColor: "#F6F6F6",
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
+  backgroundGradient: "linear-gradient(to right, #ffffff, #EFFAEA)",
 
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
@@ -37,12 +39,14 @@ export const lightTheme = {
 }
 export const darkTheme = {
   backgroundColor: "#121212",
-  inputBackgroundColor: "#32364499",
+  inputBackgroundColor: "#252730",
+  nestedInputBackgroundColor: "#2D303C",
   selectBackgroundColor: "#2a2a2a",
   popoverBackgroundColor: "#252730",
   navBackgroundColor: "#1e1e1e",
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",
+  backgroundGradient: "linear-gradient(to right, #000000, #051201)",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",

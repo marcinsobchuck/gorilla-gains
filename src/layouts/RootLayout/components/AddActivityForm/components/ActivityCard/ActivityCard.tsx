@@ -1,10 +1,12 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
+import { useAppDispatch } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Popover } from "@components/Popover/Popover"
-import { ActivityTypes } from "@enums/activityTypes.enum"
+import { editActivityAction } from "@features/activities/activitiesActions"
+import { removePreset } from "@features/activities/activitiesSlice"
 
 import {
   ExertionRatingContainer,
@@ -19,20 +21,44 @@ import {
   TextContentWrapper,
   Wrapper,
 } from "./ActivityCard.styled"
+import { ActivityCardProps } from "./ActivityCard.types"
 import { getIconNamePerActivityType } from "./utils"
+import { capitalizeFirstLetter } from "../../utils"
 
-const popoverOptions = ["Delete from presets", "Edit"]
-
-export const ActivityCard = () => {
+export const ActivityCard: React.FC<ActivityCardProps> = ({ data, ...rest }) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const theme = useTheme()
+  const dispatch = useAppDispatch()
+
+  const numberOfExercises = data.exercises.length
+
+  const handleRemovePreset = async (id: string) => {
+    await dispatch(editActivityAction({ activityId: data._id, dataToEdit: { isPreset: false } }))
+    dispatch(removePreset(id))
+  }
+
+  const popoverOptions = [
+    {
+      label: "Delete from presets",
+      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        handleRemovePreset(data._id)
+      },
+    },
+  ]
 
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
-        <Heading>Endurancja testowa</Heading>
-        <div ref={setAnchor} onClick={() => setIsPopoverOpen((prev) => !prev)}>
+        <Heading>{data.title}</Heading>
+        <div
+          ref={setAnchor}
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsPopoverOpen((prev) => !prev)
+          }}
+        >
           <StyledInteractiveIcon name='threeDots' width={32} height={32} />
         </div>
 
@@ -45,7 +71,9 @@ export const ActivityCard = () => {
           >
             <PopoverOptions>
               {popoverOptions.map((item, index) => (
-                <PopoverOption key={index}>{item}</PopoverOption>
+                <PopoverOption key={index} onClick={item.action}>
+                  {item.label}
+                </PopoverOption>
               ))}
             </PopoverOptions>
           </Popover>
@@ -54,7 +82,7 @@ export const ActivityCard = () => {
       <FlexContainer align='center'>
         <IconContainer align='center' justify='center'>
           <Icon
-            name={getIconNamePerActivityType(ActivityTypes.ENDURANCE)}
+            name={getIconNamePerActivityType(data.type.type)}
             width={22}
             height={22}
             color={theme.secondary}
@@ -63,13 +91,19 @@ export const ActivityCard = () => {
 
         <TextContentWrapper>
           <MainText>
-            Endurance <span>&#8226;</span> 6 exercises <span>&#8226;</span> 1h 30min
+            {capitalizeFirstLetter(data.type.type)} <span>&#8226;</span> {numberOfExercises}{" "}
+            exercises
           </MainText>
-          <SecondaryText>Created at 24.03.2024</SecondaryText>
+
+          {data.createdAt && (
+            <SecondaryText>
+              Created at {new Date(data.createdAt).toLocaleDateString("en-US")}
+            </SecondaryText>
+          )}
         </TextContentWrapper>
 
         <ExertionRatingContainer>
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
             <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
           ))}
         </ExertionRatingContainer>
