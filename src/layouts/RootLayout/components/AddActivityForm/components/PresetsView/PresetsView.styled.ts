@@ -29,3 +29,7 @@ export const StyledIcon = styled(Icon)`
   cursor: pointer;
   margin-bottom: 24px;
 `
+
+export const PresetsActivitiesWrapper = styled.div`
+  margin-top: 28px;
+`

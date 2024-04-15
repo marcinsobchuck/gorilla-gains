@@ -1,10 +1,14 @@
 import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
+import { ActivityList } from "./components/ActivityList/ActivityList"
+
 export const ActivityHistory = () => {
   return (
     <>
-      <Sidebar>History calendar</Sidebar>
-      <MainContentWrapper>Activities</MainContentWrapper>
+      <Sidebar>History</Sidebar>
+      <MainContentWrapper>
+        <ActivityList />
+      </MainContentWrapper>
     </>
   )
 }

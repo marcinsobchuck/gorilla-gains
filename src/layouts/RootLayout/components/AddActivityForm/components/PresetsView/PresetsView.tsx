@@ -8,9 +8,9 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Heading } from "@components/Modal/Modal.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
+import { getPresetsForCurrentUserAction } from "@features/activities/activitiesActions"
 
-import { StyledIcon, Wrapper } from "./PresetsView.styled"
+import { PresetsActivitiesWrapper, StyledIcon, Wrapper } from "./PresetsView.styled"
 import { PresetsViewProps } from "./PresetsView.types"
 import { AddActivityFormTypes, Exercise } from "../../AddActivityForm.types"
 import { ActivityCard } from "../ActivityCard/ActivityCard"
@@ -42,7 +42,6 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
   const handleActivityCardClick = (activity: Activity) => {
     const activityType = { label: activity.type.type, value: activity._id }
     setSelectValue(activityType)
-    console.log({ transformer: transformExercises(activity.exercises) })
     reset({
       title: activity.title,
       activityType: {
@@ -60,7 +59,7 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
 
   useEffect(() => {
     const getPresets = async () => {
-      await dispatch(getActivitiesForCurrentUserAction({ isPreset: true }))
+      await dispatch(getPresetsForCurrentUserAction())
     }
 
     getPresets()
@@ -87,17 +86,19 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
           {state.presetsStatus === RequestStatuses.LOADING ? (
             <Skeleton style={{ marginTop: "24px" }} height={102} count={5} />
           ) : (
-            state.presetsData?.map((activity) => {
-              return (
-                <ActivityCard
-                  key={activity._id}
-                  data={activity}
-                  onClick={() => {
-                    handleActivityCardClick(activity)
-                  }}
-                />
-              )
-            })
+            <PresetsActivitiesWrapper>
+              {state.presetsData?.map((activity) => {
+                return (
+                  <ActivityCard
+                    key={activity._id}
+                    data={activity}
+                    onClick={() => {
+                      handleActivityCardClick(activity)
+                    }}
+                  />
+                )
+              })}
+            </PresetsActivitiesWrapper>
           )}
         </SkeletonTheme>
       </div>

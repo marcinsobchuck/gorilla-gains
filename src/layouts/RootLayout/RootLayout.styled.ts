@@ -27,8 +27,6 @@ export const LeftSideWrapper = styled.div`
   justify-content: center;
   background-color: ${({ theme }) => theme.backgroundColor};
 
-  border-right: 1px solid ${({ theme }) => theme.borderColor};
-
   @media ${Breakpoints.MEDIUM} {
     justify-content: flex-start;
 
@@ -63,8 +61,7 @@ export const FlexContainer = styled.div`
 `
 
 export const Sidebar = styled.aside`
-  border-right: 1px solid ${({ theme }) => theme.borderColor};
-
+  background-color: ${({ theme }) => theme.navBackgroundColor};
   @media ${Breakpoints.MEDIUM} {
     width: 31%;
   }

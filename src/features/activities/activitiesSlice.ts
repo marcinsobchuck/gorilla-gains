@@ -6,12 +6,16 @@ import {
   createActivityAction,
   editActivityAction,
   getActivitiesForCurrentUserAction,
+  getPresetsForCurrentUserAction,
 } from "./activitiesActions"
 import { InitialState } from "./activitiesSlice.types"
 
 const initialState: InitialState = {
-  status: RequestStatuses.IDLE,
+  activitiesStatus: RequestStatuses.IDLE,
+  createEditStatus: RequestStatuses.IDLE,
   presetsStatus: RequestStatuses.IDLE,
+  activitiesPage: 1,
+  hasMore: true,
 }
 
 export const userSlice = createSlice({
@@ -21,40 +25,61 @@ export const userSlice = createSlice({
     removePreset(state, action: PayloadAction<string>) {
       state.presetsData = state.presetsData?.filter((preset) => preset._id !== action.payload)
     },
+    setActivitiesPage(state, action) {
+      state.activitiesPage = action.payload
+    },
+    setHasMore(state, action) {
+      state.hasMore = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getActivitiesForCurrentUserAction.pending, (state) => {
-      state.presetsStatus = RequestStatuses.LOADING
+      state.activitiesStatus = RequestStatuses.LOADING
     })
     builder.addCase(getActivitiesForCurrentUserAction.fulfilled, (state, action) => {
+      state.activitiesData = [...(state.activitiesData || []), ...action.payload]
+      state.activitiesStatus = RequestStatuses.SUCCESS
+    })
+    builder.addCase(getActivitiesForCurrentUserAction.rejected, (state, action) => {
+      state.activitiesStatus = RequestStatuses.FAILED
+      if (action.payload) {
+        state.activitiesError = action.payload
+      }
+    })
+
+    builder.addCase(getPresetsForCurrentUserAction.pending, (state) => {
+      state.presetsStatus = RequestStatuses.LOADING
+    })
+    builder.addCase(getPresetsForCurrentUserAction.fulfilled, (state, action) => {
       state.presetsData = action.payload
       state.presetsStatus = RequestStatuses.SUCCESS
     })
-    builder.addCase(getActivitiesForCurrentUserAction.rejected, (state, action) => {
+    builder.addCase(getPresetsForCurrentUserAction.rejected, (state, action) => {
       state.presetsStatus = RequestStatuses.FAILED
       if (action.payload) {
-        state.error = action.payload
+        state.presetsError = action.payload
       }
     })
+
     builder.addMatcher(
       isAnyOf(createActivityAction.pending, editActivityAction.pending),
       (state) => {
-        state.status = RequestStatuses.LOADING
+        state.createEditStatus = RequestStatuses.LOADING
       }
     )
     builder.addMatcher(
       isAnyOf(createActivityAction.fulfilled, editActivityAction.fulfilled),
       (state, action) => {
-        state.data = action.payload
-        state.status = RequestStatuses.SUCCESS
+        state.createEditData = action.payload
+        state.createEditStatus = RequestStatuses.SUCCESS
       }
     )
     builder.addMatcher(
       isAnyOf(createActivityAction.rejected, editActivityAction.rejected),
       (state, action) => {
-        state.status = RequestStatuses.FAILED
+        state.createEditStatus = RequestStatuses.FAILED
         if (action.payload) {
-          state.error = action.payload
+          state.createEditError = action.payload
         }
       }
     )
@@ -62,4 +87,4 @@ export const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const { removePreset } = userSlice.actions
+export const { removePreset, setActivitiesPage, setHasMore } = userSlice.actions

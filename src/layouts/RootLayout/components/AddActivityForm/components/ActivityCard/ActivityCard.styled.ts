@@ -6,7 +6,8 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled.div`
   cursor: pointer;
-  margin-top: 24px;
+
+  margin-bottom: 24px;
   padding: 14px 22px 22px;
   border-radius: 16px;
   background: ${({ theme }) => theme.backgroundGradient};

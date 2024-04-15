@@ -15,8 +15,8 @@ export const getActivitiesForCurrentUser = async (
 ): Promise<AxiosResponse<Activity[]>> =>
   await privateApiService.get(ApiEndpoints.USER_ACTIVITIES, { params })
 
-export const createActivity = async (data: CreateActivityData): Promise<AxiosResponse<string[]>> =>
+export const createActivity = async (data: CreateActivityData): Promise<AxiosResponse<Activity>> =>
   await privateApiService.post(ApiEndpoints.ACTIVITIES, data)
 
-export const editActivity = async (data: EditActivityParams): Promise<AxiosResponse<string[]>> =>
+export const editActivity = async (data: EditActivityParams): Promise<AxiosResponse<Activity>> =>
   await privateApiService.patch(`${ApiEndpoints.ACTIVITIES}/${data.activityId}`, data.dataToEdit)

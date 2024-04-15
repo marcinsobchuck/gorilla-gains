@@ -2,10 +2,18 @@ import { Activity } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 export interface InitialState {
-  data?: string[]
+  activitiesData?: Activity[]
+  activitiesStatus: RequestStatuses
+  activitiesError?: string
+
+  createEditStatus: RequestStatuses
+  createEditData?: Activity
+  createEditError?: string
+
   presetsData?: Activity[]
-  status: RequestStatuses
   presetsStatus: RequestStatuses
-  error?: string
   presetsError?: string
+
+  activitiesPage: number
+  hasMore: boolean
 }

@@ -52,7 +52,8 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   })
 
   const currentActivityType = watch("activityType").label
-  const currentExercise = watch(`exercises.${exerciseIndex}.exercise.value`)
+  const currentExerciseValue = watch(`exercises.${exerciseIndex}.exercise.value`)
+  const currentExercise = watch(`exercises.${exerciseIndex}.exercise`)
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
 
   const getSetsFormFields = (activityType: string, isExerciseStatic?: boolean) => {
@@ -111,6 +112,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
         <Icon name='close' onClick={() => onRemoveExercise(exerciseIndex)} />
       </ExerciseHeader>
       <StyledSelect
+        defaultValue={currentExercise}
         defaultOptions={
           exercises.status !== RequestStatuses.LOADING &&
           transformExerciseIntoOption(exercises.data)
@@ -127,7 +129,8 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
         classNamePrefix='nested'
         formatOptionLabel={(data) => <CustomOptionLabel data={data} />}
         onChange={(newValue) => {
-          if (newValue?.value !== currentExercise) {
+          console.log(newValue)
+          if (newValue?.value !== currentExerciseValue) {
             removeSet()
             handleAddSetField(newValue?.isStatic as boolean)
             setValue(`exercises.${exerciseIndex}.exercise`, newValue as ExerciseFields, {
@@ -138,7 +141,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
         name={`exercises.${exerciseIndex}.exercise`}
         labelText='Exercise'
       />
-      {Boolean(currentExercise) && (
+      {Boolean(currentExerciseValue) && (
         <>
           <Checkbox label='Add breaks' name={`exercises.${exerciseIndex}.withBreaks`} />
           <SetsHeading>
@@ -159,7 +162,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
           />
         )
       })}
-      {Boolean(currentExercise) && (
+      {Boolean(currentExerciseValue) && (
         <AddSetButton
           ref={ref}
           icon='add'

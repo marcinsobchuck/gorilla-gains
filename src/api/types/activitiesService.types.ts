@@ -52,6 +52,8 @@ export interface EditActivityParams {
 export interface GetActivitiesForCurrentUserParams {
   type?: string
   isPreset?: boolean
+  offset?: number
+  limit?: number
 }
 
 export interface ResponseExercise {

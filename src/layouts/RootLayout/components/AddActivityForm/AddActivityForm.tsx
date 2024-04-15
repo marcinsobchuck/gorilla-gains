@@ -42,7 +42,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
 }) => {
   const [isCustomTitle, setIsCustomTitle] = useState(false)
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
-
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
   const activityTypes = useAppSelector((state) => state.activityTypes)
