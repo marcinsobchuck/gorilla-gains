@@ -129,7 +129,6 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
         classNamePrefix='nested'
         formatOptionLabel={(data) => <CustomOptionLabel data={data} />}
         onChange={(newValue) => {
-          console.log(newValue)
           if (newValue?.value !== currentExerciseValue) {
             removeSet()
             handleAddSetField(newValue?.isStatic as boolean)

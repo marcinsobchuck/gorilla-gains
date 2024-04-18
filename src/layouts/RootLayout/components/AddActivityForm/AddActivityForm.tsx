@@ -14,7 +14,7 @@ import { Input } from "@components/Input/Input"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { createActivityAction } from "@features/activities/activitiesActions"
+import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
 
 import {
@@ -32,6 +32,7 @@ import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { ExertionRating } from "./components/ExertionRating/ExertionRating"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { PresetsView } from "./components/PresetsView/PresetsView"
+import { transformResponseExercises } from "./components/PresetsView/utils"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
 import { capitalizeFirstLetter, transformActivityTypesIntoOption } from "./utils"
@@ -45,6 +46,10 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
   const activityTypes = useAppSelector((state) => state.activityTypes)
+  const isEditing = useAppSelector((state) => state.activities.isEditing)
+  const currentlyEditedActivity = useAppSelector(
+    (state) => state.activities.currentlyEditedActivity
+  )
   const dispatch = useAppDispatch()
 
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
@@ -64,6 +69,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     formState: { errors },
     trigger,
     watch,
+    reset,
   } = methods
   const {
     fields,
@@ -77,10 +83,16 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const currentActivityType = getValues("activityType")
 
   const handleAddExerciseField = () => {
-    addExercise(defaultExercise, { shouldFocus: false })
+    addExercise(defaultExercise, {
+      shouldFocus: false,
+    })
     trigger("exercises")
     setTimeout(
-      () => addExerciseButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }),
+      () =>
+        addExerciseButtonRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        }),
       0
     )
   }
@@ -100,7 +112,9 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
 
   const getActivityTypesOptions = async (inputValue: string) => {
     try {
-      const response = await getActivityTypes({ filterText: inputValue })
+      const response = await getActivityTypes({
+        filterText: inputValue,
+      })
       const activityTypes = response.data
       return transformActivityTypesIntoOption(activityTypes)
     } catch (err) {
@@ -132,7 +146,10 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
       } = values
 
       const transformedExercises = exercises?.map((exercise) => {
-        return { ...exercise, exercise: exercise.exercise.value }
+        return {
+          ...exercise,
+          exercise: exercise.exercise.value,
+        }
       })
 
       const dataToSubmit: CreateActivityData = {
@@ -144,11 +161,23 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
         warmup,
         repeatExercisesCount,
         exercises: transformedExercises,
-        ...(isPreset && { isPreset: true }),
+        isPreset,
       }
 
-      const result = await dispatch(createActivityAction(dataToSubmit))
-      console.log({ dataToSubmit, result, exercises })
+      const submitEdit = async () => {
+        if (currentlyEditedActivity) {
+          await dispatch(
+            editActivityAction({
+              activityId: currentlyEditedActivity._id,
+              dataToEdit: dataToSubmit,
+            })
+          )
+        }
+      }
+
+      const submitCreate = async () => await dispatch(createActivityAction(dataToSubmit))
+
+      isEditing && currentlyEditedActivity ? submitEdit() : submitCreate()
     })
 
   const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
@@ -160,12 +189,44 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""}${dateValue ? " - " + dateValue : ""}`
 
   useEffect(() => {
-    if (!isCustomTitle && (activityTypeLabel || dateValue)) {
-      setValue("title", defaultTitleValue, { shouldValidate: true })
+    if (!isCustomTitle && !isEditing && (activityTypeLabel || dateValue)) {
+      setValue("title", defaultTitleValue, {
+        shouldValidate: true,
+      })
     }
-  }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, setValue])
+  }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, isEditing, setValue])
 
-  console.log({ inForm: watch("exercises") })
+  useEffect(() => {
+    if (isEditing && currentlyEditedActivity) {
+      const {
+        type: { type, _id },
+        title,
+        exertionRating,
+        notes,
+        warmup,
+        repeatExercisesCount,
+        exercises,
+        date,
+      } = currentlyEditedActivity
+
+      const activityType = {
+        label: type,
+        value: _id,
+      }
+
+      setSelectValue(activityType)
+      reset({
+        title,
+        activityType,
+        exertionRating,
+        notes,
+        warmup,
+        repeatExercisesCount,
+        exercises: transformResponseExercises(exercises),
+        date: new Date(date),
+      })
+    }
+  }, [currentlyEditedActivity, isEditing, reset])
 
   return (
     <FormProvider {...methods}>
@@ -204,13 +265,17 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
                 setSelectValue(currentActivityType)
               } else {
                 setSelectValue(currentActivityType?.value === "" ? newValue : currentActivityType)
-                setValue("activityType", newValue as ActivityType, { shouldValidate: true })
+                setValue("activityType", newValue as ActivityType, {
+                  shouldValidate: true,
+                })
                 addExercise(
                   {
                     exercise: exerciseField,
                     withBreaks: false,
                   },
-                  { shouldFocus: false }
+                  {
+                    shouldFocus: false,
+                  }
                 )
               }
             }}
@@ -262,7 +327,12 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           />
           <ExertionRating />
         </FieldsWrapper>
-        <FlexContainer style={{ alignSelf: "center", gap: "12px" }}>
+        <FlexContainer
+          style={{
+            alignSelf: "center",
+            gap: "12px",
+          }}
+        >
           <SubmitButton
             buttonType='button'
             type='submit'

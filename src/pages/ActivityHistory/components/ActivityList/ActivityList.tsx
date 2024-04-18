@@ -1,8 +1,19 @@
 import { useEffect, useRef } from "react"
 
+import { Activity } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
+import {
+  deleteActivityAction,
+  editActivityAction,
+  getActivitiesForCurrentUserAction,
+} from "@features/activities/activitiesActions"
+import {
+  removePreset,
+  setCurrentlyEditedActivity,
+  setIsAddEditModalOpen,
+  setIsEditing,
+} from "@features/activities/activitiesSlice"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
 import { LoadMore, Wrapper } from "./ActivityList.styled"
@@ -13,11 +24,55 @@ export const ActivityList = () => {
   const state = useAppSelector((state) => state.activities)
   const dispatch = useAppDispatch()
 
-  const limit = 12
+  const limit = 6
   const offset = (state.activitiesPage - 1) * limit
+
+  const handleRemoveActivity = async (id: string) => {
+    await dispatch(deleteActivityAction(id))
+    dispatch(removePreset(id))
+  }
+
+  const handleEditActivity = async (activity: Activity) => {
+    dispatch(setIsEditing(true))
+    dispatch(setIsAddEditModalOpen(true))
+    dispatch(setCurrentlyEditedActivity(activity))
+  }
+
+  const getPopoverOptions = (id: string, isPreset: boolean, activity: Activity) => [
+    {
+      label: "Delete activity",
+      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        handleRemoveActivity(id)
+      },
+    },
+    {
+      label: "Edit activity",
+      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        handleEditActivity(activity)
+      },
+    },
+    isPreset
+      ? {
+          label: "Delete from presets",
+          action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            e.stopPropagation()
+            await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false } }))
+          },
+        }
+      : {
+          label: "Mark as preset",
+          action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            e.stopPropagation()
+            await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: true } }))
+          },
+        },
+  ]
 
   useEffect(() => {
     const fetchActivities = async () => {
+      if (state.activitiesData) return
       await dispatch(
         getActivitiesForCurrentUserAction({
           offset: 0,
@@ -26,7 +81,7 @@ export const ActivityList = () => {
       )
     }
     fetchActivities()
-  }, [dispatch])
+  }, [dispatch, state.activitiesData])
 
   useEffect(() => {
     const observerCurrent = observerTarget.current
@@ -56,7 +111,6 @@ export const ActivityList = () => {
       }
     )
 
-
     if (observerCurrent) {
       observer.observe(observerCurrent)
     }
@@ -81,7 +135,13 @@ export const ActivityList = () => {
 
   return (
     <Wrapper>
-      {state.activitiesData?.map((activity) => <ActivityCard key={activity._id} data={activity} />)}
+      {state.activitiesData?.map((activity) => (
+        <ActivityCard
+          key={activity._id}
+          data={activity}
+          popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
+        />
+      ))}
 
       <LoadMore>
         {state.activitiesStatus === RequestStatuses.LOADING
@@ -90,9 +150,7 @@ export const ActivityList = () => {
             ? "Scroll to see more..."
             : "There is no data left."}
       </LoadMore>
-
       <div ref={observerTarget} />
     </Wrapper>
   )
 }
-// hasMore = response.length < limit

@@ -57,7 +57,7 @@ export interface GetActivitiesForCurrentUserParams {
 }
 
 export interface ResponseExercise {
-  exercise: { _id: string; name: string; isStatic: boolean }
+  exercise: { _id: string; name: string; isStatic?: boolean }
   sets: Set[]
   withBreaks: boolean
   additionalInfo?: string
@@ -70,7 +70,7 @@ export interface Activity {
     _id: string
     type: ActivityTypes
   }
-  date: string
+  date: Date
   exercises: ResponseExercise[]
   notes?: string
   warmup: boolean

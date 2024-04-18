@@ -6,9 +6,9 @@ export interface InitialState {
   activitiesStatus: RequestStatuses
   activitiesError?: string
 
-  createEditStatus: RequestStatuses
-  createEditData?: Activity
-  createEditError?: string
+  createEditDeleteStatus: RequestStatuses
+  createEditDeleteData?: Activity
+  createEditDeleteError?: string
 
   presetsData?: Activity[]
   presetsStatus: RequestStatuses
@@ -16,4 +16,8 @@ export interface InitialState {
 
   activitiesPage: number
   hasMore: boolean
+  isEditing: boolean
+  isAddEditModalOpen: boolean
+
+  currentlyEditedActivity?: Activity
 }

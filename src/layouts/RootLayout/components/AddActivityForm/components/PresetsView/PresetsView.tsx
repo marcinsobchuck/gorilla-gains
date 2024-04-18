@@ -3,31 +3,22 @@ import { useFormContext } from "react-hook-form"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
-import { Activity, ResponseExercise } from "@api/types/activitiesService.types"
+import { Activity } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Heading } from "@components/Modal/Modal.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getPresetsForCurrentUserAction } from "@features/activities/activitiesActions"
+import {
+  editActivityAction,
+  getPresetsForCurrentUserAction,
+} from "@features/activities/activitiesActions"
+import { removePreset } from "@features/activities/activitiesSlice"
 
 import { PresetsActivitiesWrapper, StyledIcon, Wrapper } from "./PresetsView.styled"
 import { PresetsViewProps } from "./PresetsView.types"
-import { AddActivityFormTypes, Exercise } from "../../AddActivityForm.types"
+import { transformResponseExercises } from "./utils"
+import { AddActivityFormTypes } from "../../AddActivityForm.types"
 import { ActivityCard } from "../ActivityCard/ActivityCard"
-
-const transformExercises = (exercises: ResponseExercise[]): Exercise[] => {
-  return exercises.map((rExercise) => {
-    return {
-      ...rExercise,
-      exercise: {
-        additionalInfo: rExercise.additionalInfo,
-        isStatic: rExercise.exercise.isStatic,
-        label: rExercise.exercise.name,
-        value: rExercise.exercise._id,
-      },
-    }
-  })
-}
 
 export const PresetsView: React.FC<PresetsViewProps> = ({
   setIsPresetsVisible,
@@ -38,6 +29,21 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
   const { reset } = useFormContext<AddActivityFormTypes>()
 
   const theme = useTheme()
+
+  const handleRemovePreset = async (id: string) => {
+    await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false } }))
+    dispatch(removePreset(id))
+  }
+
+  const getPopoverOptions = (id: string) => [
+    {
+      label: "Delete from presets",
+      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        handleRemovePreset(id)
+      },
+    },
+  ]
 
   const handleActivityCardClick = (activity: Activity) => {
     const activityType = { label: activity.type.type, value: activity._id }
@@ -52,7 +58,7 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
       notes: activity.notes,
       warmup: activity.warmup,
       repeatExercisesCount: activity.repeatExercisesCount,
-      exercises: transformExercises(activity.exercises),
+      exercises: transformResponseExercises(activity.exercises),
     })
     setIsPresetsVisible(false)
   }
@@ -92,6 +98,7 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
                   <ActivityCard
                     key={activity._id}
                     data={activity}
+                    popoverOptions={getPopoverOptions(activity._id)}
                     onClick={() => {
                       handleActivityCardClick(activity)
                     }}

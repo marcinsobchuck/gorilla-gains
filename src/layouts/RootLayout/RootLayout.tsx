@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
 
+import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
+import { setIsAddEditModalOpen, setIsEditing } from "@features/activities/activitiesSlice.ts"
 import { Background } from "@styles/GlobalStyle.ts"
 
 import { AddActivityForm } from "./components/AddActivityForm/AddActivityForm.tsx"
@@ -19,19 +21,21 @@ import {
 
 export const RootLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isActivityModalOpen, setIsActivityModalOpen] = useState(false)
   const [isPresetsVisible, setIsPresetsVisible] = useState(false)
+  const state = useAppSelector((state) => state.activities)
+  const dispatch = useAppDispatch()
 
   return (
     <Background>
       <Modal
-        isVisible={isActivityModalOpen}
+        isVisible={state.isAddEditModalOpen}
         lockScroll={isPresetsVisible}
         onCloseButtonClick={() => {
-          setIsActivityModalOpen((prev) => !prev)
+          dispatch(setIsAddEditModalOpen(false))
+          dispatch(setIsEditing(false))
           setIsPresetsVisible(false)
         }}
-        title='Add activity'
+        title={state.isEditing ? "Edit activity" : "Add activity"}
       >
         <AddActivityForm
           isPresetsVisible={isPresetsVisible}
@@ -48,7 +52,7 @@ export const RootLayout = () => {
               buttonType='button'
               variant='primary'
               icon='add'
-              onClick={() => setIsActivityModalOpen((prev) => !prev)}
+              onClick={() => dispatch(setIsAddEditModalOpen(true))}
             >
               <p>Add activity</p>
             </StyledButton>

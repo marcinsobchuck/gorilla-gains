@@ -1,12 +1,9 @@
 import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
-import { useAppDispatch } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Popover } from "@components/Popover/Popover"
-import { editActivityAction } from "@features/activities/activitiesActions"
-import { removePreset } from "@features/activities/activitiesSlice"
 
 import {
   ExertionRatingContainer,
@@ -25,28 +22,12 @@ import { ActivityCardProps } from "./ActivityCard.types"
 import { getIconNamePerActivityType } from "./utils"
 import { capitalizeFirstLetter } from "../../utils"
 
-export const ActivityCard: React.FC<ActivityCardProps> = ({ data, ...rest }) => {
+export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions, ...rest }) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const theme = useTheme()
-  const dispatch = useAppDispatch()
 
   const numberOfExercises = data.exercises.length
-
-  const handleRemovePreset = async (id: string) => {
-    await dispatch(editActivityAction({ activityId: data._id, dataToEdit: { isPreset: false } }))
-    dispatch(removePreset(id))
-  }
-
-  const popoverOptions = [
-    {
-      label: "Delete from presets",
-      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.stopPropagation()
-        handleRemovePreset(data._id)
-      },
-    },
-  ]
 
   return (
     <Wrapper {...rest}>
@@ -71,7 +52,13 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, ...rest }) => 
           >
             <PopoverOptions>
               {popoverOptions.map((item, index) => (
-                <PopoverOption key={index} onClick={item.action}>
+                <PopoverOption
+                  key={index}
+                  onClick={(e) => {
+                    setIsPopoverOpen(false)
+                    item.action(e)
+                  }}
+                >
                   {item.label}
                 </PopoverOption>
               ))}

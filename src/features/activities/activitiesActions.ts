@@ -1,6 +1,11 @@
 import { isAxiosError } from "axios"
 
-import { createActivity, editActivity, getActivitiesForCurrentUser } from "@api/activitiesService"
+import {
+  createActivity,
+  deleteActivity,
+  editActivity,
+  getActivitiesForCurrentUser,
+} from "@api/activitiesService"
 import {
   CreateActivityData,
   EditActivityParams,
@@ -8,13 +13,20 @@ import {
 } from "@api/types/activitiesService.types"
 import { createAppAsyncThunk } from "@app/hooks"
 
-import { setActivitiesPage, setHasMore } from "./activitiesSlice"
+import {
+  addActivity,
+  editCurrentActivity,
+  removeActivity,
+  setHasMore,
+  toggleIsPreset,
+} from "./activitiesSlice"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
-  async (data: CreateActivityData, { rejectWithValue }) => {
+  async (data: CreateActivityData, { rejectWithValue, dispatch }) => {
     try {
       const response = await createActivity(data)
+      dispatch(addActivity(response.data))
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {
@@ -45,17 +57,11 @@ export const getPresetsForCurrentUserAction = createAppAsyncThunk(
 )
 export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
   "getActivitiesForCurrentUser",
-  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue, dispatch, getState }) => {
+  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue, dispatch }) => {
     try {
-      const {
-        activities: { activitiesPage },
-      } = getState()
-
       const response = await getActivitiesForCurrentUser(data)
 
-      dispatch(setActivitiesPage(activitiesPage + 1))
-
-      if (response.data.length < 12) {
+      if (response.data.length < 6) {
         dispatch(setHasMore(false))
       }
 
@@ -72,9 +78,37 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
 
 export const editActivityAction = createAppAsyncThunk(
   "editActivity",
-  async (data: EditActivityParams, { rejectWithValue }) => {
+  async (data: EditActivityParams, { rejectWithValue, dispatch, getState }) => {
     try {
+      const {
+        activities: { isEditing },
+      } = getState()
+
       const response = await editActivity(data)
+      dispatch(editCurrentActivity(response.data))
+      //ty przeciez tutaj activity ci zedytowane zwraca no to dispaczujesz  editCurrentActivity(response) dosłownie???? łotego
+
+      if (!isEditing) {
+        dispatch(toggleIsPreset())
+      }
+
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        return rejectWithValue(error.response?.data)
+      } else {
+        return rejectWithValue("Something went wrong")
+      }
+    }
+  }
+)
+
+export const deleteActivityAction = createAppAsyncThunk(
+  "deleteActivity",
+  async (activityId: string, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await deleteActivity(activityId)
+      dispatch(removeActivity(activityId))
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

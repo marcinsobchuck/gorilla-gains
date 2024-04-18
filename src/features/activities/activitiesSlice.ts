@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice, isAnyOf } from "@reduxjs/toolkit"
 
+import { Activity } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import {
   createActivityAction,
+  deleteActivityAction,
   editActivityAction,
   getActivitiesForCurrentUserAction,
   getPresetsForCurrentUserAction,
@@ -12,24 +14,54 @@ import { InitialState } from "./activitiesSlice.types"
 
 const initialState: InitialState = {
   activitiesStatus: RequestStatuses.IDLE,
-  createEditStatus: RequestStatuses.IDLE,
+  createEditDeleteStatus: RequestStatuses.IDLE,
   presetsStatus: RequestStatuses.IDLE,
   activitiesPage: 1,
   hasMore: true,
+  isEditing: false,
+  isAddEditModalOpen: false,
 }
 
 export const userSlice = createSlice({
   name: "activities",
   initialState,
   reducers: {
-    removePreset(state, action: PayloadAction<string>) {
+    addActivity(state, action) {
+      state.activitiesData = [action.payload, ...(state.activitiesData || [])]
+    },
+    removePreset(state, action) {
       state.presetsData = state.presetsData?.filter((preset) => preset._id !== action.payload)
     },
-    setActivitiesPage(state, action) {
-      state.activitiesPage = action.payload
+    removeActivity(state, action) {
+      state.activitiesData = state.activitiesData?.filter(
+        (activity) => activity._id !== action.payload
+      )
     },
     setHasMore(state, action) {
       state.hasMore = action.payload
+    },
+    toggleIsPreset(state) {
+      state.activitiesData = state.activitiesData?.map((activity) => ({
+        ...activity,
+        isPreset: !activity.isPreset,
+      }))
+    },
+    setIsEditing(state, action) {
+      state.isEditing = action.payload
+    },
+    setIsAddEditModalOpen(state, action) {
+      state.isAddEditModalOpen = action.payload
+    },
+    setCurrentlyEditedActivity(state, action) {
+      state.currentlyEditedActivity = action.payload
+    },
+    editCurrentActivity(state, action: PayloadAction<Activity>) {
+      state.activitiesData = state.activitiesData?.map((activity) => {
+        if (activity._id === action.payload._id) {
+          return action.payload
+        }
+        return activity
+      })
     },
   },
   extraReducers: (builder) => {
@@ -38,6 +70,7 @@ export const userSlice = createSlice({
     })
     builder.addCase(getActivitiesForCurrentUserAction.fulfilled, (state, action) => {
       state.activitiesData = [...(state.activitiesData || []), ...action.payload]
+      state.activitiesPage = state.activitiesPage + 1
       state.activitiesStatus = RequestStatuses.SUCCESS
     })
     builder.addCase(getActivitiesForCurrentUserAction.rejected, (state, action) => {
@@ -62,24 +95,36 @@ export const userSlice = createSlice({
     })
 
     builder.addMatcher(
-      isAnyOf(createActivityAction.pending, editActivityAction.pending),
+      isAnyOf(
+        createActivityAction.pending,
+        editActivityAction.pending,
+        deleteActivityAction.pending
+      ),
       (state) => {
-        state.createEditStatus = RequestStatuses.LOADING
+        state.createEditDeleteStatus = RequestStatuses.LOADING
       }
     )
     builder.addMatcher(
-      isAnyOf(createActivityAction.fulfilled, editActivityAction.fulfilled),
+      isAnyOf(
+        createActivityAction.fulfilled,
+        editActivityAction.fulfilled,
+        deleteActivityAction.fulfilled
+      ),
       (state, action) => {
-        state.createEditData = action.payload
-        state.createEditStatus = RequestStatuses.SUCCESS
+        state.createEditDeleteData = action.payload
+        state.createEditDeleteStatus = RequestStatuses.SUCCESS
       }
     )
     builder.addMatcher(
-      isAnyOf(createActivityAction.rejected, editActivityAction.rejected),
+      isAnyOf(
+        createActivityAction.rejected,
+        editActivityAction.rejected,
+        deleteActivityAction.rejected
+      ),
       (state, action) => {
-        state.createEditStatus = RequestStatuses.FAILED
+        state.createEditDeleteStatus = RequestStatuses.FAILED
         if (action.payload) {
-          state.createEditError = action.payload
+          state.createEditDeleteError = action.payload
         }
       }
     )
@@ -87,4 +132,14 @@ export const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const { removePreset, setActivitiesPage, setHasMore } = userSlice.actions
+export const {
+  removePreset,
+  setHasMore,
+  addActivity,
+  removeActivity,
+  toggleIsPreset,
+  setIsEditing,
+  setIsAddEditModalOpen,
+  setCurrentlyEditedActivity,
+  editCurrentActivity,
+} = userSlice.actions

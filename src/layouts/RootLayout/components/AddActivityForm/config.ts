@@ -39,8 +39,8 @@ export const activityTypeSchema = yup
 export const exerciseFieldsSchema = yup
   .object()
   .shape({
-    label: yup.string(),
-    value: yup.string(),
+    label: yup.string().required(),
+    value: yup.string().required(),
     isStatic: yup.boolean(),
     additionalInfo: yup.string(),
   })
@@ -165,9 +165,10 @@ export const addActivityFormSchema = yup.object().shape({
     .when("activityType", {
       is: (activityType: ActivityType) => activityType.label === "balance",
       then: (schema) => schema.of(balanceExerciseSchema),
-    }),
+    })
+    .required(),
   notes: yup.string(),
   warmup: yup.boolean().required(),
-  repeatExercisesCount: yup.number().transform(handleIsNaN),
+  repeatExercisesCount: yup.number().transform(handleIsNaN).required(),
   exertionRating: yup.number(),
 })
