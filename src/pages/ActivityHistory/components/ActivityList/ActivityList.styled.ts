@@ -26,7 +26,22 @@ export const Wrapper = styled.div`
 export const LoadMore = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.secondary};
-  padding: 12px 0 42px 0;
+  padding: 24px;
   font-weight: 500;
   font-size: 14px;
+`
+
+export const NoActivitiesWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-weight: 500;
+    text-align: center;
+    max-width: 250px;
+  }
 `

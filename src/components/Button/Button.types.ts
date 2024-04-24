@@ -9,6 +9,7 @@ interface SharedProps {
   width?: number
   icon?: IconName
   textColor?: string
+  iconColor?: string
 }
 
 type RegularButtonProps = {

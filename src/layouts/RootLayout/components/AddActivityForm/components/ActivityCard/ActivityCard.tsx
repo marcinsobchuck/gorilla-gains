@@ -1,15 +1,20 @@
 import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
+import { useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { Popover } from "@components/Popover/Popover"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { dateToLocaleDateString } from "@utils/dateToLocaleDateString"
 
 import {
   ExertionRatingContainer,
   HeaderWrapper,
   Heading,
   IconContainer,
+  LoaderOverlay,
   MainText,
   PopoverOption,
   PopoverOptions,
@@ -25,14 +30,20 @@ import { capitalizeFirstLetter } from "../../utils"
 export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions, ...rest }) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const status = useAppSelector((state) => state.activities.createEditDeleteStatus)
+  const currentProcessedActivityId = useAppSelector(
+    (state) => state.activities.currentlyProcessedActivityId
+  )
   const theme = useTheme()
-
   const numberOfExercises = data.exercises.length
+
+  const isLoading = status === RequestStatuses.LOADING && currentProcessedActivityId === data._id
 
   return (
     <Wrapper {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
+
         <div
           ref={setAnchor}
           onClick={(e) => {
@@ -83,18 +94,24 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
           </MainText>
 
           {data.createdAt && (
-            <SecondaryText>
-              Created at {new Date(data.createdAt).toLocaleDateString("en-US")}
-            </SecondaryText>
+            <SecondaryText>{dateToLocaleDateString(new Date(data.date))}</SecondaryText>
           )}
         </TextContentWrapper>
 
-        <ExertionRatingContainer>
-          {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
-            <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
-          ))}
+        <ExertionRatingContainer align='flex-end' direction='column'>
+          <FlexContainer>
+            {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
+              <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
+            ))}
+          </FlexContainer>
+          <p>Created at {dateToLocaleDateString(new Date(data.date))}</p>
         </ExertionRatingContainer>
       </FlexContainer>
+      {isLoading && (
+        <LoaderOverlay>
+          <LoaderSpinner />
+        </LoaderOverlay>
+      )}
     </Wrapper>
   )
 }

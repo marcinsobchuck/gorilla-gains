@@ -4,11 +4,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 
 import { getActivityTypes } from "@api/activityTypesService"
-import { CreateActivityData } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { FormError } from "@components/FormError/FormError"
 import { Input } from "@components/Input/Input"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
@@ -16,6 +14,7 @@ import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
+import { dateToLocaleDateString } from "@utils/dateToLocaleDateString"
 
 import {
   AddExerciseButton,
@@ -24,18 +23,25 @@ import {
   PresetsButton,
   StyledCheckbox,
   StyledForm,
+  StyledLoader,
   StyledSelect,
   SubmitButton,
+  SubmitButtonsWrapper,
 } from "./AddActivityForm.styled"
 import { ActivityType, AddActivityFormProps } from "./AddActivityForm.types"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { ExertionRating } from "./components/ExertionRating/ExertionRating"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { PresetsView } from "./components/PresetsView/PresetsView"
-import { transformResponseExercises } from "./components/PresetsView/utils"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
-import { capitalizeFirstLetter, transformActivityTypesIntoOption } from "./utils"
+import {
+  capitalizeFirstLetter,
+  getDataToSubmit,
+  getSubmitButtonText,
+  transformActivityTypesIntoOption,
+  transformEditedActivity,
+} from "./utils"
 
 export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   isPresetsVisible,
@@ -45,13 +51,13 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
+  const isLoading = useAppSelector((state) => state.activities.createEditDeleteStatus)
   const activityTypes = useAppSelector((state) => state.activityTypes)
   const isEditing = useAppSelector((state) => state.activities.isEditing)
   const currentlyEditedActivity = useAppSelector(
     (state) => state.activities.currentlyEditedActivity
   )
   const dispatch = useAppDispatch()
-
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
 
   const methods = useForm({
@@ -134,35 +140,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
 
   const onSubmit = (isPreset?: boolean) =>
     handleSubmit(async (values) => {
-      const {
-        title,
-        activityType,
-        date,
-        notes,
-        repeatExercisesCount,
-        warmup,
-        exercises,
-        exertionRating,
-      } = values
-
-      const transformedExercises = exercises?.map((exercise) => {
-        return {
-          ...exercise,
-          exercise: exercise.exercise.value,
-        }
-      })
-
-      const dataToSubmit: CreateActivityData = {
-        title,
-        type: activityType.value,
-        date,
-        notes,
-        exertionRating,
-        warmup,
-        repeatExercisesCount,
-        exercises: transformedExercises,
-        isPreset,
-      }
+      const dataToSubmit = getDataToSubmit(values, isPreset)
 
       const submitEdit = async () => {
         if (currentlyEditedActivity) {
@@ -181,11 +159,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     })
 
   const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
-  const dateValue = watch("date")?.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })
+  const dateValue = dateToLocaleDateString(watch("date"))
   const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""}${dateValue ? " - " + dateValue : ""}`
 
   useEffect(() => {
@@ -200,13 +174,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     if (isEditing && currentlyEditedActivity) {
       const {
         type: { type, _id },
-        title,
-        exertionRating,
-        notes,
-        warmup,
-        repeatExercisesCount,
-        exercises,
-        date,
       } = currentlyEditedActivity
 
       const activityType = {
@@ -215,18 +182,17 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
       }
 
       setSelectValue(activityType)
-      reset({
-        title,
-        activityType,
-        exertionRating,
-        notes,
-        warmup,
-        repeatExercisesCount,
-        exercises: transformResponseExercises(exercises),
-        date: new Date(date),
-      })
+      reset(transformEditedActivity(currentlyEditedActivity))
     }
   }, [currentlyEditedActivity, isEditing, reset])
+
+  const renderSubmitButtontext = (
+    buttonAction: "preset" | "addEdit",
+    isEditing: boolean,
+    isPreset?: boolean
+  ) => {
+    return getSubmitButtonText(buttonAction, isEditing, isPreset)
+  }
 
   return (
     <FormProvider {...methods}>
@@ -327,26 +293,24 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           />
           <ExertionRating />
         </FieldsWrapper>
-        <FlexContainer
-          style={{
-            alignSelf: "center",
-            gap: "12px",
-          }}
-        >
+
+        <SubmitButtonsWrapper justify='center'>
           <SubmitButton
             buttonType='button'
             type='submit'
             onClick={(e) => {
               e.preventDefault()
-              onSubmit(true)()
+              onSubmit(currentlyEditedActivity?.isPreset ? false : true)()
             }}
+            width={240}
           >
-            Save and add as preset
+            {renderSubmitButtontext("preset", isEditing, currentlyEditedActivity?.isPreset)}
           </SubmitButton>
           <SubmitButton buttonType='button' type='submit' width={120}>
-            Save
+            {renderSubmitButtontext("addEdit", isEditing)}
           </SubmitButton>
-        </FlexContainer>
+          {isLoading === RequestStatuses.LOADING && <StyledLoader width={26} height={26} />}
+        </SubmitButtonsWrapper>
       </StyledForm>
     </FormProvider>
   )

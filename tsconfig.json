@@ -28,10 +28,11 @@
       "@enums/*": ["enums/*"],
       "@features/*": ["features/*"],
       "@hooks/*": ["hooks/*"],
-      "@styles/*": ["styles/*"]
-    }
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+    },
   },
 
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
 }

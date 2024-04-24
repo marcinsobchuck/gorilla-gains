@@ -51,7 +51,6 @@ export const ModalWrapper = styled.div<ModalWrapperProps>`
 `
 
 export const ModalHeader = styled.div`
-  position: sticky;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -13,20 +13,13 @@ import {
 } from "@api/types/activitiesService.types"
 import { createAppAsyncThunk } from "@app/hooks"
 
-import {
-  addActivity,
-  editCurrentActivity,
-  removeActivity,
-  setHasMore,
-  toggleIsPreset,
-} from "./activitiesSlice"
+import { setCurrentlyProcessedActivityId, setHasMore, toggleIsPreset } from "./activitiesSlice"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
-  async (data: CreateActivityData, { rejectWithValue, dispatch }) => {
+  async (data: CreateActivityData, { rejectWithValue }) => {
     try {
       const response = await createActivity(data)
-      dispatch(addActivity(response.data))
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {
@@ -57,11 +50,12 @@ export const getPresetsForCurrentUserAction = createAppAsyncThunk(
 )
 export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
   "getActivitiesForCurrentUser",
-  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue, dispatch }) => {
+  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getActivitiesForCurrentUser(data)
+      const limit = getState().activities.limit
 
-      if (response.data.length < 6) {
+      const response = await getActivitiesForCurrentUser(data)
+      if (response.data.length < limit) {
         dispatch(setHasMore(false))
       }
 
@@ -83,10 +77,8 @@ export const editActivityAction = createAppAsyncThunk(
       const {
         activities: { isEditing },
       } = getState()
-
+      dispatch(setCurrentlyProcessedActivityId(data.activityId))
       const response = await editActivity(data)
-      dispatch(editCurrentActivity(response.data))
-      //ty przeciez tutaj activity ci zedytowane zwraca no to dispaczujesz  editCurrentActivity(response) dosłownie???? łotego
 
       if (!isEditing) {
         dispatch(toggleIsPreset())
@@ -107,8 +99,9 @@ export const deleteActivityAction = createAppAsyncThunk(
   "deleteActivity",
   async (activityId: string, { rejectWithValue, dispatch }) => {
     try {
+      dispatch(setCurrentlyProcessedActivityId(activityId))
+
       const response = await deleteActivity(activityId)
-      dispatch(removeActivity(activityId))
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

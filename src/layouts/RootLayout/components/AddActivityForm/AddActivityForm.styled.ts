@@ -5,6 +5,7 @@ import { Checkbox } from "@components/Checkbox/Checkbox"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Input } from "@components/Input/Input"
+import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 import { SelectAsync } from "@components/SelectAsync/SelectAsync"
 import { TileInputButtonWrapper } from "@components/TileInputButton/TileInputButton.styled"
@@ -143,11 +144,48 @@ export const X = styled.span`
   color: ${({ theme }) => theme.primaryDisabled};
 `
 
-export const SubmitButton = styled(Button)``
+export const SubmitButtonsWrapper = styled(FlexContainer)`
+  position: relative;
+  width: 100%;
+  gap: 12px;
+
+  @media ${Breakpoints.SMALL} {
+    align-self: center;
+  }
+`
+
+export const StyledLoader = styled(LoaderSpinner)`
+  position: absolute;
+  bottom: 38px;
+  left: calc(50% - 13px);
+
+  @media ${Breakpoints.SMALL} {
+    bottom: 0;
+    right: 0;
+    left: auto;
+  }
+`
+
+export const SubmitButton = styled(Button)`
+  flex-basis: 50%;
+  font-size: 14px;
+  padding: 9px 24px;
+
+  @media ${Breakpoints.SMALL} {
+    font-size: 16px;
+    padding: 16px 24px;
+    flex-basis: auto;
+  }
+`
 
 export const PresetsButton = styled(Button)`
+  font-size: 14px;
   align-self: center;
   margin-bottom: 24px;
+
+  @media ${Breakpoints.SMALL} {
+    font-size: 16px;
+  }
 `
 
 export const InputWarning = styled(FlexContainer)`

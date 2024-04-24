@@ -6,7 +6,10 @@ import { ButtonProps } from "./Button.types"
 import { Icon } from "../Icon/Icon"
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ buttonType, variant = "primary", width, children, icon, textColor, ...rest }, ref) => {
+  (
+    { buttonType, variant = "primary", width, children, icon, textColor, iconColor, ...rest },
+    ref
+  ) => {
     const sharedProps = {
       $variant: variant,
       width,
@@ -20,7 +23,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
           {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           ref={ref as RefObject<HTMLAnchorElement>}
         >
-          {icon && <Icon name={icon} />}
+          {icon && <Icon name={icon} color={iconColor} />}
           {children}
         </StyledLink>
       )
@@ -33,7 +36,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
           {...(rest as LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           ref={ref as RefObject<HTMLAnchorElement>}
         >
-          {icon && <Icon name={icon} />}
+          {icon && <Icon name={icon} color={iconColor} />}
           {children}
         </StyledNavLink>
       )
@@ -45,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
         ref={ref as RefObject<HTMLButtonElement>}
       >
-        {icon && <Icon name={icon} />}
+        {icon && <Icon name={icon} color={iconColor} />}
         {children}
       </StyledButton>
     )

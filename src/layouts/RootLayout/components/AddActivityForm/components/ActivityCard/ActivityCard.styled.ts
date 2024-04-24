@@ -2,9 +2,11 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { ModalOverlay } from "@components/Modal/Modal.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled.div`
+  position: relative;
   cursor: pointer;
 
   margin-bottom: 24px;
@@ -66,6 +68,12 @@ export const ExertionRatingContainer = styled(FlexContainer)`
   align-self: flex-end;
   margin-left: auto;
 
+  p {
+    color: ${({ theme }) => theme.primaryDisabled};
+    font-size: 10px;
+    margin-top: 6px;
+  }
+
   @media ${Breakpoints.SMALL} {
     svg {
       width: 28px;
@@ -106,7 +114,9 @@ export const MainText = styled.p`
 
 export const SecondaryText = styled.p`
   font-size: 10px;
-  color: ${({ theme }) => theme.primaryDisabled};
+  color: ${({ theme }) => theme.primaryMedium};
+  font-weight: 500;
+
   text-align: left;
 
   @media ${Breakpoints.SMALL} {
@@ -133,4 +143,9 @@ export const PopoverOption = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.secondaryOpacity};
   }
+`
+
+export const LoaderOverlay = styled(ModalOverlay)`
+  z-index: 8;
+  border-radius: 16px;
 `

@@ -81,7 +81,7 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
         color={theme.secondary}
       />
       <Heading>Add from preset</Heading>
-      {state.presetsData?.length === 0 && (
+      {state.presetsData?.length === 0 && state.presetsStatus !== RequestStatuses.LOADING && (
         <div>
           Currently you have no activities saved as presets. Go back, create one and save as preset
           to see it here.
