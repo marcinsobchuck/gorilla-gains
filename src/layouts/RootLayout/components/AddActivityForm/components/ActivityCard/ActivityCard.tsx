@@ -30,14 +30,17 @@ import { capitalizeFirstLetter } from "../../utils"
 export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions, ...rest }) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const status = useAppSelector((state) => state.activities.createEditDeleteStatus)
+  const state = useAppSelector((state) => state.activities)
   const currentProcessedActivityId = useAppSelector(
     (state) => state.activities.currentlyProcessedActivityId
   )
   const theme = useTheme()
   const numberOfExercises = data.exercises.length
 
-  const isLoading = status === RequestStatuses.LOADING && currentProcessedActivityId === data._id
+  const isLoading =
+    (state.editActivityStatus === RequestStatuses.LOADING ||
+      state.deleteActivityStatus === RequestStatuses.LOADING) &&
+    currentProcessedActivityId === data._id
 
   return (
     <Wrapper {...rest}>

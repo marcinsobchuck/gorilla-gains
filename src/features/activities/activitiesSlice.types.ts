@@ -6,8 +6,13 @@ export interface InitialState {
   activitiesStatus: RequestStatuses
   activitiesError?: string
 
-  createEditDeleteStatus: RequestStatuses
-  createEditDeleteError?: string
+  createActivityStatus: RequestStatuses
+  editActivityStatus: RequestStatuses
+  deleteActivityStatus: RequestStatuses
+
+  createActivityError?: string
+  editActivityError?: string
+  deleteActivityError?: string
 
   presetsData?: Activity[]
   presetsStatus: RequestStatuses

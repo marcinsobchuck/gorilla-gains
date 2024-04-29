@@ -1,4 +1,5 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
+import { toast } from "react-toastify"
 
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
@@ -13,7 +14,9 @@ import { InitialState } from "./activitiesSlice.types"
 
 const initialState: InitialState = {
   activitiesStatus: RequestStatuses.IDLE,
-  createEditDeleteStatus: RequestStatuses.IDLE,
+  createActivityStatus: RequestStatuses.IDLE,
+  deleteActivityStatus: RequestStatuses.IDLE,
+  editActivityStatus: RequestStatuses.IDLE,
   presetsStatus: RequestStatuses.IDLE,
   activitiesPage: 1,
   limit: 3,
@@ -83,59 +86,67 @@ export const userSlice = createSlice({
       }
     })
 
+    builder.addCase(createActivityAction.pending, (state) => {
+      state.createActivityStatus = RequestStatuses.LOADING
+    })
     builder.addCase(createActivityAction.fulfilled, (state, action) => {
+      state.createActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = [action.payload, ...state.activitiesData]
+      state.isAddEditModalOpen = false
+      toast("Succesfully created activity")
+    })
+    builder.addCase(createActivityAction.rejected, (state, action) => {
+      state.createActivityStatus = RequestStatuses.FAILED
+      if (action.payload) {
+        state.createActivityError = action.payload
+        toast("There was a problem creating activity")
+      }
+    })
+
+    builder.addCase(deleteActivityAction.pending, (state) => {
+      state.deleteActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
+      state.deleteActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = state.activitiesData?.filter(
         (activity) => activity._id !== action.payload._id
       )
+      state.currentlyProcessedActivityId = null
+      toast("Succesfully deleted activity")
+    })
+    builder.addCase(deleteActivityAction.rejected, (state, action) => {
+      state.deleteActivityStatus = RequestStatuses.FAILED
+      if (action.payload) {
+        state.deleteActivityError = action.payload
+        toast("There was a problem deleting activity")
+      }
+    })
+
+    builder.addCase(editActivityAction.pending, (state) => {
+      state.editActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
+      if (state.isEditing) {
+        state.isAddEditModalOpen = false
+        state.isEditing = false
+      }
+      state.editActivityStatus = RequestStatuses.SUCCESS
+      state.currentlyProcessedActivityId = null
       state.activitiesData = state.activitiesData?.map((activity) => {
         if (activity._id === action.payload._id) {
           return action.payload
         }
         return activity
       })
+      toast("Succesfully edited activity")
     })
-
-    builder.addMatcher(
-      isAnyOf(
-        createActivityAction.pending,
-        editActivityAction.pending,
-        deleteActivityAction.pending
-      ),
-      (state) => {
-        state.createEditDeleteStatus = RequestStatuses.LOADING
+    builder.addCase(editActivityAction.rejected, (state, action) => {
+      state.editActivityStatus = RequestStatuses.FAILED
+      if (action.payload) {
+        state.editActivityError = action.payload
+        toast("There was a problem editing activity")
       }
-    )
-    builder.addMatcher(
-      isAnyOf(
-        createActivityAction.fulfilled,
-        editActivityAction.fulfilled,
-        deleteActivityAction.fulfilled
-      ),
-      (state) => {
-        state.createEditDeleteStatus = RequestStatuses.SUCCESS
-        state.isAddEditModalOpen = false
-        state.isEditing = false
-        state.currentlyProcessedActivityId = null
-      }
-    )
-    builder.addMatcher(
-      isAnyOf(
-        createActivityAction.rejected,
-        editActivityAction.rejected,
-        deleteActivityAction.rejected
-      ),
-      (state, action) => {
-        state.createEditDeleteStatus = RequestStatuses.FAILED
-        if (action.payload) {
-          state.createEditDeleteError = action.payload
-        }
-      }
-    )
+    })
   },
 })
 

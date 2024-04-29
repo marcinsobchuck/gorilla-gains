@@ -8,6 +8,12 @@ export const Background = styled.div`
 `
 
 export const GlobalStyle = globalStyle.createGlobalStyle`
+  :root {
+    --toastify-color-light: ${({ theme }) => theme.backgroundColor};
+    --toastify-text-color-light: ${({ theme }) => theme.primary};
+    --toastify-color-progress-light: ${({ theme }) => theme.secondary}
+  }
+
   *,
   *::before,
   *::after {

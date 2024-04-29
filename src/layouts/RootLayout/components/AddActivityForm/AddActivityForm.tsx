@@ -51,7 +51,8 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
-  const isLoading = useAppSelector((state) => state.activities.createEditDeleteStatus)
+  const creatingActionStatus = useAppSelector((state) => state.activities.createActivityStatus)
+  const editingActionStatus = useAppSelector((state) => state.activities.editActivityStatus)
   const activityTypes = useAppSelector((state) => state.activityTypes)
   const isEditing = useAppSelector((state) => state.activities.isEditing)
   const currentlyEditedActivity = useAppSelector(
@@ -309,7 +310,10 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           <SubmitButton buttonType='button' type='submit' width={120}>
             {renderSubmitButtontext("addEdit", isEditing)}
           </SubmitButton>
-          {isLoading === RequestStatuses.LOADING && <StyledLoader width={26} height={26} />}
+          {(creatingActionStatus === RequestStatuses.LOADING ||
+            editingActionStatus === RequestStatuses.LOADING) && (
+            <StyledLoader width={26} height={26} />
+          )}
         </SubmitButtonsWrapper>
       </StyledForm>
     </FormProvider>
