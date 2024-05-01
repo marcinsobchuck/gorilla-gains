@@ -45,7 +45,7 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
 
   @media ${Breakpoints.LARGE} {
     padding: 64px 32px 44px 32px;
-    width: 15%;
+    width: 14%;
   }
 `
 

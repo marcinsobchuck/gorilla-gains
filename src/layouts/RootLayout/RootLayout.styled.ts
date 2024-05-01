@@ -62,12 +62,26 @@ export const FlexContainer = styled.div`
 
 export const Sidebar = styled.aside`
   background-color: ${({ theme }) => theme.navBackgroundColor};
+  padding: 24px 14px;
+
+  h1 {
+    color: ${({ theme }) => theme.primary};
+    font-size: 20px;
+    padding-left: 10px;
+
+    @media ${Breakpoints.LARGE} {
+      font-size: 24px;
+    }
+  }
+
   @media ${Breakpoints.MEDIUM} {
     width: 31%;
+    padding: 24px;
   }
 
   @media ${Breakpoints.LARGE} {
-    width: 21%;
+    padding: 32px;
+    width: 25%;
   }
 `
 export const MainContentWrapper = styled.main`
