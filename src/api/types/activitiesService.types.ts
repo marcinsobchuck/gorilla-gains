@@ -77,6 +77,6 @@ export interface Activity {
   repeatExercisesCount: number
   isPreset: boolean
   exertionRating?: number
-  createdAt?: string
+  createdAt: string
   updatedAt?: string
 }

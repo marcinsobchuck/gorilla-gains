@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
@@ -7,7 +8,6 @@ import { Icon } from "@components/Icon/Icon"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { Popover } from "@components/Popover/Popover"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { dateToLocaleDateString } from "@utils/dateToLocaleDateString"
 
 import {
   ExertionRatingContainer,
@@ -97,7 +97,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
           </MainText>
 
           {data.createdAt && (
-            <SecondaryText>{dateToLocaleDateString(new Date(data.date))}</SecondaryText>
+            <SecondaryText>{format(new Date(data.date), "dd/MM/yyyy")}</SecondaryText>
           )}
         </TextContentWrapper>
 
@@ -107,7 +107,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
               <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
             ))}
           </FlexContainer>
-          <p>Created at {dateToLocaleDateString(new Date(data.date))}</p>
+          <p>Created at {format(new Date(data.createdAt), "dd/MM/yyyy")}</p>
         </ExertionRatingContainer>
       </FlexContainer>
       {isLoading && (

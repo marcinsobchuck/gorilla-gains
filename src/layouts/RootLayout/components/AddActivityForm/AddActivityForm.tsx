@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
+import { format } from "date-fns"
 import debounce from "lodash.debounce"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
@@ -14,7 +15,6 @@ import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
-import { dateToLocaleDateString } from "@utils/dateToLocaleDateString"
 
 import {
   AddExerciseButton,
@@ -160,7 +160,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     })
 
   const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
-  const dateValue = dateToLocaleDateString(watch("date"))
+  const dateValue = format(watch("date"), "dd/MM/yyyy")
   const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""}${dateValue ? " - " + dateValue : ""}`
 
   useEffect(() => {

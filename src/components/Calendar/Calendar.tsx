@@ -1,6 +1,7 @@
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction" // needed for dayClick
 import FullCalendar from "@fullcalendar/react"
+import { format } from "date-fns"
 import { useRef, useState } from "react"
 
 import { CalendarWrapper } from "./Calendar.styled"
@@ -36,12 +37,12 @@ export const Calendar = () => {
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
+        viewDidMount={(arg) =>
+          console.log({ xpp: format(arg.view.activeEnd, "yyyy/MM/dd"), xd: arg.view.activeEnd })
+        }
         events={[
           {
-            date: new Date("2024-04-28"),
-          },
-          {
-            date: new Date("2024-04-28"),
+            date: new Date("2024-05-28"),
           },
           {
             date: new Date("2024-04-25"),
