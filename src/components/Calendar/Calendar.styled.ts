@@ -1,6 +1,10 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-export const CalendarWrapper = styled.div`
+interface CalendarWrapperProps {
+  $isLoading: boolean
+}
+
+export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   width: 100%;
   margin-top: 24px;
 
@@ -40,6 +44,30 @@ export const CalendarWrapper = styled.div`
     font-size: 24px;
     font-weight: 500;
     color: ${({ theme }) => theme.secondary};
+  }
+
+  .fc-daygrid {
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 102%;
+
+      opacity: 0;
+      backdrop-filter: blur(0);
+      z-index: 0;
+
+      ${({ $isLoading }) =>
+        $isLoading &&
+        css`
+          opacity: 1;
+          backdrop-filter: blur(3px);
+          z-index: 1;
+        `}
+    }
   }
 
   .fc .fc-scroller-liquid-absolute {
@@ -135,7 +163,7 @@ export const CalendarWrapper = styled.div`
   }
 
   .fc-daygrid-event-dot {
-    border-color: ${({ theme }) => theme.secondary} !important;
+    /* border-color: ${({ theme }) => theme.secondary} !important; */
     border-width: 3px;
   }
 

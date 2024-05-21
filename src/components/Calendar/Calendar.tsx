@@ -1,8 +1,14 @@
+import { DatesSetArg } from "@fullcalendar/core/index.js"
 import dayGridPlugin from "@fullcalendar/daygrid"
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction" // needed for dayClick
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
 import { format } from "date-fns"
 import { useRef, useState } from "react"
+import { useTheme } from "styled-components"
+
+import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { getEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
 
 import { CalendarWrapper } from "./Calendar.styled"
 
@@ -10,6 +16,10 @@ export const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState("")
   const calendarRef = useRef<FullCalendar | null>(null)
   const calendarApi = calendarRef.current?.getApi()
+
+  const dispatch = useAppDispatch()
+  const state = useAppSelector((state) => state.historyCalendar)
+  const theme = useTheme()
 
   const handleDateClick = (arg: DateClickArg) => {
     setSelectedDate(arg.dateStr)
@@ -25,7 +35,18 @@ export const Calendar = () => {
     }
   }
 
-  const handleDatesSet = () => {
+  const handleDatesSet = async (arg: DatesSetArg) => {
+    const startDate = format(arg.view.activeStart, "yyyy/MM/dd")
+    const endDate = format(arg.view.activeEnd, "yyyy/MM/dd")
+
+    await dispatch(
+      getEventsForCurrentMonthAction({
+        startDate,
+        endDate,
+        theme,
+      })
+    )
+
     if (selectedDate) {
       calendarApi?.select(selectedDate)
       updateSelectedClass(selectedDate)
@@ -33,35 +54,12 @@ export const Calendar = () => {
   }
 
   return (
-    <CalendarWrapper>
+    <CalendarWrapper $isLoading={state.eventsStatus === RequestStatuses.LOADING}>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
-        viewDidMount={(arg) =>
-          console.log({ xpp: format(arg.view.activeEnd, "yyyy/MM/dd"), xd: arg.view.activeEnd })
-        }
-        events={[
-          {
-            date: new Date("2024-05-28"),
-          },
-          {
-            date: new Date("2024-04-25"),
-          },
-          {
-            date: new Date("2024-04-16"),
-          },
-          {
-            date: new Date("2024-04-16"),
-          },
-          {
-            date: new Date("2024-04-16"),
-          },
-          {
-            date: new Date("2024-04-16"),
-          },
-        ]}
+        events={state.events}
         contentHeight={300}
-        eventColor='yellow'
         headerToolbar={{
           right: "prev,next",
         }}

@@ -32,7 +32,7 @@ export const ActivityList = () => {
   const theme = useTheme()
 
   const limit = state.limit
-  const offset = (state.activitiesPage - 1) * limit
+  const offset = state.activitiesData.length
 
   const observerTarget = useActivitiesInfiniteScroll(initialLoading, offset, limit)
 
@@ -41,7 +41,7 @@ export const ActivityList = () => {
     dispatch(removePreset(id))
   }
 
-  const handleEditActivity = async (activity: Activity) => {
+  const handleEditActivity = (activity: Activity) => {
     dispatch(setIsEditing(true))
     dispatch(setIsAddEditModalOpen(true))
     dispatch(setCurrentlyEditedActivity(activity))
@@ -67,14 +67,18 @@ export const ActivityList = () => {
           label: "Delete from presets",
           action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             e.stopPropagation()
-            await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false } }))
+            await dispatch(
+              editActivityAction({ activityId: id, dataToEdit: { isPreset: false }, theme })
+            )
           },
         }
       : {
           label: "Mark as preset",
           action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             e.stopPropagation()
-            await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: true } }))
+            await dispatch(
+              editActivityAction({ activityId: id, dataToEdit: { isPreset: true }, theme })
+            )
           },
         },
   ]

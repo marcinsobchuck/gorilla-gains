@@ -1,4 +1,6 @@
-import { Activity } from "@api/types/activitiesService.types"
+import { DefaultTheme } from "styled-components/dist/types"
+
+import { Activity, CreateActivityData } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 export interface InitialState {
@@ -26,4 +28,9 @@ export interface InitialState {
 
   currentlyProcessedActivityId: string | null
   currentlyEditedActivity?: Activity
+}
+
+export interface CreateActivityParams {
+  data: CreateActivityData
+  theme: DefaultTheme
 }

@@ -1,3 +1,5 @@
+import { DefaultTheme } from "styled-components/dist/types"
+
 import { ActivityTypes } from "@enums/activityTypes.enum"
 
 export interface Set {
@@ -47,6 +49,7 @@ export interface EditActivityData {
 export interface EditActivityParams {
   dataToEdit: EditActivityData
   activityId: string
+  theme: DefaultTheme
 }
 
 export interface GetActivitiesForCurrentUserParams {
@@ -54,6 +57,8 @@ export interface GetActivitiesForCurrentUserParams {
   isPreset?: boolean
   offset?: number
   limit?: number
+  startDate?: string
+  endDate?: string
 }
 
 export interface ResponseExercise {

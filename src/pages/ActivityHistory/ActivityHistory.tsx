@@ -4,12 +4,13 @@ import { Calendar } from "@components/Calendar/Calendar"
 import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
 import { ActivityList } from "./components/ActivityList/ActivityList"
+import { SidebarHeader } from "./components/SidebarHeader/SidebarHeader"
 
 export const ActivityHistory = () => {
   return (
     <>
       <Sidebar>
-        <h1>History</h1>
+        <SidebarHeader title='History' />
         <Calendar />
       </Sidebar>
       <MainContentWrapper>

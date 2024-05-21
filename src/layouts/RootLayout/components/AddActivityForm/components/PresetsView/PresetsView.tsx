@@ -31,7 +31,7 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
   const theme = useTheme()
 
   const handleRemovePreset = async (id: string) => {
-    await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false } }))
+    await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false }, theme }))
     dispatch(removePreset(id))
   }
 

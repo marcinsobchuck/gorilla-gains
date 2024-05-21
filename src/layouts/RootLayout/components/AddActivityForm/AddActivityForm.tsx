@@ -3,6 +3,7 @@ import { format } from "date-fns"
 import debounce from "lodash.debounce"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
+import { useTheme } from "styled-components"
 
 import { getActivityTypes } from "@api/activityTypesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -60,6 +61,8 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   )
   const dispatch = useAppDispatch()
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
+
+  const theme = useTheme()
 
   const methods = useForm({
     mode: "all",
@@ -149,27 +152,31 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
             editActivityAction({
               activityId: currentlyEditedActivity._id,
               dataToEdit: dataToSubmit,
+              theme,
             })
           )
         }
       }
 
-      const submitCreate = async () => await dispatch(createActivityAction(dataToSubmit))
+      const submitCreate = async () =>
+        await dispatch(createActivityAction({ data: dataToSubmit, theme }))
 
       isEditing && currentlyEditedActivity ? submitEdit() : submitCreate()
     })
 
-  const activityTypeLabel = capitalizeFirstLetter(watch("activityType.label"))
-  const dateValue = format(watch("date"), "dd/MM/yyyy")
-  const defaultTitleValue = `${activityTypeLabel ? activityTypeLabel : ""}${dateValue ? " - " + dateValue : ""}`
+  const activityTypeLabel = watch("activityType.label")
+  const date = watch("date")
+  const formattedActivityLabel = capitalizeFirstLetter(activityTypeLabel)
+  const formattedDate = date ? format(date, "dd/MM/yyyy") : ""
+  const defaultTitleValue = `${formattedActivityLabel ? formattedActivityLabel : ""}${formattedDate ? " - " + formattedDate : ""}`
 
   useEffect(() => {
-    if (!isCustomTitle && !isEditing && (activityTypeLabel || dateValue)) {
+    if (!isCustomTitle && !isEditing && (activityTypeLabel || date)) {
       setValue("title", defaultTitleValue, {
         shouldValidate: true,
       })
     }
-  }, [activityTypeLabel, dateValue, defaultTitleValue, isCustomTitle, isEditing, setValue])
+  }, [activityTypeLabel, date, defaultTitleValue, isCustomTitle, isEditing, setValue])
 
   useEffect(() => {
     if (isEditing && currentlyEditedActivity) {

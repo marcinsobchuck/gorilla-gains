@@ -7,19 +7,29 @@ import {
   getActivitiesForCurrentUser,
 } from "@api/activitiesService"
 import {
-  CreateActivityData,
   EditActivityParams,
   GetActivitiesForCurrentUserParams,
 } from "@api/types/activitiesService.types"
 import { createAppAsyncThunk } from "@app/hooks"
+import { addEvent, editEvent, removeEvent } from "@features/historyCalendar/historyCalendarSlice"
+import { getBorderColor } from "@features/historyCalendar/utils"
 
 import { setCurrentlyProcessedActivityId, setHasMore, toggleIsPreset } from "./activitiesSlice"
+import { CreateActivityParams } from "./activitiesSlice.types"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
-  async (data: CreateActivityData, { rejectWithValue }) => {
+  async (data: CreateActivityParams, { rejectWithValue, dispatch }) => {
     try {
-      const response = await createActivity(data)
+      const response = await createActivity(data.data)
+      dispatch(
+        addEvent({
+          id: response.data._id,
+          borderColor: getBorderColor(response.data.type.type, data.theme),
+          date: response.data.date,
+        })
+      )
+
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {
@@ -80,6 +90,14 @@ export const editActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(data.activityId))
       const response = await editActivity(data)
 
+      dispatch(
+        editEvent({
+          id: response.data._id,
+          borderColor: getBorderColor(response.data.type.type, data.theme),
+          date: response.data.date,
+        })
+      )
+
       if (!isEditing) {
         dispatch(toggleIsPreset())
       }
@@ -102,6 +120,8 @@ export const deleteActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(activityId))
 
       const response = await deleteActivity(activityId)
+      dispatch(removeEvent(activityId))
+
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

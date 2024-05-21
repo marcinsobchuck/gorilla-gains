@@ -25,6 +25,11 @@ export const lightTheme = {
   secondaryText: "#4CB129",
   secondaryOpacity: "#75E83F1F",
 
+  strengthEventColor: "#FF5A5F",
+  enduranceEventColor: "#00CC66",
+  flexibilityEventColor: "#6A5ACD",
+  balanceEventColor: "#4169E1",
+
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
   0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
@@ -63,6 +68,11 @@ export const darkTheme = {
   secondaryDisabled: "#DCECCF",
   secondaryText: "#4CB129",
   secondaryOpacity: "#A1D8901F",
+
+  strengthEventColor: "#FF5A5F",
+  enduranceEventColor: "#3CB371",
+  flexibilityEventColor: "#9370DB",
+  balanceEventColor: "#1E90FF",
 
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
