@@ -4,11 +4,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
 
-export const useActivitiesInfiniteScroll = (
-  initialLoading: boolean,
-  offset: number,
-  limit: number
-) => {
+export const useActivitiesInfiniteScroll = (offset: number, limit: number) => {
   const observerTarget = useRef(null)
   const state = useAppSelector((state) => state.activities)
   const dispatch = useAppDispatch()
@@ -30,8 +26,7 @@ export const useActivitiesInfiniteScroll = (
         if (
           entries[0].isIntersecting &&
           state.hasMore &&
-          state.activitiesStatus !== RequestStatuses.LOADING &&
-          !initialLoading
+          state.activitiesStatus !== RequestStatuses.LOADING
         ) {
           fetchActivities()
         }
@@ -52,7 +47,6 @@ export const useActivitiesInfiniteScroll = (
     }
   }, [
     dispatch,
-    initialLoading,
     limit,
     observerTarget,
     offset,

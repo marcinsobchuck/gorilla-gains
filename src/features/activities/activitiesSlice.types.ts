@@ -21,10 +21,12 @@ export interface InitialState {
   presetsError?: string
 
   activitiesPage: number
+  selectedDate: string
   limit: number
   hasMore: boolean
   isEditing: boolean
   isAddEditModalOpen: boolean
+  shouldFetchActivities: boolean
 
   currentlyProcessedActivityId: string | null
   currentlyEditedActivity?: Activity

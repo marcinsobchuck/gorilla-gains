@@ -79,6 +79,24 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
     }
   }
 )
+export const getActivitiesForSelectedDate = createAppAsyncThunk(
+  "getActivitiesForSelectedDate",
+  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
+    try {
+      const response = await getActivitiesForCurrentUser({
+        startDate: data.startDate,
+        endDate: data.endDate,
+      })
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        return rejectWithValue(error.response?.data)
+      } else {
+        return rejectWithValue("Something went wrong")
+      }
+    }
+  }
+)
 
 export const editActivityAction = createAppAsyncThunk(
   "editActivity",

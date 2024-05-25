@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { format } from "date-fns"
 import { toast } from "react-toastify"
 
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -8,6 +9,7 @@ import {
   deleteActivityAction,
   editActivityAction,
   getActivitiesForCurrentUserAction,
+  getActivitiesForSelectedDate,
   getPresetsForCurrentUserAction,
 } from "./activitiesActions"
 import { InitialState } from "./activitiesSlice.types"
@@ -23,7 +25,9 @@ const initialState: InitialState = {
   hasMore: true,
   isEditing: false,
   isAddEditModalOpen: false,
+  shouldFetchActivities: true,
   activitiesData: [],
+  selectedDate: "",
   currentlyProcessedActivityId: null,
 }
 
@@ -42,6 +46,15 @@ export const userSlice = createSlice({
         ...activity,
         isPreset: !activity.isPreset,
       }))
+    },
+    setSelectedDate(state, action) {
+      state.selectedDate = action.payload
+    },
+    resetActivitiesData(state) {
+      state.activitiesData = []
+    },
+    setShouldFetchActivities(state, action) {
+      state.shouldFetchActivities = action.payload
     },
     setIsEditing(state, action) {
       state.isEditing = action.payload
@@ -72,6 +85,20 @@ export const userSlice = createSlice({
       }
     })
 
+    builder.addCase(getActivitiesForSelectedDate.pending, (state) => {
+      state.activitiesStatus = RequestStatuses.LOADING
+    })
+    builder.addCase(getActivitiesForSelectedDate.fulfilled, (state, action) => {
+      state.activitiesData = [...action.payload]
+      state.activitiesStatus = RequestStatuses.SUCCESS
+    })
+    builder.addCase(getActivitiesForSelectedDate.rejected, (state, action) => {
+      state.activitiesStatus = RequestStatuses.FAILED
+      if (action.payload) {
+        state.activitiesError = action.payload
+      }
+    })
+
     builder.addCase(getPresetsForCurrentUserAction.pending, (state) => {
       state.presetsStatus = RequestStatuses.LOADING
     })
@@ -91,8 +118,12 @@ export const userSlice = createSlice({
     })
     builder.addCase(createActivityAction.fulfilled, (state, action) => {
       state.createActivityStatus = RequestStatuses.SUCCESS
-      state.activitiesData = [action.payload, ...state.activitiesData]
       state.isAddEditModalOpen = false
+
+      const newActivityDate = format(action.payload.date, "yyyy-MM-dd")
+      if (state.selectedDate === newActivityDate || !state.selectedDate) {
+        state.activitiesData = [action.payload, ...state.activitiesData]
+      }
       toast("Succesfully created activity")
     })
     builder.addCase(createActivityAction.rejected, (state, action) => {
@@ -155,8 +186,11 @@ export const {
   removePreset,
   setHasMore,
   toggleIsPreset,
+  resetActivitiesData,
   setIsEditing,
+  setShouldFetchActivities,
   setIsAddEditModalOpen,
   setCurrentlyEditedActivity,
   setCurrentlyProcessedActivityId,
+  setSelectedDate,
 } = userSlice.actions

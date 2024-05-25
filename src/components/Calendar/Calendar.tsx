@@ -3,27 +3,69 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
 import { format } from "date-fns"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import {
+  getActivitiesForCurrentUserAction,
+  getActivitiesForSelectedDate,
+} from "@features/activities/activitiesActions"
+import {
+  resetActivitiesData,
+  setHasMore,
+  setSelectedDate,
+} from "@features/activities/activitiesSlice"
 import { getEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
 
 import { CalendarWrapper } from "./Calendar.styled"
 
 export const Calendar = () => {
-  const [selectedDate, setSelectedDate] = useState("")
   const calendarRef = useRef<FullCalendar | null>(null)
   const calendarApi = calendarRef.current?.getApi()
 
   const dispatch = useAppDispatch()
-  const state = useAppSelector((state) => state.historyCalendar)
+  const historyCalendar = useAppSelector((state) => state.historyCalendar)
+  const activities = useAppSelector((state) => state.activities)
+  const selectedDate = activities.selectedDate
+  const limit = activities.limit
   const theme = useTheme()
 
-  const handleDateClick = (arg: DateClickArg) => {
-    setSelectedDate(arg.dateStr)
+  const handleDateClick = async (arg: DateClickArg) => {
+    const dateClicked = format(new Date(arg.dateStr), "yyyy/MM/dd")
+
+    dispatch(setSelectedDate(arg.dateStr))
     updateSelectedClass(arg.dateStr)
+
+    const dayHasEvent = historyCalendar.events.some(
+      (event) => format(new Date(event.date), "yyyy/MM/dd") === dateClicked
+    )
+
+    if (arg.dateStr === selectedDate) {
+      calendarApi?.unselect()
+      updateSelectedClass("")
+      dispatch(setSelectedDate(""))
+
+      if (dayHasEvent) {
+        dispatch(resetActivitiesData())
+        await dispatch(
+          getActivitiesForCurrentUserAction({
+            offset: 0,
+            limit,
+          })
+        )
+        dispatch(setHasMore(true))
+      }
+    } else if (dayHasEvent) {
+      dispatch(setHasMore(false))
+      await dispatch(
+        getActivitiesForSelectedDate({
+          startDate: dateClicked,
+          endDate: dateClicked,
+        })
+      )
+    }
   }
 
   const updateSelectedClass = (newSelectedDate: string) => {
@@ -54,11 +96,11 @@ export const Calendar = () => {
   }
 
   return (
-    <CalendarWrapper $isLoading={state.eventsStatus === RequestStatuses.LOADING}>
+    <CalendarWrapper $isLoading={historyCalendar.eventsStatus === RequestStatuses.LOADING}>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
-        events={state.events}
+        events={historyCalendar.events}
         contentHeight={300}
         headerToolbar={{
           right: "prev,next",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
@@ -17,6 +17,7 @@ import {
   setCurrentlyEditedActivity,
   setIsAddEditModalOpen,
   setIsEditing,
+  setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
@@ -24,17 +25,17 @@ import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
 import { useActivitiesInfiniteScroll } from "./hooks/useActivitiesInfiniteScroll"
 
 export const ActivityList = () => {
-  const [initialLoading, setInitialLoading] = useState(true)
-
   const state = useAppSelector((state) => state.activities)
+  const shouldFetchActivities = state.shouldFetchActivities
   const dispatch = useAppDispatch()
 
   const theme = useTheme()
+  const ref = useRef<HTMLDivElement>(null)
 
   const limit = state.limit
   const offset = state.activitiesData.length
 
-  const observerTarget = useActivitiesInfiniteScroll(initialLoading, offset, limit)
+  const observerTarget = useActivitiesInfiniteScroll(offset, limit)
 
   const handleRemoveActivity = async (id: string) => {
     await dispatch(deleteActivityAction(id))
@@ -84,10 +85,6 @@ export const ActivityList = () => {
   ]
 
   useEffect(() => {
-    if (state.activitiesData.length > 0) {
-      setInitialLoading(false)
-      return
-    }
     const fetchActivities = async () => {
       await dispatch(
         getActivitiesForCurrentUserAction({
@@ -95,13 +92,19 @@ export const ActivityList = () => {
           limit,
         })
       )
-      setInitialLoading(false)
+      dispatch(setShouldFetchActivities(false))
     }
 
-    fetchActivities()
-  }, [dispatch, limit, state.activitiesData.length])
+    shouldFetchActivities && state.activitiesData.length === 0 && fetchActivities()
+  }, [dispatch, limit, shouldFetchActivities, state.activitiesData.length])
 
-  if (initialLoading && state.activitiesData.length < 0) {
+  useEffect(() => {
+    if (ref.current && state.activitiesData.length < state.limit) {
+      ref.current.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }, [state.activitiesData.length, state.limit])
+
+  if (shouldFetchActivities && state.activitiesData.length < 0) {
     return (
       <Wrapper>
         <SkeletonTheme>
@@ -133,7 +136,7 @@ export const ActivityList = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       {state.activitiesData?.map((activity) => (
         <ActivityCard
           key={activity._id}
