@@ -9,6 +9,14 @@ export const Background = styled.div`
 
 export const GlobalStyle = globalStyle.createGlobalStyle`
   :root {
+    --header-height: 84px;
+    --activity-list-container-height: 46%;
+    --sidebar-width-m: 31%;
+    --sidebar-width-l: 25%;
+    --menu-width-s: 70%;
+    --menu-width-m: 5%;
+    --menu-width-l: 14%;
+
     --toastify-color-light: ${({ theme }) => theme.backgroundColor};
     --toastify-text-color-light: ${({ theme }) => theme.primary};
     --toastify-color-progress-light: ${({ theme }) => theme.secondary}

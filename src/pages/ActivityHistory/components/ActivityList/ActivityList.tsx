@@ -14,11 +14,13 @@ import {
 } from "@features/activities/activitiesActions"
 import {
   removePreset,
+  setActiveActivity,
   setCurrentlyEditedActivity,
   setIsAddEditModalOpen,
   setIsEditing,
   setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
+import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
 import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
@@ -104,16 +106,6 @@ export const ActivityList = () => {
     }
   }, [state.activitiesData.length, state.limit])
 
-  if (shouldFetchActivities && state.activitiesData.length < 0) {
-    return (
-      <Wrapper>
-        <SkeletonTheme>
-          <Skeleton style={{ marginBottom: "24px", borderRadius: "9px" }} height={120} count={3} />
-        </SkeletonTheme>
-      </Wrapper>
-    )
-  }
-
   if (state.activitiesData?.length === 0 && state.activitiesStatus !== RequestStatuses.LOADING) {
     return (
       <Wrapper>
@@ -142,6 +134,10 @@ export const ActivityList = () => {
           key={activity._id}
           data={activity}
           popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
+          onClick={() => {
+            dispatch(setActiveFilterTab("details"))
+            dispatch(setActiveActivity(activity))
+          }}
         />
       ))}
 

@@ -33,19 +33,19 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   transition: 0.3s ease-in-out;
 
   @media ${Breakpoints.SMALL} {
-    width: 70%;
+    width: --var(menu-width-s);
   }
 
   @media ${Breakpoints.MEDIUM} {
     padding: 24px 6px;
     position: static;
-    width: 5%;
+    width: --var(menu-width-m);
     transform: translateX(0);
   }
 
   @media ${Breakpoints.LARGE} {
     padding: 64px 32px 44px 32px;
-    width: 14%;
+    width: --var(menu-width-l);
   }
 `
 

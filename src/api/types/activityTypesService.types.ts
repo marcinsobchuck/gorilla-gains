@@ -1,6 +1,8 @@
+import { ActivityTypes } from "@enums/activityTypes.enum"
+
 export interface ActivityType {
   _id: string
-  type: string
+  type: ActivityTypes
 }
 
 export interface GetActivityTypesQueryParams {

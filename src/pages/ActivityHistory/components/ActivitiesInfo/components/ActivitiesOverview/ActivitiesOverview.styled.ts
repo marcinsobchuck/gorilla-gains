@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
 export const Wrapper = styled.div`
-  padding: 24px;
-  height: var(--activity-list-container-height);
+  padding: 12px 18px;
+  height: calc(100% - var(--activity-list-container-height) - 60px);
   overflow: auto;
 
   &::-webkit-scrollbar {
@@ -19,28 +19,5 @@ export const Wrapper = styled.div`
   }
   &::-webkit-scrollbar-thumb:hover {
     background: ${({ theme }) => theme.secondaryActive};
-  }
-`
-
-export const LoadMore = styled.div`
-  text-align: center;
-  color: ${({ theme }) => theme.secondary};
-  padding: 24px;
-  font-weight: 500;
-  font-size: 14px;
-`
-
-export const NoActivitiesWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    font-weight: 500;
-    text-align: center;
-    max-width: 250px;
   }
 `

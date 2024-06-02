@@ -33,7 +33,7 @@ export const HeaderWrapper = styled(FlexContainer)`
 `
 export const Heading = styled.h2`
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.secondary};
 `
 export const StyledInteractiveIcon = styled(Icon)`

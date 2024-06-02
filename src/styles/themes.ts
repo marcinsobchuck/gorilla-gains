@@ -7,7 +7,7 @@ export const lightTheme = {
   navBackgroundColor: "#F6F6F6",
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
-  backgroundGradient: "linear-gradient(to right, #ffffff, #EFFAEA)",
+  backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
 
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
@@ -30,13 +30,11 @@ export const lightTheme = {
   flexibilityEventColor: "#6A5ACD",
   balanceEventColor: "#4169E1",
 
-  boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
-  0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
-  0px 3px 5px -1px hsla(0, 0%, 0%, 0.2)`,
+  boxShadow: `0px 3px 6px 0px hsla(0, 0%, 0%, 0.14)`,
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
-  elevationBoxShadow: "0 0px 6px rgba(0,0,0,.08)",
+  elevationBoxShadow: "0px 4px 4px -2px rgba(0, 0, 0, .04)",
 
   primaryButtonColor: "#fafafa",
 

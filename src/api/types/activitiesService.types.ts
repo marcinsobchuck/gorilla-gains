@@ -2,7 +2,7 @@ import { DefaultTheme } from "styled-components/dist/types"
 
 import { ActivityTypes } from "@enums/activityTypes.enum"
 
-export interface Set {
+export interface ExerciseSet {
   reps?: number
   load?: number
   duration?: Duration
@@ -18,7 +18,7 @@ export interface Duration {
 
 interface Exercise {
   exercise: string
-  sets: Set[]
+  sets: ExerciseSet[]
   withBreaks: boolean
 }
 
@@ -62,10 +62,9 @@ export interface GetActivitiesForCurrentUserParams {
 }
 
 export interface ResponseExercise {
-  exercise: { _id: string; name: string; isStatic?: boolean }
-  sets: Set[]
+  exercise: { _id: string; name: string; isStatic?: boolean; additionalInfo?: string }
+  sets: ExerciseSet[]
   withBreaks: boolean
-  additionalInfo?: string
 }
 
 export interface Activity {

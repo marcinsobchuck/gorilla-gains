@@ -29,9 +29,10 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
+  activeActivity: null,
 }
 
-export const userSlice = createSlice({
+export const activitiesSlice = createSlice({
   name: "activities",
   initialState,
   reducers: {
@@ -46,6 +47,10 @@ export const userSlice = createSlice({
         ...activity,
         isPreset: !activity.isPreset,
       }))
+    },
+
+    setActiveActivity(state, action) {
+      state.activeActivity = action.payload
     },
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
@@ -181,7 +186,7 @@ export const userSlice = createSlice({
   },
 })
 
-export default userSlice.reducer
+export default activitiesSlice.reducer
 export const {
   removePreset,
   setHasMore,
@@ -193,4 +198,5 @@ export const {
   setCurrentlyEditedActivity,
   setCurrentlyProcessedActivityId,
   setSelectedDate,
-} = userSlice.actions
+  setActiveActivity,
+} = activitiesSlice.actions

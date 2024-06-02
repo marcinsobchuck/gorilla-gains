@@ -5,8 +5,6 @@ import { Icon } from "@components/Icon/Icon"
 import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
-const headerHeight = "84px"
-
 export const Wrapper = styled.div`
   height: 100vh;
 `
@@ -15,7 +13,7 @@ export const Header = styled.header`
   position: sticky;
   z-index: ${ZIndex.HEADER};
   display: flex;
-  height: 84px;
+  height: var(--header-height);
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 `
 
@@ -53,7 +51,7 @@ export const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: calc(100vh - ${headerHeight});
+  height: calc(100vh - var(--header-height));
 
   @media ${Breakpoints.MEDIUM} {
     flex-direction: row;
@@ -75,17 +73,22 @@ export const Sidebar = styled.aside`
   }
 
   @media ${Breakpoints.MEDIUM} {
-    width: 31%;
+    width: var(--sidebar-width-m);
     padding: 24px;
   }
 
   @media ${Breakpoints.LARGE} {
     padding: 32px;
-    width: 25%;
+    width: var(--sidebar-width-l);
   }
 `
 export const MainContentWrapper = styled.main`
   flex-grow: 1;
+
+  @media ${Breakpoints.MEDIUM} {
+    flex-grow: 0;
+    width: calc(100% - var(--sidebar-width-m) - var(--menu-width-m));
+  }
 `
 
 export const MenuIcon = styled(Icon)`

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 import activitiesReducer from "@features/activities/activitiesSlice"
+import activitiesOverviewReducer from "@features/activitiesOverview/activitiesOverviewSlice"
 import activityTypesReducer from "@features/activityTypes/activityTypesSlice"
 import authReducer from "@features/auth/authSlice"
 import exercisesReducer from "@features/exercises/exercisesSlice"
@@ -16,6 +17,7 @@ const store = configureStore({
     activityTypes: activityTypesReducer,
     exercises: exercisesReducer,
     activities: activitiesReducer,
+    activitiesOverview: activitiesOverviewReducer,
     historyCalendar: historyCalendarReducer,
   },
 })

@@ -96,9 +96,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
             exercises
           </MainText>
 
-          {data.createdAt && (
-            <SecondaryText>{format(new Date(data.date), "dd/MM/yyyy")}</SecondaryText>
-          )}
+          <SecondaryText>{format(new Date(data.date), "LLLL do, y")}</SecondaryText>
         </TextContentWrapper>
 
         <ExertionRatingContainer align='flex-end' direction='column'>

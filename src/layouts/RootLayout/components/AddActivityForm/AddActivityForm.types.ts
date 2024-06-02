@@ -1,6 +1,6 @@
 import { InferType } from "yup"
 
-import { Set } from "@api/types/activitiesService.types"
+import { ExerciseSet } from "@api/types/activitiesService.types"
 
 import { activityTypeSchema, addActivityFormSchema, exerciseFieldsSchema } from "./config"
 
@@ -15,7 +15,7 @@ export interface AddActivityFormProps {
 }
 
 export interface Exercise {
-  sets: Set[]
+  sets: ExerciseSet[]
   exercise: ExerciseFields
   withBreaks: boolean
 }
