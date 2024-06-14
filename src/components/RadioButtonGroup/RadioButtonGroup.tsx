@@ -13,15 +13,18 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   buttonVariant,
   className,
   withError = true,
+  direction,
+  align,
+  justify,
+  gap,
+  onChange,
 }) => {
-  const {
-    formState: { errors },
-  } = useFormContext()
+  const formContext = useFormContext()
 
   return (
     <RadioButtonGroupWrapper className={className}>
       {groupTitle && <GroupTitle>{groupTitle}</GroupTitle>}
-      <RadiosWrapper>
+      <RadiosWrapper direction={direction} align={align} justify={justify} gap={gap}>
         {items.map((item) => (
           <RadioButton
             key={`${name}-${item.value}`}
@@ -29,10 +32,12 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
             labelText={item.labelText}
             value={item.value}
             variant={buttonVariant}
+            onChange={onChange}
+            checked={item.checked}
           />
         ))}
       </RadiosWrapper>
-      {withError && <FormError errors={errors} name={name} />}
+      {withError && formContext && <FormError errors={formContext.formState.errors} name={name} />}
     </RadioButtonGroupWrapper>
   )
 }

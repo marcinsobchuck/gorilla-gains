@@ -8,6 +8,7 @@ export const lightTheme = {
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
+  activeBackgroundColor: "#F5FCF3",
 
   errorColor: "#B00020",
   errorBackgroundColor: "#CF667926",
@@ -35,6 +36,7 @@ export const lightTheme = {
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
   elevationBoxShadow: "0px 4px 4px -2px rgba(0, 0, 0, .04)",
+  elevationBoxShadowSecondary: "0px 4px 4px -2px #75E83F",
 
   primaryButtonColor: "#fafafa",
 
@@ -50,6 +52,7 @@ export const darkTheme = {
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #000000, #051201)",
+  activeBackgroundColor: "#061602",
 
   errorColor: "#CF6679",
   errorBackgroundColor: "#CF667926",
@@ -79,6 +82,7 @@ export const darkTheme = {
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
   elevationBoxShadow: "0 3px 6px rgba(0,0,0,.2)",
+  elevationBoxShadowSecondary: "0px 4px 4px -2px #A1D8901F",
 
   primaryButtonColor: "#121212",
 

@@ -4,21 +4,34 @@ import Skeleton from "react-loading-skeleton"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { FilterTabs } from "@features/activitiesOverview/activitiesOverview.types"
-import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
+import {
+  setActiveChartCombination,
+  setActiveFilterTab,
+} from "@features/activitiesOverview/activitiesOverviewSlice"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
 import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
 
-import { FilterTab, SkeletonWrapper, Wrapper } from "./FiltersBar.styled"
+import { FilterTab, SkeletonWrapper, StyledSelect, Wrapper } from "./FiltersBar.styled"
+import {
+  getAvailableChartMetrics,
+  getAvailableChartOptions,
+} from "../ActivitiesOverview/components/ActivitiesCharts/utils"
 
 export const FiltersBar = () => {
   const activeTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activityTypes = useAppSelector((state) => state.activityTypes.data)
   const activityTypesStatus = useAppSelector((state) => state.activityTypes.status)
   const activityDetails = useAppSelector((state) => state.activities.activeActivity)
+  const activeFilterExercise = useAppSelector(
+    (state) => state.activitiesOverview.activeFilterExercise
+  )
+  const activities = useAppSelector((state) => state.activitiesOverview.activities)
+  const activeChartCombination = useAppSelector(
+    (state) => state.activitiesOverview.activeChartCombination
+  )
 
   const dispatch = useAppDispatch()
-  const handleTabClick = (tab: FilterTabs) => dispatch(setActiveFilterTab(tab))
+  const handleTabClick = (tab: string) => dispatch(setActiveFilterTab(tab))
 
   useEffect(() => {
     if (activityTypes) return
@@ -65,12 +78,36 @@ export const FiltersBar = () => {
           key={tab._id}
           justify='center'
           align='center'
-          onClick={() => handleTabClick(tab.type)}
-          $isActive={activeTab === tab.type}
+          onClick={() => handleTabClick(tab._id)}
+          $isActive={activeTab === tab._id}
         >
           <p>{capitalizeFirstLetter(tab.type)}</p>
         </FilterTab>
       ))}
+      {activities.length > 0 && (
+        <StyledSelect
+          name='availableCharts'
+          labelText='Chart options'
+          isSearchable={false}
+          onChange={(selectedOption) =>
+            dispatch(
+              setActiveChartCombination({
+                xAxis: "date",
+                yAxis: selectedOption,
+              })
+            )
+          }
+          value={{
+            value: activeChartCombination.yAxis,
+            label: activeChartCombination.yAxis
+              ? `${activeChartCombination.yAxis}/${activeChartCombination.xAxis}`
+              : "",
+          }}
+          options={getAvailableChartOptions(
+            getAvailableChartMetrics(activities, activeFilterExercise)
+          )}
+        />
+      )}
     </Wrapper>
   )
 }

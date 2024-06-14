@@ -9,7 +9,7 @@ export const PersonalInfo = () => {
       <Input id='name' label='Name' type='text' />
       <Input id='surname' label='Surname' type='text' />
       <Input id='age' label='Age' type='number' />
-      <RadioButtonGroup items={genderRadioItems} groupTitle='Gender' name='gender' />
+      <RadioButtonGroup items={genderRadioItems} groupTitle='Gender' name='gender' gap={12} />
     </div>
   )
 }

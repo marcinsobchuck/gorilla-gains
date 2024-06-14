@@ -9,6 +9,8 @@ export interface SelectAdditionalProps {
   name: string
   labelText?: string
   withError?: boolean
+  onChange?: (selectedOption?: string) => void
+  value?: Option
 }
 
 export type SelectProps = SelectAdditionalProps &

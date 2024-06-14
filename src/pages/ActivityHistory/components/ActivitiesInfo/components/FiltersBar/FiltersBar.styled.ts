@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Select } from "@components/Select/Select"
 
 interface FilterTabProps {
   $isActive: boolean
@@ -35,4 +36,20 @@ export const FilterTab = styled(FlexContainer)<FilterTabProps>`
 
 export const SkeletonWrapper = styled.div`
   flex: 1;
+`
+
+export const StyledSelect = styled(Select)`
+  margin-left: auto;
+  margin-bottom: 0;
+  width: 220px;
+  cursor: pointer;
+
+  div[class*="control"] {
+    height: 100%;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    border: none !important;
+    box-shadow: none !important;
+  }
 `

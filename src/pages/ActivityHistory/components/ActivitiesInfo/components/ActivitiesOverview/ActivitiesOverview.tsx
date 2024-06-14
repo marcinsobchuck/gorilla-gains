@@ -1,6 +1,7 @@
 import { useAppSelector } from "@app/hooks"
 
 import { Wrapper } from "./ActivitiesOverview.styled"
+import { ActivitiesCharts } from "./components/ActivitiesCharts/ActivitiesCharts"
 import { ActivityDetails } from "./components/ActivityDetails/ActivityDetails"
 
 export const ActivitiesOverview = () => {
@@ -11,7 +12,7 @@ export const ActivitiesOverview = () => {
       {activeFilterTab === "details" && activityDetails && (
         <ActivityDetails activityDetails={activityDetails} />
       )}
-      {activeFilterTab !== "details" && <div>wykres {activeFilterTab}</div>}
+      {activeFilterTab !== "details" && <ActivitiesCharts />}
     </Wrapper>
   )
 }

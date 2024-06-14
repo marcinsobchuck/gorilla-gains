@@ -3,4 +3,6 @@ export interface RadioButtonProps {
   name: string
   value: string | number
   variant?: "tile"
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  checked?: boolean
 }

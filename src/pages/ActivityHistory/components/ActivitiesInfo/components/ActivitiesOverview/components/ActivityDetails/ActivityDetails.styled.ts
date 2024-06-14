@@ -64,20 +64,18 @@ export const ExerciseName = styled.h3`
   }
 `
 
-export const ExercisesContainer = styled(FlexContainer)`
-  flex-wrap: wrap;
-`
+export const ExercisesContainer = styled.div`
+  display: grid;
+  row-gap: 30px;
 
-export const ExerciseContainer = styled.div`
-  flex-grow: 1;
-  max-width: 60%;
-  margin-bottom: 24px;
-  margin-right: 60px;
-
-  @media ${Breakpoints.MEDIUM_LARGE} {
-    margin-right: 90px;
+  @media ${Breakpoints.LARGE} {
+    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+    column-gap: 72px;
+    row-gap: 30px;
   }
 `
+
+export const ExerciseContainer = styled.div``
 
 export const SetsTable = styled.table`
   border-collapse: collapse;
@@ -86,7 +84,7 @@ export const SetsTable = styled.table`
   th,
   td {
     text-align: left;
-    padding: 9px 18px;
+    padding: 9px 16px;
   }
 
   th {
@@ -96,7 +94,7 @@ export const SetsTable = styled.table`
   }
 
   td {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
   }
 `

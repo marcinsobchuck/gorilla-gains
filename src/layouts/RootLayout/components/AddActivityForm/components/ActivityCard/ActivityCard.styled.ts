@@ -5,26 +5,33 @@ import { Icon } from "@components/Icon/Icon"
 import { ModalOverlay } from "@components/Modal/Modal.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
-export const Wrapper = styled.div`
+interface WrapperProps {
+  $isActive: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
   position: relative;
   cursor: pointer;
 
   margin-bottom: 24px;
   padding: 14px 22px 22px;
   border-radius: 16px;
-  background: ${({ theme }) => theme.backgroundGradient};
+  background: ${({ theme, $isActive }) =>
+    $isActive ? theme.activeBackgroundColor : theme.backgroundGradient};
   background-origin: border-box;
+  border-bottom: 3px solid transparent;
   box-shadow: ${({ theme }) => theme.boxShadow};
-  border: 2px solid transparent;
-  transition: all 0.3s;
+  transition: all 0.2s ease-out;
+
+  will-change: transform;
 
   @media ${Breakpoints.SMALL} {
     padding: 18px 32px;
   }
 
   &:hover {
-    border-color: ${({ theme }) => theme.secondaryHover};
-    box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};
+    transform: scale(1.01);
+    border-bottom: 3px solid ${({ theme }) => theme.secondary};
   }
 `
 

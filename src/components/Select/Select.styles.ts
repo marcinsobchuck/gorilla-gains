@@ -17,14 +17,8 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
         ...baseStyles,
         height: "64px",
         backgroundColor: theme.inputBackgroundColor,
-        border:
-          state.menuIsOpen || state.isFocused
-            ? `2px solid ${theme.secondary}`
-            : "2px solid transparent",
-        boxShadow:
-          state.menuIsOpen || state.isFocused
-            ? `0px 0px 0px 4px ${theme.secondaryOpacity}`
-            : `none`,
+        border: state.menuIsOpen ? `2px solid ${theme.secondary}` : "2px solid transparent",
+        boxShadow: state.menuIsOpen ? `0px 0px 0px 4px ${theme.secondaryOpacity}` : `none`,
         borderRadius: "9px",
         transition: "0.3s",
         transitionDelay: ".1s",

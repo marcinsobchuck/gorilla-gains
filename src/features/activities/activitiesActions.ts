@@ -11,6 +11,12 @@ import {
   GetActivitiesForCurrentUserParams,
 } from "@api/types/activitiesService.types"
 import { createAppAsyncThunk } from "@app/hooks"
+import {
+  addChartActivity,
+  deleteChartActivity,
+  editChartActivity,
+  setActiveFilterExercise,
+} from "@features/activitiesOverview/activitiesOverviewSlice"
 import { addEvent, editEvent, removeEvent } from "@features/historyCalendar/historyCalendarSlice"
 import { getBorderColor } from "@features/historyCalendar/utils"
 
@@ -19,7 +25,7 @@ import { CreateActivityParams } from "./activitiesSlice.types"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
-  async (data: CreateActivityParams, { rejectWithValue, dispatch }) => {
+  async (data: CreateActivityParams, { rejectWithValue, dispatch, getState }) => {
     try {
       const response = await createActivity(data.data)
       dispatch(
@@ -29,6 +35,16 @@ export const createActivityAction = createAppAsyncThunk(
           date: response.data.date,
         })
       )
+
+      const activeFilterTab = getState().activitiesOverview.activeFilterTab
+
+      if (getState().activitiesOverview.activities.length === 0) {
+        dispatch(setActiveFilterExercise(response.data.exercises[0].exercise._id))
+      }
+
+      if (data.data.type === activeFilterTab) {
+        dispatch(addChartActivity(response.data))
+      }
 
       return response.data
     } catch (error) {
@@ -116,6 +132,12 @@ export const editActivityAction = createAppAsyncThunk(
         })
       )
 
+      const activeFilterTab = getState().activitiesOverview.activeFilterTab
+
+      if (data.dataToEdit.type === activeFilterTab) {
+        dispatch(editChartActivity(response.data))
+      }
+
       if (!isEditing) {
         dispatch(toggleIsPreset())
       }
@@ -133,12 +155,17 @@ export const editActivityAction = createAppAsyncThunk(
 
 export const deleteActivityAction = createAppAsyncThunk(
   "deleteActivity",
-  async (activityId: string, { rejectWithValue, dispatch }) => {
+  async (activityId: string, { rejectWithValue, dispatch, getState }) => {
     try {
       dispatch(setCurrentlyProcessedActivityId(activityId))
 
       const response = await deleteActivity(activityId)
+      const activeFilterTab = getState().activitiesOverview.activeFilterTab
+
       dispatch(removeEvent(activityId))
+      if (response.data.type._id === activeFilterTab) {
+        dispatch(deleteChartActivity(activityId))
+      }
 
       return response.data
     } catch (error) {

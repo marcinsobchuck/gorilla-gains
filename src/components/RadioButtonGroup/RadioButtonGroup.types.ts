@@ -1,6 +1,9 @@
-interface RadioItem {
+import { Align, Direction, Justify } from "@components/FlexContainer/FlexContainer.types"
+
+export interface RadioItem {
   labelText: string
   value: string | number
+  checked?: boolean
 }
 
 export interface RadioButtonGroupProps {
@@ -10,4 +13,9 @@ export interface RadioButtonGroupProps {
   buttonVariant?: "tile"
   className?: string
   withError?: boolean
+  direction?: Direction
+  align?: Align
+  justify?: Justify
+  gap?: number
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }

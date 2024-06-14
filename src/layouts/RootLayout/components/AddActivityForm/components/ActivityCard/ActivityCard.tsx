@@ -36,14 +36,14 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
   )
   const theme = useTheme()
   const numberOfExercises = data.exercises.length
-
+  const isActive = data._id === state.activeActivity?._id
   const isLoading =
     (state.editActivityStatus === RequestStatuses.LOADING ||
       state.deleteActivityStatus === RequestStatuses.LOADING) &&
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper {...rest}>
+    <Wrapper $isActive={isActive} {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
 

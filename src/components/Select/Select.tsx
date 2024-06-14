@@ -16,41 +16,61 @@ export const Select: React.FC<SelectProps> = ({
   name,
   className,
   withError = true,
+  onChange,
+  value,
   ...rest
 }) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext()
+  const context = useFormContext()
   const theme = useTheme()
+
+  const renderContent = context ? (
+    <Controller
+      name={name}
+      control={context.control}
+      render={({ field: { onChange, value } }) => {
+        return (
+          <ReactSelect
+            options={options}
+            styles={selectStyles<Option>(theme)}
+            onChange={(selectedOption) => {
+              onChange(selectedOption?.value)
+            }}
+            value={options.find((option) => option.value === value)}
+            components={{ Control }}
+            openMenuOnFocus
+            // @ts-ignore <- https://react-select.com/components
+            labelText={labelText}
+            name={name}
+            inputId={name}
+            placeholder=''
+            {...rest}
+          />
+        )
+      }}
+    />
+  ) : (
+    <ReactSelect
+      options={options}
+      styles={selectStyles<Option>(theme)}
+      onChange={(selectedOption) => {
+        onChange && onChange(selectedOption?.value)
+      }}
+      value={value}
+      components={{ Control }}
+      openMenuOnFocus
+      // @ts-ignore <- https://react-select.com/components
+      labelText={labelText}
+      name={name}
+      inputId={name}
+      placeholder=''
+      {...rest}
+    />
+  )
 
   return (
     <SelectWrapper className={className} $withError={withError}>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, value } }) => {
-          return (
-            <ReactSelect
-              options={options}
-              styles={selectStyles<Option>(theme)}
-              onChange={(selectedOption) => {
-                onChange(selectedOption?.value)
-              }}
-              value={options.find((option) => option.value === value)}
-              components={{ Control }}
-              openMenuOnFocus
-              // @ts-ignore <- https://react-select.com/components
-              labelText={labelText}
-              name={name}
-              inputId={name}
-              placeholder=''
-              {...rest}
-            />
-          )
-        }}
-      />
-      {withError && <FormError errors={errors} name={name} />}
+      {renderContent}
+      {withError && context && <FormError errors={context.formState.errors} name={name} />}
     </SelectWrapper>
   )
 }

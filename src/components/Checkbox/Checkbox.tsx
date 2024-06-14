@@ -6,10 +6,10 @@ import { CheckboxInput, CheckboxLabel, CheckmarkWrapper } from "./Checkbox.style
 import { CheckboxProps } from "./Checkbox.types"
 
 export const Checkbox: React.FC<CheckboxProps> = ({ name, label, className }) => {
-  const { register } = useFormContext()
+  const formContext = useFormContext()
   return (
     <CheckboxLabel htmlFor={name} className={className}>
-      <CheckboxInput id={name} type='checkbox' {...register(name)} />
+      <CheckboxInput id={name} type='checkbox' {...(formContext && formContext.register(name))} />
       <CheckmarkWrapper>
         <Icon name='checkmark' height={14} width={14} />
       </CheckmarkWrapper>

@@ -7,11 +7,12 @@ import { createAppAsyncThunk } from "@app/hooks"
 export const getActivitiesForActivityTypeAction = createAppAsyncThunk(
   "getActivitiesForActivityType",
   async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
-    const { type } = data
     try {
+      const { type } = data
       const response = await getActivitiesForCurrentUser({
         type,
       })
+
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {

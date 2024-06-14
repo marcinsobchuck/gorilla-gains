@@ -1,12 +1,18 @@
-import { Activity } from "@api/types/activitiesService.types"
-import { ActivityTypes } from "@enums/activityTypes.enum"
+import { Activity, ExerciseSet } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-export type FilterTabs = ActivityTypes | "details"
+export type YAxis = keyof ExerciseSet | ""
+
+interface ChartCombination {
+  xAxis: string
+  yAxis: YAxis
+}
 
 export interface InitialState {
   activitiesStatus: RequestStatuses
   activities: Activity[]
-  activeFilterTab: FilterTabs
+  activeFilterTab: string
+  activeFilterExercise: string
   activitiesError?: string
+  activeChartCombination: ChartCombination
 }

@@ -122,14 +122,16 @@ export const activitiesSlice = createSlice({
       state.createActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(createActivityAction.fulfilled, (state, action) => {
-      state.createActivityStatus = RequestStatuses.SUCCESS
-      state.isAddEditModalOpen = false
+      if (action.payload) {
+        state.createActivityStatus = RequestStatuses.SUCCESS
+        state.isAddEditModalOpen = false
+        const newActivityDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-      const newActivityDate = format(action.payload.date, "yyyy-MM-dd")
-      if (state.selectedDate === newActivityDate || !state.selectedDate) {
-        state.activitiesData = [action.payload, ...state.activitiesData]
+        if (state.selectedDate === newActivityDate || !state.selectedDate) {
+          state.activitiesData = [action.payload, ...state.activitiesData]
+        }
+        toast("Succesfully created activity")
       }
-      toast("Succesfully created activity")
     })
     builder.addCase(createActivityAction.rejected, (state, action) => {
       state.createActivityStatus = RequestStatuses.FAILED

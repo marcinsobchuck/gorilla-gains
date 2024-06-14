@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+
 export const RadioButtonGroupWrapper = styled.div`
   position: relative;
   padding: 6px 24px 16px 24px;
@@ -19,11 +21,6 @@ export const GroupTitle = styled.p`
   color: ${({ theme }) => theme.primaryMedium};
 `
 
-export const RadiosWrapper = styled.div`
-  display: flex;
-
-  align-items: center;
-  gap: 14px;
-
+export const RadiosWrapper = styled(FlexContainer)`
   border-radius: 9px;
 `

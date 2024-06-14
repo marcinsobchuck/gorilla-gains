@@ -5,6 +5,7 @@ import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styl
 
 import { ActivitiesInfo } from "./components/ActivitiesInfo/ActivitiesInfo"
 import { ActivityList } from "./components/ActivityList/ActivityList"
+import { ChartFilters } from "./components/ChartFilters/ChartFilters"
 import { SidebarHeader } from "./components/SidebarHeader/SidebarHeader"
 
 export const ActivityHistory = () => {
@@ -13,6 +14,7 @@ export const ActivityHistory = () => {
       <Sidebar>
         <SidebarHeader title='History' />
         <Calendar />
+        <ChartFilters />
       </Sidebar>
       <MainContentWrapper>
         <ActivityList />

@@ -7,4 +7,5 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   flex-direction: ${({ direction }) => (direction ? direction : "row")};
   justify-content: ${({ justify }) => (justify ? justify : "flex-start")};
   align-items: ${({ align }) => (align ? align : "stretch")};
+  gap: ${({ gap }) => (gap ? `${gap}px` : "normal")};
 `

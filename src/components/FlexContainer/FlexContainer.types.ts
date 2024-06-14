@@ -1,6 +1,6 @@
-type Direction = "row" | "column"
+export type Direction = "row" | "column"
 
-type Justify =
+export type Justify =
   | "center"
   | "space-between"
   | "space-around"
@@ -8,10 +8,11 @@ type Justify =
   | "flex-start"
   | "space-evenly"
 
-type Align = "center" | "flex-end" | "flex-start" | "stretch"
+export type Align = "center" | "flex-end" | "flex-start" | "stretch"
 
 export interface FlexContainerProps {
   direction?: Direction
   justify?: Justify
   align?: Align
+  gap?: number
 }
