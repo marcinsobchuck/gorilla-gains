@@ -146,6 +146,7 @@ export const addActivityFormSchema = yup.object().shape({
       }
     },
   }),
+
   date: yup.date().required("Required"),
   exercises: yup
     .array()
@@ -170,5 +171,5 @@ export const addActivityFormSchema = yup.object().shape({
   notes: yup.string(),
   warmup: yup.boolean().required(),
   repeatExercisesCount: yup.number().transform(handleIsNaN).required(),
-  exertionRating: yup.number(),
+  exertionRating: yup.number().transform(handleIsNaN),
 })

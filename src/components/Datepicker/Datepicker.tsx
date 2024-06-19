@@ -44,24 +44,34 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name, label }) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { value, ref, ...field } }) => (
-        <DatePickerWrapper
-          $isCalendarOpen={isCalendarOpen}
-          $isFloating={isCalendarOpen || Boolean(value)}
-        >
-          <ReactDatePicker
-            id={name}
-            customInput={<ReactDatePickerInput id={name} ref={ref} label={label} errors={errors} />}
-            selected={value}
-            onCalendarOpen={toggleCalendarOpen}
-            dateFormat='dd/MM/yyyy'
-            onCalendarClose={toggleCalendarOpen}
-            popperPlacement='bottom-end'
-            minDate={new Date()}
-            {...field}
-          />
-        </DatePickerWrapper>
-      )}
+      render={({ field: { value, ref, ...field } }) => {
+        return (
+          <DatePickerWrapper
+            $isCalendarOpen={isCalendarOpen}
+            $isFloating={isCalendarOpen || Boolean(value)}
+          >
+            <ReactDatePicker
+              id={name}
+              ref={(elem) => {
+                //  https://github.com/orgs/react-hook-form/discussions/5413#discussioncomment-805331
+                //  eslint-disable-next-line @typescript-eslint/no-explicit-any
+                elem && ref((elem as any).input)
+              }}
+              customInput={
+                <ReactDatePickerInput id={name} ref={ref} label={label} errors={errors} />
+              }
+              selected={value}
+              onCalendarOpen={toggleCalendarOpen}
+              dateFormat='dd/MM/yyyy'
+              onCalendarClose={toggleCalendarOpen}
+              popperPlacement='bottom-end'
+              minDate={new Date()}
+              onFocus={() => console.log("logiarz")}
+              {...field}
+            />
+          </DatePickerWrapper>
+        )
+      }}
     />
   )
 }

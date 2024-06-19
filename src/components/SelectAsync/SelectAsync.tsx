@@ -27,13 +27,14 @@ export const SelectAsync: React.FC<AsyncSelectProps> = ({
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange } }) => {
+        render={({ field: { onChange, ref } }) => {
           return (
             <ReactSelectAsync
               styles={selectStyles<AsyncOption>(theme)}
               onChange={(selectedOption) => {
                 onChange(selectedOption)
               }}
+              ref={ref}
               components={{ Control }}
               openMenuOnFocus
               // @ts-ignore <- https://react-select.com/components
