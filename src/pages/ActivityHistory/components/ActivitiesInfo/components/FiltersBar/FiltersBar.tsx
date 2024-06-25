@@ -41,6 +41,20 @@ export const FiltersBar = () => {
     fetchActivityTypes()
   }, [activityTypes, dispatch])
 
+  useEffect(() => {
+    if (activeFilterExercise) {
+      const options = getAvailableChartOptions(
+        getAvailableChartMetrics(activities, activeFilterExercise)
+      )
+      dispatch(
+        setActiveChartCombination({
+          xAxis: "date",
+          yAxis: options[0].value,
+        })
+      )
+    }
+  }, [activeFilterExercise, activities, dispatch])
+
   if (activityTypesStatus === RequestStatuses.LOADING) {
     return (
       <Wrapper>
@@ -60,6 +74,8 @@ export const FiltersBar = () => {
       </Wrapper>
     )
   }
+
+  console.log(getAvailableChartOptions(getAvailableChartMetrics(activities, activeFilterExercise)))
 
   return (
     <Wrapper>
