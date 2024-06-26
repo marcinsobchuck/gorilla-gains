@@ -8,6 +8,7 @@ export const TitleDateContainer = styled.div`
 `
 
 export const Title = styled.h1`
+  text-align: left;
   color: ${({ theme }) => theme.secondary};
   font-size: 22px;
   font-weight: 500;

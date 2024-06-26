@@ -4,6 +4,7 @@ import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { getCurrentUserInfoAction } from "@features/user/userActions"
+import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
 
 import { UserInfoItem } from "./components/UserInfoItem"
 import { UserInfoItems, UserInfoTitle, Wrapper } from "./UserInfo.styled"
@@ -12,7 +13,7 @@ export const UserInfo = () => {
   const userInfo = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
-  const { name, surname, age, weight, desiredWeight, height, gender, activityLevel } = {
+  const { name, surname, age, weight, desiredWeight, height, gender, goals } = {
     ...userInfo.data,
   }
 
@@ -21,10 +22,10 @@ export const UserInfo = () => {
     { label: "Surname", value: surname },
     { label: "Age", value: age },
     { label: "Gender", value: gender },
-    { label: "Height", value: height },
-    { label: "Weight", value: weight },
-    { label: "Desired weight", value: desiredWeight },
-    { label: "Activity level", value: activityLevel },
+    { label: "Height", value: height ? `${height}  cm` : "-" },
+    { label: "Weight", value: weight ? `${weight}  kg` : "-" },
+    { label: "Desired weight", value: desiredWeight ? `${desiredWeight}  kg` : "-" },
+    { label: "Current focus", value: goals?.join(", ") },
   ]
 
   useEffect(() => {
@@ -39,9 +40,19 @@ export const UserInfo = () => {
     <Wrapper>
       <UserInfoTitle>Basic info</UserInfoTitle>
       <UserInfoItems>
-        {userItems.map((item) => (
-          <UserInfoItem key={item.label} label={item.label} value={item.value || "-"} />
-        ))}
+        {userItems.map((item) => {
+          return (
+            <UserInfoItem
+              key={item.label}
+              label={item.label}
+              value={
+                typeof item.value === "string"
+                  ? capitalizeFirstLetter(item.value) || "-"
+                  : item.value || "-"
+              }
+            />
+          )
+        })}
       </UserInfoItems>
     </Wrapper>
   )

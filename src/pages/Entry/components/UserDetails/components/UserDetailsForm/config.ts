@@ -7,13 +7,7 @@ export const handleIsNaN = (value: any) => (isNaN(value) ? undefined : value)
 export const userDetailsSchema = yup.object().shape({
   name: yup.string().required("Required").min(5, "Min. 5 characters"),
   surname: yup.string(),
-  age: yup
-    .number()
-    .required("Required")
-    .integer("Integer expected")
-    .min(1, "Minimum value is 1")
-    .max(100, "Maximum value is 120")
-    .transform(handleIsNaN),
+  age: yup.date().required("Required"),
   gender: yup.string().required("Required"),
   height: yup
     .number()
@@ -65,11 +59,12 @@ export const userDetailsSchema = yup.object().shape({
 type UserDetailsSchema = yup.InferType<typeof userDetailsSchema>
 
 export const activityLevelOptions = [
-  { value: "extremely inactive", label: "Extremely inactive" },
-  { value: "sedentary", label: "Sedentary" },
-  { value: "moderately active", label: "Moderately active" },
-  { value: "vigorously active", label: "Vigorously active" },
-  { value: "extremely active", label: "Extremely active" },
+  { value: "1.2", label: "Little/no exercise (sedentary lifestyle)" },
+  { value: "1.35", label: "Light exercise 1-2 times/week" },
+  { value: "1.55", label: "Moderate exercise 2-3 times/week" },
+  { value: "1.725", label: "Hard exercise 4-5 times/week" },
+  { value: "1.9", label: "Physical job or hard exercise 6-7 times/week" },
+  { value: "2.4", label: "Professional athelete" },
 ]
 
 export const genderRadioItems = [

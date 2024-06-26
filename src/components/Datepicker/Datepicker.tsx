@@ -32,7 +32,7 @@ const ReactDatePickerInput = forwardRef<
   )
 })
 
-export const Datepicker: React.FC<DatepickerProps> = ({ name, label }) => {
+export const Datepicker: React.FC<DatepickerProps> = ({ name, label, ...props }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const {
     control,
@@ -65,9 +65,8 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name, label }) => {
               dateFormat='dd/MM/yyyy'
               onCalendarClose={toggleCalendarOpen}
               popperPlacement='bottom-end'
-              minDate={new Date()}
-              onFocus={() => console.log("logiarz")}
               {...field}
+              {...props}
             />
           </DatePickerWrapper>
         )

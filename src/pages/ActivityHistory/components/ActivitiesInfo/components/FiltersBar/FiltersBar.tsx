@@ -25,6 +25,7 @@ export const FiltersBar = () => {
   const activeFilterExercise = useAppSelector(
     (state) => state.activitiesOverview.activeFilterExercise
   )
+  const activeFilterTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activities = useAppSelector((state) => state.activitiesOverview.activities)
   const activeChartCombination = useAppSelector(
     (state) => state.activitiesOverview.activeChartCombination
@@ -42,7 +43,7 @@ export const FiltersBar = () => {
   }, [activityTypes, dispatch])
 
   useEffect(() => {
-    if (activeFilterExercise) {
+    if (activeFilterExercise && activities.length > 0) {
       const options = getAvailableChartOptions(
         getAvailableChartMetrics(activities, activeFilterExercise)
       )
@@ -75,8 +76,6 @@ export const FiltersBar = () => {
     )
   }
 
-  console.log(getAvailableChartOptions(getAvailableChartMetrics(activities, activeFilterExercise)))
-
   return (
     <Wrapper>
       {activityDetails && (
@@ -100,7 +99,7 @@ export const FiltersBar = () => {
           <p>{capitalizeFirstLetter(tab.type)}</p>
         </FilterTab>
       ))}
-      {activities.length > 0 && (
+      {activities.length > 0 && activeFilterTab !== "details" && (
         <StyledSelect
           name='availableCharts'
           labelText='Chart options'

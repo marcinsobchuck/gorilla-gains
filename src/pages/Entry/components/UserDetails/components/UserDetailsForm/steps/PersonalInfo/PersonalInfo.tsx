@@ -1,3 +1,4 @@
+import { Datepicker } from "@components/Datepicker/Datepicker"
 import { Input } from "@components/Input/Input"
 import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
 
@@ -8,7 +9,15 @@ export const PersonalInfo = () => {
     <div>
       <Input id='name' label='Name' type='text' />
       <Input id='surname' label='Surname' type='text' />
-      <Input id='age' label='Age' type='number' />
+      <Datepicker
+        label='age'
+        name='age'
+        showYearDropdown
+        dateFormatCalendar='MMMM'
+        scrollableYearDropdown
+        maxDate={new Date()}
+        yearDropdownItemNumber={100}
+      />
       <RadioButtonGroup items={genderRadioItems} groupTitle='Gender' name='gender' gap={12} />
     </div>
   )

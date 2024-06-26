@@ -18,7 +18,7 @@ export const Goals = () => {
       <Input id='desiredWeight' label='Desired Weight' type='number' />
       <Datepicker name='dueDateWeight' label='Date' />
       <GoalsWrapper>
-        <GoalsTitle>Goals</GoalsTitle>
+        <GoalsTitle>Current focus</GoalsTitle>
 
         <TilesWrapper>
           {goals.map((goal) => (

@@ -87,6 +87,54 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     background-color: ${({ theme }) => theme.selectBackgroundColor};
+
+    .react-datepicker__year-dropdown-container {
+      display: flex;
+      justify-content: center;
+
+      .react-datepicker__year-read-view {
+        display: flex;
+        align-items: center;
+        background-color: ${({ theme }) => theme.inputBackgroundColor};
+        padding: 6px;
+
+        .react-datepicker__year-read-view--down-arrow {
+          top: 7px;
+          border-color: ${({ theme }) => theme.secondary};
+        }
+      }
+
+      .react-datepicker__year-dropdown {
+        background-color: ${({ theme }) => theme.selectBackgroundColor};
+        border: none;
+        box-shadow: ${({ theme }) => theme.boxShadow};
+        color: red;
+
+        &::-webkit-scrollbar {
+          width: 18px;
+        }
+        &::-webkit-scrollbar-track {
+          background: ${({ theme }) => theme.navBackgroundColor};
+        }
+        &::-webkit-scrollbar-thumb {
+          border-radius: 9px;
+          border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
+          background-clip: content-box;
+          background: ${({ theme }) => theme.secondary};
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background: ${({ theme }) => theme.secondaryActive};
+        }
+
+        .react-datepicker__year-option--selected {
+          color: ${({ theme }) => theme.secondary};
+        }
+
+        .react-datepicker__year-option:hover {
+          background-color: ${({ theme }) => theme.primaryDisabled};
+        }
+      }
+    }
   }
 
   .react-datepicker__navigation {

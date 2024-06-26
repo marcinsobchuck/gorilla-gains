@@ -39,13 +39,13 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   @media ${Breakpoints.MEDIUM} {
     padding: 24px 6px;
     position: static;
-    width: --var(menu-width-m);
+    width: var(--menu-width-m);
     transform: translateX(0);
   }
 
   @media ${Breakpoints.LARGE} {
     padding: 64px 32px 44px 32px;
-    width: --var(menu-width-l);
+    width: var(--menu-width-l);
   }
 `
 

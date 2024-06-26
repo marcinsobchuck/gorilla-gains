@@ -15,5 +15,4 @@ export const ItemLabel = styled.div`
 export const ItemText = styled.p`
   font-weight: 500;
   color: ${({ theme }) => theme.primary};
-  text-transform: capitalize;
 `
