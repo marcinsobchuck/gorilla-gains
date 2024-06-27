@@ -32,7 +32,7 @@ export const userDetailsSchema = yup.object().shape({
     .max(500, "Maximum value is 500")
     .positive("Desired weight must be positive")
     .transform(handleIsNaN),
-  dueDateWeight: yup.date(),
+  dueDateWeight: yup.date().nullable(),
   goals: yup
     .array()
     .required("Required")

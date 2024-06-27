@@ -16,7 +16,7 @@ export const Goals = () => {
   return (
     <>
       <Input id='desiredWeight' label='Desired Weight' type='number' />
-      <Datepicker name='dueDateWeight' label='Date' />
+      <Datepicker name='dueDateWeight' label='Due date' />
       <GoalsWrapper>
         <GoalsTitle>Current focus</GoalsTitle>
 

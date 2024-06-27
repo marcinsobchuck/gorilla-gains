@@ -3,7 +3,7 @@ import { usePopper } from "react-popper"
 
 import { useOnClickOutside } from "@hooks/useOnClickOutside"
 
-import { PopoverContainer } from "./Popover.styled"
+import { PopoverArrow, PopoverContainer } from "./Popover.styled"
 import { PopoverProps } from "./Popover.types"
 
 export const Popover: React.FC<PopoverProps> = ({
@@ -12,8 +12,11 @@ export const Popover: React.FC<PopoverProps> = ({
   onClickOutside = () => {},
   placement,
   offsetAway,
+  onMouseEnter,
+  onMouseLeave,
 }) => {
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
+  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null)
 
   useOnClickOutside({ current: popperElement }, onClickOutside)
 
@@ -31,12 +34,26 @@ export const Popover: React.FC<PopoverProps> = ({
           fallbackPlacements: ["top-start"],
         },
       },
+      {
+        name: "arrow",
+        options: {
+          element: arrowElement,
+        },
+      },
     ],
     placement,
   })
 
   return (
-    <PopoverContainer ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+    <PopoverContainer
+      ref={setPopperElement}
+      style={styles.popper}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      {...attributes.popper}
+    >
+      <PopoverArrow ref={setArrowElement} />
+
       {children}
     </PopoverContainer>
   )

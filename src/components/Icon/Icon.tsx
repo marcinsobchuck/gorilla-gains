@@ -12,6 +12,7 @@ import flexibility from "@assets/flexibility.svg"
 import github from "@assets/github.svg"
 import gorilla from "@assets/gorilla.svg"
 import history from "@assets/history.svg"
+import info from "@assets/info.svg"
 import leftArrow from "@assets/leftArrow.svg"
 import linkedin from "@assets/linkedin.svg"
 import logout from "@assets/logout.svg"
@@ -29,11 +30,19 @@ import threeDots from "@assets/threeDots.svg"
 import { StyledIcon } from "./Icon.styled"
 import { IconName, IconProps } from "./Icon.types"
 
-export const Icon: React.FC<IconProps> = ({ name, width, height, color, ...rest }) => {
+export const Icon: React.FC<IconProps> = ({
+  name,
+  width,
+  height,
+  color,
+  isInteractive,
+  ...rest
+}) => {
   const SVGProps = {
     width,
     height,
     color,
+    $isInteractive: isInteractive,
     ...rest,
   }
 
@@ -65,6 +74,7 @@ export const Icon: React.FC<IconProps> = ({ name, width, height, color, ...rest 
     account: <StyledIcon src={account} {...SVGProps} />,
     privacy: <StyledIcon src={privacy} {...SVGProps} />,
     logout: <StyledIcon src={logout} {...SVGProps} />,
+    info: <StyledIcon src={info} {...SVGProps} />,
   }
 
   return icons[name]

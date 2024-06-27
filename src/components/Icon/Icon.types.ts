@@ -28,10 +28,12 @@ export type IconName =
   | "account"
   | "privacy"
   | "logout"
+  | "info"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name: IconName
   width?: number
   height?: number
   color?: string
+  isInteractive?: boolean
 }

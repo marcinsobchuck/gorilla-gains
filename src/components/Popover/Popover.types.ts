@@ -7,4 +7,6 @@ export interface PopoverProps {
   placement?: Placement
   offsetAway?: number
   children: ReactNode
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }

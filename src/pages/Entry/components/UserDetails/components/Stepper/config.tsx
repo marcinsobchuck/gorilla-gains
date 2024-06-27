@@ -4,4 +4,4 @@ const stepOneInputs: InputsNames = ["name", "age", "gender"]
 const stepTwoInputs: InputsNames = ["height", "weight", "activityLevel"]
 const stepThreeInputs: InputsNames = ["desiredWeight", "dueDateWeight", "goals"]
 
-export const stepInputs = [stepOneInputs, stepTwoInputs, stepThreeInputs]
+export const requiredStepInputs = [stepOneInputs, stepTwoInputs, stepThreeInputs]

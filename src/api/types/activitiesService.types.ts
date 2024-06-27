@@ -74,7 +74,7 @@ export interface Activity {
     _id: string
     type: ActivityTypes
   }
-  date: string
+  date: Date
   exercises: ResponseExercise[]
   notes?: string
   warmup: boolean

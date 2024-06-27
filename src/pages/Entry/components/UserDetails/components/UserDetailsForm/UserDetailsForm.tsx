@@ -13,7 +13,7 @@ import { useJwtDecoded } from "@hooks/useJwtDecoded"
 import { userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
 import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
-import { stepInputs } from "../Stepper/config"
+import { requiredStepInputs } from "../Stepper/config"
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   step,
   currentStep,
@@ -76,11 +76,11 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   const getNumberOfInvalidInputsPerStep = () => {
     switch (currentStep) {
       case 1:
-        return getNumberOfInvalidInputs(stepInputs[0])
+        return getNumberOfInvalidInputs(requiredStepInputs[0])
       case 2:
-        return getNumberOfInvalidInputs(stepInputs[1])
+        return getNumberOfInvalidInputs(requiredStepInputs[1])
       case 3:
-        return getNumberOfInvalidInputs(stepInputs[2])
+        return getNumberOfInvalidInputs(requiredStepInputs[2])
       default:
         return 0
     }
@@ -106,8 +106,10 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   return (
     <FormProvider {...methods}>
       <ProgressBar
-        $numberOfInputs={stepInputs[currentStep - 1].length}
-        $validInputs={stepInputs[currentStep - 1].length - getNumberOfInvalidInputsPerStep()}
+        $numberOfInputs={requiredStepInputs[currentStep - 1].length}
+        $validInputs={
+          requiredStepInputs[currentStep - 1].length - getNumberOfInvalidInputsPerStep()
+        }
       />
 
       <StyledForm onSubmit={onSubmit}>

@@ -6,7 +6,7 @@ export interface User {
   age: number
   gender: string
   weight: number
-  activityLevel: string
+  activityLevel: number
   desiredWeight: number
   height: number
   dueDateWeight: Date
