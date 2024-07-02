@@ -33,7 +33,7 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   transition: 0.3s ease-in-out;
 
   @media ${Breakpoints.SMALL} {
-    width: --var(menu-width-s);
+    width: var(--menu-width-s);
   }
 
   @media ${Breakpoints.MEDIUM} {

@@ -7,7 +7,15 @@ import { Popover } from "@components/Popover/Popover"
 import { LabelText, TooltipContainer, ValueText, Wrapper } from "./BasicCard.styled"
 import { BasicCardProps } from "./BasicCard.types"
 
-export const BasicCard: React.FC<BasicCardProps> = ({ label, value, tooltipInfo, source }) => {
+const isValueNegative = (value: number) => (value < 0 ? true : false)
+
+export const BasicCard: React.FC<BasicCardProps> = ({
+  label,
+  value,
+  tooltipInfo,
+  source,
+  withTooltip = true,
+}) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
@@ -15,21 +23,24 @@ export const BasicCard: React.FC<BasicCardProps> = ({ label, value, tooltipInfo,
 
   return (
     <Wrapper direction='column' align='center' justify='center'>
-      <ValueText>{value}</ValueText>
+      <ValueText $isNegative={isValueNegative(+value)}>{value}</ValueText>
       <LabelText>{label}</LabelText>
-      <div ref={setAnchor}>
-        <Icon
-          name='info'
-          height={18}
-          width={18}
-          color={theme.primaryMedium}
-          isInteractive
-          onMouseEnter={() => setIsTooltipOpen(true)}
-          onMouseLeave={() => setIsTooltipOpen(false)}
-        />
-      </div>
 
-      {anchor && isTooltipOpen && (
+      {withTooltip && (
+        <div ref={setAnchor}>
+          <Icon
+            name='info'
+            height={18}
+            width={18}
+            color={theme.primaryMedium}
+            isInteractive
+            onMouseEnter={() => setIsTooltipOpen(true)}
+            onMouseLeave={() => setIsTooltipOpen(false)}
+          />
+        </div>
+      )}
+
+      {anchor && isTooltipOpen && withTooltip && (
         <Popover
           anchor={anchor}
           onMouseEnter={() => setIsTooltipOpen(true)}

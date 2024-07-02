@@ -10,10 +10,10 @@ export const Wrapper = styled(FlexContainer)`
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 `
 
-export const ValueText = styled.p`
+export const ValueText = styled.p<{ $isNegative?: boolean }>`
   font-size: 20px;
   font-weight: 600;
-  color: ${({ theme }) => theme.secondary};
+  color: ${({ theme, $isNegative }) => ($isNegative ? theme.errorColor : theme.secondary)};
   margin-bottom: 3px;
 `
 

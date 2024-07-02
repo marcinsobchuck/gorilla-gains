@@ -38,7 +38,7 @@ export const Wrapper = styled.div<WrapperProps>`
 export const HeaderWrapper = styled(FlexContainer)`
   margin-bottom: 6px;
 `
-export const Heading = styled.h2`
+export const Heading = styled.h3`
   font-size: 16px;
   font-weight: 600;
   color: ${({ theme }) => theme.secondary};
