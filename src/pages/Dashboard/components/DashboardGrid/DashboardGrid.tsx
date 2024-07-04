@@ -10,9 +10,7 @@ export const DashboardGrid = () => {
   return (
     <Wrapper>
       <HealthMetrics />
-
       <Totals />
-
       <ActivitiesPieChart />
       <ActivitiesStatistics />
       <HumanSilhouette />

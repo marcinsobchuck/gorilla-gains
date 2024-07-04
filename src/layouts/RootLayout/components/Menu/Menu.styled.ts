@@ -28,7 +28,7 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   background-color: ${({ theme }) => theme.navBackgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 
-  transform: ${({ $isOpen }) => (!$isOpen ? `translateX(0)` : `translate(-100%)`)};
+  transform: ${({ $isOpen }) => ($isOpen ? `translateX(0)` : `translate(-100%)`)};
 
   transition: 0.3s ease-in-out;
 

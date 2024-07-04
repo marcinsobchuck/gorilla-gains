@@ -41,6 +41,9 @@ export const lightTheme = {
   primaryButtonColor: "#fafafa",
 
   borderColor: "#F0F1F0",
+
+  primaryMusclesColor: "#94000080",
+  secondaryMusclesColor: "#ffc30080",
 }
 export const darkTheme = {
   backgroundColor: "#121212",
@@ -87,4 +90,7 @@ export const darkTheme = {
   primaryButtonColor: "#121212",
 
   borderColor: "#00000099",
+
+  primaryMusclesColor: "#6f000080",
+  secondaryMusclesColor: "#ffee8c80",
 }
