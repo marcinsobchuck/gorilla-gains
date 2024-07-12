@@ -1,4 +1,7 @@
+import Skeleton from "react-loading-skeleton"
+
 import { useAppSelector } from "@app/hooks"
+import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import { Wrapper } from "./HealthMetrics.styled"
@@ -9,12 +12,14 @@ export const HealthMetrics = () => {
   const userInfo = useAppSelector((state) => state.user.data)
   const status = useAppSelector((state) => state.user.status)
 
-  if (status === RequestStatuses.LOADING && !userInfo) {
-    return <div>Loading...</div>
-  }
-
-  if (!userInfo) {
-    return <div>No health metrics available.</div>
+  if (!userInfo || status === RequestStatuses.LOADING) {
+    return (
+      <Wrapper>
+        <SkeletonTheme>
+          <Skeleton containerClassName='skeletonWrapper' height='100%' />
+        </SkeletonTheme>
+      </Wrapper>
+    )
   }
 
   const { weight, height, age, gender, activityLevel } = userInfo

@@ -10,7 +10,7 @@ export const Dashboard = () => {
       </Sidebar>
       <MainContentWrapper>
         <DashboardGrid />
-      </MainContentWrapper>{" "}
+      </MainContentWrapper>
     </>
   )
 }

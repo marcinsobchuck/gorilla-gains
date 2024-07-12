@@ -42,7 +42,6 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     setFocus,
     formState: { isSubmitting },
   } = methods
-  console.log(watch())
 
   const formState = useFormState({ control })
   const onSubmit = handleSubmit(async (values) => {

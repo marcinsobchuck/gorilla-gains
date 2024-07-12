@@ -10,97 +10,97 @@ export const HumanModelSVG = styled(svg)`
   }
 
   .other {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .head {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .eyes {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
   .eyes-2 {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .ears {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .face {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .lips {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .neck,
   .backNeck {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .backHeadMuscle {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .backLats {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .shoulders,
   .backShoulders {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .traps {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .triceps {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
   .biceps {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .forearm {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .hand {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .chest {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .abs {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .obliques {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .glutes {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .frontUpperLeg,
   .backUpperLeg {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .frontLowerLeg,
   .backLowerLeg,
   .calves {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
   .foot {
-    fill: ${({ theme }) => theme.secondaryOpacity};
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .active-secondary {

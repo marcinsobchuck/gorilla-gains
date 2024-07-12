@@ -3,6 +3,12 @@ import styled from "styled-components"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled.div`
+  .skeletonWrapper {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;

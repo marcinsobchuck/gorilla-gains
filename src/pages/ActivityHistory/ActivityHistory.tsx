@@ -1,5 +1,3 @@
-import { ToastContainer } from "react-toastify"
-
 import { Calendar } from "@components/Calendar/Calendar"
 import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
@@ -20,7 +18,6 @@ export const ActivityHistory = () => {
         <ActivityList />
         <ActivitiesInfo />
       </MainContentWrapper>
-      <ToastContainer />
     </>
   )
 }

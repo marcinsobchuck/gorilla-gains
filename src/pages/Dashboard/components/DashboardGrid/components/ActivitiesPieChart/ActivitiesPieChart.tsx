@@ -1,29 +1,17 @@
+import Skeleton from "react-loading-skeleton"
 import { Cell, Pie, PieChart, PieLabelRenderProps, ResponsiveContainer, Tooltip } from "recharts"
+import { useTheme } from "styled-components"
+
+import { useAppSelector } from "@app/hooks"
+import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
 
 import { Title, Wrapper } from "./ActivitiesPieChart.styled"
-
-const data01 = [
-  {
-    name: "Endurance",
-    value: 36,
-  },
-  {
-    name: "Strength",
-    value: 123,
-  },
-  {
-    name: "Flexibility",
-    value: 5,
-  },
-  {
-    name: "Balance",
-    value: 13,
-  },
-]
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]
+import { getPieChartColor } from "./utils"
 
 const RADIAN = Math.PI / 180
+
 const renderCustomizedLabel = ({
   cx = 0,
   cy = 0,
@@ -51,19 +39,39 @@ const renderCustomizedLabel = ({
       dominantBaseline='central'
       fontSize={12}
     >
-      {`${name} ${(percent * 100).toFixed(0)}%`}
+      {`${capitalizeFirstLetter(name)} ${(percent * 100).toFixed(0)}%`}
     </text>
   )
 }
 
 export const ActivitiesPieChart = () => {
+  const chartData = useAppSelector(
+    (state) => state.activitiesSummary.activitiesSummaryData?.activityTypeDistribution
+  )
+  const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
+  const theme = useTheme()
+  const colors = {
+    endurance: theme.enduranceEventColor,
+    strength: theme.strengthEventColor,
+    flexibility: theme.flexibilityEventColor,
+    balance: theme.balanceEventColor,
+  }
+
+  if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
+    return (
+      <SkeletonTheme>
+        <Skeleton height='100%' />
+      </SkeletonTheme>
+    )
+  }
+
   return (
     <Wrapper direction='column' justify='flex-end'>
       <Title>Activities % overall</Title>
       <ResponsiveContainer height='90%'>
         <PieChart>
           <Pie
-            data={data01}
+            data={chartData}
             dataKey='value'
             nameKey='name'
             cx='50%'
@@ -74,8 +82,8 @@ export const ActivitiesPieChart = () => {
             label={renderCustomizedLabel}
             labelLine={false}
           >
-            {data01.map((entry, index) => (
-              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+            {chartData.map((entry) => (
+              <Cell key={entry.name} fill={getPieChartColor(entry.name, colors)} />
             ))}
           </Pie>
           <Tooltip />

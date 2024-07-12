@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
 import { Logo } from "@components/Logo/Logo.tsx"
@@ -27,6 +28,8 @@ export const RootLayout = () => {
 
   return (
     <Background>
+      <ToastContainer />
+
       <Modal
         isVisible={state.isAddEditModalOpen}
         lockScroll={isPresetsVisible}

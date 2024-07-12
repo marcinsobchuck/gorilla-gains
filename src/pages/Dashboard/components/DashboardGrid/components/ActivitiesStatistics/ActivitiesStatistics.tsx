@@ -1,11 +1,17 @@
+import Skeleton from "react-loading-skeleton"
+
 import { Activity } from "@api/types/activitiesService.types"
+import { useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import {
   CardsWrapper,
   LastActivityWrapper,
   StyledActivityCard,
 } from "./ActivitiesStatistics.styled"
+import { getActivitiesStatisticsItems } from "./utils"
 import { BasicCard } from "../BasicCard/BasicCard"
 
 const xd = {
@@ -66,19 +72,32 @@ const xd = {
   isPreset: true,
   estimatedDuration: 43470,
 }
+
 export const ActivitiesStatistics = () => {
+  const activitiesStatistics = useAppSelector(
+    (state) => state.activitiesSummary.activitiesSummaryData?.activitiesStatistics
+  )
+  const activitiesStatisticsStatus = useAppSelector(
+    (state) => state.activitiesSummary.activitiesSummaryStatus
+  )
+
   return (
     <FlexContainer direction='column' gap={12}>
       <LastActivityWrapper direction='column'>
         <h2>Last activity past 7 days</h2>
         <StyledActivityCard data={xd as unknown as Activity} popoverOptions={[]} />
       </LastActivityWrapper>
-      <CardsWrapper gap={12}>
-        <BasicCard value='3' label='Days since last activity' withTooltip={false} />
-        <BasicCard value='236' label='Overall activities done' withTooltip={false} />
-        <BasicCard value='3' label='Avg. activities/week' withTooltip={false} />
-        <BasicCard value='Pull up' label='Most common exercise' withTooltip={false} />
-      </CardsWrapper>
+      {activitiesStatisticsStatus === RequestStatuses.LOADING || !activitiesStatistics ? (
+        <SkeletonTheme>
+          <Skeleton height='100%' containerClassName='skeletonWrapper' />
+        </SkeletonTheme>
+      ) : (
+        <CardsWrapper gap={12}>
+          {getActivitiesStatisticsItems(activitiesStatistics).map((stat) => (
+            <BasicCard value={stat.value} label={stat.label} withTooltip={false} />
+          ))}
+        </CardsWrapper>
+      )}
     </FlexContainer>
   )
 }

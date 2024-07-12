@@ -44,6 +44,7 @@ export const lightTheme = {
 
   primaryMusclesColor: "#94000080",
   secondaryMusclesColor: "#ffc30080",
+  otherMusclesColor: "#BFBFBF4D",
 }
 export const darkTheme = {
   backgroundColor: "#121212",
@@ -93,4 +94,5 @@ export const darkTheme = {
 
   primaryMusclesColor: "#6f000080",
   secondaryMusclesColor: "#ffee8c80",
+  otherMusclesColor: "#A1D89026",
 }
