@@ -7,5 +7,6 @@ type PopoverOption = {
 
 export interface ActivityCardProps extends React.HTMLAttributes<HTMLDivElement> {
   data: Activity
-  popoverOptions: PopoverOption[]
+  popoverOptions?: PopoverOption[]
+  hasAdditionalActions?: boolean
 }

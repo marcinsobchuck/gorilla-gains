@@ -27,7 +27,12 @@ import { ActivityCardProps } from "./ActivityCard.types"
 import { getIconNamePerActivityType } from "./utils"
 import { capitalizeFirstLetter } from "../../utils"
 
-export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions, ...rest }) => {
+export const ActivityCard: React.FC<ActivityCardProps> = ({
+  data,
+  popoverOptions,
+  hasAdditionalActions = true,
+  ...rest
+}) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const state = useAppSelector((state) => state.activities)
@@ -46,16 +51,17 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
     <Wrapper $isActive={isActive} {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
-
-        <div
-          ref={setAnchor}
-          onClick={(e) => {
-            e.stopPropagation()
-            setIsPopoverOpen((prev) => !prev)
-          }}
-        >
-          <StyledInteractiveIcon name='threeDots' width={32} height={32} />
-        </div>
+        {hasAdditionalActions && (
+          <div
+            ref={setAnchor}
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsPopoverOpen((prev) => !prev)
+            }}
+          >
+            <StyledInteractiveIcon name='threeDots' width={32} height={32} />
+          </div>
+        )}
 
         {anchor && isPopoverOpen && (
           <Popover
@@ -65,7 +71,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ data, popoverOptions
             onClickOutside={() => setIsPopoverOpen(false)}
           >
             <PopoverOptions>
-              {popoverOptions.map((item, index) => (
+              {popoverOptions?.map((item, index) => (
                 <PopoverOption
                   key={index}
                   onClick={(e) => {

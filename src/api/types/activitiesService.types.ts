@@ -62,7 +62,16 @@ export interface GetActivitiesForCurrentUserParams {
 }
 
 export interface ResponseExercise {
-  exercise: { _id: string; name: string; isStatic?: boolean; additionalInfo?: string }
+  exercise: {
+    _id: string
+    name: string
+    isStatic?: boolean
+    additionalInfo?: string
+    musclesHit?: {
+      primary: string[]
+      secondary: string[]
+    }
+  }
   sets: ExerciseSet[]
   withBreaks: boolean
 }
