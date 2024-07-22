@@ -6,7 +6,7 @@ export const transformResponseExercises = (exercises: ResponseExercise[]): Exerc
     return {
       ...rExercise,
       exercise: {
-        additionalInfo: rExercise.additionalInfo,
+        additionalInfo: rExercise.exercise.additionalInfo,
         isStatic: rExercise.exercise.isStatic,
         label: rExercise.exercise.name,
         value: rExercise.exercise._id,
