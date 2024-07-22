@@ -1,4 +1,4 @@
-import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
+import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 
 import { Settings } from "@pages/Settings/Settings"
 
@@ -19,6 +19,7 @@ export const router = createBrowserRouter(
     <>
       <Route element={<RootLayout />}>
         <Route element={<PrivateRoute />}>
+          <Route index element={<Navigate to={Routes.DASHBOARD} />} />
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />
           <Route path={Routes.CALENDAR} element={<Calendar />} />
