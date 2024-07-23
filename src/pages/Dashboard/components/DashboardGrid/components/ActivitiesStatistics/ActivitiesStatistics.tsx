@@ -31,7 +31,6 @@ export const ActivitiesStatistics = () => {
   const lastActivityStatus = useAppSelector(
     (state) => state.activitiesSummary.weeklyActivitiesDataStatus
   )
-  console.log(navigator)
   return (
     <FlexContainer direction='column' gap={12}>
       {lastActivityStatus === RequestStatuses.LOADING || !lastActivity ? (
