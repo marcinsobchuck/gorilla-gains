@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { useTheme } from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
@@ -37,7 +37,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
         </IconContainer>
         <TitleDateContainer>
           <Title>{activityDetails.title}</Title>
-          <ActivityDate>{format(activityDetails.date, "LLLL d, y")}</ActivityDate>
+          <ActivityDate>{format(parseISO(activityDetails.date), "LLLL d, y")}</ActivityDate>
         </TitleDateContainer>
 
         <ExertionRatingContainer direction='column'>
