@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios"
-import { format, subWeeks } from "date-fns"
+import { subWeeks } from "date-fns"
 
 import { getActivitiesForCurrentUser } from "@api/activitiesService"
 import { getActivitiesSummary } from "@api/activitiesSummaryService"
@@ -26,8 +26,8 @@ export const getWeeklyActivitiesDataAction = createAppAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getActivitiesForCurrentUser({
-        startDate: format(subWeeks(new Date(), 1), "yyyy/MM/dd"),
-        endDate: format(new Date(), "yyyy/MM/dd"),
+        startDate: subWeeks(new Date(), 1),
+        endDate: new Date(),
       })
       const musclesHit = () => {
         const muscles = response.data.reduce<{ primary: string[]; secondary: string[] }>(

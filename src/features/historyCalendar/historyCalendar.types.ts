@@ -6,7 +6,7 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 interface ActivityEvent {
   id: string
   borderColor: string
-  date: Date
+  date: string
 }
 
 export interface InitialState {

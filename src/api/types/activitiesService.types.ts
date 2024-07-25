@@ -57,8 +57,8 @@ export interface GetActivitiesForCurrentUserParams {
   isPreset?: boolean
   offset?: number
   limit?: number
-  startDate?: string
-  endDate?: string
+  startDate?: Date
+  endDate?: Date
 }
 
 export interface ResponseExercise {
@@ -83,7 +83,7 @@ export interface Activity {
     _id: string
     type: ActivityTypes
   }
-  date: Date
+  date: string
   exercises: ResponseExercise[]
   notes?: string
   warmup: boolean

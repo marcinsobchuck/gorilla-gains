@@ -2,7 +2,7 @@ import { DatesSetArg } from "@fullcalendar/core/index.js"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { useRef } from "react"
 import { useTheme } from "styled-components"
 
@@ -33,20 +33,19 @@ export const Calendar = () => {
   const theme = useTheme()
 
   const handleDateClick = async (arg: DateClickArg) => {
-    const dateClicked = format(new Date(arg.dateStr), "yyyy/MM/dd")
+    const dateClicked = arg.date
 
     dispatch(setSelectedDate(arg.dateStr))
     updateSelectedClass(arg.dateStr)
 
     const dayHasEvent = historyCalendar.events.some(
-      (event) => format(new Date(event.date), "yyyy/MM/dd") === dateClicked
+      (event) => format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")
     )
 
     if (arg.dateStr === selectedDate) {
       calendarApi?.unselect()
       updateSelectedClass("")
       dispatch(setSelectedDate(""))
-
       if (dayHasEvent) {
         dispatch(resetActivitiesData())
         await dispatch(
@@ -78,8 +77,8 @@ export const Calendar = () => {
   }
 
   const handleDatesSet = async (arg: DatesSetArg) => {
-    const startDate = format(arg.view.activeStart, "yyyy/MM/dd")
-    const endDate = format(arg.view.activeEnd, "yyyy/MM/dd")
+    const startDate = arg.view.activeStart
+    const endDate = arg.view.activeEnd
 
     await dispatch(
       getEventsForCurrentMonthAction({
