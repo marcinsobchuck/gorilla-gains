@@ -22,7 +22,7 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { setActiveActivity } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
 import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
-import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { DateWrapper, TooltipWrapper, ValueText, Wrapper } from "./ActivitiesChart.styled"
 import {

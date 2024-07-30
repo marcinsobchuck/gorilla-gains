@@ -5,7 +5,7 @@ import { useTheme } from "styled-components"
 import { useAppSelector } from "@app/hooks"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { Title, Wrapper } from "./ActivitiesPieChart.styled"
 import { getPieChartColor } from "./utils"

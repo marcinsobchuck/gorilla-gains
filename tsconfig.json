@@ -29,10 +29,11 @@
       "@features/*": ["features/*"],
       "@hooks/*": ["hooks/*"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
+      "@utils/*": ["utils/*"]
     },
+    "types": ["vitest/globals"]
   },
 
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

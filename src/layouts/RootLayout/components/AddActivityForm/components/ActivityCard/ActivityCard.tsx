@@ -8,6 +8,7 @@ import { Icon } from "@components/Icon/Icon"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { Popover } from "@components/Popover/Popover"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import {
   ExertionRatingContainer,
@@ -25,7 +26,6 @@ import {
 } from "./ActivityCard.styled"
 import { ActivityCardProps } from "./ActivityCard.types"
 import { getIconNamePerActivityType } from "./utils"
-import { capitalizeFirstLetter } from "../../utils"
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
   data,

@@ -9,7 +9,7 @@ import {
   setActiveFilterTab,
 } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
-import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { FilterTab, SkeletonWrapper, StyledSelect, Wrapper } from "./FiltersBar.styled"
 import {

@@ -4,7 +4,7 @@ import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { getCurrentUserInfoAction } from "@features/user/userActions"
-import { capitalizeFirstLetter } from "@layouts/RootLayout/components/AddActivityForm/utils"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { UserInfoItem } from "./components/UserInfoItem"
 import { UserInfoItems, UserInfoTitle, Wrapper } from "./UserInfo.styled"

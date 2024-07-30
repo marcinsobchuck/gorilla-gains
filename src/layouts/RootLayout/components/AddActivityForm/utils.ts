@@ -6,12 +6,6 @@ import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { AddActivityFormTypes } from "./AddActivityForm.types"
 import { transformResponseExercises } from "./components/PresetsView/utils"
 
-export const capitalizeFirstLetter = (string?: string) => {
-  if (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  }
-}
-
 export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOption[] => {
   if (!data) {
     return []

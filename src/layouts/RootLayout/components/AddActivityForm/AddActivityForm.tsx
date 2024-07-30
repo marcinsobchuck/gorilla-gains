@@ -16,6 +16,7 @@ import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
+import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import {
   AddExerciseButton,
@@ -37,7 +38,6 @@ import { PresetsView } from "./components/PresetsView/PresetsView"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
 import {
-  capitalizeFirstLetter,
   getDataToSubmit,
   getSubmitButtonText,
   transformActivityTypesIntoOption,
