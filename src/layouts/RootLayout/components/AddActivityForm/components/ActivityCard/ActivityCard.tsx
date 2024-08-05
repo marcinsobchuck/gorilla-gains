@@ -41,7 +41,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   )
   const theme = useTheme()
   const numberOfExercises = data.exercises.length
-  const isActive = data._id === state.activeActivity?._id
+  const isActive = data._id === state.activeActivityId
   const isLoading =
     (state.editActivityStatus === RequestStatuses.LOADING ||
       state.deleteActivityStatus === RequestStatuses.LOADING) &&

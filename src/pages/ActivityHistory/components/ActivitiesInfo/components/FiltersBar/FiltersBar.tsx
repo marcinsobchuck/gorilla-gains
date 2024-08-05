@@ -21,7 +21,7 @@ export const FiltersBar = () => {
   const activeTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activityTypes = useAppSelector((state) => state.activityTypes.data)
   const activityTypesStatus = useAppSelector((state) => state.activityTypes.status)
-  const activityDetails = useAppSelector((state) => state.activities.activeActivity)
+  const activityDetails = useAppSelector((state) => state.activities.activeActivityId)
   const activeFilterExercise = useAppSelector(
     (state) => state.activitiesOverview.activeFilterExercise
   )
