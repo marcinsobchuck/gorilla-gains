@@ -28,7 +28,7 @@ export interface InitialState {
   isAddEditModalOpen: boolean
   shouldFetchActivities: boolean
 
-  activeActivity: Activity | null
+  activeActivityId: string | null
   currentlyProcessedActivityId: string | null
   currentlyEditedActivity?: Activity
 }

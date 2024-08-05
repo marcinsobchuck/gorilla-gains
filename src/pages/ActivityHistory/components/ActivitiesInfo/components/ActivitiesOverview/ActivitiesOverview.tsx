@@ -5,12 +5,19 @@ import { ActivitiesCharts } from "./components/ActivitiesCharts/ActivitiesCharts
 import { ActivityDetails } from "./components/ActivityDetails/ActivityDetails"
 
 export const ActivitiesOverview = () => {
-  const activityDetails = useAppSelector((state) => state.activities.activeActivity)
+  const activeActivityId = useAppSelector((state) => state.activities.activeActivityId)
   const activeFilterTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
+  const activitiesList = useAppSelector((state) => state.activities.activitiesData)
+  const activitiesChart = useAppSelector((state) => state.activitiesOverview.activities)
+
+  const activeActivity =
+    activitiesList.find((activity) => activity._id === activeActivityId) ||
+    activitiesChart.find((activity) => activity._id === activeActivityId)
+
   return (
     <Wrapper>
-      {activeFilterTab === "details" && activityDetails && (
-        <ActivityDetails activityDetails={activityDetails} />
+      {activeFilterTab === "details" && activeActivity && (
+        <ActivityDetails activityDetails={activeActivity} />
       )}
       {activeFilterTab !== "details" && <ActivitiesCharts />}
     </Wrapper>

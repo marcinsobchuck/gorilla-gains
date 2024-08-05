@@ -29,7 +29,7 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
-  activeActivity: null,
+  activeActivityId: null,
 }
 
 export const activitiesSlice = createSlice({
@@ -49,8 +49,8 @@ export const activitiesSlice = createSlice({
       }))
     },
 
-    setActiveActivity(state, action) {
-      state.activeActivity = action.payload
+    setActiveActivityId(state, action) {
+      state.activeActivityId = action.payload
     },
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
@@ -200,5 +200,5 @@ export const {
   setCurrentlyEditedActivity,
   setCurrentlyProcessedActivityId,
   setSelectedDate,
-  setActiveActivity,
+  setActiveActivityId,
 } = activitiesSlice.actions
