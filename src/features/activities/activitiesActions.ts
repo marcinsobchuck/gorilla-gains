@@ -20,7 +20,12 @@ import {
 import { addEvent, editEvent, removeEvent } from "@features/historyCalendar/historyCalendarSlice"
 import { getBorderColor } from "@features/historyCalendar/utils"
 
-import { setCurrentlyProcessedActivityId, setHasMore, toggleIsPreset } from "./activitiesSlice"
+import {
+  setActiveActivityId,
+  setCurrentlyProcessedActivityId,
+  setHasMore,
+  toggleIsPreset,
+} from "./activitiesSlice"
 import { CreateActivityParams } from "./activitiesSlice.types"
 
 export const createActivityAction = createAppAsyncThunk(
@@ -163,8 +168,12 @@ export const deleteActivityAction = createAppAsyncThunk(
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
       dispatch(removeEvent(activityId))
-      if (response.data.type._id === activeFilterTab) {
+      if (activityId === activeFilterTab) {
         dispatch(deleteChartActivity(activityId))
+      }
+
+      if (activityId === getState().activities.activeActivityId) {
+        dispatch(setActiveActivityId(null))
       }
 
       return response.data
