@@ -19,7 +19,7 @@ import { useTheme } from "styled-components"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { setActiveActivity } from "@features/activities/activitiesSlice"
+import { setActiveActivityId } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
 import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
@@ -110,7 +110,7 @@ export const ActivitiesCharts = () => {
     dispatch(setActiveFilterTab("details"))
     const activity = activities.find((activity) => activity._id === payload.payload.activityId)
     if (activity) {
-      dispatch(setActiveActivity(activity))
+      dispatch(setActiveActivityId(activity._id))
     }
   }
 

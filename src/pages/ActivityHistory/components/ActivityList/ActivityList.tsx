@@ -14,7 +14,7 @@ import {
 } from "@features/activities/activitiesActions"
 import {
   removePreset,
-  setActiveActivity,
+  setActiveActivityId,
   setCurrentlyEditedActivity,
   setIsAddEditModalOpen,
   setIsEditing,
@@ -136,7 +136,7 @@ export const ActivityList = () => {
           popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
           onClick={() => {
             dispatch(setActiveFilterTab("details"))
-            dispatch(setActiveActivity(activity))
+            dispatch(setActiveActivityId(activity._id))
           }}
         />
       ))}

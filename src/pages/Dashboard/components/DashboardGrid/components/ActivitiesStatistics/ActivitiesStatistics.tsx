@@ -6,7 +6,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
-import { setActiveActivity } from "@features/activities/activitiesSlice"
+import { setActiveActivityId } from "@features/activities/activitiesSlice"
 import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 
 import {
@@ -46,7 +46,7 @@ export const ActivitiesStatistics = () => {
             onClick={() => {
               navigate(Routes.ACTIVITY_HISTORY)
               dispatch(setActiveFilterTab("details"))
-              dispatch(setActiveActivity(lastActivity))
+              dispatch(setActiveActivityId(lastActivity._id))
             }}
           />
         </LastActivityWrapper>
