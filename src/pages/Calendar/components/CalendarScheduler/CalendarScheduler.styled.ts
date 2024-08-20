@@ -31,6 +31,12 @@ export const CalendarWrapper = styled.div`
     &:hover {
       background-color: ${({ theme }) => theme.secondaryOpacity} !important;
     }
+
+    &:disabled {
+      background-color: ${({ theme }) => theme.borderColor} !important;
+      color: ${({ theme }) => theme.backgroundColor} !important;
+      cursor: not-allowed;
+    }
   }
 
   .fc-button-group {
@@ -39,13 +45,13 @@ export const CalendarWrapper = styled.div`
 
   .fc .fc-button-group > .fc-button {
     border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.primaryDisabled};
+    border: none;
     width: 34px;
     height: 34px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: transparent;
+    background: ${({ theme }) => theme.navBackgroundColor};
     transition: 0.3s;
 
     &:active,
@@ -154,13 +160,17 @@ export const CalendarWrapper = styled.div`
     transition: background-color 0.3s;
   }
 
-  .fc-highlight {
+  /* .fc-highlight {
     display: none;
-  }
+  } */
 
   .fc-day-selected .fc-daygrid-day-number {
     color: ${({ theme }) => theme.primaryButtonColor} !important;
     background-color: ${({ theme }) => theme.secondary};
+  }
+
+  .fc-day-selected .fc-daygrid-day-frame {
+    background-color: ${({ theme }) => theme.secondaryOpacity};
   }
 
   .fc .fc-daygrid-day-events {

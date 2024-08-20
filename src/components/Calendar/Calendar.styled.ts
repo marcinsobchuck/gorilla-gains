@@ -21,13 +21,13 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
 
   .fc .fc-button-group > .fc-button {
     border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.primaryDisabled};
+    border: none;
     width: 34px;
     height: 34px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: transparent;
+    background: ${({ theme }) => theme.borderColor};
     transition: 0.3s;
 
     &:active,

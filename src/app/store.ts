@@ -5,6 +5,7 @@ import activitiesOverviewReducer from "@features/activitiesOverview/activitiesOv
 import activitiesSummaryReducer from "@features/activitiesSummary/activitiesSummarySlice"
 import activityTypesReducer from "@features/activityTypes/activityTypesSlice"
 import authReducer from "@features/auth/authSlice"
+import calendarSchedulerReducer from "@features/calendarScheduler/calendarSchedulerSlice"
 import exercisesReducer from "@features/exercises/exercisesSlice"
 import historyCalendarReducer from "@features/historyCalendar/historyCalendarSlice"
 import themeReducer from "@features/theme/themeSlice"
@@ -21,6 +22,7 @@ const store = configureStore({
     activitiesOverview: activitiesOverviewReducer,
     historyCalendar: historyCalendarReducer,
     activitiesSummary: activitiesSummaryReducer,
+    calendarScheduler: calendarSchedulerReducer,
   },
 })
 

@@ -78,7 +78,6 @@ export const Sidebar = styled.aside`
   }
 
   @media ${Breakpoints.LARGE} {
-    padding: 32px;
     width: var(--sidebar-width-l);
   }
 `
