@@ -127,7 +127,9 @@ export const activitiesSlice = createSlice({
         state.isAddEditModalOpen = false
         const newActivityDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-        if (state.selectedDate === newActivityDate || !state.selectedDate) {
+        const isPastActivity = new Date(action.payload.date) < new Date()
+
+        if (state.selectedDate === newActivityDate || (!state.selectedDate && isPastActivity)) {
           state.activitiesData = [action.payload, ...state.activitiesData]
         }
         toast("Succesfully created activity")
@@ -164,18 +166,27 @@ export const activitiesSlice = createSlice({
       state.editActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
+      const isEditedActivityInThePast = new Date(action.payload.date) <= new Date()
       if (state.isEditing) {
         state.isAddEditModalOpen = false
         state.isEditing = false
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
-      state.activitiesData = state.activitiesData?.map((activity) => {
-        if (activity._id === action.payload._id) {
-          return action.payload
-        }
-        return activity
-      })
+
+      if (isEditedActivityInThePast) {
+        state.activitiesData = state.activitiesData?.map((activity) => {
+          if (activity._id === action.payload._id) {
+            return action.payload
+          }
+          return activity
+        })
+      } else {
+        state.activitiesData = state.activitiesData?.filter(
+          (activity) => activity._id !== action.payload._id
+        )
+      }
+
       toast("Succesfully edited activity")
     })
     builder.addCase(editActivityAction.rejected, (state, action) => {
