@@ -33,13 +33,16 @@ export const createActivityAction = createAppAsyncThunk(
   async (data: CreateActivityParams, { rejectWithValue, dispatch, getState }) => {
     try {
       const response = await createActivity(data.data)
-      dispatch(
-        addEvent({
-          id: response.data._id,
-          borderColor: getBorderColor(response.data.type.type, data.theme),
-          date: response.data.date,
-        })
-      )
+
+      if (data.data.date < new Date()) {
+        dispatch(
+          addEvent({
+            id: response.data._id,
+            borderColor: getBorderColor(response.data.type.type, data.theme),
+            date: response.data.date,
+          })
+        )
+      }
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
@@ -100,6 +103,7 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
     }
   }
 )
+
 export const getActivitiesForSelectedDate = createAppAsyncThunk(
   "getActivitiesForSelectedDate",
   async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
@@ -107,6 +111,7 @@ export const getActivitiesForSelectedDate = createAppAsyncThunk(
       const response = await getActivitiesForCurrentUser({
         startDate: data.startDate,
         endDate: data.endDate,
+        pastOnly: data.pastOnly,
       })
       return response.data
     } catch (error) {

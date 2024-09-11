@@ -59,6 +59,7 @@ export interface GetActivitiesForCurrentUserParams {
   limit?: number
   startDate?: Date
   endDate?: Date
+  pastOnly?: boolean
 }
 
 export interface ResponseExercise {

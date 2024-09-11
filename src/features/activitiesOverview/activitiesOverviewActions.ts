@@ -11,6 +11,7 @@ export const getActivitiesForActivityTypeAction = createAppAsyncThunk(
       const { type } = data
       const response = await getActivitiesForCurrentUser({
         type,
+        pastOnly: true,
       })
 
       return response.data
