@@ -22,12 +22,18 @@ export const historyCalendarSlice = createSlice({
       state.events = state.events.filter((event) => event.id !== action.payload)
     },
     editEvent(state, action) {
-      state.events = state.events.map((event) => {
-        if (event.id === action.payload.id) {
-          return action.payload
-        }
-        return event
-      })
+      const isEventInThePast = new Date(action.payload.date) <= new Date()
+
+      if (isEventInThePast) {
+        state.events = state.events.map((event) => {
+          if (event.id === action.payload.id) {
+            return action.payload
+          }
+          return event
+        })
+      } else {
+        state.events = state.events.filter((event) => event.id !== action.payload.id)
+      }
     },
   },
   extraReducers: (builder) => {

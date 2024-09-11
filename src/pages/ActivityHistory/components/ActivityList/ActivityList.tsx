@@ -92,6 +92,7 @@ export const ActivityList = () => {
         getActivitiesForCurrentUserAction({
           offset: 0,
           limit,
+          pastOnly: true,
         })
       )
       dispatch(setShouldFetchActivities(false))

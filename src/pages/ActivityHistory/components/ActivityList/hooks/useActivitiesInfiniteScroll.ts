@@ -17,6 +17,7 @@ export const useActivitiesInfiniteScroll = (offset: number, limit: number) => {
         getActivitiesForCurrentUserAction({
           offset,
           limit,
+          pastOnly: true,
         })
       )
     }
