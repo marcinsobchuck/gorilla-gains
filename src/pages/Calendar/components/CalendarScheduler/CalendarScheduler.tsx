@@ -7,8 +7,12 @@ import { useRef } from "react"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { Icon } from "@components/Icon/Icon"
+import { IconName } from "@components/Icon/Icon.types"
+import { ActivityTypes } from "@enums/activityTypes.enum"
+import { getEventsForCurrentMonthAction } from "@features/calendarScheduler/calendarSchedulerActions"
 import { setSelectedDate } from "@features/calendarScheduler/calendarSchedulerSlice"
-import { getEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
+import { getBorderColor } from "@features/historyCalendar/utils"
 
 import { CalendarWrapper } from "./CalendarScheduler.styled"
 
@@ -26,9 +30,11 @@ export const CalendarScheduler = () => {
     dispatch(setSelectedDate(arg.dateStr))
     updateSelectedClass(arg.dateStr)
 
-    const dayHasEvent = events.some(
-      (event) => format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")
-    )
+    const dayHasEvent = events.some((event) => {
+      if (typeof event.date === "string") {
+        return format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")
+      }
+    })
 
     if (arg.dateStr === selectedDate) {
       calendarApi?.unselect()
@@ -65,6 +71,7 @@ export const CalendarScheduler = () => {
       updateSelectedClass(selectedDate)
     }
   }
+
   return (
     <CalendarWrapper>
       <FullCalendar
@@ -72,7 +79,15 @@ export const CalendarScheduler = () => {
         initialView='dayGridMonth'
         firstDay={1}
         height='100%'
+        dayMaxEvents={2}
         dateClick={handleDateClick}
+        eventContent={(event) => (
+          <Icon
+            name={event.event.title as IconName}
+            color={getBorderColor(event.event.title as ActivityTypes, theme)}
+          />
+        )}
+        events={events}
         selectAllow={(selection) => {
           if (selection.end.getTime() / 1000 - selection.start.getTime() / 1000 <= 86400) {
             return true

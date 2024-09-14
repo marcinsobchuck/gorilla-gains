@@ -1,12 +1,11 @@
+import { EventInput } from "@fullcalendar/core/index.js"
 import { DefaultTheme } from "styled-components"
 
 import { GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-interface ActivityEvent {
-  id: string
-  borderColor: string
-  date: string
+export interface ActivityEvent extends EventInput {
+  activityTitle: string
 }
 
 export interface InitialState {

@@ -39,7 +39,6 @@ export const activitiesOverviewSlice = createSlice({
     },
     editChartActivity(state, action) {
       const isActivityInPast = new Date(action.payload.date) < new Date()
-      console.log({ isActivityInPast })
       if (isActivityInPast) {
         state.activities = state.activities?.map((activity) => {
           if (activity._id === action.payload._id) {

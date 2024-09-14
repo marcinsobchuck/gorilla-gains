@@ -4,7 +4,7 @@ import { getActivitiesForCurrentUser } from "@api/activitiesService"
 import { createAppAsyncThunk } from "@app/hooks"
 import { getBorderColor } from "@features/historyCalendar/utils"
 
-import { GetEventsForCurrentMonthParams } from "./calendarScheduler.types"
+import { ActivityEvent, GetEventsForCurrentMonthParams } from "./calendarScheduler.types"
 
 export const getEventsForCurrentMonthAction = createAppAsyncThunk(
   "getEventsForCurrentMonth",
@@ -15,16 +15,20 @@ export const getEventsForCurrentMonthAction = createAppAsyncThunk(
         startDate,
         endDate,
       })
-      const events = response.data.map((activity) => {
+      const events = response.data.map((activity): ActivityEvent => {
         const {
           _id,
           date,
           type: { type },
+          title,
         } = activity
         return {
           id: _id,
-          borderColor: getBorderColor(type, theme),
+          color: getBorderColor(type, theme),
           date,
+          title: type,
+          allDay: true,
+          activityTitle: title,
         }
       })
       return events

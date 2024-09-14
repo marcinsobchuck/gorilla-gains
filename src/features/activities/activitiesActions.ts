@@ -170,12 +170,9 @@ export const deleteActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(activityId))
 
       const response = await deleteActivity(activityId)
-      const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
       dispatch(removeEvent(activityId))
-      if (activityId === activeFilterTab) {
-        dispatch(deleteChartActivity(activityId))
-      }
+      dispatch(deleteChartActivity(activityId))
 
       if (activityId === getState().activities.activeActivityId) {
         dispatch(setActiveActivityId(null))

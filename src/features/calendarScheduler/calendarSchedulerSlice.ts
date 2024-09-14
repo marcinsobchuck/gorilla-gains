@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { format } from "date-fns"
 
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
@@ -9,7 +10,7 @@ const initialState: InitialState = {
   events: [],
   eventsStatus: RequestStatuses.IDLE,
   eventsError: "",
-  selectedDate: "",
+  selectedDate: format(new Date(), "yyyy-MM-dd"),
 }
 
 export const calendarSchedulerSlice = createSlice({
@@ -21,6 +22,9 @@ export const calendarSchedulerSlice = createSlice({
     },
     addEvent(state, action) {
       state.events = [action.payload, ...state.events]
+    },
+    setEvents(state, action) {
+      state.events = action.payload
     },
     removeEvent(state, action) {
       state.events = state.events.filter((event) => event.id !== action.payload)
@@ -51,6 +55,7 @@ export const calendarSchedulerSlice = createSlice({
   },
 })
 
-export const { addEvent, editEvent, removeEvent, setSelectedDate } = calendarSchedulerSlice.actions
+export const { addEvent, editEvent, removeEvent, setSelectedDate, setEvents } =
+  calendarSchedulerSlice.actions
 
 export default calendarSchedulerSlice.reducer
