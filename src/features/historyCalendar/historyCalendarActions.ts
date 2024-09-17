@@ -3,12 +3,12 @@ import { isAxiosError } from "axios"
 import { getActivitiesForCurrentUser } from "@api/activitiesService"
 import { createAppAsyncThunk } from "@app/hooks"
 
-import { GetEventsForCurrentMonthParams } from "./historyCalendar.types"
+import { GetHistoryEventsForCurrentMonthParams } from "./historyCalendar.types"
 import { getBorderColor } from "./utils"
 
-export const getEventsForCurrentMonthAction = createAppAsyncThunk(
-  "getEventsForCurrentMonth",
-  async (data: GetEventsForCurrentMonthParams, { rejectWithValue }) => {
+export const getHistoryEventsForCurrentMonthAction = createAppAsyncThunk(
+  "getHistoryEventsForCurrentMonthAction",
+  async (data: GetHistoryEventsForCurrentMonthParams, { rejectWithValue }) => {
     const { startDate, endDate, theme } = data
     try {
       const response = await getActivitiesForCurrentUser({

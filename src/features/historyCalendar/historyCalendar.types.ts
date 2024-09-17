@@ -15,6 +15,6 @@ export interface InitialState {
   eventsError?: string
 }
 
-export interface GetEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
+export interface GetHistoryEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
   theme: DefaultTheme
 }

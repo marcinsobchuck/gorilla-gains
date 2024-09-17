@@ -17,7 +17,7 @@ import {
   setHasMore,
   setSelectedDate,
 } from "@features/activities/activitiesSlice"
-import { getEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
+import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
 
 import { CalendarWrapper } from "./Calendar.styled"
 
@@ -86,7 +86,7 @@ export const Calendar = () => {
 
     if (startDate < today)
       await dispatch(
-        getEventsForCurrentMonthAction({
+        getHistoryEventsForCurrentMonthAction({
           startDate,
           endDate,
           theme,
