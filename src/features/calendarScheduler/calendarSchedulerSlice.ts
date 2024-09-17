@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
@@ -11,6 +11,7 @@ const initialState: InitialState = {
   eventsStatus: RequestStatuses.IDLE,
   eventsError: "",
   selectedDate: format(new Date(), "yyyy-MM-dd"),
+  dayEvents: [],
 }
 
 export const calendarSchedulerSlice = createSlice({
@@ -19,6 +20,9 @@ export const calendarSchedulerSlice = createSlice({
   reducers: {
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
+      state.dayEvents = state.events.filter((event) => {
+        return format(parseISO(event.date as string), "yyyy-MM-dd") === action.payload
+      })
     },
     addEvent(state, action) {
       state.events = [action.payload, ...state.events]
@@ -44,7 +48,13 @@ export const calendarSchedulerSlice = createSlice({
     })
     builder.addCase(getEventsForCurrentMonthAction.fulfilled, (state, action) => {
       state.eventsStatus = RequestStatuses.SUCCESS
-      state.events = action.payload
+      state.events = action.payload.events
+
+      if (action.payload.shouldSetDayEvents) {
+        state.dayEvents = state.events.filter(
+          (event) => format(parseISO(event.date as string), "yyyy-MM-dd") === state.selectedDate
+        )
+      }
     })
     builder.addCase(getEventsForCurrentMonthAction.rejected, (state, action) => {
       if (action.payload) {

@@ -1,15 +1,16 @@
 import { EventInput } from "@fullcalendar/core/index.js"
 import { DefaultTheme } from "styled-components"
 
-import { GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
+import { Activity, GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-export interface ActivityEvent extends EventInput {
+export interface ActivityEvent extends EventInput, Omit<Activity, "date" | "title"> {
   activityTitle: string
 }
 
 export interface InitialState {
   events: ActivityEvent[]
+  dayEvents: ActivityEvent[]
   eventsStatus: RequestStatuses
   eventsError?: string
   selectedDate: string
@@ -17,4 +18,5 @@ export interface InitialState {
 
 export interface GetEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
   theme: DefaultTheme
+  shouldSetDayEvents?: boolean
 }

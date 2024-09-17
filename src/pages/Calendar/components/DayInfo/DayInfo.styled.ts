@@ -67,8 +67,18 @@ export const ActivityEventCard = styled(FlexContainer)`
   padding: 12px 24px;
   background: ${({ theme }) => theme.backgroundGradient};
   border-radius: 9px;
+  border-bottom: 2px solid transparent;
   height: 60px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  transition: 0.3s ease-in-out;
+  transition-delay:
+    border-bottom 1s,
+    transform 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    border-bottom: 2px solid ${({ theme }) => theme.secondary};
+  }
 
   &:not(:last-of-type) {
     margin-bottom: 9px;

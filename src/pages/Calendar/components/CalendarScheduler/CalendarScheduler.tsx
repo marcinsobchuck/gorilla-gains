@@ -2,7 +2,7 @@ import { DatesSetArg } from "@fullcalendar/core/index.js"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
-import { format, parseISO } from "date-fns"
+import { format, isWithinInterval, parseISO } from "date-fns"
 import { useRef } from "react"
 import { useTheme } from "styled-components"
 
@@ -58,14 +58,19 @@ export const CalendarScheduler = () => {
     const startDate = arg.view.activeStart
     const endDate = arg.view.activeEnd
 
+    const shouldSetDayEvents = isWithinInterval(new Date(selectedDate), {
+      start: arg.view.currentStart,
+      end: arg.view.currentEnd,
+    })
+
     await dispatch(
       getEventsForCurrentMonthAction({
         startDate,
         endDate,
         theme,
+        shouldSetDayEvents,
       })
     )
-
     if (selectedDate) {
       calendarApi?.select(selectedDate)
       updateSelectedClass(selectedDate)

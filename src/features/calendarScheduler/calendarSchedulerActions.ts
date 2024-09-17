@@ -8,8 +8,10 @@ import { ActivityEvent, GetEventsForCurrentMonthParams } from "./calendarSchedul
 
 export const getEventsForCurrentMonthAction = createAppAsyncThunk(
   "getEventsForCurrentMonth",
-  async (data: GetEventsForCurrentMonthParams, { rejectWithValue }) => {
-    const { startDate, endDate, theme } = data
+  async (
+    { startDate, endDate, theme, shouldSetDayEvents = false }: GetEventsForCurrentMonthParams,
+    { rejectWithValue }
+  ) => {
     try {
       const response = await getActivitiesForCurrentUser({
         startDate,
@@ -17,21 +19,19 @@ export const getEventsForCurrentMonthAction = createAppAsyncThunk(
       })
       const events = response.data.map((activity): ActivityEvent => {
         const {
-          _id,
-          date,
           type: { type },
           title,
         } = activity
         return {
-          id: _id,
+          ...activity,
           color: getBorderColor(type, theme),
-          date,
           title: type,
           allDay: true,
           activityTitle: title,
         }
       })
-      return events
+
+      return { events, shouldSetDayEvents }
     } catch (error) {
       if (isAxiosError(error)) {
         return rejectWithValue(error.response?.data)
