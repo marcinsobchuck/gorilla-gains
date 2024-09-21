@@ -82,6 +82,8 @@ export const Sidebar = styled.aside`
   }
 `
 export const MainContentWrapper = styled.main`
+  overflow: hidden;
+  position: relative;
   flex-grow: 1;
 
   @media ${Breakpoints.MEDIUM} {

@@ -3,7 +3,6 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
 import { format, isSameMonth, parseISO } from "date-fns"
-import { useRef } from "react"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -22,9 +21,6 @@ import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar
 import { CalendarWrapper } from "./Calendar.styled"
 
 export const Calendar = () => {
-  const calendarRef = useRef<FullCalendar | null>(null)
-  const calendarApi = calendarRef.current?.getApi()
-
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
@@ -43,7 +39,6 @@ export const Calendar = () => {
     )
 
     if (arg.dateStr === selectedDate) {
-      calendarApi?.unselect()
       updateSelectedClass("")
       dispatch(setSelectedDate(""))
       if (dayHasEvent || activities.activitiesData.length === 0) {
@@ -94,7 +89,6 @@ export const Calendar = () => {
       )
 
     if (selectedDate) {
-      calendarApi?.select(selectedDate)
       updateSelectedClass(selectedDate)
     }
   }
@@ -102,7 +96,6 @@ export const Calendar = () => {
   return (
     <CalendarWrapper $isLoading={historyCalendar.eventsStatus === RequestStatuses.LOADING}>
       <FullCalendar
-        ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         events={historyCalendar.events}
         contentHeight={300}
@@ -114,16 +107,7 @@ export const Calendar = () => {
         dayHeaderFormat={{ weekday: "narrow" }}
         dateClick={handleDateClick}
         firstDay={1}
-        selectable
-        unselectAuto={false}
         moreLinkText={(num) => "+" + num.toString()}
-        selectLongPressDelay={0}
-        selectAllow={(selection) => {
-          if (selection.end.getTime() / 1000 - selection.start.getTime() / 1000 <= 86400) {
-            return true
-          }
-          return false
-        }}
         fixedWeekCount={false}
         datesSet={handleDatesSet}
       />

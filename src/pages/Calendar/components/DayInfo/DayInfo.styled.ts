@@ -63,17 +63,16 @@ export const ListTitle = styled.p`
   font-weight: 600;
   padding-bottom: 16px;
 `
-export const ActivityEventCard = styled(FlexContainer)`
+export const ActivityEventCard = styled(FlexContainer)<{ $isActive: boolean }>`
   padding: 12px 24px;
-  background: ${({ theme }) => theme.backgroundGradient};
+  background: ${({ theme, $isActive }) =>
+    $isActive ? theme.activeBackgroundColor : theme.backgroundGradient};
   border-radius: 9px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid
+    ${({ $isActive, theme }) => ($isActive ? theme.secondary : "transparent")};
   height: 60px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
   transition: 0.3s ease-in-out;
-  transition-delay:
-    border-bottom 1s,
-    transform 0.5s;
   cursor: pointer;
 
   &:hover {

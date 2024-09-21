@@ -20,6 +20,10 @@ export const ActivityDate = styled.p`
   font-size: 12px;
 `
 
+export const HeadingContainer = styled(FlexContainer)`
+  margin-bottom: 12px;
+`
+
 export const ExertionRatingContainer = styled(FlexContainer)`
   margin-left: auto;
 
@@ -71,7 +75,7 @@ export const ExercisesContainer = styled.div`
 
   @media ${Breakpoints.LARGE} {
     grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
-    column-gap: 72px;
+    column-gap: 55px;
     row-gap: 30px;
   }
 `
@@ -79,13 +83,16 @@ export const ExercisesContainer = styled.div`
 export const ExerciseContainer = styled.div``
 
 export const SetsTable = styled.table`
+  background-color: ${({ theme }) => theme.navBackgroundColor};
+  border-radius: 9px;
   border-collapse: collapse;
+  table-layout: fixed;
   width: 100%;
 
   th,
   td {
     text-align: left;
-    padding: 9px 16px;
+    padding: 18px;
   }
 
   th {
@@ -97,5 +104,11 @@ export const SetsTable = styled.table`
   td {
     font-size: 14px;
     font-weight: 500;
+  }
+
+  thead tr th:first-child,
+  tbody tr td:first-child {
+    width: 16%;
+    word-break: break-all;
   }
 `

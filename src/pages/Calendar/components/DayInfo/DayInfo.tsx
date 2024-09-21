@@ -1,7 +1,13 @@
 import { format } from "date-fns"
 
-import { useAppSelector } from "@app/hooks"
+import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { setIsAddEditModalOpen } from "@features/activities/activitiesSlice"
+import { ActivityEvent } from "@features/calendarScheduler/calendarScheduler.types"
+import {
+  setActiveEvent,
+  setIsActiveEventOpen,
+} from "@features/calendarScheduler/calendarSchedulerSlice"
 
 import {
   ActivityEventCard,
@@ -17,13 +23,29 @@ import {
 } from "./DayInfo.styled"
 
 export const DayInfo = () => {
-  const date = useAppSelector((state) => state.calendarScheduler.selectedDate)
+  const dispatch = useAppDispatch()
 
+  const date = useAppSelector((state) => state.calendarScheduler.selectedDate)
   const dayEvents = useAppSelector((state) => state.calendarScheduler.dayEvents)
+  const activeEvent = useAppSelector((state) => state.calendarScheduler.activeEvent)
 
   const dayName = format(date ? new Date(date) : new Date(), "eeee")
   const monthName = format(date ? new Date(date) : new Date(), "LLL")
   const dayNumber = format(date ? new Date(date) : new Date(), "d")
+
+  const handleEventClick = (event: ActivityEvent) => {
+    if (event._id === activeEvent?._id) {
+      dispatch(setIsActiveEventOpen(false))
+      dispatch(setActiveEvent(undefined))
+
+      return
+    }
+
+    dispatch(setIsActiveEventOpen(true))
+    dispatch(setActiveEvent(event._id))
+  }
+
+  const handleAddActivityButtonClick = () => dispatch(setIsAddEditModalOpen(true))
 
   return (
     <Wrapper>
@@ -38,8 +60,13 @@ export const DayInfo = () => {
           <ListTitle>Current activities</ListTitle>
           <EventsLits>
             {dayEvents.map((dayEvent) => (
-              <ActivityEventCard key={dayEvent._id} align='center'>
-                <ActivityName>{dayEvent.activityTitle}</ActivityName>
+              <ActivityEventCard
+                key={dayEvent._id}
+                $isActive={activeEvent?._id === dayEvent._id}
+                align='center'
+                onClick={() => handleEventClick(dayEvent)}
+              >
+                <ActivityName>{dayEvent.title}</ActivityName>
               </ActivityEventCard>
             ))}
           </EventsLits>
@@ -49,7 +76,12 @@ export const DayInfo = () => {
           <ListTitle>No activities this day.</ListTitle>
         </FlexContainer>
       )}
-      <StyledButton buttonType='button' variant='tertiary' icon='add'>
+      <StyledButton
+        buttonType='button'
+        variant='tertiary'
+        icon='add'
+        onClick={handleAddActivityButtonClick}
+      >
         Add activity
       </StyledButton>
     </Wrapper>

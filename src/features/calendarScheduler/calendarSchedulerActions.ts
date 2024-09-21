@@ -20,14 +20,11 @@ export const getEventsForCurrentMonthAction = createAppAsyncThunk(
       const events = response.data.map((activity): ActivityEvent => {
         const {
           type: { type },
-          title,
         } = activity
         return {
           ...activity,
           color: getBorderColor(type, theme),
-          title: type,
           allDay: true,
-          activityTitle: title,
         }
       })
 

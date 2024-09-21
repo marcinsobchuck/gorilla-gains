@@ -2,14 +2,14 @@ import { DatesSetArg } from "@fullcalendar/core/index.js"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
-import { format, isWithinInterval, parseISO } from "date-fns"
-import { useRef } from "react"
+import { format, isWithinInterval } from "date-fns"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Icon } from "@components/Icon/Icon"
 import { IconName } from "@components/Icon/Icon.types"
 import { ActivityTypes } from "@enums/activityTypes.enum"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getEventsForCurrentMonthAction } from "@features/calendarScheduler/calendarSchedulerActions"
 import { setSelectedDate } from "@features/calendarScheduler/calendarSchedulerSlice"
 import { getBorderColor } from "@features/historyCalendar/utils"
@@ -19,29 +19,19 @@ import { CalendarWrapper } from "./CalendarScheduler.styled"
 export const CalendarScheduler = () => {
   const theme = useTheme()
   const dispatch = useAppDispatch()
-  const calendarRef = useRef<FullCalendar | null>(null)
-  const calendarApi = calendarRef.current?.getApi()
   const events = useAppSelector((state) => state.calendarScheduler.events)
   const selectedDate = useAppSelector((state) => state.calendarScheduler.selectedDate)
+  const calendarSchedulerStatus = useAppSelector((state) => state.calendarScheduler.eventsStatus)
 
   const handleDateClick = (arg: DateClickArg) => {
-    const dateClicked = arg.date
+    const dateClicked = arg.dateStr
 
-    dispatch(setSelectedDate(arg.dateStr))
-    updateSelectedClass(arg.dateStr)
+    dispatch(setSelectedDate(dateClicked))
+    updateSelectedClass(dateClicked)
 
-    const dayHasEvent = events.some((event) => {
-      if (typeof event.date === "string") {
-        return format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")
-      }
-    })
-
-    if (arg.dateStr === selectedDate) {
-      calendarApi?.unselect()
+    if (dateClicked === selectedDate) {
       updateSelectedClass("")
-      dispatch(setSelectedDate(""))
-    } else if (dayHasEvent) {
-      console.log("dayHasEvent")
+      dispatch(setSelectedDate(format(new Date(), "yyyy-MM-dd")))
     }
   }
 
@@ -72,33 +62,27 @@ export const CalendarScheduler = () => {
       })
     )
     if (selectedDate) {
-      calendarApi?.select(selectedDate)
       updateSelectedClass(selectedDate)
     }
   }
 
   return (
-    <CalendarWrapper>
+    <CalendarWrapper $isLoading={calendarSchedulerStatus === RequestStatuses.LOADING}>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
-        initialView='dayGridMonth'
         firstDay={1}
         height='100%'
         dayMaxEvents={2}
         dateClick={handleDateClick}
-        eventContent={(event) => (
-          <Icon
-            name={event.event.title as IconName}
-            color={getBorderColor(event.event.title as ActivityTypes, theme)}
-          />
-        )}
-        events={events}
-        selectAllow={(selection) => {
-          if (selection.end.getTime() / 1000 - selection.start.getTime() / 1000 <= 86400) {
-            return true
-          }
-          return false
+        eventContent={(event) => {
+          return (
+            <Icon
+              name={event.event.extendedProps.type.type as IconName}
+              color={getBorderColor(event.event.extendedProps.type.type as ActivityTypes, theme)}
+            />
+          )
         }}
+        events={events}
         headerToolbar={{
           left: "title",
           right: "today prev,next",

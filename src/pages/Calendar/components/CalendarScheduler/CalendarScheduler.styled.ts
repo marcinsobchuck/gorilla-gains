@@ -1,6 +1,10 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-export const CalendarWrapper = styled.div`
+interface CalendarWrapperProps {
+  $isLoading: boolean
+}
+
+export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   padding: 24px;
   height: 100%;
   width: 100%;
@@ -33,8 +37,7 @@ export const CalendarWrapper = styled.div`
     }
 
     &:disabled {
-      background-color: ${({ theme }) => theme.borderColor} !important;
-      color: ${({ theme }) => theme.backgroundColor} !important;
+      color: ${({ theme }) => theme.secondaryDisabled} !important;
       cursor: not-allowed;
     }
   }
@@ -83,6 +86,14 @@ export const CalendarWrapper = styled.div`
       opacity: 0;
       backdrop-filter: blur(0);
       z-index: 0;
+
+      ${({ $isLoading }) =>
+        $isLoading &&
+        css`
+          opacity: 1;
+          backdrop-filter: blur(3px);
+          z-index: 1;
+        `}
     }
   }
 
@@ -161,10 +172,6 @@ export const CalendarWrapper = styled.div`
     margin-bottom: 6px;
   }
 
-  /* .fc-highlight {
-    display: none;
-  } */
-
   .fc-day-selected .fc-daygrid-day-number {
     color: ${({ theme }) => theme.primaryButtonColor} !important;
     background-color: ${({ theme }) => theme.secondary};
@@ -188,11 +195,6 @@ export const CalendarWrapper = styled.div`
     font-size: 12px;
   }
 
-  .fc-daygrid-event-dot {
-    /* border-color: ${({ theme }) => theme.secondary} !important; */
-    /* border-width: 3px; */
-  }
-
   .fc-event-title {
     color: ${({ theme }) => theme.backgroundColor};
   }
@@ -210,22 +212,15 @@ export const CalendarWrapper = styled.div`
     margin: 0;
   }
 
-  .fc-daygrid-dot-event {
-    /* cursor: auto;
-    &:hover {
-      background-color: transparent;
-    } */
-  }
-
   .fc .fc-daygrid-more-link {
-    /* pointer-events: none;
+    pointer-events: none;
 
     &:hover {
       background-color: transparent;
-    } */
+    }
   }
 
-  .fc-event-title {
-    /* display: none; */
+  .fc-daygrid-day-events {
+    pointer-events: none;
   }
 `

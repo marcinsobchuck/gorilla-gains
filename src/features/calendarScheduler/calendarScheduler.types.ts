@@ -4,9 +4,7 @@ import { DefaultTheme } from "styled-components"
 import { Activity, GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-export interface ActivityEvent extends EventInput, Omit<Activity, "date" | "title"> {
-  activityTitle: string
-}
+export type ActivityEvent = Activity & Omit<EventInput, "date" | "title">
 
 export interface InitialState {
   events: ActivityEvent[]
@@ -14,6 +12,8 @@ export interface InitialState {
   eventsStatus: RequestStatuses
   eventsError?: string
   selectedDate: string
+  activeEvent?: ActivityEvent
+  isActiveEventOpen: boolean
 }
 
 export interface GetEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
