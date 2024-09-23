@@ -36,23 +36,6 @@ export const calendarSchedulerSlice = createSlice({
     setIsActiveEventOpen(state, action) {
       state.isActiveEventOpen = action.payload
     },
-    addEvent(state, action) {
-      state.events = [action.payload, ...state.events]
-    },
-    setEvents(state, action) {
-      state.events = action.payload
-    },
-    removeEvent(state, action) {
-      state.events = state.events.filter((event) => event.id !== action.payload)
-    },
-    editEvent(state, action) {
-      state.events = state.events.map((event) => {
-        if (event.id === action.payload.id) {
-          return action.payload
-        }
-        return event
-      })
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getEventsForCurrentMonthAction.pending, (state) => {
@@ -84,13 +67,21 @@ export const calendarSchedulerSlice = createSlice({
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
       if (action.payload._id === state.activeEvent?._id) {
         state.activeEvent = action.payload
-        state.dayEvents = state.dayEvents.map((dayEvent) => {
-          if (dayEvent._id === action.payload._id) {
-            return action.payload
-          } else {
-            return dayEvent
-          }
-        })
+
+        if (format(new Date(action.payload.date), "yyyy-MM-dd") !== state.selectedDate) {
+          state.dayEvents = state.dayEvents.filter(
+            (dayEvent) => dayEvent._id !== state.activeEvent?._id
+          )
+          state.events = state.events.filter((event) => event._id !== state.activeEvent?._id)
+          state.events = [...state.events, action.payload]
+        } else {
+          state.dayEvents = state.dayEvents.map((dayEvent) =>
+            dayEvent._id === action.payload._id ? action.payload : dayEvent
+          )
+          state.events = state.events.map((event) =>
+            event.id === action.payload._id ? action.payload : event
+          )
+        }
       }
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
@@ -103,14 +94,7 @@ export const calendarSchedulerSlice = createSlice({
   },
 })
 
-export const {
-  addEvent,
-  editEvent,
-  removeEvent,
-  setSelectedDate,
-  setEvents,
-  setActiveEvent,
-  setIsActiveEventOpen,
-} = calendarSchedulerSlice.actions
+export const { setSelectedDate, setActiveEvent, setIsActiveEventOpen } =
+  calendarSchedulerSlice.actions
 
 export default calendarSchedulerSlice.reducer

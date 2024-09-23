@@ -15,13 +15,13 @@ export const historyCalendarSlice = createSlice({
   name: "historyCalendar",
   initialState,
   reducers: {
-    addEvent(state, action) {
+    addHistoryEvent(state, action) {
       state.events = [action.payload, ...state.events]
     },
-    removeEvent(state, action) {
+    removeHistoryEvent(state, action) {
       state.events = state.events.filter((event) => event.id !== action.payload)
     },
-    editEvent(state, action) {
+    editHistoryEvent(state, action) {
       const isEventInThePast = new Date(action.payload.date) <= new Date()
 
       if (isEventInThePast) {
@@ -52,6 +52,7 @@ export const historyCalendarSlice = createSlice({
     })
   },
 })
-export const { addEvent, removeEvent, editEvent } = historyCalendarSlice.actions
+export const { addHistoryEvent, removeHistoryEvent, editHistoryEvent } =
+  historyCalendarSlice.actions
 
 export default historyCalendarSlice.reducer
