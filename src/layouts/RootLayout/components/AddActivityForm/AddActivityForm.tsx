@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import debounce from "lodash.debounce"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
+import { useLocation } from "react-router-dom"
 import { useTheme } from "styled-components"
 
 import { getActivityTypes } from "@api/activityTypesService"
@@ -14,6 +15,7 @@ import { Input } from "@components/Input/Input"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { Routes } from "@enums/routes.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
@@ -59,9 +61,10 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const currentlyEditedActivity = useAppSelector(
     (state) => state.activities.currentlyEditedActivity
   )
+  const selectedDate = useAppSelector((state) => state.calendarScheduler.selectedDate)
   const dispatch = useAppDispatch()
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
-
+  const location = useLocation()
   const theme = useTheme()
 
   const methods = useForm({
@@ -179,6 +182,12 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   }, [activityTypeLabel, date, defaultTitleValue, isCustomTitle, isEditing, setValue])
 
   useEffect(() => {
+    if (location.pathname === Routes.CALENDAR) {
+      setValue("date", parseISO(selectedDate))
+    }
+  }, [location.pathname, selectedDate, setValue])
+
+  useEffect(() => {
     if (isEditing && currentlyEditedActivity) {
       const {
         type: { type, _id },
@@ -193,14 +202,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
       reset(transformEditedActivity(currentlyEditedActivity))
     }
   }, [currentlyEditedActivity, isEditing, reset])
-
-  const renderSubmitButtontext = (
-    buttonAction: "preset" | "addEdit",
-    isEditing: boolean,
-    isPreset?: boolean
-  ) => {
-    return getSubmitButtonText(buttonAction, isEditing, isPreset)
-  }
 
   return (
     <FormProvider {...methods}>
@@ -312,10 +313,10 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
             }}
             width={240}
           >
-            {renderSubmitButtontext("preset", isEditing, currentlyEditedActivity?.isPreset)}
+            {getSubmitButtonText("preset", isEditing, currentlyEditedActivity?.isPreset)}
           </SubmitButton>
           <SubmitButton buttonType='button' type='submit' width={120}>
-            {renderSubmitButtontext("addEdit", isEditing)}
+            {getSubmitButtonText("addEdit", isEditing)}
           </SubmitButton>
           {(creatingActionStatus === RequestStatuses.LOADING ||
             editingActionStatus === RequestStatuses.LOADING) && (

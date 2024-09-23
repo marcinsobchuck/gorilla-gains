@@ -1,11 +1,18 @@
 import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
+import { ActivityEvent } from "./components/ActivityEvent/ActivityEvent"
+import { CalendarScheduler } from "./components/CalendarScheduler/CalendarScheduler"
+import { DayInfo } from "./components/DayInfo/DayInfo"
+
 export const Calendar = () => {
   return (
     <>
-      <Sidebar>Day info</Sidebar>
+      <Sidebar>
+        <DayInfo />
+      </Sidebar>
       <MainContentWrapper>
-        <div>Test</div>
+        <CalendarScheduler />
+        <ActivityEvent />
       </MainContentWrapper>
     </>
   )

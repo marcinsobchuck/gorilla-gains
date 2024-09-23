@@ -5,18 +5,45 @@ interface CalendarWrapperProps {
 }
 
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
+  padding: 24px;
+  height: 100%;
   width: 100%;
-  margin-top: 24px;
+
+  .fc .fc-toolbar.fc-header-toolbar {
+    padding-right: 12px;
+    padding-left: 12px;
+
+    h2 {
+      display: inline;
+    }
+  }
 
   .fc .fc-toolbar-title {
     font-size: 18px;
-    padding-left: 10px;
     color: ${({ theme }) => theme.primary};
+  }
+
+  .fc-today-button {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+    border: none;
+    background-color: ${({ theme }) => theme.navBackgroundColor} !important;
+    color: ${({ theme }) => theme.secondary} !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.secondaryOpacity} !important;
+    }
+
+    &:disabled {
+      color: ${({ theme }) => theme.secondaryDisabled} !important;
+      cursor: not-allowed;
+    }
   }
 
   .fc-button-group {
     gap: 9px;
-    padding-right: 12px;
   }
 
   .fc .fc-button-group > .fc-button {
@@ -27,7 +54,7 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${({ theme }) => theme.borderColor};
+    background: ${({ theme }) => theme.navBackgroundColor};
     transition: 0.3s;
 
     &:active,
@@ -54,7 +81,7 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
       top: 0;
       left: 0;
       width: 100%;
-      height: 102%;
+      height: 100%;
 
       opacity: 0;
       backdrop-filter: blur(0);
@@ -74,7 +101,6 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     overflow: hidden !important;
   }
   .fc-col-header {
-    margin-bottom: 12px;
     width: 100% !important;
   }
 
@@ -83,6 +109,8 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   }
 
   .fc .fc-daygrid-body {
+    background: ${({ theme }) => theme.navBackgroundColor};
+    border-radius: 12px;
     width: 100% !important;
     height: 100% !important;
   }
@@ -104,11 +132,13 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   .fc .fc-daygrid-day-frame {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding-top: 6px;
+    border-radius: 12px;
+    transition: 0.3s;
 
-    &:hover .fc-daygrid-day-number {
-      background-color: ${({ theme }) => theme.secondaryHover};
+    &:hover {
+      background-color: ${({ theme }) => theme.secondaryOpacity};
     }
   }
 
@@ -139,10 +169,7 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     color: ${({ theme }) => theme.primary};
     font-weight: 600;
     transition: background-color 0.3s;
-  }
-
-  .fc-highlight {
-    display: none;
+    margin-bottom: 6px;
   }
 
   .fc-day-selected .fc-daygrid-day-number {
@@ -150,33 +177,39 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     background-color: ${({ theme }) => theme.secondary};
   }
 
+  .fc-day-selected .fc-daygrid-day-frame {
+    background-color: ${({ theme }) => theme.secondaryOpacity};
+  }
+
   .fc .fc-daygrid-day-events {
-    width: 100%;
-    position: absolute;
-    top: 62%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .fc-daygrid-event-dot {
-    /* border-color: ${({ theme }) => theme.secondary} !important; */
-    border-width: 3px;
+  .fc .fc-daygrid-day-bottom {
+    position: absolute;
+    bottom: -16px;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .fc-event-title {
+    color: ${({ theme }) => theme.backgroundColor};
+  }
+
+  .fc-daygrid-event {
+    border: none;
+    background-color: transparent !important;
+    padding: 3px;
+    font-size: 12px;
+    font-weight: 600;
   }
 
   .fc-direction-ltr .fc-daygrid-event.fc-event-end,
   .fc-direction-rtl .fc-daygrid-event.fc-event-start {
     margin: 0;
-  }
-
-  .fc-daygrid-dot-event {
-    cursor: auto;
-    &:hover {
-      background-color: transparent;
-    }
   }
 
   .fc .fc-daygrid-more-link {
@@ -187,12 +220,7 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     }
   }
 
-  .fc .fc-daygrid-day-bottom {
-    margin: 0;
-    font-size: 12px;
-  }
-
-  .fc-event-title {
-    display: none;
+  .fc-daygrid-day-events {
+    pointer-events: none;
   }
 `

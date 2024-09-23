@@ -5,6 +5,7 @@ import calendar from "@assets/calendar.svg"
 import checkmark from "@assets/checkmark.svg"
 import close from "@assets/close.svg"
 import dashboard from "@assets/dashboard.svg"
+import edit from "@assets/edit.svg"
 import endurance from "@assets/endurance.svg"
 import error from "@assets/error.svg"
 import fire from "@assets/fireIcon.svg"
@@ -75,6 +76,7 @@ export const Icon: React.FC<IconProps> = ({
     privacy: <StyledIcon src={privacy} {...SVGProps} />,
     logout: <StyledIcon src={logout} {...SVGProps} />,
     info: <StyledIcon src={info} {...SVGProps} />,
+    edit: <StyledIcon src={edit} {...SVGProps} />,
   }
 
   return icons[name]

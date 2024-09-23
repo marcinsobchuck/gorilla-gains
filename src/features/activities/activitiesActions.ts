@@ -17,7 +17,11 @@ import {
   editChartActivity,
   setActiveFilterExercise,
 } from "@features/activitiesOverview/activitiesOverviewSlice"
-import { addEvent, editEvent, removeEvent } from "@features/historyCalendar/historyCalendarSlice"
+import {
+  addHistoryEvent,
+  editHistoryEvent,
+  removeHistoryEvent,
+} from "@features/historyCalendar/historyCalendarSlice"
 import { getBorderColor } from "@features/historyCalendar/utils"
 
 import {
@@ -36,7 +40,7 @@ export const createActivityAction = createAppAsyncThunk(
 
       if (data.data.date < new Date()) {
         dispatch(
-          addEvent({
+          addHistoryEvent({
             id: response.data._id,
             borderColor: getBorderColor(response.data.type.type, data.theme),
             date: response.data.date,
@@ -89,6 +93,7 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
       const limit = getState().activities.limit
 
       const response = await getActivitiesForCurrentUser(data)
+
       if (response.data.length < limit) {
         dispatch(setHasMore(false))
       }
@@ -135,7 +140,7 @@ export const editActivityAction = createAppAsyncThunk(
       const response = await editActivity(data)
 
       dispatch(
-        editEvent({
+        editHistoryEvent({
           id: response.data._id,
           borderColor: getBorderColor(response.data.type.type, data.theme),
           date: response.data.date,
@@ -170,12 +175,9 @@ export const deleteActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(activityId))
 
       const response = await deleteActivity(activityId)
-      const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
-      dispatch(removeEvent(activityId))
-      if (activityId === activeFilterTab) {
-        dispatch(deleteChartActivity(activityId))
-      }
+      dispatch(removeHistoryEvent(activityId))
+      dispatch(deleteChartActivity(activityId))
 
       if (activityId === getState().activities.activeActivityId) {
         dispatch(setActiveActivityId(null))

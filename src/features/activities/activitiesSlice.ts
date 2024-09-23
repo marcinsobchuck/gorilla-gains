@@ -129,7 +129,7 @@ export const activitiesSlice = createSlice({
 
         const isPastActivity = new Date(action.payload.date) < new Date()
 
-        if (state.selectedDate === newActivityDate || (!state.selectedDate && isPastActivity)) {
+        if (state.selectedDate === newActivityDate || isPastActivity) {
           state.activitiesData = [action.payload, ...state.activitiesData]
         }
         toast("Succesfully created activity")

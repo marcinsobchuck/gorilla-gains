@@ -19,7 +19,7 @@ export const lightTheme = {
   primaryMedium: "#0E111199",
   primaryDisabled: "#0E111140",
 
-  secondary: "#75E83F",
+  secondary: "#8FD361",
   secondaryHover: "#5CC72D",
   secondaryActive: "#489A21",
   secondaryDisabled: "#C1E69E",
@@ -56,6 +56,7 @@ export const darkTheme = {
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #000000, #051201)",
+
   activeBackgroundColor: "#061602",
 
   errorColor: "#CF6679",

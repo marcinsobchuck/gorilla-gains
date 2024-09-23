@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import { InitialState } from "./historyCalendar.types"
-import { getEventsForCurrentMonthAction } from "./historyCalendarActions"
+import { getHistoryEventsForCurrentMonthAction } from "./historyCalendarActions"
 
 const initialState: InitialState = {
   events: [],
@@ -15,13 +15,13 @@ export const historyCalendarSlice = createSlice({
   name: "historyCalendar",
   initialState,
   reducers: {
-    addEvent(state, action) {
+    addHistoryEvent(state, action) {
       state.events = [action.payload, ...state.events]
     },
-    removeEvent(state, action) {
+    removeHistoryEvent(state, action) {
       state.events = state.events.filter((event) => event.id !== action.payload)
     },
-    editEvent(state, action) {
+    editHistoryEvent(state, action) {
       const isEventInThePast = new Date(action.payload.date) <= new Date()
 
       if (isEventInThePast) {
@@ -37,14 +37,14 @@ export const historyCalendarSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getEventsForCurrentMonthAction.pending, (state) => {
+    builder.addCase(getHistoryEventsForCurrentMonthAction.pending, (state) => {
       state.eventsStatus = RequestStatuses.LOADING
     })
-    builder.addCase(getEventsForCurrentMonthAction.fulfilled, (state, action) => {
+    builder.addCase(getHistoryEventsForCurrentMonthAction.fulfilled, (state, action) => {
       state.eventsStatus = RequestStatuses.SUCCESS
       state.events = action.payload
     })
-    builder.addCase(getEventsForCurrentMonthAction.rejected, (state, action) => {
+    builder.addCase(getHistoryEventsForCurrentMonthAction.rejected, (state, action) => {
       if (action.payload) {
         state.eventsStatus = RequestStatuses.FAILED
         state.eventsError = action.payload
@@ -52,6 +52,7 @@ export const historyCalendarSlice = createSlice({
     })
   },
 })
-export const { addEvent, removeEvent, editEvent } = historyCalendarSlice.actions
+export const { addHistoryEvent, removeHistoryEvent, editHistoryEvent } =
+  historyCalendarSlice.actions
 
 export default historyCalendarSlice.reducer
