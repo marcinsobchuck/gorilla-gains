@@ -22,10 +22,9 @@ import {
   editHistoryEvent,
   removeHistoryEvent,
 } from "@features/historyCalendar/historyCalendarSlice"
-import { getBorderColor } from "@features/historyCalendar/utils"
 
 import {
-  setActiveActivityId,
+  setActiveActivity,
   setCurrentlyProcessedActivityId,
   setHasMore,
   toggleIsPreset,
@@ -39,13 +38,7 @@ export const createActivityAction = createAppAsyncThunk(
       const response = await createActivity(data.data)
 
       if (data.data.date < new Date()) {
-        dispatch(
-          addHistoryEvent({
-            id: response.data._id,
-            borderColor: getBorderColor(response.data.type.type, data.theme),
-            date: response.data.date,
-          })
-        )
+        dispatch(addHistoryEvent(response.data))
       }
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
@@ -139,13 +132,7 @@ export const editActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(data.activityId))
       const response = await editActivity(data)
 
-      dispatch(
-        editHistoryEvent({
-          id: response.data._id,
-          borderColor: getBorderColor(response.data.type.type, data.theme),
-          date: response.data.date,
-        })
-      )
+      dispatch(editHistoryEvent(response.data))
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
@@ -179,8 +166,8 @@ export const deleteActivityAction = createAppAsyncThunk(
       dispatch(removeHistoryEvent(activityId))
       dispatch(deleteChartActivity(activityId))
 
-      if (activityId === getState().activities.activeActivityId) {
-        dispatch(setActiveActivityId(null))
+      if (activityId === getState().activities.activeActivity?._id) {
+        dispatch(setActiveActivity({}))
       }
 
       return response.data

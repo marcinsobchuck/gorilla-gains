@@ -41,14 +41,13 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   )
   const theme = useTheme()
   const numberOfExercises = data.exercises.length
-  const isActive = data._id === state.activeActivityId
   const isLoading =
     (state.editActivityStatus === RequestStatuses.LOADING ||
       state.deleteActivityStatus === RequestStatuses.LOADING) &&
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper $isActive={isActive} {...rest}>
+    <Wrapper {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
         {hasAdditionalActions && (

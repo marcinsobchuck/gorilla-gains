@@ -14,13 +14,13 @@ import {
 } from "@features/activities/activitiesActions"
 import {
   removePreset,
-  setActiveActivityId,
+  setActiveActivity,
   setCurrentlyEditedActivity,
+  setIsActivityEventOpen,
   setIsAddEditModalOpen,
   setIsEditing,
   setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
-import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
 import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
@@ -30,9 +30,10 @@ export const ActivityList = () => {
   const state = useAppSelector((state) => state.activities)
   const shouldFetchActivities = state.shouldFetchActivities
   const dispatch = useAppDispatch()
-
   const theme = useTheme()
   const ref = useRef<HTMLDivElement>(null)
+
+  const activities = state.activitiesData
 
   const limit = state.limit
   const offset = state.activitiesData.length
@@ -107,7 +108,7 @@ export const ActivityList = () => {
     }
   }, [state.activitiesData.length, state.limit])
 
-  if (state.activitiesData?.length === 0 && state.activitiesStatus !== RequestStatuses.LOADING) {
+  if (activities.length === 0 && state.activitiesStatus !== RequestStatuses.LOADING) {
     return (
       <Wrapper>
         <NoActivitiesWrapper>
@@ -130,14 +131,14 @@ export const ActivityList = () => {
 
   return (
     <Wrapper ref={ref}>
-      {state.activitiesData?.map((activity) => (
+      {activities.map((activity) => (
         <ActivityCard
           key={activity._id}
           data={activity}
           popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
           onClick={() => {
-            dispatch(setActiveFilterTab("details"))
-            dispatch(setActiveActivityId(activity._id))
+            dispatch(setIsActivityEventOpen(true))
+            dispatch(setActiveActivity({ activityId: activity._id, activities }))
           }}
         />
       ))}

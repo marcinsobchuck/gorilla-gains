@@ -19,9 +19,8 @@ import { useTheme } from "styled-components"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { setActiveActivityId } from "@features/activities/activitiesSlice"
+import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
-import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { DateWrapper, TooltipWrapper, ValueText, Wrapper } from "./ActivitiesChart.styled"
@@ -107,10 +106,10 @@ export const ActivitiesCharts = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const activeDotOnClick: Required<DotProps>["onClick"] = (_props, payload: any) => {
-    dispatch(setActiveFilterTab("details"))
     const activity = activities.find((activity) => activity._id === payload.payload.activityId)
     if (activity) {
-      dispatch(setActiveActivityId(activity._id))
+      dispatch(setIsActivityEventOpen(true))
+      dispatch(setActiveActivity({ activities, activityId: activity._id }))
     }
   }
 

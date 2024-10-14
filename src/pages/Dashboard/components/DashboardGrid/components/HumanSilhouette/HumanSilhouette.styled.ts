@@ -3,12 +3,11 @@ import styled from "styled-components"
 
 export const HumanModelSVG = styled(svg)`
   width: 100%;
-  height: 326px; // 326px
+  height: 326px;
 
   * > * {
     stroke: none !important;
   }
-
   .other {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
@@ -74,7 +73,7 @@ export const HumanModelSVG = styled(svg)`
   }
 
   .chest {
-    fill: ${({ theme }) => theme.otherMusclesColor};
+    fill: ${({ theme }) => theme.otherMusclesColor} !important;
   }
 
   .abs {

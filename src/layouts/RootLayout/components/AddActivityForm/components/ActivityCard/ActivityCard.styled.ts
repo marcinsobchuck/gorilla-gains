@@ -5,19 +5,14 @@ import { Icon } from "@components/Icon/Icon"
 import { ModalOverlay } from "@components/Modal/Modal.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
-interface WrapperProps {
-  $isActive: boolean
-}
-
-export const Wrapper = styled.div<WrapperProps>`
+export const Wrapper = styled.div`
   position: relative;
   cursor: pointer;
 
   margin-bottom: 24px;
   padding: 14px 22px 22px;
   border-radius: 16px;
-  background: ${({ theme, $isActive }) =>
-    $isActive ? theme.activeBackgroundColor : theme.backgroundGradient};
+  background: ${({ theme }) => theme.backgroundGradient};
   background-origin: border-box;
   border-bottom: 3px solid transparent;
   box-shadow: ${({ theme }) => theme.boxShadow};

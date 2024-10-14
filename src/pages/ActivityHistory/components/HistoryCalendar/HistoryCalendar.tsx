@@ -6,21 +6,22 @@ import { format, isSameMonth, parseISO } from "date-fns"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import {
-  getActivitiesForCurrentUserAction,
-  getActivitiesForSelectedDate,
-} from "@features/activities/activitiesActions"
+import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
 import {
   resetActivitiesData,
+  setActivitiesData,
   setHasMore,
   setSelectedDate,
 } from "@features/activities/activitiesSlice"
 import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
+import { getActivityEventColor } from "@features/utils/utils"
 
-import { CalendarWrapper } from "./Calendar.styled"
+import { CalendarWrapper, EventDot } from "./HistoryCalendar.styled"
+import { updateSelectedClass } from "./utils"
 
-export const Calendar = () => {
+export const HistoryCalendar = () => {
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
@@ -43,6 +44,7 @@ export const Calendar = () => {
       dispatch(setSelectedDate(""))
       if (dayHasEvent || activities.activitiesData.length === 0) {
         dispatch(resetActivitiesData())
+
         await dispatch(
           getActivitiesForCurrentUserAction({
             offset: 0,
@@ -53,23 +55,13 @@ export const Calendar = () => {
         dispatch(setHasMore(true))
       }
     } else if (dayHasEvent) {
-      dispatch(setHasMore(false))
-      await dispatch(
-        getActivitiesForSelectedDate({
-          startDate: dateClicked,
-          endDate: dateClicked,
-          pastOnly: true,
-        })
+      const dayEvents = historyCalendar.events.filter(
+        (event) => event.date === dateClicked.toISOString()
       )
-    }
-  }
-
-  const updateSelectedClass = (newSelectedDate: string) => {
-    document.querySelector(".fc-day-selected")?.classList.remove("fc-day-selected")
-
-    const dateEl = document.querySelector(`[data-date="${newSelectedDate}"]`)
-    if (dateEl) {
-      dateEl.classList.add("fc-day-selected")
+      dispatch(setActivitiesData(dayEvents))
+      dispatch(setHasMore(false))
+    } else {
+      dispatch(resetActivitiesData())
     }
   }
 
@@ -101,6 +93,16 @@ export const Calendar = () => {
         contentHeight={300}
         headerToolbar={{
           right: "prev,next",
+        }}
+        eventContent={(event) => {
+          return (
+            <EventDot
+              color={getActivityEventColor(
+                event.event.extendedProps.type.type as ActivityTypes,
+                theme
+              )}
+            />
+          )
         }}
         displayEventTime={false}
         dayMaxEventRows={3}

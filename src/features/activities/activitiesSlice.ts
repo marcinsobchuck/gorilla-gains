@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { format } from "date-fns"
 import { toast } from "react-toastify"
 
+import { Activity } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import {
@@ -29,7 +30,7 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
-  activeActivityId: null,
+  isActivityEventOpen: false,
 }
 
 export const activitiesSlice = createSlice({
@@ -48,11 +49,25 @@ export const activitiesSlice = createSlice({
         isPreset: !activity.isPreset,
       }))
     },
-
-    setActiveActivityId(state, action) {
-      state.activeActivityId = action.payload
+    setActivitiesData(state, action) {
+      state.activitiesData = action.payload
     },
-    setSelectedDate(state, action) {
+    setActiveActivity(
+      state,
+      action: PayloadAction<{ activityId?: string; activities?: Activity[] }>
+    ) {
+      if (!action.payload.activityId) {
+        state.activeActivity = undefined
+      } else {
+        state.activeActivity = action.payload.activities?.find(
+          (activity) => activity._id === action.payload.activityId
+        )
+      }
+    },
+    setIsActivityEventOpen(state, action) {
+      state.isActivityEventOpen = action.payload
+    },
+    setSelectedDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload
     },
     resetActivitiesData(state) {
@@ -211,5 +226,7 @@ export const {
   setCurrentlyEditedActivity,
   setCurrentlyProcessedActivityId,
   setSelectedDate,
-  setActiveActivityId,
+  setActiveActivity,
+  setActivitiesData,
+  setIsActivityEventOpen,
 } = activitiesSlice.actions

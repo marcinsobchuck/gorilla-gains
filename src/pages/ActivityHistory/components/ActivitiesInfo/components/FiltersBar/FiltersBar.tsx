@@ -21,11 +21,9 @@ export const FiltersBar = () => {
   const activeTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activityTypes = useAppSelector((state) => state.activityTypes.data)
   const activityTypesStatus = useAppSelector((state) => state.activityTypes.status)
-  const activityDetails = useAppSelector((state) => state.activities.activeActivityId)
   const activeFilterExercise = useAppSelector(
     (state) => state.activitiesOverview.activeFilterExercise
   )
-  const activeFilterTab = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activities = useAppSelector((state) => state.activitiesOverview.activities)
   const activeChartCombination = useAppSelector(
     (state) => state.activitiesOverview.activeChartCombination
@@ -78,16 +76,6 @@ export const FiltersBar = () => {
 
   return (
     <Wrapper>
-      {activityDetails && (
-        <FilterTab
-          onClick={() => handleTabClick("details")}
-          $isActive={activeTab === "details"}
-          justify='center'
-          align='center'
-        >
-          <p>{capitalizeFirstLetter("details")}</p>
-        </FilterTab>
-      )}
       {activityTypes?.map((tab) => (
         <FilterTab
           key={tab._id}
@@ -99,7 +87,7 @@ export const FiltersBar = () => {
           <p>{capitalizeFirstLetter(tab.type)}</p>
         </FilterTab>
       ))}
-      {activities.length > 0 && activeFilterTab !== "details" && (
+      {activities.length > 0 && (
         <StyledSelect
           name='availableCharts'
           labelText='Chart options'

@@ -6,8 +6,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
-import { setActiveActivityId } from "@features/activities/activitiesSlice"
-import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
+import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
 
 import {
   CardsWrapper,
@@ -45,8 +44,10 @@ export const ActivitiesStatistics = () => {
             hasAdditionalActions={false}
             onClick={() => {
               navigate(Routes.ACTIVITY_HISTORY)
-              dispatch(setActiveFilterTab("details"))
-              dispatch(setActiveActivityId(lastActivity._id))
+              dispatch(
+                setActiveActivity({ activityId: lastActivity._id, activities: [lastActivity] })
+              )
+              dispatch(setIsActivityEventOpen(true))
             }}
           />
         </LastActivityWrapper>

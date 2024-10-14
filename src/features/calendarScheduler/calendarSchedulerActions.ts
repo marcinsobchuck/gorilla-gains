@@ -2,9 +2,9 @@ import { isAxiosError } from "axios"
 
 import { getActivitiesForCurrentUser } from "@api/activitiesService"
 import { createAppAsyncThunk } from "@app/hooks"
-import { getBorderColor } from "@features/historyCalendar/utils"
+import { getActivityEvents } from "@features/utils/utils"
 
-import { ActivityEvent, GetEventsForCurrentMonthParams } from "./calendarScheduler.types"
+import { GetEventsForCurrentMonthParams } from "./calendarScheduler.types"
 
 export const getEventsForCurrentMonthAction = createAppAsyncThunk(
   "getEventsForCurrentMonth",
@@ -17,16 +17,9 @@ export const getEventsForCurrentMonthAction = createAppAsyncThunk(
         startDate,
         endDate,
       })
-      const events = response.data.map((activity): ActivityEvent => {
-        const {
-          type: { type },
-        } = activity
-        return {
-          ...activity,
-          color: getBorderColor(type, theme),
-          allDay: true,
-        }
-      })
+      const activities = response.data
+
+      const events = getActivityEvents(activities, theme)
 
       return { events, shouldSetDayEvents }
     } catch (error) {

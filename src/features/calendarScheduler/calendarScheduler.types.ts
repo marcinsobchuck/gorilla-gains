@@ -1,10 +1,8 @@
-import { EventInput } from "@fullcalendar/core/index.js"
 import { DefaultTheme } from "styled-components"
 
-import { Activity, GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
+import { GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-
-export type ActivityEvent = Activity & Omit<EventInput, "date" | "title">
+import { ActivityEvent } from "@features/types/types"
 
 export interface InitialState {
   events: ActivityEvent[]

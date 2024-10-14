@@ -12,7 +12,7 @@ import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getEventsForCurrentMonthAction } from "@features/calendarScheduler/calendarSchedulerActions"
 import { setSelectedDate } from "@features/calendarScheduler/calendarSchedulerSlice"
-import { getBorderColor } from "@features/historyCalendar/utils"
+import { getActivityEventColor } from "@features/utils/utils"
 
 import { CalendarWrapper } from "./CalendarScheduler.styled"
 
@@ -78,7 +78,10 @@ export const CalendarScheduler = () => {
           return (
             <Icon
               name={event.event.extendedProps.type.type as IconName}
-              color={getBorderColor(event.event.extendedProps.type.type as ActivityTypes, theme)}
+              color={getActivityEventColor(
+                event.event.extendedProps.type.type as ActivityTypes,
+                theme
+              )}
             />
           )
         }}

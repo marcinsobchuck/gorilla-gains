@@ -2,6 +2,7 @@ import { useTheme } from "styled-components"
 
 import { Activity } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { ActivityDetails } from "@components/ActivityDetails/ActivityDetails"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { deleteActivityAction } from "@features/activities/activitiesActions"
 import {
@@ -14,7 +15,6 @@ import {
   setActiveEvent,
   setIsActiveEventOpen,
 } from "@features/calendarScheduler/calendarSchedulerSlice"
-import { ActivityDetails } from "@pages/ActivityHistory/components/ActivitiesInfo/components/ActivitiesOverview/components/ActivityDetails/ActivityDetails"
 
 import { ButtonsWrapper, StyledButton, Wrapper } from "./ActivityEvent.styled"
 
@@ -29,10 +29,9 @@ export const ActivityEvent = () => {
       return
     } else {
       await dispatch(deleteActivityAction(id))
-      if (id === activeEvent?._id) {
-        dispatch(setIsActiveEventOpen(false))
-        dispatch(setActiveEvent(undefined))
-      }
+
+      dispatch(setIsActiveEventOpen(false))
+      dispatch(setActiveEvent(undefined))
       dispatch(removePreset(id))
     }
   }

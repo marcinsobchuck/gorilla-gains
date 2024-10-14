@@ -79,7 +79,7 @@ export const calendarSchedulerSlice = createSlice({
             dayEvent._id === action.payload._id ? action.payload : dayEvent
           )
           state.events = state.events.map((event) =>
-            event.id === action.payload._id ? action.payload : event
+            event._id === action.payload._id ? action.payload : event
           )
         }
       }
