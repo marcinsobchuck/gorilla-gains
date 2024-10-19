@@ -62,6 +62,7 @@ export const HistoryCalendar = () => {
       dispatch(setHasMore(false))
     } else {
       dispatch(resetActivitiesData())
+      dispatch(setHasMore(false))
     }
   }
 

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { toast } from "react-toastify"
 
 import { Activity } from "@api/types/activitiesService.types"
@@ -67,7 +67,7 @@ export const activitiesSlice = createSlice({
     setIsActivityEventOpen(state, action) {
       state.isActivityEventOpen = action.payload
     },
-    setSelectedDate(state, action: PayloadAction<string>) {
+    setSelectedDate(state, action) {
       state.selectedDate = action.payload
     },
     resetActivitiesData(state) {
@@ -142,9 +142,7 @@ export const activitiesSlice = createSlice({
         state.isAddEditModalOpen = false
         const newActivityDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-        const isPastActivity = new Date(action.payload.date) < new Date()
-
-        if (state.selectedDate === newActivityDate || isPastActivity) {
+        if (state.selectedDate === newActivityDate) {
           state.activitiesData = [action.payload, ...state.activitiesData]
         }
         toast("Succesfully created activity")
@@ -162,6 +160,7 @@ export const activitiesSlice = createSlice({
       state.deleteActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
+      state.isActivityEventOpen = false
       state.deleteActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = state.activitiesData?.filter(
         (activity) => activity._id !== action.payload._id
@@ -188,15 +187,21 @@ export const activitiesSlice = createSlice({
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
+      state.isActivityEventOpen = false
 
-      if (isEditedActivityInThePast) {
-        state.activitiesData = state.activitiesData?.map((activity) => {
+      const newDate = format(parseISO(action.payload.date), "yyyy-MM-dd")
+
+      if (state.selectedDate === newDate) {
+        state.activitiesData = state.activitiesData.map((activity) => {
           if (activity._id === action.payload._id) {
             return action.payload
+          } else {
+            return activity
           }
-          return activity
         })
-      } else {
+      }
+
+      if (!isEditedActivityInThePast || state.selectedDate !== newDate) {
         state.activitiesData = state.activitiesData?.filter(
           (activity) => activity._id !== action.payload._id
         )

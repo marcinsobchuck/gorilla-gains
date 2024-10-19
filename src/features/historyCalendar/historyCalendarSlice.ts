@@ -32,7 +32,7 @@ export const historyCalendarSlice = createSlice({
           return event
         })
       } else {
-        state.events = state.events.filter((event) => event._id !== action.payload.id)
+        state.events = state.events.filter((event) => event._id !== action.payload._id)
       }
     },
   },

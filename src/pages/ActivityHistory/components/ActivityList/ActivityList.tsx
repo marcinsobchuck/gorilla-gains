@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns"
 import { useEffect, useRef } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
@@ -99,8 +100,8 @@ export const ActivityList = () => {
       dispatch(setShouldFetchActivities(false))
     }
 
-    shouldFetchActivities && state.activitiesData.length === 0 && fetchActivities()
-  }, [dispatch, limit, shouldFetchActivities, state.activitiesData.length])
+    shouldFetchActivities && fetchActivities()
+  }, [dispatch, limit, shouldFetchActivities])
 
   useEffect(() => {
     if (ref.current && state.activitiesData.length < state.limit) {
@@ -108,11 +109,19 @@ export const ActivityList = () => {
     }
   }, [state.activitiesData.length, state.limit])
 
-  if (activities.length === 0 && state.activitiesStatus !== RequestStatuses.LOADING) {
+  if (
+    activities.length === 0 &&
+    state.activitiesStatus !== RequestStatuses.LOADING &&
+    !shouldFetchActivities
+  ) {
     return (
       <Wrapper>
         <NoActivitiesWrapper>
-          <p>No activities yet.</p>
+          <p>
+            {state.selectedDate
+              ? `No activities on ${format(parseISO(state.selectedDate), "LLL do, y")}`
+              : "No activities yet."}
+          </p>
           <p>Try adding some and you will see them here.</p>
           <Button
             buttonType='button'
@@ -150,7 +159,7 @@ export const ActivityList = () => {
       )}
 
       <LoadMore>{state.hasMore ? "Scroll to see more..." : "There is no data left."}</LoadMore>
-      <div ref={observerTarget} />
+      {!state.selectedDate && <div ref={observerTarget} />}
     </Wrapper>
   )
 }

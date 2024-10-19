@@ -8,6 +8,7 @@ export const HumanModelSVG = styled(svg)`
   * > * {
     stroke: none !important;
   }
+
   .other {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
@@ -73,7 +74,7 @@ export const HumanModelSVG = styled(svg)`
   }
 
   .chest {
-    fill: ${({ theme }) => theme.otherMusclesColor} !important;
+    fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
   .abs {
