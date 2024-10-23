@@ -1,5 +1,4 @@
 import { isAxiosError } from "axios"
-import { isWithinInterval, parseISO } from "date-fns"
 
 import {
   createActivity,
@@ -33,21 +32,7 @@ import {
   toggleIsPreset,
 } from "./activitiesSlice"
 import { CreateActivityParams } from "./activitiesSlice.types"
-
-const isNewActivityWithinInterval = ({
-  start,
-  end,
-  activityDate,
-}: {
-  start: string
-  end: string
-  activityDate: Date
-}) => {
-  return isWithinInterval(activityDate, {
-    start: parseISO(start),
-    end: parseISO(end),
-  })
-}
+import { isNewActivityWithinInterval } from "./utils"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
@@ -60,22 +45,28 @@ export const createActivityAction = createAppAsyncThunk(
       }
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
-
       const activities = getState().activities.activitiesData
       const selectedDate = getState().activities.selectedDate
+      const isNewActivityInThePast = new Date(response.data.date) < new Date()
 
-      if (activities.length > 0 && !selectedDate) {
+      if (!selectedDate) {
         const activityDate = data.data.date
-        const start = activities[activities.length - 1].date
+        const start =
+          activities.length > 0
+            ? activities[activities.length - 1].date
+            : activityDate.toISOString()
         const end = new Date().toISOString()
         const limit = getState().activities.limit
 
         if (
           isNewActivityWithinInterval({ activityDate, start, end }) ||
-          activities.length < limit
+          activities.length <= limit
         ) {
           dispatch(resetActivitiesData())
           dispatch(setShouldFetchActivities(true))
+          dispatch(setHasMore(true))
+        } else if (isNewActivityInThePast) {
+          dispatch(setHasMore(true))
         }
       }
 
@@ -83,7 +74,7 @@ export const createActivityAction = createAppAsyncThunk(
         dispatch(setActiveFilterExercise(response.data.exercises[0].exercise._id))
       }
 
-      if (data.data.type === activeFilterTab) {
+      if (data.data.type === activeFilterTab && isNewActivityInThePast) {
         dispatch(addChartActivity(response.data))
       }
 
@@ -175,12 +166,14 @@ export const editActivityAction = createAppAsyncThunk(
       const activities = getState().activities.activitiesData
       const activityDate = data.dataToEdit.date
       const selectedDate = getState().activities.selectedDate
+      const isEditedActivityInThePast = new Date(response.data.date) < new Date()
 
-      if (activityDate && activities.length > 0 && !selectedDate) {
-        const start = activities[activities.length - 1].date
+      if (activityDate && !selectedDate) {
+        const start =
+          activities.length > 0
+            ? activities[activities.length - 1].date
+            : activityDate.toISOString()
         const end = new Date().toISOString()
-
-        const isEditedActivityInThePast = new Date(response.data.date) < new Date()
 
         if (
           isNewActivityWithinInterval({ activityDate, start, end }) ||
@@ -188,10 +181,11 @@ export const editActivityAction = createAppAsyncThunk(
         ) {
           dispatch(resetActivitiesData())
           dispatch(setShouldFetchActivities(true))
+          dispatch(setHasMore(true))
         }
       }
 
-      if (data.dataToEdit.type === activeFilterTab) {
+      if (data.dataToEdit.type === activeFilterTab && isEditedActivityInThePast) {
         dispatch(editChartActivity(response.data))
       }
 

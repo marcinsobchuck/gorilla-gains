@@ -138,11 +138,13 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(createActivityAction.fulfilled, (state, action) => {
       if (action.payload) {
+        const isNewActivityInThePast = new Date(action.payload.date) <= new Date()
+
         state.createActivityStatus = RequestStatuses.SUCCESS
         state.isAddEditModalOpen = false
         const newActivityDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-        if (state.selectedDate === newActivityDate) {
+        if (state.selectedDate === newActivityDate && isNewActivityInThePast) {
           state.activitiesData = [action.payload, ...state.activitiesData]
         }
         toast("Succesfully created activity")
@@ -181,30 +183,24 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
       const isEditedActivityInThePast = new Date(action.payload.date) <= new Date()
+      const newDate = format(parseISO(action.payload.date), "yyyy-MM-dd")
+
       if (state.isEditing) {
         state.isAddEditModalOpen = false
         state.isEditing = false
+
+        if (!isEditedActivityInThePast || state.selectedDate !== newDate) {
+          state.activitiesData = state.activitiesData?.filter(
+            (activity) => activity._id !== action.payload._id
+          )
+        }
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
       state.isActivityEventOpen = false
 
-      const newDate = format(parseISO(action.payload.date), "yyyy-MM-dd")
-
-      if (state.selectedDate === newDate) {
-        state.activitiesData = state.activitiesData.map((activity) => {
-          if (activity._id === action.payload._id) {
-            return action.payload
-          } else {
-            return activity
-          }
-        })
-      }
-
-      if (!isEditedActivityInThePast || state.selectedDate !== newDate) {
-        state.activitiesData = state.activitiesData?.filter(
-          (activity) => activity._id !== action.payload._id
-        )
+      if (state.selectedDate === newDate && isEditedActivityInThePast) {
+        state.activitiesData = [action.payload, ...state.activitiesData]
       }
 
       toast("Succesfully edited activity")
