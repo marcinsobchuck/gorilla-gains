@@ -2,9 +2,10 @@ import { DefaultTheme } from "styled-components/dist/types"
 
 import { Activity, CreateActivityData } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import { ActivityEvent } from "@features/types/types"
 
 export interface InitialState {
-  activitiesData: Activity[]
+  activitiesData: Activity[] | ActivityEvent[]
   activitiesStatus: RequestStatuses
   activitiesError?: string
 
@@ -28,7 +29,8 @@ export interface InitialState {
   isAddEditModalOpen: boolean
   shouldFetchActivities: boolean
 
-  activeActivityId: string | null
+  isActivityEventOpen: boolean
+  activeActivity?: ActivityEvent
   currentlyProcessedActivityId: string | null
   currentlyEditedActivity?: Activity
 }

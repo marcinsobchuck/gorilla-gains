@@ -65,7 +65,7 @@ export const StyledButton = styled(Button)`
   }
 
   @media ${Breakpoints.LARGE} {
-    justify-content: flex-start;
+    justify-content: space-between;
 
     p {
       display: block;

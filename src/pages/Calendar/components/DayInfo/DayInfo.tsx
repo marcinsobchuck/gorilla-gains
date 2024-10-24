@@ -3,11 +3,11 @@ import { format } from "date-fns"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { setIsAddEditModalOpen } from "@features/activities/activitiesSlice"
-import { ActivityEvent } from "@features/calendarScheduler/calendarScheduler.types"
 import {
   setActiveEvent,
   setIsActiveEventOpen,
 } from "@features/calendarScheduler/calendarSchedulerSlice"
+import { ActivityEvent } from "@features/types/types"
 
 import {
   ActivityEventCard,

@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { format } from "date-fns"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { format, parseISO } from "date-fns"
 import { toast } from "react-toastify"
 
+import { Activity } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import {
@@ -29,7 +30,7 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
-  activeActivityId: null,
+  isActivityEventOpen: false,
 }
 
 export const activitiesSlice = createSlice({
@@ -48,9 +49,23 @@ export const activitiesSlice = createSlice({
         isPreset: !activity.isPreset,
       }))
     },
-
-    setActiveActivityId(state, action) {
-      state.activeActivityId = action.payload
+    setActivitiesData(state, action) {
+      state.activitiesData = action.payload
+    },
+    setActiveActivity(
+      state,
+      action: PayloadAction<{ activityId?: string; activities?: Activity[] }>
+    ) {
+      if (!action.payload.activityId) {
+        state.activeActivity = undefined
+      } else {
+        state.activeActivity = action.payload.activities?.find(
+          (activity) => activity._id === action.payload.activityId
+        )
+      }
+    },
+    setIsActivityEventOpen(state, action) {
+      state.isActivityEventOpen = action.payload
     },
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
@@ -123,13 +138,13 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(createActivityAction.fulfilled, (state, action) => {
       if (action.payload) {
+        const isNewActivityInThePast = new Date(action.payload.date) <= new Date()
+
         state.createActivityStatus = RequestStatuses.SUCCESS
         state.isAddEditModalOpen = false
         const newActivityDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-        const isPastActivity = new Date(action.payload.date) < new Date()
-
-        if (state.selectedDate === newActivityDate || isPastActivity) {
+        if (state.selectedDate === newActivityDate && isNewActivityInThePast) {
           state.activitiesData = [action.payload, ...state.activitiesData]
         }
         toast("Succesfully created activity")
@@ -147,6 +162,7 @@ export const activitiesSlice = createSlice({
       state.deleteActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
+      state.isActivityEventOpen = false
       state.deleteActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = state.activitiesData?.filter(
         (activity) => activity._id !== action.payload._id
@@ -167,24 +183,24 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
       const isEditedActivityInThePast = new Date(action.payload.date) <= new Date()
+      const newDate = format(parseISO(action.payload.date), "yyyy-MM-dd")
+
       if (state.isEditing) {
         state.isAddEditModalOpen = false
         state.isEditing = false
+
+        if (!isEditedActivityInThePast || state.selectedDate !== newDate) {
+          state.activitiesData = state.activitiesData?.filter(
+            (activity) => activity._id !== action.payload._id
+          )
+        }
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
+      state.isActivityEventOpen = false
 
-      if (isEditedActivityInThePast) {
-        state.activitiesData = state.activitiesData?.map((activity) => {
-          if (activity._id === action.payload._id) {
-            return action.payload
-          }
-          return activity
-        })
-      } else {
-        state.activitiesData = state.activitiesData?.filter(
-          (activity) => activity._id !== action.payload._id
-        )
+      if (state.selectedDate === newDate && isEditedActivityInThePast) {
+        state.activitiesData = [action.payload, ...state.activitiesData]
       }
 
       toast("Succesfully edited activity")
@@ -211,5 +227,7 @@ export const {
   setCurrentlyEditedActivity,
   setCurrentlyProcessedActivityId,
   setSelectedDate,
-  setActiveActivityId,
+  setActiveActivity,
+  setActivitiesData,
+  setIsActivityEventOpen,
 } = activitiesSlice.actions

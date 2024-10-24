@@ -155,28 +155,21 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     position: absolute;
     top: 62%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-47%);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 3px;
   }
 
-  .fc-daygrid-event-dot {
-    /* border-color: ${({ theme }) => theme.secondary} !important; */
-    border-width: 3px;
+  .fc-daygrid-day-events .fc-daygrid-day-events {
+    background-color: red;
   }
 
   .fc-direction-ltr .fc-daygrid-event.fc-event-end,
   .fc-direction-rtl .fc-daygrid-event.fc-event-start {
     margin: 0;
-  }
-
-  .fc-daygrid-dot-event {
-    cursor: auto;
-    &:hover {
-      background-color: transparent;
-    }
   }
 
   .fc .fc-daygrid-more-link {
@@ -195,4 +188,15 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   .fc-event-title {
     display: none;
   }
+
+  .fc-h-event {
+    border: none;
+  }
+`
+
+export const EventDot = styled.div<{ color: string }>`
+  height: 6px;
+  width: 6px;
+  background-color: ${({ color }) => (color ? color : "white")};
+  border-radius: 50%;
 `

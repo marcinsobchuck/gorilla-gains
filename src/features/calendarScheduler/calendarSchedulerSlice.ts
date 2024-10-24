@@ -79,12 +79,13 @@ export const calendarSchedulerSlice = createSlice({
             dayEvent._id === action.payload._id ? action.payload : dayEvent
           )
           state.events = state.events.map((event) =>
-            event.id === action.payload._id ? action.payload : event
+            event._id === action.payload._id ? action.payload : event
           )
         }
       }
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
+      state.isActiveEventOpen = false
       state.events = state.events.filter((event) => event._id !== action.payload._id)
       if (action.payload._id === state.activeEvent?._id) {
         state.activeEvent = undefined

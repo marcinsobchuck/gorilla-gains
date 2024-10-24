@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns"
 import { useEffect, useRef } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
@@ -14,13 +15,13 @@ import {
 } from "@features/activities/activitiesActions"
 import {
   removePreset,
-  setActiveActivityId,
+  setActiveActivity,
   setCurrentlyEditedActivity,
+  setIsActivityEventOpen,
   setIsAddEditModalOpen,
   setIsEditing,
   setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
-import { setActiveFilterTab } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
 import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
@@ -30,9 +31,10 @@ export const ActivityList = () => {
   const state = useAppSelector((state) => state.activities)
   const shouldFetchActivities = state.shouldFetchActivities
   const dispatch = useAppDispatch()
-
   const theme = useTheme()
   const ref = useRef<HTMLDivElement>(null)
+
+  const activities = state.activitiesData
 
   const limit = state.limit
   const offset = state.activitiesData.length
@@ -98,8 +100,8 @@ export const ActivityList = () => {
       dispatch(setShouldFetchActivities(false))
     }
 
-    shouldFetchActivities && state.activitiesData.length === 0 && fetchActivities()
-  }, [dispatch, limit, shouldFetchActivities, state.activitiesData.length])
+    shouldFetchActivities && fetchActivities()
+  }, [dispatch, limit, shouldFetchActivities])
 
   useEffect(() => {
     if (ref.current && state.activitiesData.length < state.limit) {
@@ -107,11 +109,19 @@ export const ActivityList = () => {
     }
   }, [state.activitiesData.length, state.limit])
 
-  if (state.activitiesData?.length === 0 && state.activitiesStatus !== RequestStatuses.LOADING) {
+  if (
+    activities.length === 0 &&
+    state.activitiesStatus !== RequestStatuses.LOADING &&
+    !shouldFetchActivities
+  ) {
     return (
       <Wrapper>
         <NoActivitiesWrapper>
-          <p>No activities yet.</p>
+          <p>
+            {state.selectedDate
+              ? `No activities on ${format(parseISO(state.selectedDate), "LLL do, y")}`
+              : "No activities yet."}
+          </p>
           <p>Try adding some and you will see them here.</p>
           <Button
             buttonType='button'
@@ -130,14 +140,14 @@ export const ActivityList = () => {
 
   return (
     <Wrapper ref={ref}>
-      {state.activitiesData?.map((activity) => (
+      {activities.map((activity) => (
         <ActivityCard
           key={activity._id}
           data={activity}
           popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
           onClick={() => {
-            dispatch(setActiveFilterTab("details"))
-            dispatch(setActiveActivityId(activity._id))
+            dispatch(setIsActivityEventOpen(true))
+            dispatch(setActiveActivity({ activityId: activity._id, activities }))
           }}
         />
       ))}
@@ -149,7 +159,7 @@ export const ActivityList = () => {
       )}
 
       <LoadMore>{state.hasMore ? "Scroll to see more..." : "There is no data left."}</LoadMore>
-      <div ref={observerTarget} />
+      {!state.selectedDate && <div ref={observerTarget} />}
     </Wrapper>
   )
 }

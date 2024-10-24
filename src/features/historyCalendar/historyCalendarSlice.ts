@@ -19,20 +19,20 @@ export const historyCalendarSlice = createSlice({
       state.events = [action.payload, ...state.events]
     },
     removeHistoryEvent(state, action) {
-      state.events = state.events.filter((event) => event.id !== action.payload)
+      state.events = state.events.filter((event) => event._id !== action.payload)
     },
     editHistoryEvent(state, action) {
       const isEventInThePast = new Date(action.payload.date) <= new Date()
 
       if (isEventInThePast) {
         state.events = state.events.map((event) => {
-          if (event.id === action.payload.id) {
+          if (event._id === action.payload._id) {
             return action.payload
           }
           return event
         })
       } else {
-        state.events = state.events.filter((event) => event.id !== action.payload.id)
+        state.events = state.events.filter((event) => event._id !== action.payload._id)
       }
     },
   },
