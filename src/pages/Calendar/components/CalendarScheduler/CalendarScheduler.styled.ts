@@ -137,7 +137,8 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     border-radius: 12px;
     transition: 0.3s;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: ${({ theme }) => theme.secondaryOpacity};
     }
   }

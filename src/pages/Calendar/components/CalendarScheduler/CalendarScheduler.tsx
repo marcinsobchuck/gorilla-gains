@@ -35,6 +35,18 @@ export const CalendarScheduler = () => {
     }
   }
 
+  const handleDateFocus = (date: Date) => {
+    const dateFocused = format(date, "yyyy-MM-dd")
+
+    dispatch(setSelectedDate(format(date, "yyyy-MM-dd")))
+    updateSelectedClass(dateFocused)
+
+    if (dateFocused === selectedDate) {
+      updateSelectedClass("")
+      dispatch(setSelectedDate(format(new Date(), "yyyy-MM-dd")))
+    }
+  }
+
   const updateSelectedClass = (newSelectedDate: string) => {
     document.querySelector(".fc-day-selected")?.classList.remove("fc-day-selected")
 
@@ -74,6 +86,8 @@ export const CalendarScheduler = () => {
         height='100%'
         dayMaxEvents={2}
         dateClick={handleDateClick}
+        navLinks
+        navLinkDayClick={handleDateFocus}
         eventContent={(event) => {
           return (
             <Icon
