@@ -56,12 +56,8 @@ export const createActivityAction = createAppAsyncThunk(
             ? activities[activities.length - 1].date
             : activityDate.toISOString()
         const end = new Date().toISOString()
-        const limit = getState().activities.limit
 
-        if (
-          isNewActivityWithinInterval({ activityDate, start, end }) ||
-          activities.length <= limit
-        ) {
+        if (isNewActivityWithinInterval({ activityDate, start, end })) {
           dispatch(resetActivitiesData())
           dispatch(setShouldFetchActivities(true))
           dispatch(setHasMore(true))

@@ -90,6 +90,7 @@ export interface Activity {
   warmup: boolean
   repeatExercisesCount: number
   isPreset: boolean
+  isDone?: boolean
   exertionRating?: number
   createdAt: string
   updatedAt?: string

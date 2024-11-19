@@ -1,6 +1,7 @@
 import { format } from "date-fns"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { setIsAddEditModalOpen } from "@features/activities/activitiesSlice"
 import {
@@ -10,8 +11,6 @@ import {
 import { ActivityEvent } from "@features/types/types"
 
 import {
-  ActivityEventCard,
-  ActivityName,
   DayIndicator,
   DayName,
   DayNumber,
@@ -62,12 +61,11 @@ export const DayInfo = () => {
             {dayEvents.map((dayEvent) => (
               <ActivityEventCard
                 key={dayEvent._id}
-                $isActive={activeEvent?._id === dayEvent._id}
-                align='center'
-                onClick={() => handleEventClick(dayEvent)}
-              >
-                <ActivityName>{dayEvent.title}</ActivityName>
-              </ActivityEventCard>
+                activity={dayEvent}
+                isActive={activeEvent?._id === dayEvent._id}
+                onCardClick={() => handleEventClick(dayEvent)}
+                onCardStatusChange={() => {}}
+              />
             ))}
           </EventsLits>
         </>

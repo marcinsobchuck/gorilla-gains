@@ -63,37 +63,9 @@ export const ListTitle = styled.p`
   font-weight: 600;
   padding-bottom: 16px;
 `
-export const ActivityEventCard = styled(FlexContainer)<{ $isActive: boolean }>`
-  padding: 12px 24px;
-  background: ${({ theme, $isActive }) =>
-    $isActive ? theme.activeBackgroundColor : theme.backgroundGradient};
-  border-radius: 9px;
-  border-bottom: 2px solid
-    ${({ $isActive, theme }) => ($isActive ? theme.secondary : "transparent")};
-  height: 60px;
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    border-bottom: 2px solid ${({ theme }) => theme.secondary};
-  }
-
-  &:not(:last-of-type) {
-    margin-bottom: 9px;
-  }
-`
-
-export const ActivityName = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
 export const StyledButton = styled(Button)`
   width: 100%;
+  font-size: 12px;
   svg {
     fill: ${({ theme }) => theme.primaryMedium};
   }
