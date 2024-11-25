@@ -3,7 +3,12 @@ import { format } from "date-fns"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
-import { setIsAddEditModalOpen } from "@features/activities/activitiesSlice"
+import { editActivityAction } from "@features/activities/activitiesActions"
+import {
+  resetActivitiesData,
+  setIsAddEditModalOpen,
+  setShouldFetchActivities,
+} from "@features/activities/activitiesSlice"
 import {
   setActiveEvent,
   setIsActiveEventOpen,
@@ -46,6 +51,17 @@ export const DayInfo = () => {
 
   const handleAddActivityButtonClick = () => dispatch(setIsAddEditModalOpen(true))
 
+  const handleOnCardStatusChange = async (event: ActivityEvent) => {
+    await dispatch(
+      editActivityAction({
+        activityId: event._id,
+        dataToEdit: { isDone: !event.isDone },
+      })
+    )
+    dispatch(setShouldFetchActivities(true))
+    dispatch(resetActivitiesData())
+  }
+
   return (
     <Wrapper>
       <DayIndicator direction='column' align='center'>
@@ -64,7 +80,7 @@ export const DayInfo = () => {
                 activity={dayEvent}
                 isActive={activeEvent?._id === dayEvent._id}
                 onCardClick={() => handleEventClick(dayEvent)}
-                onCardStatusChange={() => {}}
+                onCardStatusChange={() => handleOnCardStatusChange(dayEvent)}
               />
             ))}
           </EventsLits>

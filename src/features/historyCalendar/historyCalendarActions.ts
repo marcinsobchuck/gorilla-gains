@@ -14,6 +14,7 @@ export const getHistoryEventsForCurrentMonthAction = createAppAsyncThunk(
       const response = await getActivitiesForCurrentUser({
         startDate,
         endDate,
+        pastOnly: true,
       })
       const activities = response.data
 

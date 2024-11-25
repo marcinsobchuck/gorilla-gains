@@ -8,7 +8,7 @@ interface WrapperProps {
 }
 
 interface ButtonsWrapperProps {
-  $status: "done" | "not-done"
+  $status: boolean
   $isHovering: boolean
 }
 
@@ -31,7 +31,7 @@ export const ButtonsWrapper = styled.div<ButtonsWrapperProps>`
   border-left: 2px solid transparent;
   transition: 0.1s ease-in-out;
   align-self: flex-start;
-  transform: ${({ $status }) => ($status === "done" ? "translateY(-50%)" : "translateY(0%)")};
+  transform: ${({ $status }) => ($status ? "translateY(-50%)" : "translateY(0%)")};
 
   cursor: pointer;
   transition: 0.3s ease-in-out;

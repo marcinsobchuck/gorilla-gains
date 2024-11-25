@@ -4,39 +4,33 @@ import { useTheme } from "styled-components"
 import { ActivityName, ButtonsWrapper, StatusButton, Wrapper } from "./ActivityEventCard.styled"
 import { ActivityEventCardProps } from "./ActivityEventCard.types"
 
-type ButtonStatus = "done" | "not-done"
-
 export const ActivityEventCard: React.FC<ActivityEventCardProps> = ({
   activity,
   isActive,
   onCardClick,
   onCardStatusChange,
 }) => {
-  const [status, setStatus] = useState<ButtonStatus>("not-done")
-  const [temporaryStatus, setTemporaryStatus] = useState<ButtonStatus>("done")
+  const [temporaryStatus, setTemporaryStatus] = useState(!activity.isDone)
   const [isHovering, setisHovering] = useState(false)
   const theme = useTheme()
-
-  const toggleStatus = (status: ButtonStatus) => (status === "done" ? "not-done" : "done")
 
   const handleOnCardStatusChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     onCardStatusChange()
-    setStatus(toggleStatus(status))
     setisHovering(false)
   }
 
   const handleButtonHover = () => {
     setisHovering(true)
-    setTemporaryStatus(toggleStatus(temporaryStatus))
+    setTemporaryStatus((prev) => !prev)
   }
 
   const handleButtonLeave = () => {
     setisHovering(false)
-    if (temporaryStatus !== status) {
+    if (temporaryStatus !== activity.isDone) {
       return
     } else {
-      setTemporaryStatus(toggleStatus(temporaryStatus))
+      setTemporaryStatus((prev) => !prev)
     }
   }
 

@@ -65,24 +65,23 @@ export const calendarSchedulerSlice = createSlice({
       }
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
-      if (action.payload._id === state.activeEvent?._id) {
-        state.activeEvent = action.payload
+      state.isActiveEventOpen = false
 
-        if (format(new Date(action.payload.date), "yyyy-MM-dd") !== state.selectedDate) {
-          state.dayEvents = state.dayEvents.filter(
-            (dayEvent) => dayEvent._id !== state.activeEvent?._id
-          )
-          state.events = state.events.filter((event) => event._id !== state.activeEvent?._id)
-          state.events = [...state.events, action.payload]
-        } else {
-          state.dayEvents = state.dayEvents.map((dayEvent) =>
-            dayEvent._id === action.payload._id ? action.payload : dayEvent
-          )
-          state.events = state.events.map((event) =>
-            event._id === action.payload._id ? action.payload : event
-          )
-        }
+      if (format(new Date(action.payload.date), "yyyy-MM-dd") !== state.selectedDate) {
+        state.dayEvents = state.dayEvents.filter(
+          (dayEvent) => dayEvent._id !== state.activeEvent?._id
+        )
+        state.events = state.events.filter((event) => event._id !== state.activeEvent?._id)
+        state.events = [...state.events, action.payload]
+      } else {
+        state.dayEvents = state.dayEvents.map((dayEvent) =>
+          dayEvent._id === action.payload._id ? action.payload : dayEvent
+        )
+        state.events = state.events.map((event) =>
+          event._id === action.payload._id ? action.payload : event
+        )
       }
+      state.activeEvent = undefined
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
       state.isActiveEventOpen = false
