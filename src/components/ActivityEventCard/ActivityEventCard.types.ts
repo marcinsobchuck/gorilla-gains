@@ -5,5 +5,6 @@ export interface ActivityEventCardProps {
   activity: ActivityEvent | Activity
   isActive: boolean
   onCardClick: () => void
-  onCardStatusChange: () => void
+  onCardStatusChange: () => Promise<void>
+  isLoading: boolean
 }

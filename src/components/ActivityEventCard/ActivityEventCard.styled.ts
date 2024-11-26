@@ -1,16 +1,26 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
+import { DefaultTheme } from "styled-components/dist/types"
 
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 interface WrapperProps {
   $isActive: boolean
+  $isLoading: boolean
+  $buttonState: boolean | "planned"
 }
 
 interface ButtonsWrapperProps {
   $status: boolean
   $isHovering: boolean
+  $isLoading: boolean
 }
+
+const breatheAnimation = (color: string) => keyframes`
+  0%     {background-color: transparent;}
+  50%    {background-color: ${color};}
+  100%   {background-color: transparent;}
+`
 
 export const StatusButton = styled(Button)`
   height: 50%;
@@ -33,6 +43,10 @@ export const ButtonsWrapper = styled.div<ButtonsWrapperProps>`
   align-self: flex-start;
   transform: ${({ $status }) => ($status ? "translateY(-50%)" : "translateY(0%)")};
 
+  animation: ${({ theme, $isLoading }) => $isLoading && breatheAnimation(theme.secondaryOpacity)};
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+
   cursor: pointer;
   transition: 0.3s ease-in-out;
 
@@ -49,18 +63,30 @@ export const ButtonsWrapper = styled.div<ButtonsWrapperProps>`
   }
 `
 
+const getWrapperBackgroundColor = (theme: DefaultTheme, buttonState: boolean | "planned") => {
+  if (buttonState === "planned") {
+    return theme.plannedBackgroundGradient
+  } else if (buttonState) {
+    return theme.backgroundGradient
+  } else {
+    return theme.notDoneGradient
+  }
+}
+
 export const Wrapper = styled(FlexContainer)<WrapperProps>`
   position: relative;
   padding-left: 24px;
   overflow: hidden;
-  background: ${({ theme, $isActive }) =>
-    $isActive ? theme.activeBackgroundColor : theme.backgroundGradient};
+  background: ${({ theme, $isActive, $buttonState }) =>
+    $isActive ? theme.activeBackgroundColor : getWrapperBackgroundColor(theme, $buttonState)};
   border-radius: 9px;
   border-bottom: 2px solid
     ${({ $isActive, theme }) => ($isActive ? theme.secondary : "transparent")};
   height: 60px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  pointer-events: ${({ $isLoading }) => ($isLoading ? "none" : "auto")};
   transition: 0.3s ease-in-out;
+
   cursor: pointer;
 
   &:hover {
@@ -83,4 +109,11 @@ export const ActivityName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+export const PlannedIdicator = styled(FlexContainer)`
+  width: 60px;
+  font-weight: 700;
+  font-size: 20px;
+  color: ${({ theme }) => theme.plannedColor};
 `

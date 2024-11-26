@@ -3,6 +3,7 @@ import { format } from "date-fns"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { editActivityAction } from "@features/activities/activitiesActions"
 import {
   resetActivitiesData,
@@ -32,6 +33,10 @@ export const DayInfo = () => {
   const date = useAppSelector((state) => state.calendarScheduler.selectedDate)
   const dayEvents = useAppSelector((state) => state.calendarScheduler.dayEvents)
   const activeEvent = useAppSelector((state) => state.calendarScheduler.activeEvent)
+  const loadingStatus = useAppSelector((state) => state.activities.editActivityStatus)
+  const currentProcessedActivityId = useAppSelector(
+    (state) => state.activities.currentlyProcessedActivityId
+  )
 
   const dayName = format(date ? new Date(date) : new Date(), "eeee")
   const monthName = format(date ? new Date(date) : new Date(), "LLL")
@@ -79,8 +84,12 @@ export const DayInfo = () => {
                 key={dayEvent._id}
                 activity={dayEvent}
                 isActive={activeEvent?._id === dayEvent._id}
+                isLoading={
+                  loadingStatus === RequestStatuses.LOADING &&
+                  currentProcessedActivityId === dayEvent._id
+                }
                 onCardClick={() => handleEventClick(dayEvent)}
-                onCardStatusChange={() => handleOnCardStatusChange(dayEvent)}
+                onCardStatusChange={async () => await handleOnCardStatusChange(dayEvent)}
               />
             ))}
           </EventsLits>
