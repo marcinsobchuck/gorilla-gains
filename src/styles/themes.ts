@@ -8,6 +8,10 @@ export const lightTheme = {
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
+  notDoneGradient: "linear-gradient(to right, #ffffff, #faf2f2)",
+  plannedBackgroundGradient: "linear-gradient(to right, #ffffff, #fcf5eb)",
+  plannedColor: "#fda63a",
+
   activeBackgroundColor: "#F5FCF3",
 
   errorColor: "#B00020",
@@ -46,6 +50,7 @@ export const lightTheme = {
   secondaryMusclesColor: "#ffc30080",
   otherMusclesColor: "#BFBFBF4D",
 }
+
 export const darkTheme = {
   backgroundColor: "#121212",
   inputBackgroundColor: "#252730",
@@ -56,6 +61,9 @@ export const darkTheme = {
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #000000, #051201)",
+  notDoneGradient: "linear-gradient(to right, #000000, #170606)",
+  plannedBackgroundGradient: "linear-gradient(to right, #000000, #1c1206)",
+  plannedColor: "#fda63a",
 
   activeBackgroundColor: "#061602",
 

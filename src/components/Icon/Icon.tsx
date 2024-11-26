@@ -4,6 +4,7 @@ import balance from "@assets/balance.svg"
 import calendar from "@assets/calendar.svg"
 import checkmark from "@assets/checkmark.svg"
 import close from "@assets/close.svg"
+import cross from "@assets/cross.svg"
 import dashboard from "@assets/dashboard.svg"
 import edit from "@assets/edit.svg"
 import endurance from "@assets/endurance.svg"
@@ -77,6 +78,7 @@ export const Icon: React.FC<IconProps> = ({
     logout: <StyledIcon src={logout} {...SVGProps} />,
     info: <StyledIcon src={info} {...SVGProps} />,
     edit: <StyledIcon src={edit} {...SVGProps} />,
+    cross: <StyledIcon src={cross} {...SVGProps} />,
   }
 
   return icons[name]

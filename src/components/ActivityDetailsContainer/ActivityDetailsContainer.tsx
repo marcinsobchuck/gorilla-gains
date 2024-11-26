@@ -27,32 +27,33 @@ export const ActivityDetailsContainer = ({
 
   return (
     <Wrapper $isOpen={isOpen}>
-      <ButtonsWrapper justify='space-between'>
-        <StyledButton
-          variant='tertiary'
-          buttonType='button'
-          icon='leftArrow'
-          onClick={onClose}
-          color={theme.secondary}
-        />
-        {activeActivityEvent && (
-          <FlexContainer>
-            <StyledButton variant='tertiary' buttonType='button' icon='edit' onClick={onEdit}>
-              Edit
-            </StyledButton>
+      {activeActivityEvent && (
+        <>
+          <ButtonsWrapper justify='space-between'>
             <StyledButton
               variant='tertiary'
               buttonType='button'
-              icon='remove'
-              onClick={handleRemoveActivity}
-            >
-              Delete
-            </StyledButton>
-          </FlexContainer>
-        )}
-      </ButtonsWrapper>
-
-      {activeActivityEvent && <ActivityDetails activityDetails={activeActivityEvent} />}
+              icon='leftArrow'
+              onClick={onClose}
+              color={theme.secondary}
+            />
+            <FlexContainer>
+              <StyledButton variant='tertiary' buttonType='button' icon='edit' onClick={onEdit}>
+                Edit
+              </StyledButton>
+              <StyledButton
+                variant='tertiary'
+                buttonType='button'
+                icon='remove'
+                onClick={handleRemoveActivity}
+              >
+                Delete
+              </StyledButton>
+            </FlexContainer>
+          </ButtonsWrapper>
+          <ActivityDetails activityDetails={activeActivityEvent} />
+        </>
+      )}
     </Wrapper>
   )
 }

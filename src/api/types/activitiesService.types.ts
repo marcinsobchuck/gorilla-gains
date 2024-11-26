@@ -44,12 +44,13 @@ export interface EditActivityData {
   warmup?: boolean
   repeatExercisesCount?: number
   isPreset?: boolean
+  isDone?: boolean
 }
 
 export interface EditActivityParams {
   dataToEdit: EditActivityData
   activityId: string
-  theme: DefaultTheme
+  theme?: DefaultTheme
 }
 
 export interface GetActivitiesForCurrentUserParams {
@@ -90,6 +91,7 @@ export interface Activity {
   warmup: boolean
   repeatExercisesCount: number
   isPreset: boolean
+  isDone: boolean
   exertionRating?: number
   createdAt: string
   updatedAt?: string

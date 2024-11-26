@@ -200,7 +200,9 @@ export const activitiesSlice = createSlice({
       state.isActivityEventOpen = false
 
       if (state.selectedDate === newDate && isEditedActivityInThePast) {
-        state.activitiesData = [action.payload, ...state.activitiesData]
+        state.activitiesData = state.activitiesData.map((activity) =>
+          activity._id === action.payload._id ? action.payload : activity
+        )
       }
 
       toast("Succesfully edited activity")
