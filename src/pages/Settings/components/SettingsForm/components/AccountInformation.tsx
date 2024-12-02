@@ -10,7 +10,7 @@ import {
 
 export const AccountInformation = () => {
   return (
-    <section>
+    <section id='account-information-section'>
       <SectionTitle id='account-information' data-name='account-information'>
         Account information
       </SectionTitle>

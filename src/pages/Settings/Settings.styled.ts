@@ -5,6 +5,7 @@ import { MainContentWrapper } from "@layouts/RootLayout/RootLayout.styled"
 export const StyledMainContentWrapper = styled(MainContentWrapper)`
   overflow: auto;
   scroll-padding-top: 48px;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     width: 18px;

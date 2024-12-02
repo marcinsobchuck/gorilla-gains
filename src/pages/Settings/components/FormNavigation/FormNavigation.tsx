@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
+import { navigationItems } from "./config"
 import {
   NavSectionTitle,
   NavSubsectionTitle,
@@ -13,11 +14,23 @@ import {
 
 export const FormNavigation = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+
   const [currentTab, setCurrentTab] = useState("")
   const [hashTab, setHashTab] = useState(location.hash.slice(1))
+
   const observerRef = useRef<IntersectionObserver | null>(null)
+
   const isActive = (tab: string) => {
     return tab === currentTab
+  }
+
+  const handleSectionTitleClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault()
+    const sectionElement = document.querySelector(`#${sectionId}`)
+    sectionElement?.scrollIntoView()
+
+    navigate(`#${sectionId}`)
   }
 
   useEffect(() => {
@@ -70,41 +83,26 @@ export const FormNavigation = () => {
       /> */}
       {/* intersection indicator */}
       <ul>
-        <SectionListItem>
-          <NavSectionTitle href='#account-information' $isActive={isActive("account-information")}>
-            Account information
-          </NavSectionTitle>
-          <SubsectionList>
-            <SubsectionListItem>
-              <NavSubsectionTitle href='#credentials' $isActive={isActive("credentials")}>
-                Credentials
-              </NavSubsectionTitle>
-            </SubsectionListItem>
-          </SubsectionList>
-        </SectionListItem>
-
-        <SectionListItem>
-          <NavSectionTitle href='#user-settings' $isActive={isActive("user-settings")}>
-            User settings
-          </NavSectionTitle>
-          <SubsectionList>
-            <SubsectionListItem>
-              <NavSubsectionTitle href='#personal-info' $isActive={isActive("personal-info")}>
-                Personal info
-              </NavSubsectionTitle>
-            </SubsectionListItem>
-            <SubsectionListItem>
-              <NavSubsectionTitle href='#physical-details' $isActive={isActive("physical-details")}>
-                Physical details
-              </NavSubsectionTitle>
-            </SubsectionListItem>
-            <SubsectionListItem>
-              <NavSubsectionTitle href='#goals' $isActive={isActive("goals")}>
-                Goals
-              </NavSubsectionTitle>
-            </SubsectionListItem>
-          </SubsectionList>
-        </SectionListItem>
+        {navigationItems.map((section) => (
+          <SectionListItem key={section.id}>
+            <NavSectionTitle
+              href={section.href}
+              onClick={(e) => handleSectionTitleClick(e, section.sectionContainerId)}
+              $isActive={isActive(section.id)}
+            >
+              {section.sectionTitle}
+            </NavSectionTitle>
+            <SubsectionList>
+              {section.subSections.map((subsection) => (
+                <SubsectionListItem key={subsection.id}>
+                  <NavSubsectionTitle href={subsection.href} $isActive={isActive(subsection.id)}>
+                    {subsection.subsectionTitle}
+                  </NavSubsectionTitle>
+                </SubsectionListItem>
+              ))}
+            </SubsectionList>
+          </SectionListItem>
+        ))}
       </ul>
     </Wrapper>
   )

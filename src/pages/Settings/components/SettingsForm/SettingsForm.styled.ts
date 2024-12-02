@@ -9,9 +9,13 @@ export const FieldsWrapper = styled.div`
 `
 
 export const SectionTitle = styled.h2`
+  position: sticky;
+  z-index: 2;
+  top: 0px;
   font-weight: 700;
   font-size: 18px;
-  padding: 12px;
+  padding: 24px;
+  backdrop-filter: blur(3px);
 `
 export const SubsectionTitle = styled.h3`
   color: ${({ theme }) => theme.primaryMedium};

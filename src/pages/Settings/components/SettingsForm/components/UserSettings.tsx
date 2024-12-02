@@ -11,7 +11,7 @@ import {
 
 export const UserSettings = () => {
   return (
-    <section>
+    <section id='user-settings-section'>
       <SectionTitle id='user-settings' data-name='user-settings'>
         User settings
       </SectionTitle>
