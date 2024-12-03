@@ -17,13 +17,3 @@ export const SectionTitle = styled.h2`
   padding: 24px;
   backdrop-filter: blur(3px);
 `
-export const SubsectionTitle = styled.h3`
-  color: ${({ theme }) => theme.primaryMedium};
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 18px;
-`
-export const SubsectionWrapper = styled.div`
-  padding: 24px 0;
-`

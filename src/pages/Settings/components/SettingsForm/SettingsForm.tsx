@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form"
 
-import { AccountInformation } from "./components/AccountInformation"
-import { UserSettings } from "./components/UserSettings"
+import { AccountInformation } from "./components/AccountInformation/AccountInformation"
+import { UserSettings } from "./components/UserSettings/UserSettings"
 import { StyledForm } from "./SettingsForm.styled"
 
 export const SettingsForm = () => {

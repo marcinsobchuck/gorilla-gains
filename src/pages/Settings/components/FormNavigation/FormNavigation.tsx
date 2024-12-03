@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
-import { navigationItems } from "./config"
 import {
   NavSectionTitle,
   NavSubsectionTitle,
@@ -11,6 +10,7 @@ import {
   SubsectionListItem,
   Wrapper,
 } from "./FormNavigation.styled"
+import { settingsFormData } from "../../config"
 
 export const FormNavigation = () => {
   const location = useLocation()
@@ -83,7 +83,7 @@ export const FormNavigation = () => {
       /> */}
       {/* intersection indicator */}
       <ul>
-        {navigationItems.map((section) => (
+        {settingsFormData.map((section) => (
           <SectionListItem key={section.id}>
             <NavSectionTitle
               href={section.href}
