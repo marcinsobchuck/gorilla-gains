@@ -10,8 +10,8 @@ export const PersonalInfo = () => {
       <Input id='name' label='Name' type='text' />
       <Input id='surname' label='Surname' type='text' />
       <Datepicker
-        label='age'
-        name='age'
+        label='Date of birth'
+        name='dob'
         showYearDropdown
         dateFormatCalendar='MMMM'
         scrollableYearDropdown

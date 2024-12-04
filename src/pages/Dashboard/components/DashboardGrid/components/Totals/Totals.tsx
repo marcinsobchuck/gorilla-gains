@@ -1,4 +1,4 @@
-import { differenceInDays } from "date-fns"
+import { differenceInDays, parseISO } from "date-fns"
 import Skeleton from "react-loading-skeleton"
 
 import { useAppSelector } from "@app/hooks"
@@ -18,7 +18,10 @@ export const Totals = () => {
   const userInfoStatus = useAppSelector((state) => state.user.status)
 
   const dueDateWeight = userState.data?.dueDateWeight
-  const daysLeftWeightGoal = dueDateWeight ? differenceInDays(dueDateWeight, new Date()) : "-"
+
+  const daysLeftWeightGoal = dueDateWeight
+    ? differenceInDays(parseISO(dueDateWeight), new Date())
+    : "-"
 
   if (
     userInfoStatus === RequestStatuses.LOADING ||

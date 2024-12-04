@@ -1,5 +1,6 @@
 import "react-loading-skeleton/dist/skeleton.css"
 
+import { differenceInYears, parseISO } from "date-fns"
 import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -13,14 +14,14 @@ export const UserInfo = () => {
   const userInfo = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
-  const { name, surname, age, weight, desiredWeight, height, gender, goals } = {
+  const { name, surname, dob, weight, desiredWeight, height, gender, goals } = {
     ...userInfo.data,
   }
 
   const userItems = [
     { label: "Name", value: name },
     { label: "Surname", value: surname },
-    { label: "Age", value: age },
+    { label: "Age", value: dob ? differenceInYears(new Date(), parseISO(dob)) : "-" },
     { label: "Gender", value: gender },
     { label: "Height", value: height ? `${height}  cm` : "-" },
     { label: "Weight", value: weight ? `${weight}  kg` : "-" },

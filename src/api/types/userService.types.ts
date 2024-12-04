@@ -3,20 +3,20 @@ export interface User {
   name: string
   surname: string
   email: string
-  age: number
+  dob: string
   gender: string
   weight: number
-  activityLevel: number
+  activityLevel: string
   desiredWeight: number
   height: number
-  dueDateWeight: Date
+  dueDateWeight: string
   goals: string[]
 }
 
 export interface ChangeUserInfoData {
   name?: string
   surname?: string
-  age?: number
+  dob?: string
   gender?: string
   height?: number
   weight?: number
