@@ -1,13 +1,48 @@
+import debounce from "lodash.debounce"
 import * as yup from "yup"
+
+import { verifyUserPassword } from "@api/userService"
 
 export type SettingsFormValues = yup.InferType<typeof settingsFormSchema>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleIsNaN = (value: any) => (isNaN(value) ? undefined : value)
 
+const debouncedVerifyPassword = debounce(
+  async (
+    value: string,
+    resolve: (value: boolean) => void,
+    setIsCurrentPasswordValid: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      const response = await verifyUserPassword(value)
+      setIsCurrentPasswordValid(response.data)
+      return resolve(response.data)
+    } catch (err) {
+      return false
+    }
+  },
+  400
+)
+
 export const settingsFormSchema = yup.object().shape(
   {
     email: yup.string().email("Invalid email address"),
+    currentPassword: yup.string().test("verifyPassword", "Invalid password", (value, context) => {
+      if (!value) return true
+
+      if (document.activeElement?.id === "currentPassword") {
+        return new Promise((resolve) =>
+          debouncedVerifyPassword(
+            value,
+            resolve,
+            context.options.context?.setIsCurrentPasswordValid
+          )
+        )
+      } else if (context.options.context?.isCurrentPasswordValid) {
+        return true
+      }
+    }),
     password: yup
       .string()
       .notRequired()
@@ -17,7 +52,6 @@ export const settingsFormSchema = yup.object().shape(
         then: (rule) => rule.min(6, "Min. 6 characters"),
       }),
     passwordConfirmation: yup.string().oneOf([yup.ref("password")], "Password must match"),
-
     name: yup.string().required("Required").min(5, "Min. 5 characters"),
     surname: yup.string(),
     dob: yup.date().required("Required").nullable(),
@@ -78,6 +112,7 @@ export const settingsFormSchema = yup.object().shape(
 
 export const defaultValues = {
   email: "",
+  currentPassword: "",
   password: "",
   passwordConfirmation: "",
 

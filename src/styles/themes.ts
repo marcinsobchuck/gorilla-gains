@@ -80,7 +80,7 @@ export const darkTheme = {
   secondaryHover: "#8CCB77",
   secondaryActive: "#6EAF5E",
   secondaryDisabled: "#DCECCF",
-  secondaryText: "#4CB129",
+  secondaryText: "#A1D890",
   secondaryOpacity: "#A1D8901F",
 
   strengthEventColor: "#FF5A5F",

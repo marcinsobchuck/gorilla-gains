@@ -5,7 +5,14 @@ import errorIcon from "@assets/error.svg"
 import successIcon from "@assets/success.svg"
 import { FormError } from "@components/FormError/FormError"
 
-import { InputStatusIcon, InputWrapper, StyledInput, StyledLabel, UnitSymbol } from "./Input.styled"
+import {
+  InputStatusIcon,
+  InputWrapper,
+  StyledInput,
+  StyledLabel,
+  UnitSymbol,
+  ValidationSpinner,
+} from "./Input.styled"
 import { InputProps } from "./Input.types"
 
 export const Input: React.FC<InputProps> = ({
@@ -17,12 +24,14 @@ export const Input: React.FC<InputProps> = ({
   unitSymbol,
   className,
   triggerValidationFor = [],
+  isAsync,
   onChange,
+  isDisabled,
   ...props
 }) => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, validatingFields },
     trigger,
   } = useFormContext()
   const formValues = useWatch({
@@ -46,12 +55,16 @@ export const Input: React.FC<InputProps> = ({
     handleValidationTrigger()
   }
 
+  const isValidating = validatingFields[id]
+  const isLoading = isAsync && isValidating
+
   return (
     <InputWrapper
       key={id}
       $shouldTransition={isNotEmpty}
       $withError={withError}
       className={className}
+      $isDisabled={isDisabled}
     >
       <StyledInput
         id={id}
@@ -63,15 +76,18 @@ export const Input: React.FC<InputProps> = ({
           onChange: customOnChange,
           onBlur: handleValidationTrigger,
         })}
+        disabled={isDisabled}
         {...props}
       />
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      {withIcon && (
+      {withIcon && !isLoading ? (
         <InputStatusIcon
           $isVisible={isError || isNotEmpty}
           $isValid={!isError}
           src={errors[id] ? errorIcon : successIcon}
         />
+      ) : (
+        <ValidationSpinner height={24} width={24} />
       )}
       {unitSymbol && <UnitSymbol>{unitSymbol}</UnitSymbol>}
       {withError && <FormError errors={errors} name={id} />}

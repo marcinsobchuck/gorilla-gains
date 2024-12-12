@@ -10,6 +10,8 @@ export interface Props {
   className?: string
   triggerValidationFor?: string[]
   onChange?: () => void
+  isAsync?: boolean
+  isDisabled?: boolean
 }
 
 export type InputProps = Props & InputHTMLAttributes<HTMLInputElement>

@@ -1,5 +1,5 @@
 export const accountInformationInputsData: {
-  id: "email" | "password" | "passwordConfirmation"
+  id: "email" | "currentPassword" | "password" | "passwordConfirmation"
   label: string
   type: "text" | "email" | "password"
 }[] = [
@@ -9,8 +9,13 @@ export const accountInformationInputsData: {
     type: "email",
   },
   {
+    id: "currentPassword",
+    label: "Current password",
+    type: "password",
+  },
+  {
     id: "password",
-    label: "Password",
+    label: "New password",
     type: "password",
   },
   {

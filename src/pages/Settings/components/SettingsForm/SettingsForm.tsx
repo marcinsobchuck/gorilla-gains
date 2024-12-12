@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -12,6 +12,7 @@ import { StyledForm, SubmitButton } from "./SettingsForm.styled"
 import { getFormValuesFromCurrentUser } from "./utils"
 
 export const SettingsForm = () => {
+  const [isCurrentPasswordValid, setIsCurrentPasswordValid] = useState(false)
   const dispatch = useAppDispatch()
   const currentUser = useAppSelector((state) => state.user.data)
   const values = currentUser ? getFormValuesFromCurrentUser(currentUser) : undefined
@@ -21,6 +22,10 @@ export const SettingsForm = () => {
     mode: "onChange",
     resolver: yupResolver(settingsFormSchema),
     values,
+    context: {
+      setIsCurrentPasswordValid,
+      isCurrentPasswordValid,
+    },
   })
 
   useEffect(() => {
@@ -31,9 +36,7 @@ export const SettingsForm = () => {
     }
   }, [currentUser, dispatch])
 
-  const { watch, handleSubmit } = methods
-
-  console.log({ watch: watch() })
+  const { handleSubmit } = methods
 
   const onSubmit = handleSubmit((values) => {
     console.log("LODŻŻIO", { submittedValues: values })

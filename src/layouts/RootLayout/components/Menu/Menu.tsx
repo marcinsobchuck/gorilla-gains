@@ -25,20 +25,24 @@ import { ListItem, MenuProps } from "./Menu.types"
 interface SettingOption {
   icon: IconName
   name: string
+  to: string
 }
 
 const settingsOptions: SettingOption[] = [
   {
     icon: "account",
     name: "Account",
+    to: `${Routes.SETTINGS}#account-information-section`,
   },
   {
     icon: "privacy",
     name: "Privacy",
+    to: `${Routes.SETTINGS}#user-settings-section`,
   },
   {
     icon: "logout",
     name: "Logout",
+    to: "",
   },
 ]
 
@@ -97,7 +101,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                 {settingsOptions.map((option) => (
                   <Button
                     key={option.name}
-                    to={Routes.SETTINGS}
+                    to={option.to}
                     buttonType='navLink'
                     variant='tertiary'
                     icon={option.icon}
