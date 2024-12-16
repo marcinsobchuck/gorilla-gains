@@ -2,7 +2,7 @@ import { parseISO } from "date-fns"
 
 import { User } from "@api/types/userService.types"
 
-import { SettingsFormValues } from "./config"
+import { SettingsFormValues } from "./SettingsForm.types"
 
 export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormValues | undefined => {
   if (!currentUser) return
@@ -35,3 +35,22 @@ export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormVal
     goals,
   }
 }
+
+export const getEditedData = (
+  formValues: SettingsFormValues,
+  dirtyFields: (string | undefined)[]
+) => {
+  const editedFields = Object.entries(formValues).reduce<{
+    [key in keyof typeof formValues]?: (typeof formValues)[keyof typeof formValues]
+  }>((acc, [key, value]) => {
+    if (dirtyFields.includes(key)) {
+      acc[key as keyof typeof formValues] = value
+    }
+    return acc
+  }, {})
+  return editedFields
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const omitKeysFromObject = (obj: Record<string, any>, keysToOmit: string[]) =>
+  Object.fromEntries(Object.entries(obj).filter(([key]) => !keysToOmit.includes(key)))

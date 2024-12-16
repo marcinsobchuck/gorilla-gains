@@ -3,8 +3,6 @@ import * as yup from "yup"
 
 import { verifyUserPassword } from "@api/userService"
 
-export type SettingsFormValues = yup.InferType<typeof settingsFormSchema>
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleIsNaN = (value: any) => (isNaN(value) ? undefined : value)
 

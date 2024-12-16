@@ -15,6 +15,8 @@ export interface User {
 
 export interface ChangeUserInfoData {
   name?: string
+  email?: string
+  password?: string
   surname?: string
   dob?: string
   gender?: string
