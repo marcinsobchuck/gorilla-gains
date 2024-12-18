@@ -14,7 +14,7 @@ export type InputsNames = AllInputs[]
 export interface UserDetailsFormValues {
   name: string
   surname?: string
-  age: number
+  dob: Date
   gender: string
   height: number
   weight: number

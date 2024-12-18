@@ -1,3 +1,4 @@
+import { differenceInYears, parseISO } from "date-fns"
 import Skeleton from "react-loading-skeleton"
 
 import { useAppSelector } from "@app/hooks"
@@ -21,10 +22,11 @@ export const HealthMetrics = () => {
       </Wrapper>
     )
   }
+  const { weight, height, dob, gender, activityLevel } = userInfo
 
-  const { weight, height, age, gender, activityLevel } = userInfo
+  const age = differenceInYears(new Date(), parseISO(dob))
 
-  const { BMI, BMR, TDEE, PAL } = getHealthMetrics(weight, height, age, gender, activityLevel)
+  const { BMI, BMR, TDEE, PAL } = getHealthMetrics(weight, height, age, gender, +activityLevel)
 
   const items = getItems({ BMI, BMR, TDEE, PAL })
 

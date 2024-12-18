@@ -7,7 +7,7 @@ export const handleIsNaN = (value: any) => (isNaN(value) ? undefined : value)
 export const userDetailsSchema = yup.object().shape({
   name: yup.string().required("Required").min(5, "Min. 5 characters"),
   surname: yup.string(),
-  age: yup.date().required("Required"),
+  dob: yup.date().required("Required"),
   gender: yup.string().required("Required"),
   height: yup
     .number()

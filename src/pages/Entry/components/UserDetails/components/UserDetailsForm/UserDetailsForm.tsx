@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { differenceInYears } from "date-fns"
 import { useEffect } from "react"
 import { FormProvider, useForm, useFormState } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
@@ -46,9 +45,9 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   const formState = useFormState({ control })
   const onSubmit = handleSubmit(async (values) => {
     try {
-      const age = differenceInYears(new Date(), values.age)
+      const dob = values.dob.toISOString()
 
-      await dispatch(changeUserInfoAction({ ...values, age })).unwrap()
+      await dispatch(changeUserInfoAction({ ...values, dob })).unwrap()
       navigate(Routes.DASHBOARD)
     } catch (err) {
       console.error(err)

@@ -12,3 +12,11 @@ export const getCurrentUserInfo = async (signal: AbortSignal): Promise<AxiosResp
 export const changeUserInfo = async (data: ChangeUserInfoData): Promise<AxiosResponse<User>> => {
   return await privateApiService.patch(ApiEndpoints.USERS, data)
 }
+
+export const verifyUserPassword = async (password: string): Promise<AxiosResponse<boolean>> => {
+  return await privateApiService.get(ApiEndpoints.VERIFY_PASSWORD, {
+    params: {
+      password,
+    },
+  })
+}
