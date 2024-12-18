@@ -6,6 +6,9 @@ import { SettingsFormValues } from "./SettingsForm.types"
 
 export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormValues | undefined => {
   if (!currentUser) return
+
+  const otherValues = { currentPassword: "", passwordConfirmation: "", password: "" }
+
   const {
     email,
     name,
@@ -20,9 +23,8 @@ export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormVal
     goals,
   } = currentUser
   return {
+    ...otherValues,
     email,
-    password: "",
-    passwordConfirmation: "",
     name,
     surname,
     dob: parseISO(dob),

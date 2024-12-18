@@ -20,6 +20,13 @@ export const authSlice = createSlice({
     resetAuthFormError: (state) => {
       state.error = ""
     },
+    logout: (state) => {
+      state.accessToken = ""
+      state.userInfo = null
+      state.status = RequestStatuses.IDLE
+
+      window.localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN)
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(isAnyOf(registerUserAction.pending, loginUserAction.pending), (state) => {
@@ -45,4 +52,4 @@ export const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const { resetAuthFormError } = authSlice.actions
+export const { resetAuthFormError, logout } = authSlice.actions

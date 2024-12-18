@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { changeUserInfoAction, getCurrentUserInfoAction } from "@features/user/userActions"
@@ -25,6 +26,9 @@ export const SettingsForm = () => {
     context: {
       setIsCurrentPasswordValid,
       isCurrentPasswordValid,
+    },
+    resetOptions: {
+      keepDirtyValues: true,
     },
   })
 
@@ -55,7 +59,11 @@ export const SettingsForm = () => {
       "passwordConfirmation",
     ])
 
-    await dispatch(changeUserInfoAction(submitEditData))
+    await toast.promise(dispatch(changeUserInfoAction(submitEditData)), {
+      pending: "Editing...",
+      success: "Successfully edited",
+      error: "Edition failed",
+    })
   })
 
   return (
@@ -63,7 +71,7 @@ export const SettingsForm = () => {
       <StyledForm onSubmit={onSubmit}>
         <AccountInformation />
         <UserSettings />
-        <SubmitButton variant='primary' buttonType='button' width={140}>
+        <SubmitButton variant='primary' buttonType='button' type='submit' width={140}>
           Save
         </SubmitButton>
       </StyledForm>

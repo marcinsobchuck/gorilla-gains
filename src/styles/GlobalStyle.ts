@@ -19,7 +19,8 @@ export const GlobalStyle = globalStyle.createGlobalStyle`
 
     --toastify-color-light: ${({ theme }) => theme.backgroundColor};
     --toastify-text-color-light: ${({ theme }) => theme.primary};
-    --toastify-color-progress-light: ${({ theme }) => theme.secondary}
+    --toastify-color-progress-light: ${({ theme }) => theme.secondary};
+    --toastify-color-success: ${({ theme }) => theme.secondary}
   }
 
   *,

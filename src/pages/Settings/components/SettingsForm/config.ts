@@ -48,6 +48,11 @@ export const settingsFormSchema = yup.object().shape(
       .when("password", {
         is: (value: string) => value?.length,
         then: (rule) => rule.min(6, "Min. 6 characters"),
+      })
+      .when("currentPassword", {
+        is: (value: string) => value !== "",
+        then: (rule) =>
+          rule.notOneOf([yup.ref("currentPassword")], "Must be different than old password"),
       }),
     passwordConfirmation: yup.string().oneOf([yup.ref("password")], "Password must match"),
     name: yup.string().required("Required").min(5, "Min. 5 characters"),

@@ -1,11 +1,13 @@
 import { useState } from "react"
 
+import { useAppDispatch } from "@app/hooks"
 import gorillaPhoto from "@assets/gorillaPhoto.jpg"
 import { Button } from "@components/Button/Button"
 import { IconName } from "@components/Icon/Icon.types"
 import { Popover } from "@components/Popover/Popover"
 import { Switch } from "@components/Switch/Switch"
 import { Routes } from "@enums/routes.enum"
+import { logout } from "@features/auth/authSlice"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
 import { listItems } from "./config"
@@ -20,7 +22,7 @@ import {
   UserInfo,
   UserName,
 } from "./Menu.styled"
-import { ListItem, MenuProps } from "./Menu.types"
+import { MenuProps } from "./Menu.types"
 
 interface SettingOption {
   icon: IconName
@@ -39,25 +41,14 @@ const settingsOptions: SettingOption[] = [
     name: "Privacy",
     to: `${Routes.SETTINGS}#user-settings-section`,
   },
-  {
-    icon: "logout",
-    name: "Logout",
-    to: "",
-  },
 ]
 
 export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
+  const dispatch = useAppDispatch()
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  const [, setCurrentItem] = useState<ListItem>(listItems[0])
-
   const decodedToken = useJwtDecoded()
-
-  const handleItemClick = (item: ListItem) => {
-    setCurrentItem(item)
-    setIsOpen(true)
-  }
 
   return (
     <MenuWrapper $isOpen={isOpen}>
@@ -67,7 +58,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             key={item.name}
             buttonType='navLink'
             to={item.path}
-            onClick={() => handleItemClick(item)}
+            onClick={() => setIsOpen(false)}
             icon={item.icon}
             variant='tertiary'
           >
@@ -97,7 +88,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             placement='right-end'
           >
             <SettingsWrapper direction='column' justify='space-between'>
-              <SettingsOptions>
+              <SettingsOptions direction='column'>
                 {settingsOptions.map((option) => (
                   <Button
                     key={option.name}
@@ -110,11 +101,23 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                     {option.name}
                   </Button>
                 ))}
+                <ThemeSwitchWrapper align='center' justify='space-between'>
+                  <p>Theme</p>
+                  <Switch />
+                </ThemeSwitchWrapper>
               </SettingsOptions>
-              <ThemeSwitchWrapper align='center' justify='space-between'>
-                <p>Theme</p>
-                <Switch />
-              </ThemeSwitchWrapper>
+
+              <Button
+                buttonType='button'
+                variant='tertiary'
+                icon='logout'
+                onClick={() => {
+                  dispatch(logout())
+                  setIsPopoverOpen(false)
+                }}
+              >
+                Logout
+              </Button>
             </SettingsWrapper>
           </Popover>
         )}
