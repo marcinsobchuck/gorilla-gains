@@ -37,6 +37,7 @@ const Wrapper = styled.div`
   max-width: 1320px;
   margin: 0 auto;
   padding: 24px;
+  padding-bottom: 86px;
   transition: all 0.3s;
 
   &:after {

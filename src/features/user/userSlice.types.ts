@@ -5,4 +5,8 @@ export interface InitialState {
   data?: User
   status: RequestStatuses
   error?: string
+
+  changePasswordStatus: RequestStatuses
+  changePasswordMessage: string
+  changePasswordError?: string | null
 }

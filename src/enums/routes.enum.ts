@@ -3,6 +3,8 @@ export enum Routes {
   LOGIN = "/entry/login",
   REGISTER = "/entry/register",
   USER_DETAILS = "/entry/user-details",
+  CHANGE_PASSWORD = "/entry/change-password",
+  FORGOT_PASSWORD = "/entry/forgot-password",
 
   HOME = "/",
   DASHBOARD = "/dashboard",

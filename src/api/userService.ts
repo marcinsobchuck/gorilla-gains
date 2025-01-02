@@ -2,8 +2,8 @@ import { AxiosResponse } from "axios"
 
 import { ApiEndpoints } from "@enums/apiEndpoints.enum"
 
-import { privateApiService } from "./api"
-import { ChangeUserInfoData, User } from "./types/userService.types"
+import { apiService, privateApiService } from "./api"
+import { ChangeUserInfoData, ChangeUserPasswordData, User } from "./types/userService.types"
 
 export const getCurrentUserInfo = async (signal: AbortSignal): Promise<AxiosResponse<User>> => {
   return await privateApiService.get(ApiEndpoints.USERS, { signal })
@@ -19,4 +19,19 @@ export const verifyUserPassword = async (password: string): Promise<AxiosRespons
       password,
     },
   })
+}
+
+export const changeUserPassword = async ({
+  password,
+  token,
+}: ChangeUserPasswordData): Promise<AxiosResponse<string>> => {
+  return await apiService.post(
+    ApiEndpoints.CHANGE_PASSWORD,
+    { password },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
 }

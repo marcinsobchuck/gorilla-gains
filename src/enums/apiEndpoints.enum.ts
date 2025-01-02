@@ -1,11 +1,16 @@
 export enum ApiEndpoints {
   REGISTER = "/auth/register",
   LOGIN = "/auth/login",
+  FORGOT_PASSWORD = "auth/forgot-password",
+  VERIFY_PASSWORD_RESET_TOKEN = "auth/verify-password-reset-token",
+
   USERS = "/users",
-  VERIFY_PASSWORD = "/users/verifyPassword",
+  VERIFY_PASSWORD = "/users/verify-password",
+  CHANGE_PASSWORD = "/users/change-password",
+  ACTIVITIES_SUMMARY = "/users/summary/activities",
+
   USER_ACTIVITIES = "/activity/user",
   ACTIVITIES = "/activity",
-  ACTIVITIY_TYPES = "/activityTypes",
+  ACTIVITIY_TYPES = "/activity-types",
   EXERCISES = "/exercises",
-  ACTIVITIES_SUMMARY = "/users/summary/activities",
 }

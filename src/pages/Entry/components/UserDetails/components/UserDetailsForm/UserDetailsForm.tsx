@@ -13,6 +13,7 @@ import { userDetailsSchema } from "./config"
 import { ButtonsWrapper, ProgressBar, StyledForm } from "./UserDetailsForm.styled"
 import { InputsNames, UserDetailsFormProps } from "./UserDetailsForm.types"
 import { requiredStepInputs } from "../Stepper/config"
+
 export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   step,
   currentStep,
