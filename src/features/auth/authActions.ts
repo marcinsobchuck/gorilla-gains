@@ -56,3 +56,45 @@ export const loginUserAction = createAppAsyncThunk(
     }
   }
 )
+
+export const forgotPasswordAction = createAppAsyncThunk(
+  "auth/forgotPassword",
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const response = await authService.forgotPassword(email)
+
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          return rejectWithValue(error.response?.data)
+        } else {
+          return rejectWithValue("Something went wrong")
+        }
+      } else {
+        return rejectWithValue("Something went really wrong")
+      }
+    }
+  }
+)
+
+export const verifyPasswordResetTokenAction = createAppAsyncThunk(
+  "auth/verifyPasswordResetToken",
+  async (token: string, { rejectWithValue }) => {
+    try {
+      const response = await authService.verifyPasswordResetToken(token)
+
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          return rejectWithValue(error.response?.data)
+        } else {
+          return rejectWithValue("Something went wrong")
+        }
+      } else {
+        return rejectWithValue("Something went really wrong")
+      }
+    }
+  }
+)

@@ -1,16 +1,20 @@
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-interface UserInfo {
-  id: string
-  name: string
-  email: string
-}
-
 export interface InitialState {
   accessToken: string | null
-  status: RequestStatuses
-  userInfo: UserInfo | null
-  error: string
+
+  registerStatus: RequestStatuses
+  loginStatus: RequestStatuses
+  forgotPasswordStatus: RequestStatuses
+  verifyPasswordResetTokenStatus: RequestStatuses
+
+  registerError?: string | null
+  loginError?: string | null
+  forgotPasswordError?: string | null
+  verifyPasswordResetTokenError?: string | null
+
+  isPasswordResetTokenValid: boolean
+  forgotPasswordSuccessMessage: string
 }
 
 export interface RegisterUserData {

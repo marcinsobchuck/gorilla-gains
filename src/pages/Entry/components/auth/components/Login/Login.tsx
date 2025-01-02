@@ -6,11 +6,17 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import authGorilla from "@assets/authGorilla.png"
 import { Routes } from "@enums/routes.enum"
 import { loginUserAction } from "@features/auth/authActions"
-import { resetAuthFormError } from "@features/auth/authSlice"
+import { resetLoginError } from "@features/auth/authSlice"
 
 import { LoginForm } from "./components/LoginForm"
 import { LoginFormValues } from "./LoginForm.types"
-import { AuthError, ContentWrapper, StyledImage, Wrapper } from "../../shared.styled"
+import {
+  AuthError,
+  ContentWrapper,
+  ForgotPasswordButton,
+  StyledImage,
+  Wrapper,
+} from "../../shared.styled"
 import { AuthFormHeader } from "../AuthFormHeader/AuthFormHeader"
 
 export const Login = () => {
@@ -18,7 +24,7 @@ export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { error, status } = auth
+  const { loginError } = auth
 
   const handleLogin: SubmitHandler<LoginFormValues> = async ({ email, password }) => {
     try {
@@ -31,11 +37,11 @@ export const Login = () => {
 
   useEffect(() => {
     return () => {
-      if (error !== "") {
-        dispatch(resetAuthFormError())
+      if (loginError) {
+        dispatch(resetLoginError())
       }
     }
-  }, [navigate, dispatch, error, status])
+  }, [dispatch, loginError])
 
   return (
     <Wrapper>
@@ -48,8 +54,11 @@ export const Login = () => {
           buttonText='Sign up'
           to={Routes.REGISTER}
         />
-        <AuthError $isVisible={Boolean(error)}>{error ? <p>{error}</p> : <p>&nbsp;</p>}</AuthError>
         <LoginForm onSubmit={handleLogin} />
+        <ForgotPasswordButton buttonType='navLink' to={Routes.FORGOT_PASSWORD} variant='secondary'>
+          Forgot password?
+        </ForgotPasswordButton>
+        {!!loginError && <AuthError>{loginError}</AuthError>}
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>

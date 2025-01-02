@@ -1,3 +1,4 @@
+import { HeaderWrapper } from "./AuthFormHeader.styled"
 import { AuthFormHeaderProps } from "./AuthFormHeader.types"
 import { Button } from "../../../../../../components/Button/Button"
 import { Accent, AuthActionContainer, Subtitle, Title, ViewInfoHeading } from "../../shared.styled"
@@ -11,7 +12,7 @@ export const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({
   to,
 }) => {
   return (
-    <>
+    <HeaderWrapper>
       <ViewInfoHeading>{heading}</ViewInfoHeading>
       <Title>
         {title}
@@ -27,6 +28,6 @@ export const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({
           {buttonText}
         </Button>
       </AuthActionContainer>
-    </>
+    </HeaderWrapper>
   )
 }

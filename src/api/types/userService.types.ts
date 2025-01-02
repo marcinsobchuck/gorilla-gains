@@ -27,3 +27,8 @@ export interface ChangeUserInfoData {
   activityLevel?: string
   goals?: string[]
 }
+
+export interface ChangeUserPasswordData {
+  password: string
+  token: string
+}
