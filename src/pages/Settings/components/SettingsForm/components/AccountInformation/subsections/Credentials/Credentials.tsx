@@ -4,7 +4,7 @@ import { Input } from "@components/Input/Input"
 
 import { accountInformationInputsData } from "./config"
 
-const currentPasswordDependantInputs = ["password", "passwordConfirmation"]
+const currentPasswordDependantInputs = ["password", "passwordConfirmation", "email"]
 
 export const Credentials = () => {
   const {
