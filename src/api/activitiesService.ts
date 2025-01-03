@@ -19,7 +19,10 @@ export const createActivity = async (data: CreateActivityData): Promise<AxiosRes
   await privateApiService.post(ApiEndpoints.ACTIVITIES, data)
 
 export const editActivity = async (data: EditActivityParams): Promise<AxiosResponse<Activity>> =>
-  await privateApiService.patch(`${ApiEndpoints.ACTIVITIES}/${data.activityId}`, data.dataToEdit)
+  await privateApiService.patch(
+    `${ApiEndpoints.USER_ACTIVITIES}/${data.activityId}`,
+    data.dataToEdit
+  )
 
 export const deleteActivity = async (activityId: string): Promise<AxiosResponse<Activity>> =>
   await privateApiService.delete(`${ApiEndpoints.ACTIVITIES}/${activityId}`)
