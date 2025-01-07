@@ -1,10 +1,9 @@
 import styled from "styled-components"
 
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { FormError } from "@components/FormError/FormError"
 import { Input } from "@components/Input/Input"
 
-export const Wrapper = styled(FlexContainer)`
+export const Wrapper = styled.div`
   position: relative;
   border-radius: 9px;
   background-color: ${({ theme }) => theme.nestedInputBackgroundColor};
@@ -29,6 +28,7 @@ export const StyledInput = styled(Input)`
 
   input {
     background-color: transparent;
+    padding-right: 9px;
   }
 
   &:not(:last-of-type):after {

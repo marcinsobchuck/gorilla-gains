@@ -8,7 +8,14 @@ import { getCurrentUserInfoAction } from "@features/user/userActions"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { UserInfoItem } from "./components/UserInfoItem"
-import { UserInfoItems, UserInfoTitle, Wrapper } from "./UserInfo.styled"
+import {
+  GoalTile,
+  GoalsWrapper,
+  UserInfoItems,
+  UserInfoSection,
+  UserInfoTitle,
+  Wrapper,
+} from "./UserInfo.styled"
 
 export const UserInfo = () => {
   const userInfo = useAppSelector((state) => state.user)
@@ -26,7 +33,6 @@ export const UserInfo = () => {
     { label: "Height", value: height ? `${height}  cm` : "-" },
     { label: "Weight", value: weight ? `${weight}  kg` : "-" },
     { label: "Desired weight", value: desiredWeight ? `${desiredWeight}  kg` : "-" },
-    { label: "Current focus", value: goals?.join(", ") },
   ]
 
   useEffect(() => {
@@ -39,22 +45,32 @@ export const UserInfo = () => {
 
   return (
     <Wrapper>
-      <UserInfoTitle>Basic info</UserInfoTitle>
-      <UserInfoItems>
-        {userItems.map((item) => {
-          return (
-            <UserInfoItem
-              key={item.label}
-              label={item.label}
-              value={
-                typeof item.value === "string"
-                  ? capitalizeFirstLetter(item.value) || "-"
-                  : item.value || "-"
-              }
-            />
-          )
-        })}
-      </UserInfoItems>
+      <UserInfoSection>
+        <UserInfoTitle>Basic info</UserInfoTitle>
+        <UserInfoItems>
+          {userItems.map((item) => {
+            return (
+              <UserInfoItem
+                key={item.label}
+                label={item.label}
+                value={
+                  typeof item.value === "string"
+                    ? capitalizeFirstLetter(item.value) || "-"
+                    : item.value || "-"
+                }
+              />
+            )
+          })}
+        </UserInfoItems>
+      </UserInfoSection>
+      <UserInfoSection>
+        <UserInfoTitle>Current focus</UserInfoTitle>
+        <GoalsWrapper>
+          {goals?.map((goal) => {
+            return <GoalTile key={goal}>{capitalizeFirstLetter(goal)}</GoalTile>
+          })}
+        </GoalsWrapper>
+      </UserInfoSection>
     </Wrapper>
   )
 }

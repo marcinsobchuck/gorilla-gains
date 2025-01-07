@@ -90,6 +90,7 @@ const sharedAuthMessageStyles = css`
   border-radius: 9px;
   padding: 6px 12px;
   margin: 14px 0px;
+  text-align: center;
 
   animation-duration: 0.3s;
   animation-timing-function: ease;

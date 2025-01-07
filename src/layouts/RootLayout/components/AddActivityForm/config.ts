@@ -64,7 +64,8 @@ const baseExerciseSchema = yup.object().shape({
 })
 
 const baseSetSchema = yup.object().shape({
-  break: yup.number().transform(handleIsNaN).nullable(),
+  break: yup.number().transform(handleIsNaN).nullable().positive("Must be positive"),
+  repeatCount: yup.number().min(1),
 })
 
 export const strengthExerciseSchema = baseExerciseSchema.shape({

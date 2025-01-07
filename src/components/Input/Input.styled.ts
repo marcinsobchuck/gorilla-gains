@@ -48,7 +48,9 @@ export const StyledInput = styled.input`
   outline: ${({ theme }) => theme.secondaryOpacity};
   transition: all 0.3s;
 
-  transition-delay: 0.1s;
+  &:hover {
+    border-color: ${({ theme }) => theme.secondaryActive};
+  }
 
   &:focus {
     border-color: ${({ theme }) => theme.secondary};

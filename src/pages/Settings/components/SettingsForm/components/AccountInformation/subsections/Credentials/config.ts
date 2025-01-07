@@ -4,15 +4,16 @@ export const accountInformationInputsData: {
   type: "text" | "email" | "password"
 }[] = [
   {
-    id: "email",
-    label: "Email",
-    type: "email",
-  },
-  {
     id: "currentPassword",
     label: "Current password",
     type: "password",
   },
+  {
+    id: "email",
+    label: "Email",
+    type: "email",
+  },
+
   {
     id: "password",
     label: "New password",

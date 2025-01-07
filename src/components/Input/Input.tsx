@@ -58,6 +58,22 @@ export const Input: React.FC<InputProps> = ({
   const isValidating = validatingFields[id]
   const isLoading = isAsync && isValidating
 
+  const renderStatusIcon = () => {
+    if (!withIcon) return null
+
+    if (isLoading) {
+      return <ValidationSpinner height={24} width={24} />
+    }
+
+    return (
+      <InputStatusIcon
+        $isVisible={isError || isNotEmpty}
+        $isValid={!isError}
+        src={errors[id] ? errorIcon : successIcon}
+      />
+    )
+  }
+
   return (
     <InputWrapper
       key={id}
@@ -80,15 +96,7 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      {withIcon && !isLoading ? (
-        <InputStatusIcon
-          $isVisible={isError || isNotEmpty}
-          $isValid={!isError}
-          src={errors[id] ? errorIcon : successIcon}
-        />
-      ) : (
-        <ValidationSpinner height={24} width={24} />
-      )}
+      {renderStatusIcon()}
       {unitSymbol && <UnitSymbol>{unitSymbol}</UnitSymbol>}
       {withError && <FormError errors={errors} name={id} />}
     </InputWrapper>
