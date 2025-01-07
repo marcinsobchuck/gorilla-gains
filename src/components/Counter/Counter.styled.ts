@@ -51,6 +51,6 @@ export const StyledLabel = styled.label`
   color: ${({ theme }) => theme.primaryMedium};
   margin-bottom: 9px;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 `
