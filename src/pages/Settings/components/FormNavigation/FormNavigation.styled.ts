@@ -26,6 +26,10 @@ export const NavSubsectionTitle = styled.a<NavTitleProps>`
   font-size: 14px;
   color: ${({ $isActive, theme }) => ($isActive ? theme.secondary : theme.primaryMedium)};
   transition: color 0.3s;
+
+  &:hover {
+    color: ${({ theme, $isActive }) => !$isActive && theme.primary};
+  }
 `
 
 export const SectionListItem = styled.li`

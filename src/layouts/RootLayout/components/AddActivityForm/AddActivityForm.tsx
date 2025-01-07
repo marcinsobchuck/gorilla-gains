@@ -267,7 +267,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
             onDecline={handleWarningNoOption}
           />
           <Datepicker name='date' label='Date' withError />
-          <StyledCheckbox name='warmup' label='Warmup done?' />
           {fields.length > 0 && <Counter label='Repeat all' id='repeatExercisesCount' />}
 
           {fields.map((field, exerciseIndex) => {
@@ -295,6 +294,9 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
               <FormError errors={errors} name='exercises' />
             </AddExerciseWrapper>
           )}
+
+          <StyledCheckbox name='warmup' label='Warmup done' />
+
           <Textarea
             label='Notes'
             name='notes'

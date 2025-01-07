@@ -1,20 +1,26 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
 
+import { Accent } from "@pages/Entry/components/auth/shared.styled"
+
 import { breaksButtonsData } from "./constants"
-import { SetItemProps } from "./SetItem.types"
 import {
   BreaksWrapper,
   CustomBreakInput,
+  Divider,
   NestedInput,
+  SetActions,
+  SetFieldsWrapper,
   SetIndex,
   SetWrapper,
+  StyledCounter,
+  StyledDurationInput,
   StyledRadioButtonGroup,
   StyledRemoveIcon,
   X,
-} from "../../AddActivityForm.styled"
+} from "./SetItem.styled"
+import { SetItemProps } from "./SetItem.types"
 import { AddActivityFormTypes } from "../../AddActivityForm.types"
-import { DurationInput } from "../DurationInput/DurationInput"
 
 export const SetItem: React.FC<SetItemProps> = ({
   exerciseIndex,
@@ -55,7 +61,7 @@ export const SetItem: React.FC<SetItemProps> = ({
         return (
           <>
             {isExerciseStatic ? (
-              <DurationInput
+              <StyledDurationInput
                 id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`}
               />
             ) : (
@@ -66,7 +72,7 @@ export const SetItem: React.FC<SetItemProps> = ({
                 withIcon={false}
               />
             )}
-            <X>X</X>
+            <X name='cross' height={12} width={12} />
             <NestedInput
               id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.load`}
               type='number'
@@ -79,8 +85,10 @@ export const SetItem: React.FC<SetItemProps> = ({
       case "endurance":
         return (
           <>
-            <DurationInput id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`} />
-            <X>X</X>
+            <StyledDurationInput
+              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`}
+            />
+            <X name='cross' height={12} width={12} />
             <NestedInput
               id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.distance`}
               type='number'
@@ -93,40 +101,57 @@ export const SetItem: React.FC<SetItemProps> = ({
       case "flexibility":
       case "balance":
         return (
-          <DurationInput id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`} />
+          <StyledDurationInput
+            id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`}
+          />
         )
     }
   }
 
   return (
-    <>
-      <SetWrapper justify='space-between' align='center'>
-        <SetIndex>{setOfExerciseIndex + 1}.</SetIndex>
-        {renderInputs(currentActivityType, isExerciseStatic)}
+    <SetWrapper justify='space-between'>
+      <SetActions direction='column' justify='center' align='center'>
+        <SetIndex>
+          {setOfExerciseIndex + 1}
+          <Accent>.</Accent>
+        </SetIndex>
+        <div>
+          <StyledCounter
+            id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.repeatCount`}
+            label='Set repeat'
+          />
+          <Divider />
 
-        <StyledRemoveIcon name='remove' width={20} height={20} onClick={() => onRemoveSet()} />
-      </SetWrapper>
-      {withBreaks && !getIsLastSetOfLastExercise(setOfExerciseIndex) && (
-        <BreaksWrapper justify='center' align='center'>
-          <StyledRadioButtonGroup
-            items={breaksButtonsData}
-            buttonVariant='tile'
-            name={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`}
-          />
-          <CustomBreakInput
-            type='number'
-            placeholder='custom'
-            value={getValue(setOfExerciseIndex) || ""}
-            $isActive={Boolean(getValue(setOfExerciseIndex))}
-            onChange={(e) =>
-              setValue(
-                `exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`,
-                parseInt(e.currentTarget.value)
-              )
-            }
-          />
-        </BreaksWrapper>
-      )}
-    </>
+          <StyledRemoveIcon name='remove' width={20} height={20} onClick={() => onRemoveSet()} />
+        </div>
+      </SetActions>
+
+      <SetFieldsWrapper direction='column'>
+        {renderInputs(currentActivityType, isExerciseStatic)}
+        {withBreaks && !getIsLastSetOfLastExercise(setOfExerciseIndex) && (
+          <BreaksWrapper justify='center' align='center'>
+            <StyledRadioButtonGroup
+              items={breaksButtonsData}
+              gap={9}
+              buttonVariant='tile'
+              name={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`}
+            />
+            <CustomBreakInput
+              type='number'
+              placeholder='custom'
+              value={getValue(setOfExerciseIndex) || ""}
+              $isActive={Boolean(getValue(setOfExerciseIndex))}
+              onChange={(e) => {
+                setValue(
+                  `exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.break`,
+                  parseInt(e.currentTarget.value),
+                  { shouldValidate: true }
+                )
+              }}
+            />
+          </BreaksWrapper>
+        )}
+      </SetFieldsWrapper>
+    </SetWrapper>
   )
 }
