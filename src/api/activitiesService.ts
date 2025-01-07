@@ -25,4 +25,4 @@ export const editActivity = async (data: EditActivityParams): Promise<AxiosRespo
   )
 
 export const deleteActivity = async (activityId: string): Promise<AxiosResponse<Activity>> =>
-  await privateApiService.delete(`${ApiEndpoints.ACTIVITIES}/${activityId}`)
+  await privateApiService.delete(`${ApiEndpoints.USER_ACTIVITIES}/${activityId}`)
