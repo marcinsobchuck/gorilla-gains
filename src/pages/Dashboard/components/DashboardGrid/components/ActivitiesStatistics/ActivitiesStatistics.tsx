@@ -30,28 +30,49 @@ export const ActivitiesStatistics = () => {
   const lastActivityStatus = useAppSelector(
     (state) => state.activitiesSummary.weeklyActivitiesDataStatus
   )
-  return (
-    <FlexContainer direction='column' gap={12}>
-      {lastActivityStatus === RequestStatuses.LOADING || !lastActivity ? (
+
+  const renderLastActivity = () => {
+    if (!lastActivity) {
+      return (
+        <LastActivityWrapper
+          justify='center'
+          align='center'
+          style={{ flexGrow: 1, flexBasis: "50%" }}
+        >
+          <h2>No activity registered in last 7 days.</h2>
+        </LastActivityWrapper>
+      )
+    }
+
+    if (lastActivityStatus === RequestStatuses.LOADING) {
+      return (
         <SkeletonTheme>
           <Skeleton height='100%' containerClassName='skeletonWrapper' />
         </SkeletonTheme>
-      ) : (
-        <LastActivityWrapper direction='column'>
-          <h2>Last activity past 7 days</h2>
-          <StyledActivityCard
-            data={lastActivity}
-            hasAdditionalActions={false}
-            onClick={() => {
-              navigate(Routes.ACTIVITY_HISTORY)
-              dispatch(
-                setActiveActivity({ activityId: lastActivity._id, activities: [lastActivity] })
-              )
-              dispatch(setIsActivityEventOpen(true))
-            }}
-          />
-        </LastActivityWrapper>
-      )}
+      )
+    }
+
+    return (
+      <LastActivityWrapper direction='column'>
+        <h2>Last activity past 7 days</h2>
+        <StyledActivityCard
+          data={lastActivity}
+          hasAdditionalActions={false}
+          onClick={() => {
+            navigate(Routes.ACTIVITY_HISTORY)
+            dispatch(
+              setActiveActivity({ activityId: lastActivity._id, activities: [lastActivity] })
+            )
+            dispatch(setIsActivityEventOpen(true))
+          }}
+        />
+      </LastActivityWrapper>
+    )
+  }
+
+  return (
+    <FlexContainer direction='column' gap={12}>
+      {renderLastActivity()}
 
       {activitiesStatisticsStatus === RequestStatuses.LOADING || !activitiesStatistics ? (
         <SkeletonTheme>
