@@ -19,6 +19,7 @@ interface CustomBreakInputProps {
 export const SetWrapper = styled(FlexContainer)`
   position: relative;
   margin-bottom: 40px;
+  padding-top: 40px;
 
   &:after,
   &:before {
@@ -111,6 +112,7 @@ export const StyledCounter = styled(Counter)`
 `
 export const SetActions = styled(FlexContainer)`
   width: 36%;
+  padding-bottom: 40px;
 `
 
 export const SetFieldsWrapper = styled(FlexContainer)`

@@ -68,7 +68,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
                   <tr>
                     <th>#</th>
                     {exerciseMetrics.map((label, index) => (
-                      <th key={index}>{label}</th>
+                      <th key={index}>{label === "repeatCount" ? "rep. count" : label}</th>
                     ))}
                   </tr>
                 </thead>

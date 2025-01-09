@@ -97,7 +97,7 @@ export const SetsTable = styled.table`
 
   th {
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 12px;
     color: ${({ theme }) => theme.primaryDisabled};
   }
 
@@ -108,7 +108,7 @@ export const SetsTable = styled.table`
 
   thead tr th:first-child,
   tbody tr td:first-child {
-    width: 16%;
+    width: 14%;
     word-break: break-all;
   }
 `

@@ -8,6 +8,7 @@ export interface ExerciseSet {
   duration?: Duration
   distance?: number
   break?: number
+  repeatCount?: number
 }
 
 export interface Duration {

@@ -5,12 +5,13 @@ import { toast } from "react-toastify"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { changeUserInfoAction, getCurrentUserInfoAction } from "@features/user/userActions"
+import { omitKeysFromObject } from "@utils/omitKeysFromObject"
 
 import { AccountInformation } from "./components/AccountInformation/AccountInformation"
 import { UserSettings } from "./components/UserSettings/UserSettings"
 import { defaultValues, settingsFormSchema } from "./config"
 import { StyledForm, SubmitButton } from "./SettingsForm.styled"
-import { getEditedData, getFormValuesFromCurrentUser, omitKeysFromObject } from "./utils"
+import { getEditedData, getFormValuesFromCurrentUser } from "./utils"
 
 export const SettingsForm = () => {
   const [isCurrentPasswordValid, setIsCurrentPasswordValid] = useState(false)
