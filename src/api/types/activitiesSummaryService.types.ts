@@ -1,3 +1,5 @@
+import { ActivityTypes } from "@enums/activityTypes.enum"
+
 export interface Totals {
   weightLifted: number
   reps: number
@@ -12,10 +14,15 @@ interface MostCommonExercise {
 interface ActivityInYear {
   name: string
   value: number
+  [ActivityTypes.ENDURANCE]?: number
+  [ActivityTypes.STRENGTH]?: number
+  [ActivityTypes.FLEXIBILITY]?: number
+  [ActivityTypes.BALANCE]?: number
+  fullMonthName?: string
 }
 
 interface ActivityTypeDistribution {
-  name: string
+  name: ActivityTypes
   value: number
 }
 
@@ -30,5 +37,8 @@ export interface ActivitiesSummaryData {
   totals: Totals
   activitiesStatistics: ActivitiesStatistics
   activitiesInYear: ActivityInYear[]
-  activityTypeDistribution: ActivityTypeDistribution[]
+  activityTypeDistribution: {
+    distributionPerActivityType: ActivityTypeDistribution[]
+    totalDone: number
+  }
 }
