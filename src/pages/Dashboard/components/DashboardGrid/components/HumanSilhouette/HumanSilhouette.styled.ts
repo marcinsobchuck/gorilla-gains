@@ -1,9 +1,19 @@
 import svg from "react-inlinesvg"
 import styled from "styled-components"
 
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+
+export const Wrapper = styled(FlexContainer)`
+  padding: 14px;
+  background-color: ${({ theme }) => theme.navBackgroundColor};
+  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  border-radius: 9px;
+`
+
 export const HumanModelSVG = styled(svg)`
   width: 100%;
   height: 326px;
+  flex-grow: 1;
 
   * > * {
     stroke: none !important;
@@ -113,8 +123,27 @@ export const HumanModelSVG = styled(svg)`
 `
 
 export const Title = styled.h2`
+  margin-bottom: 14px;
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.primaryDisabled};
   text-align: center;
+`
+
+export const LegendWrapper = styled(FlexContainer)`
+  margin-top: 12px;
+`
+
+export const LegendDot = styled.div<{ $color: string }>`
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: ${({ $color }) => $color};
+  margin-right: 6px;
+`
+
+export const LegendItem = styled(FlexContainer)``
+export const LegendText = styled.p<{ $color: string }>`
+  font-size: 12px;
+  color: ${({ $color }) => $color};
 `
