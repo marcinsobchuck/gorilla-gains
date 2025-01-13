@@ -170,7 +170,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
   const activityTypeLabel = watch("activityType.label")
   const date = watch("date")
   const formattedActivityLabel = capitalizeFirstLetter(activityTypeLabel)
-  const formattedDate = date ? format(date, "dd/MM/yyyy") : ""
+  const formattedDate = date ? format(date, "LLLL do, y") : ""
   const defaultTitleValue = `${formattedActivityLabel ? formattedActivityLabel : ""}${formattedDate ? " - " + formattedDate : ""}`
 
   useEffect(() => {

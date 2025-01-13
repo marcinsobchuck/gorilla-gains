@@ -13,11 +13,11 @@ export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
 
-  grid-gap: 12px;
-  padding: 12px;
+  grid-gap: 14px;
+  padding: 14px;
 
   @media ${Breakpoints.SMALL} {
     grid-template-columns: 40% 1fr;
-    grid-template-rows: 140px 280px 1fr;
+    grid-template-rows: 50px 140px 160px 1fr;
   }
 `

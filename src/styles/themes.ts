@@ -4,7 +4,7 @@ export const lightTheme = {
   nestedInputBackgroundColor: "#F6F9FE",
   selectBackgroundColor: "#EDEDED",
   popoverBackgroundColor: "#F3F6FB",
-  navBackgroundColor: "#F6F6F6",
+  navBackgroundColor: "#EFEFF1",
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
@@ -31,9 +31,13 @@ export const lightTheme = {
   secondaryOpacity: "#75E83F1F",
 
   strengthEventColor: "#FF5A5F",
-  enduranceEventColor: "#00CC66",
-  flexibilityEventColor: "#6A5ACD",
+  enduranceEventColor: "#35d586",
+  flexibilityEventColor: "#9689e7",
   balanceEventColor: "#4169E1",
+  strengthEventColorSecondary: "#a6282c",
+  enduranceEventColorSecondary: "#1a8a52",
+  flexibilityEventColorSecondary: "#3f3480",
+  balanceEventColorSecondary: "#1f3578",
 
   boxShadow: `0px 3px 6px 0px hsla(0, 0%, 0%, 0.14)`,
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
@@ -49,6 +53,9 @@ export const lightTheme = {
   primaryMusclesColor: "#94000080",
   secondaryMusclesColor: "#ffc30080",
   otherMusclesColor: "#BFBFBF4D",
+
+  primaryMusclesColorText: "#940000",
+  secondaryMusclesColorText: "#ffc300",
 }
 
 export const darkTheme = {
@@ -87,6 +94,10 @@ export const darkTheme = {
   enduranceEventColor: "#3CB371",
   flexibilityEventColor: "#9370DB",
   balanceEventColor: "#1E90FF",
+  strengthEventColorSecondary: "#540002",
+  enduranceEventColorSecondary: "#015225",
+  flexibilityEventColorSecondary: "#2d175c",
+  balanceEventColorSecondary: "#002447",
 
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
@@ -104,4 +115,7 @@ export const darkTheme = {
   primaryMusclesColor: "#6f000080",
   secondaryMusclesColor: "#ffee8c80",
   otherMusclesColor: "#A1D89026",
+
+  primaryMusclesColorText: "#6f0000",
+  secondaryMusclesColorText: "#ffee8c",
 }
