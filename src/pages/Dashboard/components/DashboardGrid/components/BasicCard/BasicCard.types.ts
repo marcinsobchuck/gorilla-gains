@@ -4,4 +4,5 @@ export interface BasicCardProps {
   tooltipInfo?: string
   source?: string
   withTooltip?: boolean
+  className?: string
 }

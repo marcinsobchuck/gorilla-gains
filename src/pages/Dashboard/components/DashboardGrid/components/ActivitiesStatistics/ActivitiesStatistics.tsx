@@ -1,79 +1,26 @@
 import Skeleton from "react-loading-skeleton"
-import { useNavigate } from "react-router-dom"
 
-import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { useAppSelector } from "@app/hooks"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { Routes } from "@enums/routes.enum"
-import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
 
 import {
+  ActivitiesStatisticsWrapper,
   CardsWrapper,
-  LastActivityWrapper,
-  StyledActivityCard,
+  StyledBasicCard,
 } from "./ActivitiesStatistics.styled"
 import { getActivitiesStatisticsItems } from "./utils"
-import { BasicCard } from "../BasicCard/BasicCard"
 
 export const ActivitiesStatistics = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-
   const activitiesStatistics = useAppSelector(
     (state) => state.activitiesSummary.activitiesSummaryData?.activitiesStatistics
   )
   const activitiesStatisticsStatus = useAppSelector(
     (state) => state.activitiesSummary.activitiesSummaryStatus
   )
-  const lastActivity = useAppSelector((state) => state.activitiesSummary.lastActivity)
-  const lastActivityStatus = useAppSelector(
-    (state) => state.activitiesSummary.weeklyActivitiesDataStatus
-  )
-
-  const renderLastActivity = () => {
-    if (!lastActivity) {
-      return (
-        <LastActivityWrapper
-          justify='center'
-          align='center'
-          style={{ flexGrow: 1, flexBasis: "50%" }}
-        >
-          <h2>No activity registered in last 7 days.</h2>
-        </LastActivityWrapper>
-      )
-    }
-
-    if (lastActivityStatus === RequestStatuses.LOADING) {
-      return (
-        <SkeletonTheme>
-          <Skeleton height='100%' containerClassName='skeletonWrapper' />
-        </SkeletonTheme>
-      )
-    }
-
-    return (
-      <LastActivityWrapper direction='column'>
-        <h2>Last activity past 7 days</h2>
-        <StyledActivityCard
-          data={lastActivity}
-          hasAdditionalActions={false}
-          onClick={() => {
-            navigate(Routes.ACTIVITY_HISTORY)
-            dispatch(
-              setActiveActivity({ activityId: lastActivity._id, activities: [lastActivity] })
-            )
-            dispatch(setIsActivityEventOpen(true))
-          }}
-        />
-      </LastActivityWrapper>
-    )
-  }
 
   return (
-    <FlexContainer direction='column' gap={12}>
-      {renderLastActivity()}
-
+    <ActivitiesStatisticsWrapper direction='row' gap={12}>
       {activitiesStatisticsStatus === RequestStatuses.LOADING || !activitiesStatistics ? (
         <SkeletonTheme>
           <Skeleton height='100%' containerClassName='skeletonWrapper' />
@@ -81,10 +28,15 @@ export const ActivitiesStatistics = () => {
       ) : (
         <CardsWrapper gap={12}>
           {getActivitiesStatisticsItems(activitiesStatistics).map((stat) => (
-            <BasicCard key={stat.label} value={stat.value} label={stat.label} withTooltip={false} />
+            <StyledBasicCard
+              key={stat.label}
+              value={stat.value}
+              label={stat.label}
+              withTooltip={false}
+            />
           ))}
         </CardsWrapper>
       )}
-    </FlexContainer>
+    </ActivitiesStatisticsWrapper>
   )
 }

@@ -5,7 +5,7 @@ import { Icon } from "@components/Icon/Icon"
 import { ModalOverlay } from "@components/Modal/Modal.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(FlexContainer)`
   position: relative;
   cursor: pointer;
 
@@ -70,12 +70,6 @@ export const ExertionRatingContainer = styled(FlexContainer)`
   align-self: flex-end;
   margin-left: auto;
 
-  p {
-    color: ${({ theme }) => theme.primaryDisabled};
-    font-size: 10px;
-    margin-top: 6px;
-  }
-
   @media ${Breakpoints.SMALL} {
     svg {
       width: 28px;
@@ -106,11 +100,6 @@ export const MainText = styled.p`
   }
 
   @media ${Breakpoints.SMALL} {
-    font-size: 16px;
-    max-width: none;
-    text-overflow: clip;
-    overflow: auto;
-    white-space: normal;
   }
 `
 

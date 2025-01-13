@@ -47,7 +47,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper {...rest}>
+    <Wrapper direction='column' justify='center' {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
         {hasAdditionalActions && (
@@ -110,7 +110,6 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
               <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
             ))}
           </FlexContainer>
-          <p>Created at {format(new Date(data.createdAt), "dd/MM/yyyy")}</p>
         </ExertionRatingContainer>
       </FlexContainer>
       {isLoading && (

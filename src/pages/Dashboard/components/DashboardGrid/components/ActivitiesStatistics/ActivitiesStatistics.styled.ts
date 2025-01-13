@@ -1,22 +1,20 @@
 import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
-import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
-export const StyledActivityCard = styled(ActivityCard)`
-  margin: 0;
-`
+import { BasicCard } from "../BasicCard/BasicCard"
 
-export const LastActivityWrapper = styled(FlexContainer)`
-  h2 {
-    font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.primaryDisabled};
-    padding-left: 24px;
-    margin-bottom: 3px;
-  }
-`
+export const ActivitiesStatisticsWrapper = styled(FlexContainer)``
 
 export const CardsWrapper = styled(FlexContainer)`
+  flex-wrap: wrap;
   flex-grow: 1;
+`
+
+export const StyledBasicCard = styled(BasicCard)`
+  padding: 6px;
+  flex-grow: 1;
+  &:last-of-type {
+    width: 100%;
+  }
 `
