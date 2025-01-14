@@ -1,15 +1,23 @@
-import styled from "styled-components"
+import styled, { css, keyframes } from "styled-components"
 
 import { Button } from "@components/Button/Button"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
-interface AuthErrorProps {
-  $isVisible: boolean
-}
-
 export const SubmitButton = styled(Button)`
   margin: 0 auto;
   margin-top: 18px;
+`
+
+export const ForgotPasswordButton = styled(Button)`
+  display: block;
+  width: fit-content;
+  font-weight: 500;
+  margin: 16px auto;
+  color: ${({ theme }) => theme.primary};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export const StyledImage = styled.img`
@@ -72,17 +80,31 @@ export const AuthActionContainer = styled.div`
   }
 `
 
-export const AuthError = styled.div<AuthErrorProps>`
+export const fadeIn = (color: string) => keyframes`
+  0% {opacity: 0; background-color: transparent}
+  100% {opacity: 1; background-color: ${color}}
+`
+
+const sharedAuthMessageStyles = css`
+  font-size: 12px;
   border-radius: 9px;
-  background-color: ${({ theme }) => theme.errorBackgroundColor};
-  padding: 9px 12px;
-  margin: 9px 0px;
-  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  padding: 6px 12px;
+  margin: 14px 0px;
+  text-align: center;
 
-  transition: 0.3s;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+`
 
-  p {
-    font-size: 14px;
-    color: ${({ theme }) => theme.errorColor};
-  }
+export const AuthError = styled.div`
+  color: ${({ theme }) => theme.errorColor};
+  animation: ${({ theme }) => fadeIn(theme.errorBackgroundColor)};
+  ${sharedAuthMessageStyles};
+`
+
+export const AuthSuccess = styled.div`
+  color: ${({ theme }) => theme.secondary};
+  animation: ${({ theme }) => fadeIn(theme.secondaryOpacity)};
+  ${sharedAuthMessageStyles};
 `

@@ -4,10 +4,14 @@ export const lightTheme = {
   nestedInputBackgroundColor: "#F6F9FE",
   selectBackgroundColor: "#EDEDED",
   popoverBackgroundColor: "#F3F6FB",
-  navBackgroundColor: "#F6F6F6",
+  navBackgroundColor: "#EFEFF1",
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
+  notDoneGradient: "linear-gradient(to right, #ffffff, #faf2f2)",
+  plannedBackgroundGradient: "linear-gradient(to right, #ffffff, #fcf5eb)",
+  plannedColor: "#fda63a",
+
   activeBackgroundColor: "#F5FCF3",
 
   errorColor: "#B00020",
@@ -19,7 +23,7 @@ export const lightTheme = {
   primaryMedium: "#0E111199",
   primaryDisabled: "#0E111140",
 
-  secondary: "#75E83F",
+  secondary: "#8FD361",
   secondaryHover: "#5CC72D",
   secondaryActive: "#489A21",
   secondaryDisabled: "#C1E69E",
@@ -27,9 +31,13 @@ export const lightTheme = {
   secondaryOpacity: "#75E83F1F",
 
   strengthEventColor: "#FF5A5F",
-  enduranceEventColor: "#00CC66",
-  flexibilityEventColor: "#6A5ACD",
+  enduranceEventColor: "#35d586",
+  flexibilityEventColor: "#9689e7",
   balanceEventColor: "#4169E1",
+  strengthEventColorSecondary: "#a6282c",
+  enduranceEventColorSecondary: "#1a8a52",
+  flexibilityEventColorSecondary: "#3f3480",
+  balanceEventColorSecondary: "#1f3578",
 
   boxShadow: `0px 3px 6px 0px hsla(0, 0%, 0%, 0.14)`,
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
@@ -45,7 +53,11 @@ export const lightTheme = {
   primaryMusclesColor: "#94000080",
   secondaryMusclesColor: "#ffc30080",
   otherMusclesColor: "#BFBFBF4D",
+
+  primaryMusclesColorText: "#940000",
+  secondaryMusclesColorText: "#ffc300",
 }
+
 export const darkTheme = {
   backgroundColor: "#121212",
   inputBackgroundColor: "#252730",
@@ -56,6 +68,10 @@ export const darkTheme = {
   datePickerBackgroundColor: "#252730",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #000000, #051201)",
+  notDoneGradient: "linear-gradient(to right, #000000, #170606)",
+  plannedBackgroundGradient: "linear-gradient(to right, #000000, #1c1206)",
+  plannedColor: "#fda63a",
+
   activeBackgroundColor: "#061602",
 
   errorColor: "#CF6679",
@@ -71,13 +87,17 @@ export const darkTheme = {
   secondaryHover: "#8CCB77",
   secondaryActive: "#6EAF5E",
   secondaryDisabled: "#DCECCF",
-  secondaryText: "#4CB129",
+  secondaryText: "#A1D890",
   secondaryOpacity: "#A1D8901F",
 
   strengthEventColor: "#FF5A5F",
   enduranceEventColor: "#3CB371",
   flexibilityEventColor: "#9370DB",
   balanceEventColor: "#1E90FF",
+  strengthEventColorSecondary: "#540002",
+  enduranceEventColorSecondary: "#015225",
+  flexibilityEventColorSecondary: "#2d175c",
+  balanceEventColorSecondary: "#002447",
 
   boxShadow: `0px 6px 10px 0px hsla(0, 0%, 0%, 0.14),
   0px 1px 18px 0px hsla(0, 0%, 0%, 0.12),
@@ -95,4 +115,7 @@ export const darkTheme = {
   primaryMusclesColor: "#6f000080",
   secondaryMusclesColor: "#ffee8c80",
   otherMusclesColor: "#A1D89026",
+
+  primaryMusclesColorText: "#6f0000",
+  secondaryMusclesColorText: "#ffee8c",
 }

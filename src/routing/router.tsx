@@ -1,5 +1,7 @@
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 
+import { ChangePassword } from "@pages/Entry/components/ChangePassword/ChangePassword"
+import { ForgotPassword } from "@pages/Entry/components/ForgotPassword/ForgotPassword"
 import { Settings } from "@pages/Settings/Settings"
 
 import { PrivateRoute } from "./PrivateRoute"
@@ -30,6 +32,8 @@ export const router = createBrowserRouter(
         <Route index element={<Login />} />
         <Route path={Routes.LOGIN} element={<Login />} />
         <Route path={Routes.REGISTER} element={<Register />} />
+        <Route path={Routes.CHANGE_PASSWORD} element={<ChangePassword />} />
+        <Route path={Routes.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route element={<PrivateRoute />}>
           <Route path={Routes.USER_DETAILS} element={<UserDetails />} />
         </Route>

@@ -2,29 +2,26 @@ import { DatesSetArg } from "@fullcalendar/core/index.js"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
-import { format, parseISO } from "date-fns"
-import { useRef } from "react"
+import { format, isSameMonth, parseISO } from "date-fns"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import {
-  getActivitiesForCurrentUserAction,
-  getActivitiesForSelectedDate,
-} from "@features/activities/activitiesActions"
+import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
 import {
   resetActivitiesData,
+  setActivitiesData,
   setHasMore,
   setSelectedDate,
 } from "@features/activities/activitiesSlice"
-import { getEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
+import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
+import { getActivityEventColor } from "@features/utils/utils"
 
-import { CalendarWrapper } from "./Calendar.styled"
+import { CalendarWrapper, EventDot } from "./HistoryCalendar.styled"
+import { updateSelectedClass } from "./utils"
 
-export const Calendar = () => {
-  const calendarRef = useRef<FullCalendar | null>(null)
-  const calendarApi = calendarRef.current?.getApi()
-
+export const HistoryCalendar = () => {
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
@@ -43,53 +40,48 @@ export const Calendar = () => {
     )
 
     if (arg.dateStr === selectedDate) {
-      calendarApi?.unselect()
       updateSelectedClass("")
       dispatch(setSelectedDate(""))
-      if (dayHasEvent) {
+      if (dayHasEvent || activities.activitiesData.length === 0) {
         dispatch(resetActivitiesData())
+
         await dispatch(
           getActivitiesForCurrentUserAction({
             offset: 0,
             limit,
+            pastOnly: true,
           })
         )
         dispatch(setHasMore(true))
       }
     } else if (dayHasEvent) {
-      dispatch(setHasMore(false))
-      await dispatch(
-        getActivitiesForSelectedDate({
-          startDate: dateClicked,
-          endDate: dateClicked,
-        })
+      const dayEvents = historyCalendar.events.filter(
+        (event) => event.date === dateClicked.toISOString()
       )
-    }
-  }
-
-  const updateSelectedClass = (newSelectedDate: string) => {
-    document.querySelector(".fc-day-selected")?.classList.remove("fc-day-selected")
-
-    const dateEl = document.querySelector(`[data-date="${newSelectedDate}"]`)
-    if (dateEl) {
-      dateEl.classList.add("fc-day-selected")
+      dispatch(setActivitiesData(dayEvents))
+      dispatch(setHasMore(false))
+    } else {
+      dispatch(resetActivitiesData())
+      dispatch(setHasMore(false))
     }
   }
 
   const handleDatesSet = async (arg: DatesSetArg) => {
     const startDate = arg.view.activeStart
-    const endDate = arg.view.activeEnd
+    const today = new Date()
+    const isCurrentMonth = isSameMonth(today, arg.view.currentStart)
+    const endDate = isCurrentMonth ? today : arg.view.activeEnd
 
-    await dispatch(
-      getEventsForCurrentMonthAction({
-        startDate,
-        endDate,
-        theme,
-      })
-    )
+    if (startDate < today)
+      await dispatch(
+        getHistoryEventsForCurrentMonthAction({
+          startDate,
+          endDate,
+          theme,
+        })
+      )
 
     if (selectedDate) {
-      calendarApi?.select(selectedDate)
       updateSelectedClass(selectedDate)
     }
   }
@@ -97,28 +89,28 @@ export const Calendar = () => {
   return (
     <CalendarWrapper $isLoading={historyCalendar.eventsStatus === RequestStatuses.LOADING}>
       <FullCalendar
-        ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         events={historyCalendar.events}
         contentHeight={300}
         headerToolbar={{
           right: "prev,next",
         }}
+        eventContent={(event) => {
+          return (
+            <EventDot
+              color={getActivityEventColor(
+                event.event.extendedProps.type.type as ActivityTypes,
+                theme
+              )}
+            />
+          )
+        }}
         displayEventTime={false}
         dayMaxEventRows={3}
         dayHeaderFormat={{ weekday: "narrow" }}
         dateClick={handleDateClick}
         firstDay={1}
-        selectable
-        unselectAuto={false}
         moreLinkText={(num) => "+" + num.toString()}
-        selectLongPressDelay={0}
-        selectAllow={(selection) => {
-          if (selection.end.getTime() / 1000 - selection.start.getTime() / 1000 <= 86400) {
-            return true
-          }
-          return false
-        }}
         fixedWeekCount={false}
         datesSet={handleDatesSet}
       />

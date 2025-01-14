@@ -1,14 +1,20 @@
 import styled from "styled-components"
 
-export const CheckmarkWrapper = styled.div`
+interface CheckmarkWrapper {
+  $width: number
+  $height: number
+  $borderRadius: number
+}
+
+export const CheckmarkWrapper = styled.div<CheckmarkWrapper>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
-  height: 32px;
+  width: ${({ $width }) => $width && `${$width}px`};
+  height: ${({ $height }) => $height && `${$height}px`};
   margin-right: 9px;
   background-color: ${({ theme }) => theme.inputBackgroundColor};
-  border-radius: 9px;
+  border-radius: ${({ $borderRadius }) => $borderRadius && `${$borderRadius}px`};
   border: 2px solid ${({ theme }) => theme.primaryDisabled};
   transition: 0.3s;
 

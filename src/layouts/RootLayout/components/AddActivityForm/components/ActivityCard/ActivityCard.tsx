@@ -41,14 +41,13 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   )
   const theme = useTheme()
   const numberOfExercises = data.exercises.length
-  const isActive = data._id === state.activeActivityId
   const isLoading =
     (state.editActivityStatus === RequestStatuses.LOADING ||
       state.deleteActivityStatus === RequestStatuses.LOADING) &&
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper $isActive={isActive} {...rest}>
+    <Wrapper direction='column' justify='center' {...rest}>
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
         {hasAdditionalActions && (
@@ -111,7 +110,6 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
               <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
             ))}
           </FlexContainer>
-          <p>Created at {format(new Date(data.createdAt), "dd/MM/yyyy")}</p>
         </ExertionRatingContainer>
       </FlexContainer>
       {isLoading && (

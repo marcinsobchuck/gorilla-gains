@@ -71,7 +71,7 @@ export const ActivitiesPieChart = () => {
       <ResponsiveContainer height='90%'>
         <PieChart>
           <Pie
-            data={chartData}
+            data={chartData.distributionPerActivityType}
             dataKey='value'
             nameKey='name'
             cx='50%'
@@ -82,7 +82,7 @@ export const ActivitiesPieChart = () => {
             label={renderCustomizedLabel}
             labelLine={false}
           >
-            {chartData.map((entry) => (
+            {chartData.distributionPerActivityType.map((entry) => (
               <Cell key={entry.name} fill={getPieChartColor(entry.name, colors)} />
             ))}
           </Pie>

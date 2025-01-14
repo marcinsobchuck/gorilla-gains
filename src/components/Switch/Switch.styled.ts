@@ -44,16 +44,6 @@ export const SwitchWrapper = styled.button<Props>`
         transform: translate(0);
       `}
   }
-
-  svg {
-    fill: ${({ $currentTheme, theme }) =>
-      $currentTheme === "light" ? theme.primaryDisabled : theme.primary};
-  }
-
-  svg:first-of-type {
-    fill: ${({ $currentTheme, theme }) =>
-      $currentTheme === "light" ? theme.primary : theme.primaryDisabled};
-  }
 `
 
 export const StyledIcon = styled(Icon)`

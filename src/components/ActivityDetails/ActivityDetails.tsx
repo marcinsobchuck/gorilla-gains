@@ -14,6 +14,7 @@ import {
   ExercisesContainer,
   ExercisesSectionHeading,
   ExertionRatingContainer,
+  HeadingContainer,
   Notes,
   SetsTable,
   Title,
@@ -26,7 +27,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
   const theme = useTheme()
   return (
     <>
-      <FlexContainer align='center'>
+      <HeadingContainer align='center'>
         <IconContainer align='center' justify='center'>
           <Icon
             name={getIconNamePerActivityType(activityDetails.type.type)}
@@ -48,7 +49,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
           </FlexContainer>
           <DescriptionText>perceived exertion</DescriptionText>
         </ExertionRatingContainer>
-      </FlexContainer>
+      </HeadingContainer>
       {activityDetails.notes && <Notes>{activityDetails.notes}</Notes>}
       <ExercisesSectionHeading>Exercises</ExercisesSectionHeading>
       <ExercisesContainer>
@@ -67,7 +68,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
                   <tr>
                     <th>#</th>
                     {exerciseMetrics.map((label, index) => (
-                      <th key={index}>{label}</th>
+                      <th key={index}>{label === "repeatCount" ? "rep. count" : label}</th>
                     ))}
                   </tr>
                 </thead>

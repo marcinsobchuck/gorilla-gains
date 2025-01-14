@@ -2,12 +2,7 @@ import { DefaultTheme } from "styled-components"
 
 import { GetActivitiesForCurrentUserParams } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-
-interface ActivityEvent {
-  id: string
-  borderColor: string
-  date: string
-}
+import { ActivityEvent } from "@features/types/types"
 
 export interface InitialState {
   events: ActivityEvent[]
@@ -15,6 +10,6 @@ export interface InitialState {
   eventsError?: string
 }
 
-export interface GetEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
+export interface GetHistoryEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {
   theme: DefaultTheme
 }

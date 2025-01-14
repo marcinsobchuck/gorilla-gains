@@ -12,3 +12,16 @@ export const registerUser = async (data: RegisterData): Promise<AxiosResponse<Ac
 export const loginUser = async (data: LoginData): Promise<AxiosResponse<AccessToken>> => {
   return await apiService.post(ApiEndpoints.LOGIN, data)
 }
+
+export const forgotPassword = async (email: string): Promise<AxiosResponse<string>> => {
+  return await apiService.post(ApiEndpoints.FORGOT_PASSWORD, {
+    email,
+  })
+}
+export const verifyPasswordResetToken = async (token: string): Promise<AxiosResponse<boolean>> => {
+  return await apiService.get(ApiEndpoints.VERIFY_PASSWORD_RESET_TOKEN, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

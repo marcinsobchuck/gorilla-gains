@@ -38,12 +38,19 @@ export const activitiesOverviewSlice = createSlice({
       state.activities = [action.payload, ...state.activities]
     },
     editChartActivity(state, action) {
-      state.activities = state.activities?.map((activity) => {
-        if (activity._id === action.payload._id) {
-          return action.payload
-        }
-        return activity
-      })
+      const isActivityInPast = new Date(action.payload.date) < new Date()
+      if (isActivityInPast) {
+        state.activities = state.activities?.map((activity) => {
+          if (activity._id === action.payload._id) {
+            return action.payload
+          }
+          return activity
+        })
+      } else {
+        state.activities = state.activities.filter(
+          (activity) => activity._id !== action.payload._id
+        )
+      }
     },
     deleteChartActivity(state, action) {
       state.activities = state.activities.filter((activity) => activity._id !== action.payload)

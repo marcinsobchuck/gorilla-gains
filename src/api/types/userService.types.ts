@@ -3,20 +3,22 @@ export interface User {
   name: string
   surname: string
   email: string
-  age: number
+  dob: string
   gender: string
   weight: number
-  activityLevel: number
+  activityLevel: string
   desiredWeight: number
   height: number
-  dueDateWeight: Date
+  dueDateWeight: string
   goals: string[]
 }
 
 export interface ChangeUserInfoData {
   name?: string
+  email?: string
+  password?: string
   surname?: string
-  age?: number
+  dob?: string
   gender?: string
   height?: number
   weight?: number
@@ -24,4 +26,9 @@ export interface ChangeUserInfoData {
   dueDateWeight?: Date | null
   activityLevel?: string
   goals?: string[]
+}
+
+export interface ChangeUserPasswordData {
+  password: string
+  token: string
 }

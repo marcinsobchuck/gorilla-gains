@@ -27,7 +27,8 @@ export const ModalWrapper = styled.div<ModalWrapperProps>`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 24px;
+  padding: 12px;
+
   border-radius: 9px;
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
@@ -40,8 +41,8 @@ export const ModalWrapper = styled.div<ModalWrapperProps>`
   }
 
   @media ${Breakpoints.SMALL} {
+    padding: 24px;
     height: 94vh;
-
     width: 640px;
   }
 
@@ -55,13 +56,22 @@ export const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  padding: 9px;
   margin-bottom: 32px;
+
+  @media ${Breakpoints.SMALL} {
+    padding: 0px;
+  }
 `
 
 export const Heading = styled.h1`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.primary};
+
+  @media ${Breakpoints.SMALL} {
+    font-size: 24px;
+  }
 `
 
 export const CloseIcon = styled(Icon)`

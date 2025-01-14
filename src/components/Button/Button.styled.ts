@@ -17,9 +17,14 @@ const sharedStyles = (width?: number, textColor?: string) => {
 
     svg {
       transition: fill 0.3s;
+      cursor: pointer;
     }
 
     cursor: pointer;
+
+    &:focus-visible {
+      border: 2px solid ${({ theme }) => theme.secondaryActive};
+    }
   `
 }
 
@@ -68,6 +73,7 @@ const variants = {
   tertiary: css`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 12px;
     background-color: transparent;
 
@@ -78,6 +84,19 @@ const variants = {
 
     color: ${({ theme }) => theme.primary};
 
+    &:active {
+      background-color: ${({ theme }) => theme.activeBackgroundColor};
+    }
+
+    &:hover:not(:disabled):not(:active) {
+      background-color: ${({ theme }) => theme.secondaryOpacity};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: ${({ theme }) => theme.primaryDisabled};
+    }
+
     &[class*="active"] {
       p {
         color: ${({ theme }) => theme.secondaryText};
@@ -86,15 +105,6 @@ const variants = {
       svg {
         fill: ${({ theme }) => theme.secondaryText};
       }
-    }
-
-    &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.secondaryOpacity};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      color: ${({ theme }) => theme.primaryDisabled};
     }
   `,
 }

@@ -8,10 +8,11 @@ import {
 import { setShouldRefetchSummary } from "@features/activitiesSummary/activitiesSummarySlice"
 
 import { ActivitiesBarChart } from "./components/ActivitiesBarChart/ActivitiesBarChart"
-import { ActivitiesPieChart } from "./components/ActivitiesPieChart/ActivitiesPieChart"
+import { ActivitiesDistributionBar } from "./components/ActivitiesDistributionBar/ActivitiesDistributionBar"
 import { ActivitiesStatistics } from "./components/ActivitiesStatistics/ActivitiesStatistics"
 import { HealthMetrics } from "./components/HealthMetrics/HealthMetrics"
 import { HumanSilhouette } from "./components/HumanSilhouette/HumanSilhouette"
+import { LastActivity } from "./components/LastActivity/LastActivity"
 import { Totals } from "./components/Totals/Totals"
 import { Wrapper } from "./DashboardGrid.styled"
 
@@ -30,9 +31,10 @@ export const DashboardGrid = () => {
 
   return (
     <Wrapper>
+      <ActivitiesDistributionBar />
       <HealthMetrics />
       <Totals />
-      <ActivitiesPieChart />
+      <LastActivity />
       <ActivitiesStatistics />
       <HumanSilhouette />
       <ActivitiesBarChart />

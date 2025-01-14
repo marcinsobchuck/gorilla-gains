@@ -3,12 +3,18 @@ import { useFormContext } from "react-hook-form"
 import { CountInput, CounterWrapper, StyledButton, StyledLabel, Wrapper } from "./Counter.styled"
 import { CounterProps } from "./Counter.types"
 
-export const Counter: React.FC<CounterProps> = ({ id, label, minValue = 1, maxValue = 20 }) => {
+export const Counter: React.FC<CounterProps> = ({
+  id,
+  label,
+  minValue = 1,
+  maxValue = 20,
+  className,
+}) => {
   const { register, setValue, watch } = useFormContext()
   const count = watch(id)
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       {label && <StyledLabel>{label}</StyledLabel>}
       <CounterWrapper>
         <StyledButton
@@ -25,6 +31,7 @@ export const Counter: React.FC<CounterProps> = ({ id, label, minValue = 1, maxVa
 
         <CountInput
           type='number'
+          defaultValue={minValue}
           {...register(id, {
             valueAsNumber: true,
             onChange: (e) => {

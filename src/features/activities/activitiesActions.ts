@@ -17,37 +17,60 @@ import {
   editChartActivity,
   setActiveFilterExercise,
 } from "@features/activitiesOverview/activitiesOverviewSlice"
-import { addEvent, editEvent, removeEvent } from "@features/historyCalendar/historyCalendarSlice"
-import { getBorderColor } from "@features/historyCalendar/utils"
+import {
+  addHistoryEvent,
+  editHistoryEvent,
+  removeHistoryEvent,
+} from "@features/historyCalendar/historyCalendarSlice"
 
 import {
-  setActiveActivityId,
+  resetActivitiesData,
+  setActiveActivity,
   setCurrentlyProcessedActivityId,
   setHasMore,
+  setShouldFetchActivities,
   toggleIsPreset,
 } from "./activitiesSlice"
 import { CreateActivityParams } from "./activitiesSlice.types"
+import { isNewActivityWithinInterval } from "./utils"
 
 export const createActivityAction = createAppAsyncThunk(
   "createActivity",
   async (data: CreateActivityParams, { rejectWithValue, dispatch, getState }) => {
     try {
       const response = await createActivity(data.data)
-      dispatch(
-        addEvent({
-          id: response.data._id,
-          borderColor: getBorderColor(response.data.type.type, data.theme),
-          date: response.data.date,
-        })
-      )
+
+      if (data.data.date < new Date()) {
+        dispatch(addHistoryEvent(response.data))
+      }
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
+      const activities = getState().activities.activitiesData
+      const selectedDate = getState().activities.selectedDate
+      const isNewActivityInThePast = new Date(response.data.date) < new Date()
+
+      if (!selectedDate) {
+        const activityDate = data.data.date
+        const start =
+          activities.length > 0
+            ? activities[activities.length - 1].date
+            : activityDate.toISOString()
+        const end = new Date().toISOString()
+
+        if (isNewActivityWithinInterval({ activityDate, start, end })) {
+          dispatch(resetActivitiesData())
+          dispatch(setShouldFetchActivities(true))
+          dispatch(setHasMore(true))
+        } else if (isNewActivityInThePast) {
+          dispatch(setHasMore(true))
+        }
+      }
 
       if (getState().activitiesOverview.activities.length === 0) {
         dispatch(setActiveFilterExercise(response.data.exercises[0].exercise._id))
       }
 
-      if (data.data.type === activeFilterTab) {
+      if (data.data.type === activeFilterTab && isNewActivityInThePast) {
         dispatch(addChartActivity(response.data))
       }
 
@@ -56,6 +79,7 @@ export const createActivityAction = createAppAsyncThunk(
       if (isAxiosError(error)) {
         return rejectWithValue(error.response?.data)
       } else {
+        console.log(error)
         return rejectWithValue("Something went wrong")
       }
     }
@@ -86,6 +110,7 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
       const limit = getState().activities.limit
 
       const response = await getActivitiesForCurrentUser(data)
+
       if (response.data.length < limit) {
         dispatch(setHasMore(false))
       }
@@ -100,6 +125,7 @@ export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
     }
   }
 )
+
 export const getActivitiesForSelectedDate = createAppAsyncThunk(
   "getActivitiesForSelectedDate",
   async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
@@ -107,6 +133,7 @@ export const getActivitiesForSelectedDate = createAppAsyncThunk(
       const response = await getActivitiesForCurrentUser({
         startDate: data.startDate,
         endDate: data.endDate,
+        pastOnly: data.pastOnly,
       })
       return response.data
     } catch (error) {
@@ -129,17 +156,32 @@ export const editActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(data.activityId))
       const response = await editActivity(data)
 
-      dispatch(
-        editEvent({
-          id: response.data._id,
-          borderColor: getBorderColor(response.data.type.type, data.theme),
-          date: response.data.date,
-        })
-      )
+      dispatch(editHistoryEvent(response.data))
 
       const activeFilterTab = getState().activitiesOverview.activeFilterTab
+      const activities = getState().activities.activitiesData
+      const activityDate = data.dataToEdit.date
+      const selectedDate = getState().activities.selectedDate
+      const isEditedActivityInThePast = new Date(response.data.date) < new Date()
 
-      if (data.dataToEdit.type === activeFilterTab) {
+      if (activityDate && !selectedDate) {
+        const start =
+          activities.length > 0
+            ? activities[activities.length - 1].date
+            : activityDate.toISOString()
+        const end = new Date().toISOString()
+
+        if (
+          isNewActivityWithinInterval({ activityDate, start, end }) ||
+          isEditedActivityInThePast
+        ) {
+          dispatch(resetActivitiesData())
+          dispatch(setShouldFetchActivities(true))
+          dispatch(setHasMore(true))
+        }
+      }
+
+      if (data.dataToEdit.type === activeFilterTab && isEditedActivityInThePast) {
         dispatch(editChartActivity(response.data))
       }
 
@@ -165,15 +207,12 @@ export const deleteActivityAction = createAppAsyncThunk(
       dispatch(setCurrentlyProcessedActivityId(activityId))
 
       const response = await deleteActivity(activityId)
-      const activeFilterTab = getState().activitiesOverview.activeFilterTab
 
-      dispatch(removeEvent(activityId))
-      if (activityId === activeFilterTab) {
-        dispatch(deleteChartActivity(activityId))
-      }
+      dispatch(removeHistoryEvent(activityId))
+      dispatch(deleteChartActivity(activityId))
 
-      if (activityId === getState().activities.activeActivityId) {
-        dispatch(setActiveActivityId(null))
+      if (activityId === getState().activities.activeActivity?._id) {
+        dispatch(setActiveActivity({}))
       }
 
       return response.data

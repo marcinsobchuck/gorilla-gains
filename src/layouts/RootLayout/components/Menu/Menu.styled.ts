@@ -65,7 +65,7 @@ export const StyledButton = styled(Button)`
   }
 
   @media ${Breakpoints.LARGE} {
-    justify-content: flex-start;
+    justify-content: space-between;
 
     p {
       display: block;
@@ -121,13 +121,14 @@ export const SettingsWrapper = styled(FlexContainer)`
   border-radius: 9px;
 `
 
-export const SettingsOptions = styled.div`
+export const SettingsOptions = styled(FlexContainer)`
   margin-bottom: 24px;
-  padding-bottom: 24px;
+  padding-bottom: 14px;
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
 `
 
 export const ThemeSwitchWrapper = styled(FlexContainer)`
+  margin-top: 48px;
   padding: 0 12px;
   border-radius: 9px;
   p {

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import authGorilla from "@assets/authGorilla.png"
 import { Routes } from "@enums/routes.enum"
 import { registerUserAction } from "@features/auth/authActions"
-import { resetAuthFormError } from "@features/auth/authSlice"
+import { resetRegisterError } from "@features/auth/authSlice"
 
 import { RegisterForm } from "./components/RegisterForm"
 import { RegisterFormValues } from "./RegisterForm.types"
@@ -18,7 +18,7 @@ export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { error, status } = auth
+  const { registerError } = auth
 
   const handleRegister: SubmitHandler<RegisterFormValues> = async ({ email, name, password }) => {
     try {
@@ -31,11 +31,11 @@ export const Register = () => {
 
   useEffect(() => {
     return () => {
-      if (error !== "") {
-        dispatch(resetAuthFormError())
+      if (registerError) {
+        dispatch(resetRegisterError())
       }
     }
-  }, [navigate, dispatch, error, status])
+  }, [dispatch, registerError])
 
   return (
     <Wrapper>
@@ -48,8 +48,8 @@ export const Register = () => {
           buttonText='Log in'
           to={Routes.LOGIN}
         />
-        <AuthError $isVisible={Boolean(error)}>{error ? <p>{error}</p> : <p>&nbsp;</p>}</AuthError>
         <RegisterForm onSubmit={handleRegister} />
+        {!!registerError && <AuthError>{registerError}</AuthError>}
       </ContentWrapper>
       <StyledImage src={authGorilla} />
     </Wrapper>

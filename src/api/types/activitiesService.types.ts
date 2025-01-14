@@ -8,6 +8,7 @@ export interface ExerciseSet {
   duration?: Duration
   distance?: number
   break?: number
+  repeatCount?: number
 }
 
 export interface Duration {
@@ -44,12 +45,13 @@ export interface EditActivityData {
   warmup?: boolean
   repeatExercisesCount?: number
   isPreset?: boolean
+  isDone?: boolean
 }
 
 export interface EditActivityParams {
   dataToEdit: EditActivityData
   activityId: string
-  theme: DefaultTheme
+  theme?: DefaultTheme
 }
 
 export interface GetActivitiesForCurrentUserParams {
@@ -59,6 +61,7 @@ export interface GetActivitiesForCurrentUserParams {
   limit?: number
   startDate?: Date
   endDate?: Date
+  pastOnly?: boolean
 }
 
 export interface ResponseExercise {
@@ -89,6 +92,7 @@ export interface Activity {
   warmup: boolean
   repeatExercisesCount: number
   isPreset: boolean
+  isDone: boolean
   exertionRating?: number
   createdAt: string
   updatedAt?: string

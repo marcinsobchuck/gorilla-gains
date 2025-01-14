@@ -14,7 +14,7 @@ export const UserInfoItem: React.FC<UserInfoItemProps> = ({ label, value }) => {
 
   return (
     <SkeletonTheme>
-      <ItemWrapper>
+      <ItemWrapper justify='space-between'>
         <ItemLabel>{loading ? <Skeleton width='35%' /> : label}</ItemLabel>
         <ItemText>{loading ? <Skeleton /> : value}</ItemText>
       </ItemWrapper>

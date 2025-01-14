@@ -15,4 +15,5 @@ export const StyledError = styled.div<StyledErrorProps>`
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
   will-change: opacity;
+  white-space: nowrap;
 `

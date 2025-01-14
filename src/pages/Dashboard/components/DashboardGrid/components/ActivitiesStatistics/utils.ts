@@ -16,7 +16,7 @@ export const getActivitiesStatisticsItems = (activitiesStatistics: ActivitiesSta
     },
     {
       label: "Most common exercise",
-      value: `${activitiesStatistics.mostCommonExercise.mostCommonExercise}(${activitiesStatistics.mostCommonExercise.maxCount})`,
+      value: `${activitiesStatistics.mostCommonExercise.mostCommonExercise} (${activitiesStatistics.mostCommonExercise.maxCount})`,
     },
   ]
 }

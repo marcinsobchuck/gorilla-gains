@@ -78,11 +78,12 @@ export const Sidebar = styled.aside`
   }
 
   @media ${Breakpoints.LARGE} {
-    padding: 32px;
     width: var(--sidebar-width-l);
   }
 `
 export const MainContentWrapper = styled.main`
+  overflow: hidden;
+  position: relative;
   flex-grow: 1;
 
   @media ${Breakpoints.MEDIUM} {

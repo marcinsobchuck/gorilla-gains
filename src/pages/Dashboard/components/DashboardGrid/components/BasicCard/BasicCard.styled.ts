@@ -11,9 +11,9 @@ export const Wrapper = styled(FlexContainer)`
 `
 
 export const ValueText = styled.p<{ $isNegative?: boolean }>`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: ${({ theme, $isNegative }) => ($isNegative ? theme.errorColor : theme.secondary)};
+  color: ${({ theme, $isNegative }) => ($isNegative ? theme.errorColor : theme.secondaryText)};
   margin-bottom: 3px;
 `
 

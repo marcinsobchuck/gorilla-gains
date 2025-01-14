@@ -2,31 +2,23 @@ import { isAxiosError } from "axios"
 
 import { getActivitiesForCurrentUser } from "@api/activitiesService"
 import { createAppAsyncThunk } from "@app/hooks"
+import { getActivityEvents } from "@features/utils/utils"
 
-import { GetEventsForCurrentMonthParams } from "./historyCalendar.types"
-import { getBorderColor } from "./utils"
+import { GetHistoryEventsForCurrentMonthParams } from "./historyCalendar.types"
 
-export const getEventsForCurrentMonthAction = createAppAsyncThunk(
-  "getEventsForCurrentMonth",
-  async (data: GetEventsForCurrentMonthParams, { rejectWithValue }) => {
+export const getHistoryEventsForCurrentMonthAction = createAppAsyncThunk(
+  "getHistoryEventsForCurrentMonthAction",
+  async (data: GetHistoryEventsForCurrentMonthParams, { rejectWithValue }) => {
     const { startDate, endDate, theme } = data
     try {
       const response = await getActivitiesForCurrentUser({
         startDate,
         endDate,
+        pastOnly: true,
       })
-      const events = response.data.map((activity) => {
-        const {
-          _id,
-          date,
-          type: { type },
-        } = activity
-        return {
-          id: _id,
-          borderColor: getBorderColor(type, theme),
-          date,
-        }
-      })
+      const activities = response.data
+
+      const events = getActivityEvents(activities, theme)
       return events
     } catch (error) {
       if (isAxiosError(error)) {

@@ -1,9 +1,12 @@
 import svg from "react-inlinesvg"
 import styled, { css } from "styled-components"
 
+import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
+
 interface InputWrapperProps {
   $shouldTransition?: boolean
   $withError?: boolean
+  $isDisabled?: boolean
 }
 
 interface InputStatusIconProps {
@@ -14,6 +17,8 @@ interface InputStatusIconProps {
 export const InputWrapper = styled.div<InputWrapperProps>`
   position: relative;
   margin-bottom: ${({ $withError = true }) => $withError && "28px"};
+  opacity: ${({ $isDisabled }) => $isDisabled && "0.3"};
+  transition: opacity 0.3s ease-in-out;
 
   ${({ $shouldTransition }) =>
     $shouldTransition &&
@@ -43,7 +48,9 @@ export const StyledInput = styled.input`
   outline: ${({ theme }) => theme.secondaryOpacity};
   transition: all 0.3s;
 
-  transition-delay: 0.1s;
+  &:hover {
+    border-color: ${({ theme }) => theme.secondaryActive};
+  }
 
   &:focus {
     border-color: ${({ theme }) => theme.secondary};
@@ -91,4 +98,10 @@ export const InputStatusIcon = styled(svg)<InputStatusIconProps>`
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   width: 24px;
   height: 24px;
+`
+
+export const ValidationSpinner = styled(LoaderSpinner)`
+  position: absolute;
+  right: 24px;
+  top: 23px;
 `

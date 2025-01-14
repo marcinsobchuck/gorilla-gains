@@ -1,7 +1,10 @@
 import styled from "styled-components"
 
+export const PopoverWrapper = styled.div`
+  z-index: 1;
+`
+
 export const PopoverContainer = styled.div`
-  z-index: 10;
   border-radius: 9px;
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
 `

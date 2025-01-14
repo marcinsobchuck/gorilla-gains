@@ -78,7 +78,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     border-radius: 9px;
     border: none;
     background-color: ${({ theme }) => theme.datePickerBackgroundColor};
-
     box-shadow: ${({ theme }) => theme.popperBoxShadow};
   }
 
@@ -208,5 +207,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   }
 
   .react-datepicker-popper {
+    z-index: 2;
   }
 `

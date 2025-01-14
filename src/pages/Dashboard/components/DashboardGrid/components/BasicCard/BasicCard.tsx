@@ -15,6 +15,7 @@ export const BasicCard: React.FC<BasicCardProps> = ({
   tooltipInfo,
   source,
   withTooltip = true,
+  className,
 }) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -22,7 +23,7 @@ export const BasicCard: React.FC<BasicCardProps> = ({
   const theme = useTheme()
 
   return (
-    <Wrapper direction='column' align='center' justify='center'>
+    <Wrapper direction='column' align='center' justify='center' className={className}>
       <ValueText $isNegative={isValueNegative(+value)}>{value}</ValueText>
       <LabelText>{label}</LabelText>
 

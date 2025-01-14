@@ -4,22 +4,24 @@ import { useFieldArray, useFormContext } from "react-hook-form"
 
 import { getExercisesByActivityType } from "@api/exercisesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { Checkbox } from "@components/Checkbox/Checkbox"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getExercisesByActivityTypeAction } from "@features/exercises/exercisesActions"
 
 import { CustomOptionLabel } from "./CustomOptionLabel"
-import { AddSetButton, SetsError } from "./ExerciseItem.styled"
-import { ExerciseItemProps } from "./ExerciseItem.types"
 import {
+  AddSetButton,
   ExerciseHeader,
   ExerciseIndex,
   ExerciseWrapper,
+  SetsError,
   SetsHeading,
   SetsText,
-  StyledSelect,
-} from "../../AddActivityForm.styled"
+  StyledCheckbox,
+} from "./ExerciseItem.styled"
+import { ExerciseItemProps } from "./ExerciseItem.types"
+import { StyledSelect } from "../../AddActivityForm.styled"
 import { AddActivityFormTypes, ExerciseFields } from "../../AddActivityForm.types"
 import {
   balanceExerciseFields,
@@ -142,9 +144,20 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       />
       {Boolean(currentExerciseValue) && (
         <>
-          <Checkbox label='Add breaks' name={`exercises.${exerciseIndex}.withBreaks`} />
           <SetsHeading>
-            <SetsText>Sets</SetsText>
+            <FlexContainer justify='space-between'>
+              <SetsText>Sets</SetsText>
+              <StyledCheckbox
+                label='Add breaks between sets'
+                name={`exercises.${exerciseIndex}.withBreaks`}
+                height={18}
+                width={18}
+                iconHeight={10}
+                iconWidth={10}
+                borderRadius={3}
+              />
+            </FlexContainer>
+
             <SetsError errors={errors} name={`exercises.${exerciseIndex}.sets`} />
           </SetsHeading>
         </>
