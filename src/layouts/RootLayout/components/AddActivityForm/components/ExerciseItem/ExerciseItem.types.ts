@@ -1,6 +1,6 @@
 export interface ExerciseItemProps {
   exerciseIndex: number
   lastExerciseIndex: number
-  activityTypeId?: string
+  activityType?: string | string[]
   onRemoveExercise: (index?: number | number[]) => void
 }

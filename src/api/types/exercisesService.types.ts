@@ -5,7 +5,7 @@ export interface Exercise {
   additionalInfo?: string
 }
 
-export interface GetExercisesByActivityTypeQueryParams {
-  activityTypeId?: string
+export interface GetExercisesQueryParams {
+  activityType?: string | string[]
   filterText?: string
 }

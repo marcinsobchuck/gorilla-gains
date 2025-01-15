@@ -1,14 +1,14 @@
 import { isAxiosError } from "axios"
 
-import { getExercisesByActivityType } from "@api/exercisesService"
-import { GetExercisesByActivityTypeQueryParams } from "@api/types/exercisesService.types"
+import { getExercises } from "@api/exercisesService"
+import { GetExercisesQueryParams } from "@api/types/exercisesService.types"
 import { createAppAsyncThunk } from "@app/hooks"
 
-export const getExercisesByActivityTypeAction = createAppAsyncThunk(
+export const getExercisesAction = createAppAsyncThunk(
   "getExercises",
-  async (params: GetExercisesByActivityTypeQueryParams, { rejectWithValue }) => {
+  async (params: GetExercisesQueryParams, { rejectWithValue }) => {
     try {
-      const response = await getExercisesByActivityType(params)
+      const response = await getExercises(params)
       return response.data
     } catch (error) {
       if (isAxiosError(error)) {
