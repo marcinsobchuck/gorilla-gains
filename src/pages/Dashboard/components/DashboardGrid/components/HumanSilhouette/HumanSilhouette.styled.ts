@@ -59,6 +59,10 @@ export const HumanModelSVG = styled(svg)`
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
+  .lowerBack {
+    fill: ${({ theme }) => theme.otherMusclesColor};
+  }
+
   .shoulders,
   .backShoulders {
     fill: ${({ theme }) => theme.otherMusclesColor};
@@ -109,6 +113,7 @@ export const HumanModelSVG = styled(svg)`
   .calves {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
+
   .foot {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }

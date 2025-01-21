@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-interface StyledLoaderSpinnerProps {
+interface StyledLoaderSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   $height?: number
   $width?: number
   $activeColor?: string

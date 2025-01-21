@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getExercisesAction } from "@features/exercises/exercisesActions"
+import { getExercisesForActivityTypeAction } from "@features/exercises/exercisesActions"
 
 import { CustomOptionLabel } from "./CustomOptionLabel"
 import {
@@ -83,6 +83,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   const lastSetIndex = fields.length - 1
 
   const exercises = useAppSelector((state) => state.exercises)
+  const isExercisesLoading = exercises.selectInputStatus === RequestStatuses.LOADING
   const dispatch = useAppDispatch()
 
   const getExercisesOptions = async (inputValue: string) => {
@@ -116,14 +117,13 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       <StyledSelect
         defaultValue={currentExercise}
         defaultOptions={
-          exercises.status !== RequestStatuses.LOADING &&
-          transformExerciseIntoOption(exercises.data)
+          !isExercisesLoading && transformExerciseIntoOption(exercises.selectInputData)
         }
-        isLoading={exercises.status === RequestStatuses.LOADING}
+        isLoading={isExercisesLoading}
         loadOptions={debouncedExercises}
         onFocus={async () => {
           await dispatch(
-            getExercisesAction({
+            getExercisesForActivityTypeAction({
               activityType,
             })
           )

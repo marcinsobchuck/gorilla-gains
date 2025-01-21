@@ -2,6 +2,7 @@ import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "
 
 import { ChangePassword } from "@pages/Entry/components/ChangePassword/ChangePassword"
 import { ForgotPassword } from "@pages/Entry/components/ForgotPassword/ForgotPassword"
+import { ExercisesCatalogue } from "@pages/ExercisesCatalogue/ExercisesCatalogue"
 import { Settings } from "@pages/Settings/Settings"
 
 import { PrivateRoute } from "./PrivateRoute"
@@ -25,6 +26,7 @@ export const router = createBrowserRouter(
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />
           <Route path={Routes.CALENDAR} element={<Calendar />} />
+          <Route path={Routes.EXERCISES_CATALOGUE} element={<ExercisesCatalogue />} />
           <Route path={Routes.SETTINGS} element={<Settings />} />
         </Route>
       </Route>

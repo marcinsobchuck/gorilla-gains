@@ -9,6 +9,7 @@ import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { Popover } from "@components/Popover/Popover"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
   ExertionRatingContainer,
@@ -25,7 +26,6 @@ import {
   Wrapper,
 } from "./ActivityCard.styled"
 import { ActivityCardProps } from "./ActivityCard.types"
-import { getIconNamePerActivityType } from "./utils"
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
   data,
@@ -88,7 +88,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       <FlexContainer align='center'>
         <IconContainer align='center' justify='center'>
           <Icon
-            name={getIconNamePerActivityType(data.type.type)}
+            name={getDataForActivityType(data.type.type).iconName}
             width={22}
             height={22}
             color={theme.secondary}

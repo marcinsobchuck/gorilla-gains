@@ -11,6 +11,7 @@ export const GlobalStyle = globalStyle.createGlobalStyle`
   :root {
     --header-height: 84px;
     --activity-list-container-height: 46%;
+    --exercises-search-bar-height: 180px;
     --sidebar-width-m: 31%;
     --sidebar-width-l: 25%;
     --menu-width-s: 70%;

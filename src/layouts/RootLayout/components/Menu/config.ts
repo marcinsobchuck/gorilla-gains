@@ -18,4 +18,9 @@ export const listItems: ListItem[] = [
     icon: "calendar",
     path: Routes.CALENDAR,
   },
+  {
+    name: "Exercises catalogue",
+    icon: "collection",
+    path: Routes.EXERCISES_CATALOGUE,
+  },
 ]

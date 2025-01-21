@@ -19,3 +19,20 @@ export const getExercisesAction = createAppAsyncThunk(
     }
   }
 )
+
+export const getExercisesForActivityTypeAction = createAppAsyncThunk(
+  "getExercisesForActivityType",
+  async (params: GetExercisesQueryParams, { rejectWithValue }) => {
+    const { activityType, filterText } = params
+    try {
+      const response = await getExercises({ activityType, filterText })
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        return rejectWithValue(error.response?.data)
+      } else {
+        return rejectWithValue("Something went wrong")
+      }
+    }
+  }
+)

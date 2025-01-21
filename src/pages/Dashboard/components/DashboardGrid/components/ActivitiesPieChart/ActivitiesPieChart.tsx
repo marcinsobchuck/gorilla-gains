@@ -51,10 +51,10 @@ export const ActivitiesPieChart = () => {
   const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
   const theme = useTheme()
   const colors = {
-    endurance: theme.enduranceEventColor,
-    strength: theme.strengthEventColor,
-    flexibility: theme.flexibilityEventColor,
-    balance: theme.balanceEventColor,
+    endurance: theme.enduranceColor,
+    strength: theme.strengthColor,
+    flexibility: theme.flexibilityColor,
+    balance: theme.balanceColor,
   }
 
   if (chartDataStatus === RequestStatuses.LOADING || !chartData) {

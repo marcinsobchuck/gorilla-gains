@@ -10,5 +10,6 @@ export enum Routes {
   DASHBOARD = "/dashboard",
   ACTIVITY_HISTORY = "/activity-history",
   CALENDAR = "/calendar",
+  EXERCISES_CATALOGUE = "/exercises-catalogue",
   SETTINGS = "/settings",
 }
