@@ -4,6 +4,7 @@ import balance from "@assets/balance.svg"
 import calendar from "@assets/calendar.svg"
 import checkmark from "@assets/checkmark.svg"
 import close from "@assets/close.svg"
+import collection from "@assets/collection.svg"
 import cross from "@assets/cross.svg"
 import dashboard from "@assets/dashboard.svg"
 import edit from "@assets/edit.svg"
@@ -23,6 +24,7 @@ import minus from "@assets/minus.svg"
 import moon from "@assets/moon.svg"
 import privacy from "@assets/privacy.svg"
 import remove from "@assets/remove.svg"
+import search from "@assets/search.svg"
 import settings from "@assets/settings.svg"
 import strength from "@assets/strength.svg"
 import success from "@assets/success.svg"
@@ -79,6 +81,8 @@ export const Icon: React.FC<IconProps> = ({
     info: <StyledIcon src={info} {...SVGProps} />,
     edit: <StyledIcon src={edit} {...SVGProps} />,
     cross: <StyledIcon src={cross} {...SVGProps} />,
+    collection: <StyledIcon src={collection} {...SVGProps} />,
+    search: <StyledIcon src={search} {...SVGProps} />,
   }
 
   return icons[name]

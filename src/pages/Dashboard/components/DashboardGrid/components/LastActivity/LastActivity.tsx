@@ -10,7 +10,7 @@ import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
 import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
-import { getActivityEventColor } from "@features/utils/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
   ActivityTitle,
@@ -66,8 +66,8 @@ export const LastActivity = () => {
           <FlexContainer align='center'>
             <IconWrapper justify='center' align='center'>
               <Icon
-                name={lastActivity.type.type}
-                color={getActivityEventColor(lastActivity.type.type, theme)}
+                name={getDataForActivityType(lastActivity.type.type).iconName}
+                color={getDataForActivityType(lastActivity.type.type, theme).primaryColor}
               />
             </IconWrapper>
             <MainText>{lastActivity.title}</MainText>

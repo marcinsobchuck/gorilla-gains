@@ -4,7 +4,7 @@ import { useTheme } from "styled-components"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { IconContainer } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard.styled"
-import { getIconNamePerActivityType } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
   ActivityDate,
@@ -30,7 +30,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
       <HeadingContainer align='center'>
         <IconContainer align='center' justify='center'>
           <Icon
-            name={getIconNamePerActivityType(activityDetails.type.type)}
+            name={getDataForActivityType(activityDetails.type.type).iconName}
             width={22}
             height={22}
             color={theme.secondary}

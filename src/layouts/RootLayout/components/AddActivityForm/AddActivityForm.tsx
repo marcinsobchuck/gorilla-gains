@@ -276,7 +276,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
                 exerciseIndex={exerciseIndex}
                 lastExerciseIndex={lastExerciseIndex}
                 onRemoveExercise={handleRemoveExercise}
-                activityTypeId={currentActivityType.value}
+                activityType={currentActivityType.value}
               />
             )
           })}

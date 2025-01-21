@@ -31,6 +31,8 @@ export type IconName =
   | "info"
   | "edit"
   | "cross"
+  | "collection"
+  | "search"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name: IconName

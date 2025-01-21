@@ -97,7 +97,9 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
     })
   })
 
-  const availableMetrics = Array.from(keys).filter((key) => key !== "break")
+  const availableMetrics = Array.from(keys).filter(
+    (key) => key !== "break" && key !== "repeatCount"
+  )
 
   return availableMetrics
 }
