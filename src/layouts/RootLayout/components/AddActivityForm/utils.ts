@@ -1,4 +1,4 @@
-import { Activity, CreateActivityData, ExerciseSet } from "@api/types/activitiesService.types"
+import { Activity, CreateActivityData } from "@api/types/activitiesService.types"
 import { ActivityType } from "@api/types/activityTypesService.types"
 import { Exercise } from "@api/types/exercisesService.types"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
@@ -73,10 +73,6 @@ export const getDataToSubmit = (values: AddActivityFormTypes, isPreset?: boolean
   } = values
 
   const transformedExercises = exercises?.map((exercise) => {
-    if (!exercise.withBreaks) {
-      exercise.sets.forEach((set: ExerciseSet) => delete set.break)
-    }
-
     return {
       ...exercise,
       exercise: exercise.exercise.value,

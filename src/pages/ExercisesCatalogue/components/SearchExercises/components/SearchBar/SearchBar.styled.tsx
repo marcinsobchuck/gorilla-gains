@@ -32,6 +32,7 @@ export const FilterTile = styled.button<FilterTileWrapperProps>`
   justify-content: center;
   align-items: center;
   border: 2px solid ${({ theme, $isActive }) => ($isActive ? theme.secondary : "transparent")};
+  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 
   transition: 0.3s ease-in-out;
   cursor: pointer;
@@ -62,8 +63,13 @@ export const SearchInput = styled.input`
   background-color: ${({ theme }) => theme.inputBackgroundColor};
   border-radius: 9px;
   width: 100%;
-  border: none;
+  border: 2px solid transparent;
   height: 64px;
+  transition: 0.3s;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.secondaryActive};
+  }
 
   &::placeholder {
     font-size: 14px;

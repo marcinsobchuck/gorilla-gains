@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
-import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { useAppDispatch } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { setActiveExercise } from "@features/exercises/exercisesSlice"
@@ -19,7 +19,6 @@ import { useExercisesInfiniteScroll } from "./hooks/useExercisesInfiniteScroll"
 export const ExercisesList: React.FC<ExercisesListProps> = ({ filterText }) => {
   const theme = useTheme()
   const dispatch = useAppDispatch()
-  const limit = useAppSelector((state) => state.exercises.limit)
   const { data, hasMore, observerTarget, isLoading } = useExercisesInfiniteScroll(filterText)
 
   return (
@@ -52,7 +51,7 @@ export const ExercisesList: React.FC<ExercisesListProps> = ({ filterText }) => {
               ))}
           </SkeletonTheme>
         )}
-        {!isLoading && data.length < limit && <div ref={observerTarget} />}
+        {!isLoading && <div ref={observerTarget} id='xpp' />}
       </ExerciseListWrapper>
 
       <LoadMore justify='space-around'>

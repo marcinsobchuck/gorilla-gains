@@ -4,7 +4,7 @@ import styled from "styled-components"
 const StyledIframe = styled.iframe`
   aspect-ratio: 16 / 9;
   height: 320px;
-  width: 50%;
+  width: 60%;
   border-radius: 9px;
   border: none;
 `

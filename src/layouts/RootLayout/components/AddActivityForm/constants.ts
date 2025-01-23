@@ -17,22 +17,27 @@ export const defaultExercise = {
 export const strengthNonStaticExerciseFields = {
   reps: "",
   load: "",
+  break: null,
 }
 
 export const strengthStaticExerciseFields = {
   duration: durationField,
   load: "",
+  break: null,
 }
 
 export const enduranceExerciseFields = {
   duration: durationField,
   distance: "",
+  break: null,
 }
 
 export const flexibilityExerciseFields = {
   duration: durationField,
+  break: null,
 }
 
 export const balanceExerciseFields = {
   duration: durationField,
+  break: null,
 }

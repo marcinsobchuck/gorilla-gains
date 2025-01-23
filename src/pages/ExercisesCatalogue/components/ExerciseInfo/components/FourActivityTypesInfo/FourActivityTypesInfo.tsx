@@ -6,9 +6,10 @@ import {
   SectionText,
   SectionTitle,
 } from "../../ExerciseInfo.styled"
+import { InfoItemWrapper } from "../ExerciseDetails/ExerciseDetails.styled"
 export const FourActivityTypesInfo = () => {
   return (
-    <>
+    <InfoItemWrapper>
       <SectionTitle>Four key types of physical activity</SectionTitle>
       <SectionDivider>
         <SectionText>
@@ -55,6 +56,6 @@ export const FourActivityTypesInfo = () => {
       <HighlightedText>
         Use the search feature to discover activities that fit your goals and interests.
       </HighlightedText>
-    </>
+    </InfoItemWrapper>
   )
 }

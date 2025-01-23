@@ -44,6 +44,14 @@ const shoulders = ["shoulders", "backShoulders"]
 
 const backLowerLeg = ["backLowerLeg", "calves"]
 
+const classIntoLabel = new Map([
+  ["backLats", "Lats"],
+  ["frontUpperLeg", "Quads"],
+  ["backUpperLeg", "Hamstrings"],
+  ["lowerBack", "Erector spinae/lower back"],
+  ["frontLowerLeg", "Front lower leg"],
+])
+
 export const transformMuscleClassToText = (keyName: MuscleClassName) => {
   if (singleWordKeys.includes(keyName)) {
     return capitalizeFirstLetter(keyName)
@@ -61,23 +69,5 @@ export const transformMuscleClassToText = (keyName: MuscleClassName) => {
     return "Calves"
   }
 
-  if (keyName === "backLats") {
-    return "Lats"
-  }
-
-  if (keyName === "frontUpperLeg") {
-    return "Quads"
-  }
-
-  if (keyName === "backUpperLeg") {
-    return "Hamstrings"
-  }
-
-  if (keyName === "lowerBack") {
-    return "Erector spinae/lower back"
-  }
-
-  if (keyName === "frontLowerLeg") {
-    return "Front lower leg"
-  }
+  return classIntoLabel.get(keyName) || "-"
 }

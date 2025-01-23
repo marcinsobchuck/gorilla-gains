@@ -1,8 +1,9 @@
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
 import { useAppSelector } from "@app/hooks"
+import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
@@ -15,14 +16,10 @@ import {
   ExertionRatingContainer,
   HeaderWrapper,
   Heading,
-  IconContainer,
   LoaderOverlay,
-  MainText,
   PopoverOption,
   PopoverOptions,
-  SecondaryText,
   StyledInteractiveIcon,
-  TextContentWrapper,
   Wrapper,
 } from "./ActivityCard.styled"
 import { ActivityCardProps } from "./ActivityCard.types"
@@ -47,7 +44,12 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper direction='column' justify='center' {...rest}>
+    <Wrapper
+      $bgGradient={getDataForActivityType(data.type.type, theme).cardGradient}
+      direction='column'
+      justify='center'
+      {...rest}
+    >
       <HeaderWrapper justify='space-between' align='center'>
         <Heading>{data.title}</Heading>
         {hasAdditionalActions && (
@@ -85,29 +87,29 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
           </Popover>
         )}
       </HeaderWrapper>
-      <FlexContainer align='center'>
-        <IconContainer align='center' justify='center'>
-          <Icon
-            name={getDataForActivityType(data.type.type).iconName}
-            width={22}
-            height={22}
-            color={theme.secondary}
-          />
-        </IconContainer>
-
-        <TextContentWrapper>
-          <MainText>
-            {capitalizeFirstLetter(data.type.type)} <span>&#8226;</span> {numberOfExercises}{" "}
-            exercises
-          </MainText>
-
-          <SecondaryText>{format(new Date(data.date), "LLLL do, y")}</SecondaryText>
-        </TextContentWrapper>
+      <FlexContainer align='center' justify='space-between'>
+        <ActivityTypeBadge
+          activityType={data.type.type}
+          title={
+            <>
+              {capitalizeFirstLetter(data?.type?.type)} <span>&#8226;</span> {numberOfExercises}{" "}
+              {numberOfExercises === 1 ? "exercise" : "exercises"}
+            </>
+          }
+          subtitle={format(parseISO(data.date), "LLLL do, y")}
+          iconSize={30}
+        />
 
         <ExertionRatingContainer align='flex-end' direction='column'>
           <FlexContainer>
             {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
-              <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
+              <Icon
+                key={index}
+                name='fire'
+                color={getDataForActivityType(data.type.type, theme).secondaryColor}
+                width={22}
+                height={22}
+              />
             ))}
           </FlexContainer>
         </ExertionRatingContainer>

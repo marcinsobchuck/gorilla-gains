@@ -1,8 +1,6 @@
 import svg from "react-inlinesvg"
 import styled, { css } from "styled-components"
 
-import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
-
 interface InputWrapperProps {
   $shouldTransition?: boolean
   $withError?: boolean
@@ -98,10 +96,4 @@ export const InputStatusIcon = styled(svg)<InputStatusIconProps>`
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   width: 24px;
   height: 24px;
-`
-
-export const ValidationSpinner = styled(LoaderSpinner)`
-  position: absolute;
-  right: 24px;
-  top: 23px;
 `

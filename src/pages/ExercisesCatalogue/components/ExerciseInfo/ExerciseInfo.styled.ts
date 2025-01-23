@@ -6,10 +6,12 @@ interface SectionTextProps {
 
 export const ExerciseInfoWrapper = styled.div`
   padding: 24px;
+  height: 100%;
 `
 
 export const SectionDivider = styled.div`
   margin-bottom: 16px;
+  max-width: 760px;
 `
 export const SectionTitle = styled.h2`
   font-size: 22px;

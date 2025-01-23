@@ -2,7 +2,7 @@ import { useAppSelector } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
-import { StyledSection } from "./ExerciseDetails.styled"
+import { InfoItemWrapper, StyledSection } from "./ExerciseDetails.styled"
 import { MuscleClassName, transformMuscleClassToText } from "./utils"
 import { YoutubeVideoEmbed } from "./YoutubeVideoEmbed"
 
@@ -20,7 +20,7 @@ export const ExerciseDetails = () => {
   } = activeExercise
 
   return (
-    <div>
+    <InfoItemWrapper>
       <ActivityTypeBadge
         activityType={type}
         iconSize={32}
@@ -31,10 +31,6 @@ export const ExerciseDetails = () => {
       <StyledSection>
         <h3>Description</h3>
         <p>{description}</p>
-      </StyledSection>
-      <StyledSection>
-        <h3>Demo video</h3>
-        {videoURL && <YoutubeVideoEmbed title={`${name} demonstration video`} url={videoURL} />}
       </StyledSection>
       <StyledSection>
         <h3>Muscle groups</h3>
@@ -62,6 +58,10 @@ export const ExerciseDetails = () => {
             : "No data"}
         </div>
       </StyledSection>
-    </div>
+      <StyledSection>
+        <h3>Demo video</h3>
+        {videoURL && <YoutubeVideoEmbed title={`${name} demonstration video`} url={videoURL} />}
+      </StyledSection>
+    </InfoItemWrapper>
   )
 }

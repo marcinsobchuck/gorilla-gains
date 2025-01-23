@@ -5,7 +5,7 @@ export interface ActivityTypeBadgeProps {
   gap?: number
   iconPadding?: number
   iconSize?: number
-  title?: string
+  title?: string | React.ReactNode
   titleSize?: number
   subtitle?: string
 }

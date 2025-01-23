@@ -33,14 +33,6 @@ export const SettingsForm = () => {
     },
   })
 
-  useEffect(() => {
-    const getUserInfo = async () => await dispatch(getCurrentUserInfoAction())
-
-    if (!currentUser) {
-      getUserInfo()
-    }
-  }, [currentUser, dispatch])
-
   const {
     handleSubmit,
     formState: { dirtyFields },
@@ -66,6 +58,14 @@ export const SettingsForm = () => {
       error: "Edition failed",
     })
   })
+
+  useEffect(() => {
+    const getUserInfo = async () => await dispatch(getCurrentUserInfoAction())
+
+    if (!currentUser) {
+      getUserInfo()
+    }
+  }, [currentUser, dispatch])
 
   return (
     <FormProvider {...methods}>

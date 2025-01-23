@@ -1,14 +1,9 @@
 import { Duration, ExerciseSet, ResponseExercise } from "@api/types/activitiesService.types"
-import { omitKeysFromObject } from "@utils/omitKeysFromObject"
 
 const removeDuplicates = (arr: Array<keyof ExerciseSet>) => [...new Set(arr)]
 
 export const getExerciseMetrics = (exercise: ResponseExercise) => {
   const metricsArray = exercise.sets.flatMap((set) => {
-    if (set.repeatCount === 1) {
-      return Object.keys(omitKeysFromObject(set, ["repeatCount"])) as Array<keyof ExerciseSet>
-    }
-
     return Object.keys(set) as Array<keyof ExerciseSet>
   })
   const removedDuplicates = removeDuplicates(metricsArray)

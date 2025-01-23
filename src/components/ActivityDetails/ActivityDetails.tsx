@@ -1,15 +1,12 @@
 import { format, parseISO } from "date-fns"
 import { useTheme } from "styled-components"
 
+import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
-import { IconContainer } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard.styled"
-import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
-  ActivityDate,
   DescriptionText,
-  ExerciseContainer,
   ExerciseName,
   ExercisesContainer,
   ExercisesSectionHeading,
@@ -17,38 +14,33 @@ import {
   HeadingContainer,
   Notes,
   SetsTable,
-  Title,
-  TitleDateContainer,
 } from "./ActivityDetails.styled"
 import { ActivityDetailsProps } from "./ActivityDetails.types"
 import { getDurationString, getExerciseMetrics } from "./utils"
 
 export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetails }) => {
   const theme = useTheme()
+
   return (
     <>
       <HeadingContainer align='center'>
-        <IconContainer align='center' justify='center'>
-          <Icon
-            name={getDataForActivityType(activityDetails.type.type).iconName}
-            width={22}
-            height={22}
-            color={theme.secondary}
-          />
-        </IconContainer>
-        <TitleDateContainer>
-          <Title>{activityDetails.title}</Title>
-          <ActivityDate>{format(parseISO(activityDetails.date), "LLLL d, y")}</ActivityDate>
-        </TitleDateContainer>
-
-        <ExertionRatingContainer direction='column'>
-          <FlexContainer justify='center'>
-            {Array.from({ length: activityDetails.exertionRating || 0 }).map((_, index) => (
-              <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
-            ))}
-          </FlexContainer>
-          <DescriptionText>perceived exertion</DescriptionText>
-        </ExertionRatingContainer>
+        <ActivityTypeBadge
+          activityType={activityDetails.type.type}
+          title={activityDetails.title}
+          subtitle={format(parseISO(activityDetails.date), "LLLL d, y")}
+          iconSize={32}
+          titleSize={20}
+        />
+        {activityDetails.exertionRating && (
+          <ExertionRatingContainer direction='column'>
+            <FlexContainer justify='center'>
+              {Array.from({ length: activityDetails.exertionRating }).map((_, index) => (
+                <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
+              ))}
+            </FlexContainer>
+            <DescriptionText>perceived exertion</DescriptionText>
+          </ExertionRatingContainer>
+        )}
       </HeadingContainer>
       {activityDetails.notes && <Notes>{activityDetails.notes}</Notes>}
       <ExercisesSectionHeading>Exercises</ExercisesSectionHeading>
@@ -56,7 +48,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
         {activityDetails.exercises.map((exercise, index) => {
           const exerciseMetrics = getExerciseMetrics(exercise)
           return (
-            <ExerciseContainer key={index}>
+            <div key={index}>
               <ExerciseName>
                 {index + 1}. {exercise.exercise.name}{" "}
                 {exercise.exercise.additionalInfo && (
@@ -68,7 +60,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
                   <tr>
                     <th>#</th>
                     {exerciseMetrics.map((label, index) => (
-                      <th key={index}>{label === "repeatCount" ? "rep. count" : label}</th>
+                      <th key={index}>{label === "repeatCount" ? "set count" : label}</th>
                     ))}
                   </tr>
                 </thead>
@@ -91,7 +83,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
                   })}
                 </tbody>
               </SetsTable>
-            </ExerciseContainer>
+            </div>
           )
         })}
       </ExercisesContainer>
