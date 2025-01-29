@@ -6,6 +6,7 @@ export interface Exercise {
   isStatic?: boolean
   additionalInfo?: string
   activityType: {
+    _id: string
     type: ActivityTypes
   }
   description?: string
@@ -14,6 +15,7 @@ export interface Exercise {
     primary: string[]
     secondary: string[]
   }
+  isFavourite?: boolean
 }
 
 export interface GetExercisesQueryParams {
@@ -21,4 +23,10 @@ export interface GetExercisesQueryParams {
   filterText?: string
   offset?: number
   limit?: number
+  exclude?: string[]
+}
+
+export interface ToggleFavouriteExerciseParams {
+  exerciseId: string
+  operation: "add" | "delete"
 }

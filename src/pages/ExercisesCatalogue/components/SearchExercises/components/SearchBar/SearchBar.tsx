@@ -35,6 +35,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ filterText, setFilterText 
   const activeActivityTypeFilter = useAppSelector(
     (state) => state.exercises.activeActivityTypeFilter
   )
+
   const limit = useAppSelector((state) => state.exercises.limit)
   const activityTypes = useAppSelector((state) => state.activityTypes.data)
   const dataStatus = useAppSelector((state) => state.exercises.searchExercisesDataStatus)
@@ -65,7 +66,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ filterText, setFilterText 
       dispatch(resetSearchExercisesData())
 
       await dispatch(
-        getExercisesAction({ activityType: activeActivityTypeFilter, filterText, limit })
+        getExercisesAction({
+          activityType: activeActivityTypeFilter,
+          filterText,
+          limit,
+        })
       )
     }
 

@@ -30,3 +30,9 @@ export const StyledSection = styled.section`
     font-size: 14px;
   }
 `
+
+export const FavouriteExerciseInfo = styled.p`
+  font-size: 11px;
+  color: ${({ theme }) => theme.primaryMedium};
+  max-width: 180px;
+`

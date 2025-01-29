@@ -7,6 +7,7 @@ import { getExercisesAction } from "@features/exercises/exercisesActions"
 export const useExercisesInfiniteScroll = (filterText: string) => {
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state.exercises.searchExercisesData)
+
   const activeActivityTypeFilter = useAppSelector(
     (state) => state.exercises.activeActivityTypeFilter
   )
@@ -43,7 +44,7 @@ export const useExercisesInfiniteScroll = (filterText: string) => {
         observer.unobserve(observerRef)
       }
     }
-  }, [activeActivityTypeFilter, data.length, dispatch, filterText, hasMore])
+  }, [activeActivityTypeFilter, data.length, dispatch, filterText, hasMore, limit])
 
   return { observerTarget, hasMore, isLoading, data }
 }

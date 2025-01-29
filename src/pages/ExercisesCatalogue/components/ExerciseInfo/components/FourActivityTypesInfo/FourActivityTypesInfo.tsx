@@ -53,9 +53,16 @@ export const FourActivityTypesInfo = () => {
           the start of your journey toward a healthier, happier you!
         </SectionText>
       </SectionDivider>
-      <HighlightedText>
-        Use the search feature to discover activities that fit your goals and interests.
-      </HighlightedText>
+      <SectionDivider>
+        <HighlightedText>
+          Use the search feature to discover activities that fit your goals and interests.
+        </HighlightedText>
+      </SectionDivider>
+      <SectionDivider>
+        <HighlightedText>
+          Add activities to favourites and you will see them first when adding new activity.
+        </HighlightedText>
+      </SectionDivider>
     </InfoItemWrapper>
   )
 }

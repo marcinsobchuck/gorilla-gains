@@ -67,6 +67,8 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
     }),
     menuList: (baseStyles) => ({
       ...baseStyles,
+      maxHeight: "220px",
+
       "::-webkit-scrollbar": {
         width: "18px",
       },
