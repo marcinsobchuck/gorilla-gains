@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const InfoItemWrapper = styled.div`
   height: 100%;
-  padding: 28px;
+  padding: 18px 24px;
   background-color: ${({ theme }) => theme.navBackgroundColor};
   border-radius: 9px;
   overflow: auto;

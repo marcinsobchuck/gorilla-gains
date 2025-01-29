@@ -5,6 +5,7 @@ import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBad
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { toggleFavouriteExerciseAction } from "@features/exercises/exercisesActions"
+import { setActiveExercise } from "@features/exercises/exercisesSlice"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { FavouriteExerciseInfo, InfoItemWrapper, StyledSection } from "./ExerciseDetails.styled"
@@ -33,6 +34,13 @@ export const ExerciseDetails = () => {
 
   return (
     <InfoItemWrapper>
+      <Button
+        variant='tertiary'
+        buttonType='button'
+        icon='leftArrow'
+        iconColor={theme.secondary}
+        onClick={() => dispatch(setActiveExercise(null))}
+      />
       <FlexContainer justify='space-between' align='center'>
         <ActivityTypeBadge
           activityType={type}
