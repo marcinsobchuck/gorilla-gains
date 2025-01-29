@@ -1,3 +1,5 @@
+import uniqBy from "lodash.uniqby"
+
 import { Activity, CreateActivityData } from "@api/types/activitiesService.types"
 import { ActivityType } from "@api/types/activityTypesService.types"
 import { Exercise } from "@api/types/exercisesService.types"
@@ -16,17 +18,31 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
   }))
 }
 
-export const transformExerciseIntoOption = (data?: Exercise[]): AsyncOption[] => {
+export const transformExerciseIntoOption = ({
+  activityTypeId,
+  data,
+}: {
+  activityTypeId: string
+  data: Exercise[]
+}): AsyncOption[] => {
   if (!data) {
     return []
   }
 
-  return data.map((item) => ({
-    value: item._id,
-    label: item.name,
-    isStatic: item.isStatic,
-    additionalInfo: item.additionalInfo,
-  }))
+  const filteredData = data.filter((ex) => {
+    return activityTypeId.includes(ex.activityType._id)
+  })
+
+  return uniqBy(
+    filteredData.map((item) => ({
+      value: item._id,
+      label: item.name,
+      isStatic: item.isStatic,
+      additionalInfo: item.additionalInfo,
+      isFavourite: item.isFavourite,
+    })),
+    (option) => option.value
+  )
 }
 
 export const transformEditedActivity = (activity: Activity) => {

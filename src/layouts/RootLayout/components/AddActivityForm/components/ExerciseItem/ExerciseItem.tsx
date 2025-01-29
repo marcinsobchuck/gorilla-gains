@@ -7,7 +7,10 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getExercisesForActivityTypeAction } from "@features/exercises/exercisesActions"
+import {
+  getExercisesForActivityTypeAction,
+  getFavouriteExercisesAction,
+} from "@features/exercises/exercisesActions"
 
 import { CustomOptionLabel } from "./CustomOptionLabel"
 import {
@@ -21,15 +24,9 @@ import {
   StyledCheckbox,
 } from "./ExerciseItem.styled"
 import { ExerciseItemProps } from "./ExerciseItem.types"
+import { getSetsFormFields } from "./utils"
 import { StyledSelect } from "../../AddActivityForm.styled"
 import { AddActivityFormTypes, ExerciseFields } from "../../AddActivityForm.types"
-import {
-  balanceExerciseFields,
-  enduranceExerciseFields,
-  flexibilityExerciseFields,
-  strengthNonStaticExerciseFields,
-  strengthStaticExerciseFields,
-} from "../../constants"
 import { transformExerciseIntoOption } from "../../utils"
 import { SetItem } from "../SetItem/SetItem"
 
@@ -54,24 +51,10 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   })
 
   const currentActivityType = watch("activityType").label
+  const currentActivityTypeId = watch("activityType").value
   const currentExerciseValue = watch(`exercises.${exerciseIndex}.exercise.value`)
   const currentExercise = watch(`exercises.${exerciseIndex}.exercise`)
   const isExerciseStatic = watch(`exercises.${exerciseIndex}.exercise.isStatic`)
-
-  const getSetsFormFields = (activityType: string, isExerciseStatic?: boolean) => {
-    switch (activityType) {
-      case "strength":
-        return isExerciseStatic ? strengthStaticExerciseFields : strengthNonStaticExerciseFields
-      case "endurance":
-        return enduranceExerciseFields
-      case "flexibility":
-        return flexibilityExerciseFields
-      case "balance":
-        return balanceExerciseFields
-      default:
-        return {}
-    }
-  }
 
   const ref = useRef<HTMLButtonElement>(null)
 
@@ -83,18 +66,22 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
   const lastSetIndex = fields.length - 1
 
   const exercises = useAppSelector((state) => state.exercises)
+  const favouriteExercises = useAppSelector((state) => state.exercises.favouriteExercises)
   const isExercisesLoading = exercises.selectInputStatus === RequestStatuses.LOADING
   const dispatch = useAppDispatch()
 
   const getExercisesOptions = async (inputValue: string) => {
     try {
       const response = await getExercises({
-        activityType: watch("activityType").value,
+        activityType: currentActivityTypeId,
         filterText: inputValue,
       })
       const exercises = response.data
 
-      return transformExerciseIntoOption(exercises)
+      return transformExerciseIntoOption({
+        data: [...favouriteExercises, ...exercises],
+        activityTypeId: currentActivityTypeId,
+      })
     } catch (err) {
       console.log(err)
     }
@@ -117,16 +104,28 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       <StyledSelect
         defaultValue={currentExercise}
         defaultOptions={
-          !isExercisesLoading && transformExerciseIntoOption(exercises.selectInputData)
+          !isExercisesLoading &&
+          transformExerciseIntoOption({
+            data: [...favouriteExercises, ...exercises.selectInputData],
+            activityTypeId: currentActivityTypeId,
+          })
         }
         isLoading={isExercisesLoading}
         loadOptions={debouncedExercises}
         onFocus={async () => {
-          await dispatch(
-            getExercisesForActivityTypeAction({
-              activityType,
-            })
+          if (favouriteExercises.length === 0) {
+            await dispatch(getFavouriteExercisesAction())
+          }
+
+          if (
+            exercises.selectInputData.length === 0 ||
+            exercises.selectInputData.some((ex) => ex.activityType.type !== currentActivityType)
           )
+            await dispatch(
+              getExercisesForActivityTypeAction({
+                activityType,
+              })
+            )
         }}
         classNamePrefix='nested'
         formatOptionLabel={(data) => <CustomOptionLabel data={data} />}

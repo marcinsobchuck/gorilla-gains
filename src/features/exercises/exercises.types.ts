@@ -13,4 +13,11 @@ export interface InitialState {
   searchExercisesDataStatus: RequestStatuses
   searchExercisesDataError?: string
   activeExercise: Exercise | null
+  shouldFetchFavouriteExercises: boolean
+  favouriteExercises: Exercise[]
+  favouriteExercisesStatus: RequestStatuses
+  favouriteExercisesError?: string
+
+  toggleFavouriteExerciseStatus: RequestStatuses
+  toggleFavouriteExerciseError?: string
 }

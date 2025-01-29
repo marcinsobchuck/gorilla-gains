@@ -26,6 +26,7 @@ import privacy from "@assets/privacy.svg"
 import remove from "@assets/remove.svg"
 import search from "@assets/search.svg"
 import settings from "@assets/settings.svg"
+import star from "@assets/star.svg"
 import strength from "@assets/strength.svg"
 import success from "@assets/success.svg"
 import sun from "@assets/sun.svg"
@@ -83,6 +84,7 @@ export const Icon: React.FC<IconProps> = ({
     cross: <StyledIcon src={cross} {...SVGProps} />,
     collection: <StyledIcon src={collection} {...SVGProps} />,
     search: <StyledIcon src={search} {...SVGProps} />,
+    star: <StyledIcon src={star} {...SVGProps} />,
   }
 
   return icons[name]
