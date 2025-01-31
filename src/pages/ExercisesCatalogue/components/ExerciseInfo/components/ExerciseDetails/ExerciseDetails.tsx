@@ -8,7 +8,17 @@ import { toggleFavouriteExerciseAction } from "@features/exercises/exercisesActi
 import { setActiveExercise } from "@features/exercises/exercisesSlice"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
-import { FavouriteExerciseInfo, InfoItemWrapper, StyledSection } from "./ExerciseDetails.styled"
+import {
+  BackButton,
+  FavouriteExerciseInfo,
+  HeadingWrapper,
+  InfoItemWrapper,
+  MusclesGroupWrapper,
+  PrimaryMusclesText,
+  SecondaryMusclesText,
+  StyledHumanSilhouette,
+  StyledSection,
+} from "./ExerciseDetails.styled"
 import { MuscleClassName, transformMuscleClassToText } from "./utils"
 import { YoutubeVideoEmbed } from "./YoutubeVideoEmbed"
 
@@ -31,17 +41,20 @@ export const ExerciseDetails = () => {
 
   const shouldDelete = favouriteExercises.find((ex) => ex._id === exerciseId)
   const operation = shouldDelete ? "delete" : "add"
+  const shouldRenderHumanSilhouette = Object.entries(musclesHit).some(
+    (entry) => entry[1].length > 0
+  )
 
   return (
     <InfoItemWrapper>
-      <Button
+      <BackButton
         variant='tertiary'
         buttonType='button'
         icon='leftArrow'
         iconColor={theme.secondary}
         onClick={() => dispatch(setActiveExercise(null))}
       />
-      <FlexContainer justify='space-between' align='center'>
+      <HeadingWrapper justify='space-between' align='center'>
         <ActivityTypeBadge
           activityType={type}
           iconSize={32}
@@ -65,41 +78,55 @@ export const ExerciseDetails = () => {
             Favourite exercises will appear first when creating activity
           </FavouriteExerciseInfo>
         </FlexContainer>
-      </FlexContainer>
-      <StyledSection>
-        <h3>Description</h3>
-        <p>{description}</p>
-      </StyledSection>
-      <StyledSection>
-        <h3>Muscle groups</h3>
-        <div>
-          {musclesHit
-            ? Object.entries(musclesHit).map(([key, value]) => {
-                if (value.length < 0) {
-                  return null
-                }
-                const transformedValues = [
-                  ...new Set(
-                    value.map((className) =>
-                      transformMuscleClassToText(className as MuscleClassName)
+      </HeadingWrapper>
+      {shouldRenderHumanSilhouette && (
+        <StyledSection>
+          <h3>Muscle groups</h3>
+          <FlexContainer gap={24} align='center'>
+            <StyledHumanSilhouette musclesHit={musclesHit} withLegend={false} />
+
+            <div>
+              {musclesHit
+                ? Object.entries(musclesHit).map(([key, value]) => {
+                    if (value.length < 0) {
+                      return null
+                    }
+                    const transformedValues = [
+                      ...new Set(
+                        value.map((className) =>
+                          transformMuscleClassToText(className as MuscleClassName)
+                        )
+                      ),
+                    ]
+                    return (
+                      <MusclesGroupWrapper key={key}>
+                        {key === "primary" ? (
+                          <PrimaryMusclesText>{capitalizeFirstLetter(key)}</PrimaryMusclesText>
+                        ) : (
+                          <SecondaryMusclesText>{capitalizeFirstLetter(key)}</SecondaryMusclesText>
+                        )}
+                        <p>{transformedValues.join(", ")}</p>
+                      </MusclesGroupWrapper>
                     )
-                  ),
-                ]
-                return (
-                  <div key={key}>
-                    <p>
-                      {capitalizeFirstLetter(key)}: {transformedValues.join(", ")}
-                    </p>
-                  </div>
-                )
-              })
-            : "No data"}
-        </div>
-      </StyledSection>
-      <StyledSection>
-        <h3>Demo video</h3>
-        {videoURL && <YoutubeVideoEmbed title={`${name} demonstration video`} url={videoURL} />}
-      </StyledSection>
+                  })
+                : "No data"}
+            </div>
+          </FlexContainer>
+        </StyledSection>
+      )}
+      {description && (
+        <StyledSection>
+          <h3>Description</h3>
+          <p>{description}</p>
+        </StyledSection>
+      )}
+
+      {videoURL && (
+        <StyledSection>
+          <h3>Demo video</h3>
+          <YoutubeVideoEmbed title={`${name} demonstration video`} url={videoURL} />
+        </StyledSection>
+      )}
     </InfoItemWrapper>
   )
 }

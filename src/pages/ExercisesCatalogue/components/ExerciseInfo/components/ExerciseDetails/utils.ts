@@ -28,6 +28,7 @@ const singleWordKeys = [
   "chest",
   "neck",
   "biceps",
+  "forearm",
   "shoulders",
   "abs",
   "traps",
@@ -69,5 +70,5 @@ export const transformMuscleClassToText = (keyName: MuscleClassName) => {
     return "Calves"
   }
 
-  return classIntoLabel.get(keyName) || "-"
+  return classIntoLabel.get(keyName)
 }

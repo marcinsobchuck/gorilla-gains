@@ -28,6 +28,7 @@ export const getWeeklyActivitiesDataAction = createAppAsyncThunk(
       const response = await getActivitiesForCurrentUser({
         startDate: subWeeks(new Date(), 1),
         endDate: new Date(),
+        isDone: true,
       })
       const musclesHit = () => {
         const muscles = response.data.reduce<{ primary: string[]; secondary: string[] }>(

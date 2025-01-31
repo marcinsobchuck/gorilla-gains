@@ -26,7 +26,7 @@ export const Title = styled.h2<TitleProps>`
 export const Subtitle = styled.p`
   font-size: 12px;
   font-weight: 400;
-  color: ${({ theme }) => theme.primaryDisabled};
+  color: ${({ theme }) => theme.primaryMedium};
   text-align: left;
   text-transform: capitalize;
 `

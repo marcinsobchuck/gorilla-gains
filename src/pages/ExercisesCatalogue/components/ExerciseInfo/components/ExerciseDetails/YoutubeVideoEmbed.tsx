@@ -5,6 +5,7 @@ const StyledIframe = styled.iframe`
   aspect-ratio: 16 / 9;
   height: 320px;
   width: 60%;
+  max-width: 500px;
   border-radius: 9px;
   border: none;
 `

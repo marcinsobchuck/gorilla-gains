@@ -1,12 +1,10 @@
 import uniqBy from "lodash.uniqby"
 import { useEffect } from "react"
-import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { Icon } from "@components/Icon/Icon"
-import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { getFavouriteExercisesAction } from "@features/exercises/exercisesActions"
 import { setActiveExercise } from "@features/exercises/exercisesSlice"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
@@ -72,18 +70,7 @@ export const ExercisesList: React.FC<ExercisesListProps> = ({ filterText }) => {
             {exercise.isFavourite && <Icon name='star' color='gold' />}
           </ExerciseListItem>
         ))}
-        {isLoading && (
-          <SkeletonTheme>
-            {Array(9)
-              .fill("")
-              .map((_, index) => (
-                <ExerciseListItem key={index} align='center' gap={9}>
-                  <Skeleton width={46} height={46} />
-                  <Skeleton width={160} height={20} inline={false} />
-                </ExerciseListItem>
-              ))}
-          </SkeletonTheme>
-        )}
+
         {!isLoading && <div ref={observerTarget} id='xpp' />}
       </ExerciseListWrapper>
 

@@ -3,17 +3,8 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
-export const Wrapper = styled(FlexContainer)`
-  padding: 14px;
-  background-color: ${({ theme }) => theme.navBackgroundColor};
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
-  border-radius: 9px;
-`
-
 export const HumanModelSVG = styled(svg)`
-  width: 100%;
-  height: 326px;
-  flex-grow: 1;
+  max-height: 352px;
 
   * > * {
     stroke: none !important;

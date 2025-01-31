@@ -1,3 +1,4 @@
+import { Wrapper } from "./FourActivityTypesInfo.styled"
 import {
   HighlightedText,
   List,
@@ -6,10 +7,9 @@ import {
   SectionText,
   SectionTitle,
 } from "../../ExerciseInfo.styled"
-import { InfoItemWrapper } from "../ExerciseDetails/ExerciseDetails.styled"
 export const FourActivityTypesInfo = () => {
   return (
-    <InfoItemWrapper>
+    <Wrapper>
       <SectionTitle>Four key types of physical activity</SectionTitle>
       <SectionDivider>
         <SectionText>
@@ -63,6 +63,6 @@ export const FourActivityTypesInfo = () => {
           Add activities to favourites and you will see them first when adding new activity.
         </HighlightedText>
       </SectionDivider>
-    </InfoItemWrapper>
+    </Wrapper>
   )
 }

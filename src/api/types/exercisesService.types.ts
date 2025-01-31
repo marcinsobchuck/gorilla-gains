@@ -11,7 +11,7 @@ export interface Exercise {
   }
   description?: string
   videoURL?: string
-  musclesHit?: {
+  musclesHit: {
     primary: string[]
     secondary: string[]
   }

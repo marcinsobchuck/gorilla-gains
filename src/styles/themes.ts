@@ -61,7 +61,7 @@ export const lightTheme = {
 
   primaryMusclesColor: "#94000080",
   secondaryMusclesColor: "#ffc30080",
-  otherMusclesColor: "#BFBFBF4D",
+  otherMusclesColor: "#8585854D",
 
   primaryMusclesColorText: "#940000",
   secondaryMusclesColorText: "#ffc300",
