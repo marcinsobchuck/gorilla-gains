@@ -4,7 +4,10 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 import { BasicCard } from "../BasicCard/BasicCard"
 
-export const ActivitiesStatisticsWrapper = styled(FlexContainer)``
+export const ActivitiesStatisticsWrapper = styled(FlexContainer)`
+  background-color: ${({ theme }) => theme.navBackgroundColor};
+  border-radius: 9px;
+`
 
 export const CardsWrapper = styled(FlexContainer)`
   flex-wrap: wrap;
@@ -17,4 +20,11 @@ export const StyledBasicCard = styled(BasicCard)`
   &:last-of-type {
     width: 100%;
   }
+`
+
+export const MessageText = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primaryDisabled};
+  text-align: center;
 `
