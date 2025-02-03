@@ -26,7 +26,7 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   height: 100%;
 
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  box-shadow: ${({ theme }) => theme.menuBoxShadow};
 
   transform: ${({ $isOpen }) => ($isOpen ? `translateX(0)` : `translate(-100%)`)};
 

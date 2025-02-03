@@ -4,22 +4,18 @@ import { useNavigate } from "react-router-dom"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
-import { Icon } from "@components/Icon/Icon"
+import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
 import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
-import { getActivityEventColor } from "@features/utils/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
-  ActivityTitle,
   CardHeading,
-  IconWrapper,
   LastActivityCard,
   LastActivityWrapper,
   MainContentWrapper,
-  MainText,
 } from "./LastActivity.styled"
 
 export const LastActivity = () => {
@@ -54,6 +50,7 @@ export const LastActivity = () => {
       <CardHeading>Last activity</CardHeading>
 
       <LastActivityCard
+        $bgColor={getDataForActivityType(lastActivity.type.type, theme).cardGradient}
         direction='column'
         onClick={() => {
           navigate(Routes.ACTIVITY_HISTORY)
@@ -61,17 +58,13 @@ export const LastActivity = () => {
           dispatch(setIsActivityEventOpen(true))
         }}
       >
-        <ActivityTitle>{lastActivity.type.type}</ActivityTitle>
         <MainContentWrapper align='center'>
-          <FlexContainer align='center'>
-            <IconWrapper justify='center' align='center'>
-              <Icon
-                name={lastActivity.type.type}
-                color={getActivityEventColor(lastActivity.type.type, theme)}
-              />
-            </IconWrapper>
-            <MainText>{lastActivity.title}</MainText>
-          </FlexContainer>
+          <ActivityTypeBadge
+            activityType={lastActivity.type.type}
+            title={lastActivity.title}
+            subtitle={lastActivity.type.type}
+            titleSize={14}
+          />
 
           {daysSinceActivity > 0 && (
             <span>

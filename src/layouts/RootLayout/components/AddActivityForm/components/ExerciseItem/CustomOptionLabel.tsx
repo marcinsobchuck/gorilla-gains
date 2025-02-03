@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Icon } from "@components/Icon/Icon"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
 
 import { ExerciseFields } from "../../AddActivityForm.types"
@@ -8,11 +10,6 @@ import { ExerciseFields } from "../../AddActivityForm.types"
 interface CustomOptionLabelProps {
   data: AsyncOption
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
 
 const AdditionalInfo = styled.p`
   margin-left: 9px;
@@ -25,9 +22,13 @@ export const CustomOptionLabel: React.FC<CustomOptionLabelProps> = ({ data }) =>
   const { label, additionalInfo } = data as ExerciseFields
 
   return (
-    <Wrapper>
-      <div>{label}</div>
-      <AdditionalInfo>{additionalInfo && `(${additionalInfo})`}</AdditionalInfo>
-    </Wrapper>
+    <FlexContainer align='center'>
+      <FlexContainer align='center'>
+        {label}
+
+        <AdditionalInfo>{additionalInfo && `(${additionalInfo})`}</AdditionalInfo>
+      </FlexContainer>
+      {data.isFavourite ? <Icon name='star' color='gold' /> : null}
+    </FlexContainer>
   )
 }

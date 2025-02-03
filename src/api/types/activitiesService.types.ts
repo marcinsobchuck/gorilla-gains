@@ -62,6 +62,7 @@ export interface GetActivitiesForCurrentUserParams {
   startDate?: Date
   endDate?: Date
   pastOnly?: boolean
+  isDone?: boolean
 }
 
 export interface ResponseExercise {

@@ -5,6 +5,10 @@ import { Icon } from "@components/Icon/Icon"
 import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
+interface SidebarProps {
+  $padding?: string
+}
+
 export const Wrapper = styled.div`
   height: 100vh;
 `
@@ -45,7 +49,7 @@ export const RightSideWrapper = styled.div`
     justify-content: flex-end;
   }
 `
-export const FlexContainer = styled.div`
+export const MainContainer = styled.div`
   position: relative;
 
   display: flex;
@@ -58,9 +62,9 @@ export const FlexContainer = styled.div`
   }
 `
 
-export const Sidebar = styled.aside`
+export const Sidebar = styled.aside<SidebarProps>`
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  padding: 24px 14px;
+  padding: ${({ $padding }) => ($padding ? $padding : "24px 14px")};
 
   h1 {
     color: ${({ theme }) => theme.primary};
@@ -74,7 +78,7 @@ export const Sidebar = styled.aside`
 
   @media ${Breakpoints.MEDIUM} {
     width: var(--sidebar-width-m);
-    padding: 24px;
+    padding: ${({ $padding }) => ($padding ? $padding : "24px")};
   }
 
   @media ${Breakpoints.LARGE} {

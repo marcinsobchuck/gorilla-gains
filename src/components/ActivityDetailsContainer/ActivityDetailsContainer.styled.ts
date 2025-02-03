@@ -19,6 +19,23 @@ export const Wrapper = styled.div<WrapperProps>`
   transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
   background-color: ${({ theme }) => theme.navBackgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 18px;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.navBackgroundColor};
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9px;
+    border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
+    background-clip: content-box;
+    background: ${({ theme }) => theme.secondary};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.secondaryActive};
+  }
 `
 
 export const ButtonsWrapper = styled(FlexContainer)`

@@ -11,9 +11,9 @@ import { Background } from "@styles/GlobalStyle.ts"
 import { AddActivityForm } from "./components/AddActivityForm/AddActivityForm.tsx"
 import { Menu } from "./components/Menu/Menu.tsx"
 import {
-  FlexContainer,
   Header,
   LeftSideWrapper,
+  MainContainer,
   MenuIcon,
   RightSideWrapper,
   StyledButton,
@@ -68,10 +68,10 @@ export const RootLayout = () => {
             />
           </RightSideWrapper>
         </Header>
-        <FlexContainer>
+        <MainContainer>
           <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
           <Outlet />
-        </FlexContainer>
+        </MainContainer>
       </Wrapper>
     </Background>
   )

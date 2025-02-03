@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react"
+import React, { InputHTMLAttributes } from "react"
 
 export interface Props {
   id: string
@@ -10,8 +10,8 @@ export interface Props {
   className?: string
   triggerValidationFor?: string[]
   onChange?: () => void
-  isAsync?: boolean
   isDisabled?: boolean
+  children?: React.ReactNode
 }
 
 export type InputProps = Props & InputHTMLAttributes<HTMLInputElement>

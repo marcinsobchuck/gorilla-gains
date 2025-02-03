@@ -5,14 +5,18 @@ import { Icon } from "@components/Icon/Icon"
 import { ModalOverlay } from "@components/Modal/Modal.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
-export const Wrapper = styled(FlexContainer)`
+interface WrapperProps {
+  $bgGradient: string
+}
+
+export const Wrapper = styled(FlexContainer)<WrapperProps>`
   position: relative;
   cursor: pointer;
 
   margin-bottom: 24px;
   padding: 14px 22px 22px;
   border-radius: 16px;
-  background: ${({ theme }) => theme.backgroundGradient};
+  background: ${({ theme, $bgGradient }) => ($bgGradient ? $bgGradient : theme.backgroundGradient)};
   background-origin: border-box;
   border-bottom: 3px solid transparent;
   box-shadow: ${({ theme }) => theme.boxShadow};
@@ -34,14 +38,13 @@ export const HeaderWrapper = styled(FlexContainer)`
   margin-bottom: 6px;
 `
 export const Heading = styled.h3`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: ${({ theme }) => theme.secondary};
 `
 export const StyledInteractiveIcon = styled(Icon)`
   cursor: pointer;
   padding: 6px;
-  fill: ${({ theme }) => theme.secondary};
+  fill: ${({ theme }) => theme.primaryMedium};
   border-radius: 9px;
   transition: all 0.3s;
 
@@ -50,68 +53,14 @@ export const StyledInteractiveIcon = styled(Icon)`
   }
 `
 
-export const IconContainer = styled(FlexContainer)`
-  min-width: 48px;
-  height: 48px;
-  background-color: ${({ theme }) => theme.secondaryOpacity};
-  border-radius: 16px;
-  @media ${Breakpoints.SMALL} {
-    width: 64px;
-    height: 64px;
-
-    svg {
-      width: 32px;
-      height: 32px;
-    }
-  }
-`
-
 export const ExertionRatingContainer = styled(FlexContainer)`
   align-self: flex-end;
-  margin-left: auto;
 
   @media ${Breakpoints.SMALL} {
     svg {
       width: 28px;
       height: 28px;
     }
-  }
-`
-
-export const TextContentWrapper = styled.div`
-  margin-left: 9px;
-  @media ${Breakpoints.SMALL} {
-    margin-left: 24px;
-  }
-`
-
-export const MainText = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  text-align: left;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: 180px;
-  color: ${({ theme }) => theme.primaryMedium};
-  span {
-    color: ${({ theme }) => theme.secondary};
-    font-size: 22px;
-  }
-
-  @media ${Breakpoints.SMALL} {
-  }
-`
-
-export const SecondaryText = styled.p`
-  font-size: 10px;
-  color: ${({ theme }) => theme.primaryMedium};
-  font-weight: 500;
-
-  text-align: left;
-
-  @media ${Breakpoints.SMALL} {
-    font-size: 12px;
   }
 `
 

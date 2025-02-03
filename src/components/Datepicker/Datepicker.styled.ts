@@ -44,6 +44,10 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
           box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};
         `};
 
+      &:hover {
+        border-color: ${({ theme }) => theme.secondaryActive};
+      }
+
       &:active,
       &:focus {
         border: 2px solid ${({ theme }) => theme.secondary};

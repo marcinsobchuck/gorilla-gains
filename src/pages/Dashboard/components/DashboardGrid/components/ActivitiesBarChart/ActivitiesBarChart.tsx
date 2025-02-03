@@ -18,7 +18,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getActivityEventColor } from "@features/utils/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import { BarChartTooltipWrapper, MonthWrapper, ValueItem } from "./ActivitiesBarChart.styled"
 import { Title, Wrapper } from "../ActivitiesPieChart/ActivitiesPieChart.styled"
@@ -96,7 +96,7 @@ export const ActivitiesBarChart = () => {
                 fill={
                   unresolved
                     ? theme.plannedColor
-                    : getActivityEventColor(activityType as ActivityTypes, theme)
+                    : getDataForActivityType(activityType as ActivityTypes, theme).primaryColor
                 }
                 barSize='100%'
               />

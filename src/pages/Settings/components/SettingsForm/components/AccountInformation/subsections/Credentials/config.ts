@@ -2,11 +2,13 @@ export const accountInformationInputsData: {
   id: "email" | "currentPassword" | "password" | "passwordConfirmation"
   label: string
   type: "text" | "email" | "password"
+  isAsync?: boolean
 }[] = [
   {
     id: "currentPassword",
     label: "Current password",
     type: "password",
+    isAsync: true,
   },
   {
     id: "email",
