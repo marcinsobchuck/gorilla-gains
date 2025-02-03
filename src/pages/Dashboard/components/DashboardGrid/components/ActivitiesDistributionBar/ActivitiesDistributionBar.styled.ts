@@ -20,19 +20,19 @@ export const HeadingWrapper = styled(FlexContainer)`
   margin-bottom: 6px;
   padding: 0 6px;
 
-  p {
-    color: ${({ theme }) => theme.primaryDisabled};
-    font-weight: 500;
-    font-size: 14px;
-  }
-
   span {
     margin-left: 6px;
     color: ${({ theme }) => theme.secondaryText};
   }
 `
 
-export const BarWrapper = styled.div`
+export const HeadingText = styled.p`
+  color: ${({ theme }) => theme.primaryDisabled};
+  font-weight: 500;
+  font-size: 14px;
+`
+
+export const BarWrapper = styled(FlexContainer)`
   overflow: hidden;
   position: relative;
   height: 100%;
