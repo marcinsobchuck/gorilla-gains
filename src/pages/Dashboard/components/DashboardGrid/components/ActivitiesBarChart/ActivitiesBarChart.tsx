@@ -6,48 +6,19 @@ import {
   Legend,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts"
-import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent"
 import { useTheme } from "styled-components"
 
 import { useAppSelector } from "@app/hooks"
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
-import { BarChartTooltipWrapper, MonthWrapper, ValueItem } from "./ActivitiesBarChart.styled"
+import { CustomTooltip } from "./CustomTooltip"
 import { Title, Wrapper } from "../ActivitiesPieChart/ActivitiesPieChart.styled"
-
-const CustomTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-  if (active && payload && payload.length) {
-    return (
-      <BarChartTooltipWrapper direction='column'>
-        <FlexContainer direction='column' gap={6}>
-          {payload.map((item) => (
-            <ValueItem key={item.dataKey} justify='space-between' align='center'>
-              <p>{item.name}</p>
-              <span>{item.value}</span>
-            </ValueItem>
-          ))}
-          <ValueItem justify='space-between' align='center'>
-            <p>Total done</p>
-            <span>{payload[0].payload.value}</span>
-          </ValueItem>
-        </FlexContainer>
-        <MonthWrapper justify='center' align='center'>
-          {payload[0].payload.fullMonthName}
-        </MonthWrapper>
-      </BarChartTooltipWrapper>
-    )
-  }
-
-  return null
-}
 
 export const ActivitiesBarChart = () => {
   const theme = useTheme()
@@ -65,11 +36,29 @@ export const ActivitiesBarChart = () => {
     ),
   ]
 
+  if (chartDataStatus === RequestStatuses.FAILED) {
+    return (
+      <Wrapper justify='center' align='center'>
+        <Title>Failed to load the data.</Title>
+      </Wrapper>
+    )
+  }
+
   if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />
       </SkeletonTheme>
+    )
+  }
+
+  const noActivitiesDone = chartData.every((item) => item.value === 0)
+
+  if (noActivitiesDone) {
+    return (
+      <Wrapper justify='center' align='center'>
+        <Title>No activities done.</Title>
+      </Wrapper>
     )
   }
 
