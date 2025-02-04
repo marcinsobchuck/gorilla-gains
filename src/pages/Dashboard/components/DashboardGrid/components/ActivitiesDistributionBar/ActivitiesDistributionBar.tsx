@@ -18,6 +18,7 @@ import {
   HeadingText,
   HeadingWrapper,
 } from "./ActivitiesDistributionBar.styled"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BarChartTooltipWrapper } from "../ActivitiesBarChart/ActivitiesBarChart.styled"
 
 export const ActivitiesDistributionBar = () => {
@@ -34,7 +35,7 @@ export const ActivitiesDistributionBar = () => {
     return (
       <ActivitiesDistributionWrapper>
         <BarWrapper justify='center' align='center'>
-          <HeadingText>Failed to load the data.</HeadingText>
+          <NoDataMessage>Failed to load the data.</NoDataMessage>
         </BarWrapper>
       </ActivitiesDistributionWrapper>
     )
@@ -56,7 +57,7 @@ export const ActivitiesDistributionBar = () => {
     return (
       <ActivitiesDistributionWrapper>
         <BarWrapper justify='center' align='center'>
-          <HeadingText>No activities done.</HeadingText>
+          <NoDataMessage>No activities done.</NoDataMessage>
         </BarWrapper>
       </ActivitiesDistributionWrapper>
     )

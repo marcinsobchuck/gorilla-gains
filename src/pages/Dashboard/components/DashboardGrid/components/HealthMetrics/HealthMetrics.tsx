@@ -7,6 +7,7 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import { NoDataWrapper, Wrapper } from "./HealthMetrics.styled"
 import { getHealthMetrics, getItems } from "./utils"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BasicCard } from "../BasicCard/BasicCard"
 
 export const HealthMetrics = () => {
@@ -16,7 +17,7 @@ export const HealthMetrics = () => {
   if (status === RequestStatuses.FAILED || !userInfo) {
     return (
       <NoDataWrapper justify='center' align='center'>
-        <p>Failed to load the data</p>
+        <NoDataMessage>Failed to load the data</NoDataMessage>
       </NoDataWrapper>
     )
   }

@@ -9,11 +9,4 @@ export const Wrapper = styled(FlexContainer)`
 export const NoDataWrapper = styled(FlexContainer)`
   background-color: ${({ theme }) => theme.navBackgroundColor};
   border-radius: 9px;
-
-  p {
-    font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.primaryDisabled};
-    text-align: center;
-  }
 `

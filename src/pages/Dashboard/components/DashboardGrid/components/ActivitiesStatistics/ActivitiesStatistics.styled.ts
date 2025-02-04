@@ -21,10 +21,3 @@ export const StyledBasicCard = styled(BasicCard)`
     width: 100%;
   }
 `
-
-export const MessageText = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.primaryDisabled};
-  text-align: center;
-`

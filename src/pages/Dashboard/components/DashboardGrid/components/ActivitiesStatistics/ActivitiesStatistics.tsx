@@ -8,10 +8,10 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 import {
   ActivitiesStatisticsWrapper,
   CardsWrapper,
-  MessageText,
   StyledBasicCard,
 } from "./ActivitiesStatistics.styled"
 import { getActivitiesStatisticsItems } from "./utils"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 
 export const ActivitiesStatistics = () => {
   const activitiesStatistics = useAppSelector(
@@ -24,7 +24,7 @@ export const ActivitiesStatistics = () => {
   if (activitiesStatisticsStatus === RequestStatuses.FAILED || !activitiesStatistics) {
     return (
       <ActivitiesStatisticsWrapper justify='center' align='center'>
-        <MessageText>Failed to load the data.</MessageText>
+        <NoDataMessage>Failed to load the data.</NoDataMessage>
       </ActivitiesStatisticsWrapper>
     )
   }
@@ -42,7 +42,7 @@ export const ActivitiesStatistics = () => {
   if (noActivitiesDone) {
     return (
       <ActivitiesStatisticsWrapper justify='center' align='center'>
-        <MessageText>No activities done.</MessageText>
+        <NoDataMessage>No activities done.</NoDataMessage>
       </ActivitiesStatisticsWrapper>
     )
   }

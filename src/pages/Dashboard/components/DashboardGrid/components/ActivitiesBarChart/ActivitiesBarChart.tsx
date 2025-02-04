@@ -18,6 +18,7 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import { CustomTooltip } from "./CustomTooltip"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { Title, Wrapper } from "../ActivitiesPieChart/ActivitiesPieChart.styled"
 
 export const ActivitiesBarChart = () => {
@@ -39,7 +40,7 @@ export const ActivitiesBarChart = () => {
   if (chartDataStatus === RequestStatuses.FAILED) {
     return (
       <Wrapper justify='center' align='center'>
-        <Title>Failed to load the data.</Title>
+        <NoDataMessage>Failed to load the data.</NoDataMessage>
       </Wrapper>
     )
   }
@@ -57,7 +58,7 @@ export const ActivitiesBarChart = () => {
   if (noActivitiesDone) {
     return (
       <Wrapper justify='center' align='center'>
-        <Title>No activities done.</Title>
+        <NoDataMessage>No activities done.</NoDataMessage>
       </Wrapper>
     )
   }
