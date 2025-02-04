@@ -39,7 +39,7 @@ export const LastActivity = () => {
   if (lastActivityStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' containerClassName='skeletonWrapper' />
+        <Skeleton height='100%' />
       </SkeletonTheme>
     )
   }

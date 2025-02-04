@@ -94,6 +94,9 @@ export const MainContentWrapper = styled.main`
     flex-grow: 0;
     width: calc(100% - var(--sidebar-width-m) - var(--menu-width-m));
   }
+  @media ${Breakpoints.LARGE} {
+    width: calc(100% - var(--sidebar-width-l) - var(--menu-width-l));
+  }
 `
 
 export const MenuIcon = styled(Icon)`

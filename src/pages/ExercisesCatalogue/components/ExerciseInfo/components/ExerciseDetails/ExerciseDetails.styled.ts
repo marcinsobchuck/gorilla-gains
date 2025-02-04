@@ -77,7 +77,5 @@ export const FavouriteExerciseInfo = styled.p`
 
 export const StyledHumanSilhouette = styled(HumanSilhouette)`
   width: 280px;
-  svg {
-    max-height: 280px;
-  }
+  height: 280px;
 `

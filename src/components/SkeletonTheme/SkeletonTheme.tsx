@@ -8,6 +8,7 @@ export const SkeletonTheme: React.FC<SkeletonThemeProps> = ({ children, ...props
     <ReactSkeletonTheme
       baseColor={theme.inputBackgroundColor}
       highlightColor={theme.secondaryOpacity}
+      borderRadius={12}
       {...props}
     >
       {children}

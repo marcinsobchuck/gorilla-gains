@@ -30,8 +30,6 @@ export const Credentials = () => {
       isDisabled,
     }
 
-    console.log(isCurrentPasswordValidating)
-
     return isAsync ? (
       <InputAsync key={id} withIcon={!isCurrentPasswordValidating} {...commonProps} />
     ) : (

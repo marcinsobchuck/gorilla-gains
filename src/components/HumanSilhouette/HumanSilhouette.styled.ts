@@ -3,9 +3,20 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
-export const HumanModelSVG = styled(svg)`
-  max-height: 352px;
+export const SkeletonWrapper = styled(FlexContainer)`
+  height: 80%;
+  width: 100%;
+  .silhouetteSkeleton {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    height: 80%;
+    width: 80%;
+    line-height: 0;
+  }
+`
 
+export const HumanModelSVG = styled(svg)`
   * > * {
     stroke: none !important;
   }
@@ -116,14 +127,6 @@ export const HumanModelSVG = styled(svg)`
   .active-primary {
     fill: ${({ theme }) => theme.primaryMusclesColor};
   }
-`
-
-export const Title = styled.h2`
-  margin-bottom: 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.primaryDisabled};
-  text-align: center;
 `
 
 export const LegendWrapper = styled(FlexContainer)`

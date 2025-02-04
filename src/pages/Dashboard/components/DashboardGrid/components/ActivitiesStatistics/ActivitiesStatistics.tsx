@@ -21,7 +21,7 @@ export const ActivitiesStatistics = () => {
     (state) => state.activitiesSummary.activitiesSummaryStatus
   )
 
-  if (activitiesStatisticsStatus === RequestStatuses.FAILED || !activitiesStatistics) {
+  if (activitiesStatisticsStatus === RequestStatuses.FAILED) {
     return (
       <ActivitiesStatisticsWrapper justify='center' align='center'>
         <NoDataMessage>Failed to load the data.</NoDataMessage>
@@ -29,7 +29,7 @@ export const ActivitiesStatistics = () => {
     )
   }
 
-  if (activitiesStatisticsStatus === RequestStatuses.LOADING) {
+  if (activitiesStatisticsStatus === RequestStatuses.LOADING || !activitiesStatistics) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />

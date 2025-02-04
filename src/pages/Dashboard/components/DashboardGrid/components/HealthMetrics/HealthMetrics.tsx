@@ -14,7 +14,7 @@ export const HealthMetrics = () => {
   const userInfo = useAppSelector((state) => state.user.data)
   const status = useAppSelector((state) => state.user.status)
 
-  if (status === RequestStatuses.FAILED || !userInfo) {
+  if (status === RequestStatuses.FAILED) {
     return (
       <NoDataWrapper justify='center' align='center'>
         <NoDataMessage>Failed to load the data</NoDataMessage>
@@ -22,13 +22,11 @@ export const HealthMetrics = () => {
     )
   }
 
-  if (status === RequestStatuses.LOADING) {
+  if (status === RequestStatuses.LOADING || !userInfo) {
     return (
-      <Wrapper>
-        <SkeletonTheme>
-          <Skeleton containerClassName='skeletonWrapper' height='100%' />
-        </SkeletonTheme>
-      </Wrapper>
+      <SkeletonTheme>
+        <Skeleton height='100%' />
+      </SkeletonTheme>
     )
   }
 
