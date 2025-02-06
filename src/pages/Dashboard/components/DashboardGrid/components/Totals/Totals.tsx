@@ -8,6 +8,7 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import { TotalsWrapper } from "./Totals.styled"
 import { getTotals } from "./utils"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BasicCard } from "../BasicCard/BasicCard"
 import { LabelText, ValueText } from "../BasicCard/BasicCard.styled"
 
@@ -23,15 +24,27 @@ export const Totals = () => {
     ? differenceInDays(parseISO(dueDateWeight), new Date())
     : "-"
 
-  if (
-    userInfoStatus === RequestStatuses.LOADING ||
-    totalsStatus === RequestStatuses.LOADING ||
-    !totals
-  ) {
+  if (totalsStatus === RequestStatuses.FAILED) {
+    return (
+      <TotalsWrapper justify='center' align='center'>
+        <NoDataMessage>Failed to load the data.</NoDataMessage>
+      </TotalsWrapper>
+    )
+  }
+
+  if (userInfoStatus === RequestStatuses.LOADING || totalsStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />
       </SkeletonTheme>
+    )
+  }
+
+  if (!totals) {
+    return (
+      <TotalsWrapper justify='center' align='center'>
+        <NoDataMessage>No activities done.</NoDataMessage>
+      </TotalsWrapper>
     )
   }
 

@@ -17,6 +17,7 @@ import {
   LastActivityWrapper,
   MainContentWrapper,
 } from "./LastActivity.styled"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 
 export const LastActivity = () => {
   const theme = useTheme()
@@ -27,10 +28,18 @@ export const LastActivity = () => {
     (state) => state.activitiesSummary.weeklyActivitiesDataStatus
   )
 
+  if (lastActivityStatus === RequestStatuses.FAILED) {
+    return (
+      <LastActivityWrapper justify='center' align='center'>
+        <NoDataMessage>Failed to load the data.</NoDataMessage>
+      </LastActivityWrapper>
+    )
+  }
+
   if (lastActivityStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' containerClassName='skeletonWrapper' />
+        <Skeleton height='100%' />
       </SkeletonTheme>
     )
   }
@@ -38,7 +47,7 @@ export const LastActivity = () => {
   if (!lastActivity) {
     return (
       <LastActivityWrapper justify='center' align='center'>
-        <h2>No activity registered in last 7 days.</h2>
+        <NoDataMessage>No activity registered in last 7 days.</NoDataMessage>
       </LastActivityWrapper>
     )
   }

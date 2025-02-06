@@ -21,16 +21,21 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
 export const transformExerciseIntoOption = ({
   activityTypeId,
   data,
+  inputValue,
 }: {
   activityTypeId: string
   data: Exercise[]
+  inputValue?: string
 }): AsyncOption[] => {
   if (!data) {
     return []
   }
 
   const filteredData = data.filter((ex) => {
-    return activityTypeId.includes(ex.activityType._id)
+    return (
+      activityTypeId.includes(ex.activityType._id) &&
+      ex.name.toLowerCase().includes(inputValue?.trim().toLowerCase() || "")
+    )
   })
 
   return uniqBy(

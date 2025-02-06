@@ -21,3 +21,10 @@ export const Wrapper = styled.div`
     grid-template-rows: 50px 140px 160px 1fr;
   }
 `
+
+export const NoDataMessage = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primaryDisabled};
+  text-align: center;
+`

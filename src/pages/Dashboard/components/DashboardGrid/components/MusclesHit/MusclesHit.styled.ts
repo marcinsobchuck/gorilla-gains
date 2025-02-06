@@ -11,7 +11,21 @@ export const Wrapper = styled(FlexContainer)`
 `
 
 export const StyledHumanSilhouette = styled(HumanSilhouette)`
+  flex-grow: 1;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  border-radius: 9px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+
   svg {
-    height: 320px;
+    width: 80%;
+    height: 80%;
   }
+`
+
+export const Title = styled.h2`
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primaryDisabled};
+  text-align: center;
 `

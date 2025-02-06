@@ -15,8 +15,10 @@ import {
   ActivityTypeBar,
   ActivityTypeText,
   BarWrapper,
+  HeadingText,
   HeadingWrapper,
 } from "./ActivitiesDistributionBar.styled"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BarChartTooltipWrapper } from "../ActivitiesBarChart/ActivitiesBarChart.styled"
 
 export const ActivitiesDistributionBar = () => {
@@ -29,28 +31,47 @@ export const ActivitiesDistributionBar = () => {
   )
   const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
 
-  if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
+  if (chartDataStatus === RequestStatuses.FAILED) {
     return (
-      <SkeletonTheme>
-        <Skeleton height='100%' />
-      </SkeletonTheme>
+      <ActivitiesDistributionWrapper>
+        <BarWrapper justify='center' align='center'>
+          <NoDataMessage>Failed to load the data.</NoDataMessage>
+        </BarWrapper>
+      </ActivitiesDistributionWrapper>
     )
   }
 
-  if (!chartData || chartDataStatus === RequestStatuses.FAILED) {
-    return <div>Something wrong happened</div>
+  if (chartDataStatus === RequestStatuses.LOADING) {
+    return (
+      <ActivitiesDistributionWrapper>
+        <SkeletonTheme>
+          <Skeleton height='100%' containerClassName='skeletonWrapper' />
+        </SkeletonTheme>
+      </ActivitiesDistributionWrapper>
+    )
   }
 
-  const totalActivitiesDone = chartData.totalDone
+  const totalActivitiesDone = chartData?.totalDone
+
+  if (!totalActivitiesDone) {
+    return (
+      <ActivitiesDistributionWrapper>
+        <BarWrapper justify='center' align='center'>
+          <NoDataMessage>No activities done.</NoDataMessage>
+        </BarWrapper>
+      </ActivitiesDistributionWrapper>
+    )
+  }
+
   let currentPosition = 0
 
   return (
     <ActivitiesDistributionWrapper direction='column'>
       <HeadingWrapper justify='space-between'>
-        <p>Activities done % distribution</p>
-        <p>
+        <HeadingText>Activities done % distribution</HeadingText>
+        <HeadingText>
           Total done<span>{totalActivitiesDone}</span>
-        </p>
+        </HeadingText>
       </HeadingWrapper>
       <BarWrapper ref={setAnchor}>
         {chartData.distributionPerActivityType.map((activityType, index) => {

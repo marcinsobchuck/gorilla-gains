@@ -5,23 +5,31 @@ import { useAppSelector } from "@app/hooks"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-import { Wrapper } from "./HealthMetrics.styled"
+import { NoDataWrapper, Wrapper } from "./HealthMetrics.styled"
 import { getHealthMetrics, getItems } from "./utils"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BasicCard } from "../BasicCard/BasicCard"
 
 export const HealthMetrics = () => {
   const userInfo = useAppSelector((state) => state.user.data)
   const status = useAppSelector((state) => state.user.status)
 
-  if (!userInfo || status === RequestStatuses.LOADING) {
+  if (status === RequestStatuses.FAILED) {
     return (
-      <Wrapper>
-        <SkeletonTheme>
-          <Skeleton containerClassName='skeletonWrapper' height='100%' />
-        </SkeletonTheme>
-      </Wrapper>
+      <NoDataWrapper justify='center' align='center'>
+        <NoDataMessage>Failed to load the data</NoDataMessage>
+      </NoDataWrapper>
     )
   }
+
+  if (status === RequestStatuses.LOADING || !userInfo) {
+    return (
+      <SkeletonTheme>
+        <Skeleton height='100%' />
+      </SkeletonTheme>
+    )
+  }
+
   const { weight, height, dob, gender, activityLevel } = userInfo
 
   const age = differenceInYears(new Date(), parseISO(dob))

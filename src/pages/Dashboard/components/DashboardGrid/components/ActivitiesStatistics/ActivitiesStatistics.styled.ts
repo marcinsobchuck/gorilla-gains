@@ -4,7 +4,10 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 import { BasicCard } from "../BasicCard/BasicCard"
 
-export const ActivitiesStatisticsWrapper = styled(FlexContainer)``
+export const ActivitiesStatisticsWrapper = styled(FlexContainer)`
+  background-color: ${({ theme }) => theme.navBackgroundColor};
+  border-radius: 9px;
+`
 
 export const CardsWrapper = styled(FlexContainer)`
   flex-wrap: wrap;

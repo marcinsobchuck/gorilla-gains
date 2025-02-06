@@ -12,24 +12,37 @@ import {
   LegendItem,
   LegendText,
   LegendWrapper,
-  Title,
+  SkeletonWrapper,
 } from "./HumanSilhouette.styled"
 import { HumanSilhouetteProps } from "./HumanSilhouette.types"
 import { addClassToElements, getClassesString, removeClassFromElements } from "./utils"
 
+const Loader = () => {
+  return (
+    <SkeletonWrapper justify='center' align='center' direction='column' gap={12}>
+      <SkeletonTheme>
+        <Skeleton
+          height='100%'
+          width='50%'
+          count={2}
+          containerClassName='silhouetteSkeleton'
+          borderRadius={18}
+          inline
+        />
+      </SkeletonTheme>
+    </SkeletonWrapper>
+  )
+}
+
 export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
   musclesHit,
-  isLoading,
   withLegend = true,
-  title,
   className,
 }) => {
   const theme = useTheme()
 
   const updateClasses = useCallback(() => {
     if (musclesHit) {
-      console.log(musclesHit)
-
       const primaryClassesString = getClassesString(musclesHit.primary)
       const secondaryClassesString = getClassesString(musclesHit.secondary)
 
@@ -52,14 +65,6 @@ export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
 
     updateClasses()
   }, [musclesHit, updateClasses])
-
-  if (isLoading) {
-    return (
-      <SkeletonTheme>
-        <Skeleton height='100%' />
-      </SkeletonTheme>
-    )
-  }
 
   const renderLegend = () => {
     if (
@@ -94,12 +99,9 @@ export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
   }
 
   return (
-    <div className={className}>
-      {title && <Title>{title}</Title>}
-      <FlexContainer direction='column' justify='center' align='center'>
-        <HumanModelSVG src={humanFrontBack} onLoad={updateClasses} />
-        {renderLegend()}
-      </FlexContainer>
-    </div>
+    <FlexContainer direction='column' justify='center' align='center' className={className}>
+      <HumanModelSVG src={humanFrontBack} onLoad={updateClasses} loader={<Loader />} />
+      {renderLegend()}
+    </FlexContainer>
   )
 }
