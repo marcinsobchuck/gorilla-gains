@@ -41,7 +41,7 @@ export const ActivitiesDistributionBar = () => {
     )
   }
 
-  if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
+  if (chartDataStatus === RequestStatuses.LOADING) {
     return (
       <ActivitiesDistributionWrapper>
         <SkeletonTheme>
@@ -51,9 +51,9 @@ export const ActivitiesDistributionBar = () => {
     )
   }
 
-  const totalActivitiesDone = chartData.totalDone
+  const totalActivitiesDone = chartData?.totalDone
 
-  if (totalActivitiesDone === 0) {
+  if (!totalActivitiesDone) {
     return (
       <ActivitiesDistributionWrapper>
         <BarWrapper justify='center' align='center'>

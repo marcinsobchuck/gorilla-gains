@@ -45,7 +45,7 @@ export const ActivitiesBarChart = () => {
     )
   }
 
-  if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
+  if (chartDataStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />
@@ -53,9 +53,7 @@ export const ActivitiesBarChart = () => {
     )
   }
 
-  const noActivitiesDone = chartData.every((item) => item.value === 0)
-
-  if (noActivitiesDone) {
+  if (!chartData) {
     return (
       <Wrapper justify='center' align='center'>
         <NoDataMessage>No activities done.</NoDataMessage>

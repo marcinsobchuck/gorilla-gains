@@ -81,6 +81,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
       return transformExerciseIntoOption({
         data: [...favouriteExercises, ...exercises],
         activityTypeId: currentActivityTypeId,
+        inputValue,
       })
     } catch (err) {
       console.log(err)

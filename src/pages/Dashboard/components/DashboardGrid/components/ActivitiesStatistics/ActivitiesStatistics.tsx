@@ -29,7 +29,7 @@ export const ActivitiesStatistics = () => {
     )
   }
 
-  if (activitiesStatisticsStatus === RequestStatuses.LOADING || !activitiesStatistics) {
+  if (activitiesStatisticsStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />
@@ -37,9 +37,7 @@ export const ActivitiesStatistics = () => {
     )
   }
 
-  const noActivitiesDone = activitiesStatistics.activitiesCount === 0
-
-  if (noActivitiesDone) {
+  if (!activitiesStatistics) {
     return (
       <ActivitiesStatisticsWrapper justify='center' align='center'>
         <NoDataMessage>No activities done.</NoDataMessage>
