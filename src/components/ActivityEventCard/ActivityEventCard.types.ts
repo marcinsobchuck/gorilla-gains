@@ -3,8 +3,11 @@ import { ActivityEvent } from "@features/types/types"
 
 export interface ActivityEventCardProps {
   activity: ActivityEvent | Activity
-  isActive: boolean
-  onCardClick: () => void
-  onCardStatusChange: () => Promise<void>
-  isLoading: boolean
+  isActive?: boolean
+  onCardClick?: () => void
+  onCardStatusChange?: () => Promise<void>
+  isLoading?: boolean
+  withButton?: boolean
+  className?: string
+  stacked?: boolean
 }

@@ -105,15 +105,9 @@ export const getPresetsForCurrentUserAction = createAppAsyncThunk(
 )
 export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
   "getActivitiesForCurrentUser",
-  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue, dispatch, getState }) => {
+  async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
     try {
-      const limit = getState().activities.limit
-
       const response = await getActivitiesForCurrentUser(data)
-
-      if (response.data.length < limit) {
-        dispatch(setHasMore(false))
-      }
 
       return response.data
     } catch (error) {

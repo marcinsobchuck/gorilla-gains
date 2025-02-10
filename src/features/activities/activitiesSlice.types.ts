@@ -21,7 +21,6 @@ export interface InitialState {
   presetsStatus: RequestStatuses
   presetsError?: string
 
-  activitiesPage: number
   selectedDate: string
   limit: number
   hasMore: boolean

@@ -21,7 +21,6 @@ const initialState: InitialState = {
   deleteActivityStatus: RequestStatuses.IDLE,
   editActivityStatus: RequestStatuses.IDLE,
   presetsStatus: RequestStatuses.IDLE,
-  activitiesPage: 1,
   limit: 3,
   hasMore: true,
   isEditing: false,
@@ -95,7 +94,7 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(getActivitiesForCurrentUserAction.fulfilled, (state, action) => {
       state.activitiesData = [...state.activitiesData, ...action.payload]
-      state.activitiesPage = state.activitiesPage + 1
+      state.hasMore = action.payload.length < state.limit ? false : true
       state.activitiesStatus = RequestStatuses.SUCCESS
     })
     builder.addCase(getActivitiesForCurrentUserAction.rejected, (state, action) => {

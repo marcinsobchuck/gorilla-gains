@@ -1,5 +1,7 @@
 import { ActivityTypes } from "@enums/activityTypes.enum"
 
+import { Activity } from "./activitiesService.types"
+
 export interface Totals {
   weightLifted: number
   reps: number
@@ -31,6 +33,8 @@ export interface ActivitiesStatistics {
   daysSinceLastActivity: number
   averageActivitiesPerWeek: number
   mostCommonExercise: MostCommonExercise
+  unresolvedActivities: Activity[]
+  plannedActivities: Activity[]
 }
 
 export interface ActivitiesSummaryData {

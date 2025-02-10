@@ -8,7 +8,7 @@ export const lightTheme = {
   datePickerBackgroundColor: "#F3F6FB",
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #ffffff, #F5FAF3)",
-  notDoneGradient: "linear-gradient(to right, #ffffff, #faf2f2)",
+  notDoneGradient: "linear-gradient(to right, #ffffff,rgb(253, 219, 219))",
   plannedBackgroundGradient: "linear-gradient(to right, #ffffff, #fcf5eb)",
   plannedColor: "#fda63a",
 
@@ -51,9 +51,10 @@ export const lightTheme = {
   popperBoxShadow: `rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
   rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
   rgba(0, 0, 0, 0.12) 0px 3px 14px 2px`,
-  elevationBoxShadow: "0px 4px 4px -2px rgba(0, 0, 0, .08)",
+  elevationBoxShadow: "0px 4px 4px -2px rgba(0, 0, 0, .15)",
   elevationBoxShadowSecondary: "0px 4px 4px -2px #75E83F",
   menuBoxShadow: "0px 3px 6px -3px rgba(0, 0, 0, .6)",
+  stackedCardBoxShadow: `inset 0px 6px 11px 1px #CF667926, 3px -1px 9px 0px rgb(0, 0, 0, 0.15)`,
 
   primaryButtonColor: "#fafafa",
 
@@ -78,7 +79,7 @@ export const darkTheme = {
   modalOverlayBackgroundColo: "#00000080",
   backgroundGradient: "linear-gradient(to right, #000000, #051201)",
   notDoneGradient: "linear-gradient(to right, #000000, #170606)",
-  plannedBackgroundGradient: "linear-gradient(to right, #000000, #1c1206)",
+  plannedBackgroundGradient: "linear-gradient(to right, #000000,rgb(54, 35, 12))",
   plannedColor: "#fda63a",
 
   activeBackgroundColor: "#061602",
@@ -125,6 +126,8 @@ export const darkTheme = {
   elevationBoxShadow: "0 3px 6px rgba(0,0,0,.2)",
   elevationBoxShadowSecondary: "0px 4px 4px -2px #A1D8901F",
   menuBoxShadow: "0 3px 6px rgba(0,0,0,.2)",
+  stackedCardBoxShadow: `inset 0px 6px 11px 1px #CF667926,
+    0px -1px 6px 1px rgba(0, 0, 0, 0.43)`,
 
   primaryButtonColor: "#121212",
 

@@ -5,15 +5,15 @@ import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 interface WrapperProps {
-  $isActive: boolean
-  $isLoading: boolean
+  $isActive?: boolean
+  $isLoading?: boolean
   $buttonState: boolean | "planned"
 }
 
 interface ButtonsWrapperProps {
   $status: boolean
   $isHovering: boolean
-  $isLoading: boolean
+  $isLoading?: boolean
 }
 
 const breatheAnimation = (color: string) => keyframes`
@@ -83,7 +83,7 @@ export const Wrapper = styled(FlexContainer)<WrapperProps>`
   border-bottom: 2px solid
     ${({ $isActive, theme }) => ($isActive ? theme.secondary : "transparent")};
   height: 60px;
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   pointer-events: ${({ $isLoading }) => ($isLoading ? "none" : "auto")};
   transition: 0.3s ease-in-out;
 
@@ -116,4 +116,22 @@ export const PlannedIdicator = styled(FlexContainer)`
   font-weight: 700;
   font-size: 20px;
   color: ${({ theme }) => theme.plannedColor};
+`
+
+export const StackedCard = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: -5px;
+  left: 6px;
+  width: 100%;
+  height: 60px;
+  background-image: ${({ theme }) => theme.notDoneGradient};
+  border-radius: 9px;
+  box-shadow: ${({ theme }) => theme.stackedCardBoxShadow};
+
+  &:nth-of-type(2) {
+    z-index: -2;
+    left: 12px;
+    top: -11px;
+  }
 `

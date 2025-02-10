@@ -63,6 +63,8 @@ export const MainContainer = styled.div`
 `
 
 export const Sidebar = styled.aside<SidebarProps>`
+  position: relative;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.navBackgroundColor};
   padding: ${({ $padding }) => ($padding ? $padding : "24px 14px")};
 
