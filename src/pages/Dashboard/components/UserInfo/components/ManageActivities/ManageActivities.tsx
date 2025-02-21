@@ -3,12 +3,17 @@ import { useTheme } from "styled-components"
 
 import { Activity } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { editActivityAction } from "@features/activities/activitiesActions"
 
-import { HeaderWrapper, ManagedActivitiesList, Title, Wrapper } from "./ManageActivities.styled"
+import {
+  HeaderWrapper,
+  ManagedActivitiesList,
+  StyledActivityEventCard,
+  Title,
+  Wrapper,
+} from "./ManageActivities.styled"
 import { ManageActivitiesProps } from "./ManageActivities.types"
 
 export const ManageActivities: React.FC<ManageActivitiesProps> = ({
@@ -46,12 +51,12 @@ export const ManageActivities: React.FC<ManageActivitiesProps> = ({
       <ManagedActivitiesList>
         {activities.map((activity) => {
           return (
-            <ActivityEventCard
+            <StyledActivityEventCard
               key={activity._id}
               activity={activity}
               onCardStatusChange={async () => await handleOnCardStatusChange(activity)}
               isLoading={status === RequestStatuses.LOADING}
-            ></ActivityEventCard>
+            />
           )
         })}
       </ManagedActivitiesList>

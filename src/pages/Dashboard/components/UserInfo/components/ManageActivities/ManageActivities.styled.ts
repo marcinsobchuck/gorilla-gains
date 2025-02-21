@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 interface WrapperProps {
@@ -51,5 +52,13 @@ export const ManagedActivitiesList = styled.div`
   }
   &::-webkit-scrollbar-thumb:hover {
     background: ${({ theme }) => theme.secondaryActive};
+  }
+`
+
+export const StyledActivityEventCard = styled(ActivityEventCard)`
+  border: none;
+  cursor: auto;
+  &:hover {
+    border: none;
   }
 `
