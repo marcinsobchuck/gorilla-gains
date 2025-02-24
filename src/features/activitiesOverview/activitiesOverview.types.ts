@@ -15,4 +15,8 @@ export interface InitialState {
   activeFilterExercise: string
   activitiesError?: string
   activeChartCombination: ChartCombination
+  chartFilters: {
+    value: string
+    labelText: string
+  }[]
 }

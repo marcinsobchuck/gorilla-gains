@@ -9,29 +9,18 @@ export const ChartFilters = () => {
   const activeFilterExercise = useAppSelector(
     (state) => state.activitiesOverview.activeFilterExercise
   )
+  const chartFilters = useAppSelector((state) => state.activitiesOverview.chartFilters)
 
-  const exercises = activities.flatMap((activity) =>
-    activity.exercises.map((exercise) => {
-      return {
-        value: exercise.exercise._id,
-        labelText: exercise.exercise.name,
-        checked: exercise.exercise._id === activeFilterExercise,
-      }
-    })
-  )
-
-  const exercisesNames = exercises.map((exercise) => exercise.labelText)
-  const filteredExercises = exercises
-    .filter((exercise, index) => {
-      return !exercisesNames.includes(exercise.labelText, index + 1)
-    })
-    .reverse()
+  const items2 = chartFilters.map((filter) => ({
+    ...filter,
+    checked: filter.value === activeFilterExercise,
+  }))
 
   return (
     <Wrapper>
       {activities.length > 0 && (
         <StyledRadioButtonGroup
-          items={filteredExercises}
+          items={items2}
           groupTitle='filters'
           name='filters'
           align='flex-start'
