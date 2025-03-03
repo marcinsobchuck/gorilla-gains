@@ -17,9 +17,9 @@ import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
+import { Title, Wrapper } from "./ActivitiesBarChart.styled"
 import { CustomTooltip } from "./CustomTooltip"
 import { NoDataMessage } from "../../DashboardGrid.styled"
-import { Title, Wrapper } from "../ActivitiesPieChart/ActivitiesPieChart.styled"
 
 export const ActivitiesBarChart = () => {
   const theme = useTheme()
@@ -73,7 +73,7 @@ export const ActivitiesBarChart = () => {
             cursor={{
               fill: theme.secondaryOpacity,
             }}
-            content={<CustomTooltip />}
+            content={CustomTooltip}
           />
           {activityTypes.map((activityType) => {
             const unresolved = activityType === "unresolved"

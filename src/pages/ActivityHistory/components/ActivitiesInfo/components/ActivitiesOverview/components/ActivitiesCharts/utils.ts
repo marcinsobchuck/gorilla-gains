@@ -36,7 +36,7 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
     case "load": {
       const totalLoad = data.reduce((sum, exercise) => {
         const exerciseLoad = exercise.sets.reduce((setSum, set) => {
-          return setSum + (set.load || 0)
+          return setSum + (set.load || 0) * (set.reps || 0)
         }, 0)
         return sum + exerciseLoad
       }, 0)
@@ -72,10 +72,13 @@ export const transformActivitiesIntoChartData = (
         return null
       }
 
+      const shouldAddLoad = getYAxisValue(filteredExercises, "load") > 0 && yAxisKey !== "load"
+
       return {
         date: new Date(activity.date).getTime(),
         value: getYAxisValue(filteredExercises, yAxisKey),
         activityId: activity._id,
+        ...(shouldAddLoad && { load: getYAxisValue(filteredExercises, "load") }),
       }
     })
     .filter((item) => item !== null)

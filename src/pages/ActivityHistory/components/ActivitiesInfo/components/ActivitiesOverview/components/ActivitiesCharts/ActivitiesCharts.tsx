@@ -2,14 +2,15 @@ import { format } from "date-fns"
 import { useEffect } from "react"
 import {
   Area,
-  AreaChart,
+  Bar,
   Brush,
   CartesianGrid,
+  ComposedChart,
   DotProps,
   Label,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
+  TooltipContentProps,
   XAxis,
   YAxis,
 } from "recharts"
@@ -31,7 +32,7 @@ import {
   transformActivitiesIntoChartData,
 } from "./utils"
 
-const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+const CustomTooltip = ({ active, payload }: TooltipContentProps<ValueType, NameType>) => {
   const activeChartCombination = useAppSelector(
     (state) => state.activitiesOverview.activeChartCombination
   )
@@ -74,9 +75,16 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
           )}
           <span>{unit}</span>
         </ValueText>
+        {payload[0].payload.load && (
+          <ValueText>
+            {payload[0].payload.load}
+            <span>kg</span>
+          </ValueText>
+        )}
+
         <DateWrapper justify='space-between'>
           <p>Date</p>
-          <span>{format(label, "yyyy/MM/dd")}</span>
+          <span>{format(payload[0].payload.date, "yyyy/MM/dd")}</span>
         </DateWrapper>
       </TooltipWrapper>
     )
@@ -144,7 +152,7 @@ export const ActivitiesCharts = () => {
   return (
     <Wrapper justify='center' align='center'>
       <ResponsiveContainer width='100%' height={330}>
-        <AreaChart data={data} {...{ overflow: "visible" }}>
+        <ComposedChart data={data} {...{ overflow: "visible" }}>
           <defs>
             <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
               <stop offset='5%' stopColor={theme.secondary} stopOpacity={0.3} />
@@ -160,6 +168,7 @@ export const ActivitiesCharts = () => {
             fontSize={14}
             tickLine={false}
             axisLine={false}
+            allowDuplicatedCategory={false}
           >
             <Label
               value={capitalizeFirstLetter(activeChartCombination.xAxis)}
@@ -171,6 +180,7 @@ export const ActivitiesCharts = () => {
             />
           </XAxis>
           <YAxis
+            yAxisId={1}
             fontSize={14}
             tickLine={false}
             axisLine={false}
@@ -186,9 +196,23 @@ export const ActivitiesCharts = () => {
               opacity={0.5}
             />
           </YAxis>
-          <Tooltip content={<CustomTooltip />} />
+          <YAxis yAxisId={2} orientation='right' fontSize={14} tickLine={false} axisLine={false}>
+            <Label
+              value='Load'
+              angle={-90}
+              dx={12}
+              fontSize={14}
+              stroke={theme.primaryDisabled}
+              strokeWidth={0.3}
+              opacity={0.5}
+            />
+          </YAxis>
+
           <CartesianGrid vertical={false} strokeWidth={0.3} />
+
+          <Bar dataKey='load' yAxisId={2} barSize={30} fill='red' fillOpacity={0.1} />
           <Area
+            yAxisId={1}
             type='monotone'
             dataKey='value'
             stroke='#6EAF5E'
@@ -206,6 +230,8 @@ export const ActivitiesCharts = () => {
               onClick: activeDotOnClick,
             }}
           />
+          <Tooltip content={CustomTooltip} axisId={1} />
+
           {data.length > 19 && (
             <Brush
               dataKey='date'
@@ -216,7 +242,7 @@ export const ActivitiesCharts = () => {
               height={22}
             />
           )}
-        </AreaChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </Wrapper>
   )

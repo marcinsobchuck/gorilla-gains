@@ -1,11 +1,11 @@
-import { TooltipProps } from "recharts"
+import { TooltipContentProps } from "recharts"
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 import { BarChartTooltipWrapper, MonthWrapper, ValueItem } from "./ActivitiesBarChart.styled"
 
-export const CustomTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
+export const CustomTooltip = ({ active, payload }: TooltipContentProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
     return (
       <BarChartTooltipWrapper direction='column'>
