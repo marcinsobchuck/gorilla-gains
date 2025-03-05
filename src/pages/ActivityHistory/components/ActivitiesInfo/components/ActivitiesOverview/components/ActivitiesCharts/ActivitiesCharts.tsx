@@ -8,13 +8,12 @@ import {
   ComposedChart,
   DotProps,
   Label,
+  Legend,
   ResponsiveContainer,
   Tooltip,
-  TooltipContentProps,
   XAxis,
   YAxis,
 } from "recharts"
-import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -24,74 +23,9 @@ import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
-import { DateWrapper, TooltipWrapper, ValueText, Wrapper } from "./ActivitiesChart.styled"
-import {
-  YAxisTickFormatter,
-  getExerciseUnit,
-  getTooltipValue,
-  transformActivitiesIntoChartData,
-} from "./utils"
-
-const CustomTooltip = ({ active, payload }: TooltipContentProps<ValueType, NameType>) => {
-  const activeChartCombination = useAppSelector(
-    (state) => state.activitiesOverview.activeChartCombination
-  )
-  if (active && payload && payload.length) {
-    const tooltipValue = getTooltipValue(payload[0].value, activeChartCombination.yAxis)
-    const unit = activeChartCombination.yAxis !== "duration" && payload[0].unit
-
-    return (
-      <TooltipWrapper direction='column' justify='flex-end'>
-        <ValueText>
-          {typeof tooltipValue === "object" ? (
-            <>
-              {tooltipValue.days && (
-                <>
-                  {tooltipValue.days}
-                  <span>d</span>
-                </>
-              )}
-              {tooltipValue.hours && (
-                <>
-                  {tooltipValue.hours}
-                  <span>h</span>
-                </>
-              )}
-              {tooltipValue.minutes && (
-                <>
-                  {tooltipValue.minutes}
-                  <span>m</span>
-                </>
-              )}
-              {tooltipValue.seconds && (
-                <>
-                  {tooltipValue.seconds}
-                  <span>s</span>
-                </>
-              )}
-            </>
-          ) : (
-            tooltipValue
-          )}
-          <span>{unit}</span>
-        </ValueText>
-        {payload[0].payload.load && (
-          <ValueText>
-            {payload[0].payload.load}
-            <span>kg</span>
-          </ValueText>
-        )}
-
-        <DateWrapper justify='space-between'>
-          <p>Date</p>
-          <span>{format(payload[0].payload.date, "yyyy/MM/dd")}</span>
-        </DateWrapper>
-      </TooltipWrapper>
-    )
-  }
-
-  return null
-}
+import { Wrapper } from "./ActivitiesChart.styled"
+import { CustomTooltip } from "./CustomTooltip"
+import { YAxisTickFormatter, getExerciseUnit, transformActivitiesIntoChartData } from "./utils"
 
 export const ActivitiesCharts = () => {
   const dispatch = useAppDispatch()
@@ -149,9 +83,12 @@ export const ActivitiesCharts = () => {
     )
   }
 
+  const shouldDisplayLoadBar =
+    data.some((item) => item.load) && activeChartCombination.yAxis !== "load"
+
   return (
     <Wrapper justify='center' align='center'>
-      <ResponsiveContainer width='100%' height={330}>
+      <ResponsiveContainer width='100%' height='90%'>
         <ComposedChart data={data} {...{ overflow: "visible" }}>
           <defs>
             <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
@@ -159,6 +96,7 @@ export const ActivitiesCharts = () => {
               <stop offset='95%' stopColor={theme.secondary} stopOpacity={0} />
             </linearGradient>
           </defs>
+          <CartesianGrid vertical={false} strokeWidth={0.3} />
           <XAxis
             dataKey={activeChartCombination.xAxis}
             tickFormatter={(value) => format(value, "dd/MM/yyyy")}
@@ -207,20 +145,41 @@ export const ActivitiesCharts = () => {
               opacity={0.5}
             />
           </YAxis>
+          <Tooltip content={CustomTooltip} />
+          <Legend verticalAlign='top' height={32} iconSize={12} wrapperStyle={{ fontSize: 14 }} />
 
-          <CartesianGrid vertical={false} strokeWidth={0.3} />
+          {data.length > 30 && (
+            <Brush
+              dataKey='date'
+              tickFormatter={(value) => format(value, "dd/MM/yyyy")}
+              travellerWidth={14}
+              stroke={theme.secondaryText}
+              fill='transparent'
+              height={12}
+              fillOpacity={0.1}
+            />
+          )}
 
-          <Bar dataKey='load' yAxisId={2} barSize={30} fill='red' fillOpacity={0.1} />
+          {shouldDisplayLoadBar && (
+            <Bar
+              dataKey='load'
+              yAxisId={2}
+              barSize={30}
+              fill={theme.strengthColor}
+              fillOpacity={0.5}
+            />
+          )}
+
           <Area
             yAxisId={1}
             type='monotone'
-            dataKey='value'
+            dataKey={activeChartCombination.yAxis}
             stroke='#6EAF5E'
             strokeWidth={3}
             fillOpacity={1}
             fill='url(#colorUv)'
             unit={getExerciseUnit(data, activeChartCombination.yAxis)}
-            dot
+            dot={data.length < 30}
             activeDot={{
               r: 7,
               fill: theme.secondary,
@@ -230,18 +189,6 @@ export const ActivitiesCharts = () => {
               onClick: activeDotOnClick,
             }}
           />
-          <Tooltip content={CustomTooltip} axisId={1} />
-
-          {data.length > 19 && (
-            <Brush
-              dataKey='date'
-              tickFormatter={(value) => format(value, "dd/MM/yyyy")}
-              travellerWidth={12}
-              stroke='#A1D890'
-              fill='transparent'
-              height={22}
-            />
-          )}
         </ComposedChart>
       </ResponsiveContainer>
     </Wrapper>
