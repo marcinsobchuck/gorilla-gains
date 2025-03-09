@@ -71,5 +71,7 @@ export const GlobalStyle = globalStyle.createGlobalStyle`
     cursor: pointer;
   }
 
+
+  
   
 `

@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
+import { setUpResponseInterceptor } from "@api/api.ts"
 import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
@@ -21,6 +22,9 @@ import {
 } from "./RootLayout.styled.ts"
 
 export const RootLayout = () => {
+  const navigate = useNavigate()
+  setUpResponseInterceptor(navigate)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isPresetsVisible, setIsPresetsVisible] = useState(false)
   const state = useAppSelector((state) => state.activities)
@@ -29,7 +33,6 @@ export const RootLayout = () => {
   return (
     <Background>
       <ToastContainer />
-
       <Modal
         isVisible={state.isAddEditModalOpen}
         lockScroll={isPresetsVisible}
