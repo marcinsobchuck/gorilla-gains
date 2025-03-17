@@ -29,7 +29,6 @@ import {
   setCurrentlyProcessedActivityId,
   setHasMore,
   setShouldFetchActivities,
-  toggleIsPreset,
 } from "./activitiesSlice"
 import { CreateActivityParams } from "./activitiesSlice.types"
 import { isNewActivityWithinInterval } from "./utils"
@@ -86,23 +85,6 @@ export const createActivityAction = createAppAsyncThunk(
   }
 )
 
-export const getPresetsForCurrentUserAction = createAppAsyncThunk(
-  "getPresetsForCurrentUser",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getActivitiesForCurrentUser({
-        isPreset: true,
-      })
-      return response.data
-    } catch (error) {
-      if (isAxiosError(error)) {
-        return rejectWithValue(error.response?.data)
-      } else {
-        return rejectWithValue("Something went wrong")
-      }
-    }
-  }
-)
 export const getActivitiesForCurrentUserAction = createAppAsyncThunk(
   "getActivitiesForCurrentUser",
   async (data: GetActivitiesForCurrentUserParams, { rejectWithValue }) => {
@@ -144,9 +126,6 @@ export const editActivityAction = createAppAsyncThunk(
   "editActivity",
   async (data: EditActivityParams, { rejectWithValue, dispatch, getState }) => {
     try {
-      const {
-        activities: { isEditing },
-      } = getState()
       dispatch(setCurrentlyProcessedActivityId(data.activityId))
       const response = await editActivity(data)
 
@@ -177,10 +156,6 @@ export const editActivityAction = createAppAsyncThunk(
 
       if (data.dataToEdit.type === activeFilterTab && isEditedActivityInThePast) {
         dispatch(editChartActivity(response.data))
-      }
-
-      if (!isEditing) {
-        dispatch(toggleIsPreset())
       }
 
       return response.data

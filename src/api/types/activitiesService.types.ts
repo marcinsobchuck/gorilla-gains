@@ -1,5 +1,3 @@
-import { DefaultTheme } from "styled-components/dist/types"
-
 import { ActivityTypes } from "@enums/activityTypes.enum"
 
 export interface ExerciseSet {
@@ -32,7 +30,7 @@ export interface CreateActivityData {
   exertionRating?: number
   warmup: boolean
   repeatExercisesCount?: number
-  isPreset?: boolean
+  makePresetFrom?: boolean
 }
 
 export interface EditActivityData {
@@ -44,19 +42,16 @@ export interface EditActivityData {
   exertionRating?: number
   warmup?: boolean
   repeatExercisesCount?: number
-  isPreset?: boolean
   isDone?: boolean
 }
 
 export interface EditActivityParams {
   dataToEdit: EditActivityData
   activityId: string
-  theme?: DefaultTheme
 }
 
 export interface GetActivitiesForCurrentUserParams {
   type?: string
-  isPreset?: boolean
   offset?: number
   limit?: number
   startDate?: Date
@@ -92,7 +87,6 @@ export interface Activity {
   notes?: string
   warmup: boolean
   repeatExercisesCount: number
-  isPreset: boolean
   isDone: boolean
   exertionRating?: number
   createdAt: string

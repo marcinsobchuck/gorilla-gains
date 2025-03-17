@@ -11,7 +11,6 @@ import {
   editActivityAction,
   getActivitiesForCurrentUserAction,
   getActivitiesForSelectedDate,
-  getPresetsForCurrentUserAction,
 } from "./activitiesActions"
 import { InitialState } from "./activitiesSlice.types"
 
@@ -20,7 +19,6 @@ const initialState: InitialState = {
   createActivityStatus: RequestStatuses.IDLE,
   deleteActivityStatus: RequestStatuses.IDLE,
   editActivityStatus: RequestStatuses.IDLE,
-  presetsStatus: RequestStatuses.IDLE,
   limit: 3,
   hasMore: true,
   isEditing: false,
@@ -36,17 +34,8 @@ export const activitiesSlice = createSlice({
   name: "activities",
   initialState,
   reducers: {
-    removePreset(state, action) {
-      state.presetsData = state.presetsData?.filter((preset) => preset._id !== action.payload)
-    },
     setHasMore(state, action) {
       state.hasMore = action.payload
-    },
-    toggleIsPreset(state) {
-      state.activitiesData = state.activitiesData?.map((activity) => ({
-        ...activity,
-        isPreset: !activity.isPreset,
-      }))
     },
     setActivitiesData(state, action) {
       state.activitiesData = action.payload
@@ -117,21 +106,6 @@ export const activitiesSlice = createSlice({
         state.activitiesError = action.payload
       }
     })
-
-    builder.addCase(getPresetsForCurrentUserAction.pending, (state) => {
-      state.presetsStatus = RequestStatuses.LOADING
-    })
-    builder.addCase(getPresetsForCurrentUserAction.fulfilled, (state, action) => {
-      state.presetsData = action.payload
-      state.presetsStatus = RequestStatuses.SUCCESS
-    })
-    builder.addCase(getPresetsForCurrentUserAction.rejected, (state, action) => {
-      state.presetsStatus = RequestStatuses.FAILED
-      if (action.payload) {
-        state.presetsError = action.payload
-      }
-    })
-
     builder.addCase(createActivityAction.pending, (state) => {
       state.createActivityStatus = RequestStatuses.LOADING
     })
@@ -218,9 +192,7 @@ export const activitiesSlice = createSlice({
 
 export default activitiesSlice.reducer
 export const {
-  removePreset,
   setHasMore,
-  toggleIsPreset,
   resetActivitiesData,
   setIsEditing,
   setShouldFetchActivities,
