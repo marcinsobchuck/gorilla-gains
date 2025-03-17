@@ -1,4 +1,5 @@
 import { Activity } from "@api/types/activitiesService.types"
+import { ActivityPreset } from "@api/types/activityPresets.types"
 
 type PopoverOption = {
   label: string
@@ -6,7 +7,7 @@ type PopoverOption = {
 }
 
 export interface ActivityCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  data: Activity
+  data: Activity | ActivityPreset
   popoverOptions?: PopoverOption[]
   hasAdditionalActions?: boolean
 }

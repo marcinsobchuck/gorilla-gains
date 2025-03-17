@@ -3,6 +3,7 @@ import { AnyAction, combineReducers, configureStore } from "@reduxjs/toolkit"
 import activitiesReducer from "@features/activities/activitiesSlice"
 import activitiesOverviewReducer from "@features/activitiesOverview/activitiesOverviewSlice"
 import activitiesSummaryReducer from "@features/activitiesSummary/activitiesSummarySlice"
+import activityPresetsReducer from "@features/activityPresets/activityPresetsSlice"
 import activityTypesReducer from "@features/activityTypes/activityTypesSlice"
 import authReducer from "@features/auth/authSlice"
 import calendarSchedulerReducer from "@features/calendarScheduler/calendarSchedulerSlice"
@@ -18,6 +19,7 @@ const combinedReducer = combineReducers({
   activityTypes: activityTypesReducer,
   exercises: exercisesReducer,
   activities: activitiesReducer,
+  activityPresets: activityPresetsReducer,
   activitiesOverview: activitiesOverviewReducer,
   historyCalendar: historyCalendarReducer,
   activitiesSummary: activitiesSummaryReducer,

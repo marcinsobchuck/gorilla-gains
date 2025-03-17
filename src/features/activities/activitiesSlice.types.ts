@@ -16,11 +16,6 @@ export interface InitialState {
   createActivityError?: string
   editActivityError?: string
   deleteActivityError?: string
-
-  presetsData?: Activity[]
-  presetsStatus: RequestStatuses
-  presetsError?: string
-
   selectedDate: string
   limit: number
   hasMore: boolean
