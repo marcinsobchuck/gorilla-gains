@@ -173,4 +173,5 @@ export const addActivityFormSchema = yup.object().shape({
   warmup: yup.boolean().required(),
   repeatExercisesCount: yup.number().transform(handleIsNaN).required(),
   exertionRating: yup.number().transform(handleIsNaN),
+  makePresetFrom: yup.boolean(),
 })

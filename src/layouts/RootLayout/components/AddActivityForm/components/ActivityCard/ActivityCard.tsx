@@ -2,6 +2,7 @@ import { format, parseISO } from "date-fns"
 import React, { useState } from "react"
 import { useTheme } from "styled-components"
 
+import { Activity } from "@api/types/activitiesService.types"
 import { useAppSelector } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
@@ -96,7 +97,9 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
               {numberOfExercises === 1 ? "exercise" : "exercises"}
             </>
           }
-          subtitle={format(parseISO(data.date), "LLLL do, y")}
+          subtitle={
+            (data as Activity).date && format(parseISO((data as Activity).date), "LLLL do, y")
+          }
           iconSize={30}
         />
 

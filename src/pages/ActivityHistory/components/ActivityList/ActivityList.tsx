@@ -10,11 +10,9 @@ import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import {
   deleteActivityAction,
-  editActivityAction,
   getActivitiesForCurrentUserAction,
 } from "@features/activities/activitiesActions"
 import {
-  removePreset,
   setActiveActivity,
   setCurrentlyEditedActivity,
   setIsActivityEventOpen,
@@ -22,10 +20,12 @@ import {
   setIsEditing,
   setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
+import { createActivityPresetAction } from "@features/activityPresets/activityPresetsActions"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
 
 import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
 import { useActivitiesInfiniteScroll } from "./hooks/useActivitiesInfiniteScroll"
+import { getCreateActivityPresetData } from "./utils"
 
 export const ActivityList = () => {
   const state = useAppSelector((state) => state.activities)
@@ -41,23 +41,18 @@ export const ActivityList = () => {
 
   const observerTarget = useActivitiesInfiniteScroll(offset, limit)
 
-  const handleRemoveActivity = async (id: string) => {
-    await dispatch(deleteActivityAction(id))
-    dispatch(removePreset(id))
-  }
-
   const handleEditActivity = (activity: Activity) => {
     dispatch(setIsEditing(true))
     dispatch(setIsAddEditModalOpen(true))
     dispatch(setCurrentlyEditedActivity(activity))
   }
 
-  const getPopoverOptions = (id: string, isPreset: boolean, activity: Activity) => [
+  const getPopoverOptions = (id: string, activity: Activity) => [
     {
       label: "Delete activity",
-      action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
-        handleRemoveActivity(id)
+        await dispatch(deleteActivityAction(id))
       },
     },
     {
@@ -67,25 +62,13 @@ export const ActivityList = () => {
         handleEditActivity(activity)
       },
     },
-    isPreset
-      ? {
-          label: "Delete from presets",
-          action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            e.stopPropagation()
-            await dispatch(
-              editActivityAction({ activityId: id, dataToEdit: { isPreset: false }, theme })
-            )
-          },
-        }
-      : {
-          label: "Mark as preset",
-          action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            e.stopPropagation()
-            await dispatch(
-              editActivityAction({ activityId: id, dataToEdit: { isPreset: true }, theme })
-            )
-          },
-        },
+    {
+      label: "Make preset from",
+      action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        await dispatch(createActivityPresetAction(getCreateActivityPresetData(activity)))
+      },
+    },
   ]
 
   useEffect(() => {
@@ -144,7 +127,7 @@ export const ActivityList = () => {
         <ActivityCard
           key={activity._id}
           data={activity}
-          popoverOptions={getPopoverOptions(activity._id, activity.isPreset, activity)}
+          popoverOptions={getPopoverOptions(activity._id, activity)}
           onClick={() => {
             dispatch(setIsActivityEventOpen(true))
             dispatch(setActiveActivity({ activityId: activity._id, activities }))

@@ -81,17 +81,8 @@ export const transformEditedActivity = (activity: Activity) => {
   return transformedActivity
 }
 
-export const getDataToSubmit = (values: AddActivityFormTypes, isPreset?: boolean) => {
-  const {
-    title,
-    activityType,
-    date,
-    notes,
-    repeatExercisesCount,
-    warmup,
-    exercises,
-    exertionRating,
-  } = values
+export const getDataToSubmit = (values: AddActivityFormTypes) => {
+  const { activityType, exercises, ...rest } = values
 
   const transformedExercises = exercises?.map((exercise) => {
     return {
@@ -99,34 +90,12 @@ export const getDataToSubmit = (values: AddActivityFormTypes, isPreset?: boolean
       exercise: exercise.exercise.value,
     }
   })
+
   const dataToSubmit: CreateActivityData = {
-    title,
+    ...rest,
     type: activityType.value,
-    date,
-    notes,
-    exertionRating,
-    warmup,
-    repeatExercisesCount,
     exercises: transformedExercises,
-    isPreset,
   }
 
   return dataToSubmit
-}
-
-export const getSubmitButtonText = (
-  buttonAction: "preset" | "addEdit",
-  isEditing: boolean,
-  isPreset?: boolean
-) => {
-  switch (buttonAction) {
-    case "preset":
-      if (isEditing) {
-        return isPreset ? "Delete from presets" : "Mark as preset"
-      } else {
-        return "Add and save"
-      }
-    case "addEdit":
-      return isEditing ? "Edit" : "Add"
-  }
 }

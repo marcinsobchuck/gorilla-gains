@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
 import { setIsAddEditModalOpen, setIsEditing } from "@features/activities/activitiesSlice.ts"
+import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice.ts"
 import { Background } from "@styles/GlobalStyle.ts"
 
 import { AddActivityForm } from "./components/AddActivityForm/AddActivityForm.tsx"
@@ -26,7 +27,9 @@ export const RootLayout = () => {
   setUpResponseInterceptor(navigate)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isPresetsVisible, setIsPresetsVisible] = useState(false)
+  const isActivityPresetsVisible = useAppSelector(
+    (state) => state.activityPresets.isActivityPresetsVisible
+  )
   const state = useAppSelector((state) => state.activities)
   const dispatch = useAppDispatch()
 
@@ -35,18 +38,15 @@ export const RootLayout = () => {
       <ToastContainer />
       <Modal
         isVisible={state.isAddEditModalOpen}
-        lockScroll={isPresetsVisible}
+        lockScroll={isActivityPresetsVisible}
         onCloseButtonClick={() => {
           dispatch(setIsAddEditModalOpen(false))
           dispatch(setIsEditing(false))
-          setIsPresetsVisible(false)
+          dispatch(setIsActivityPresetsVisible(false))
         }}
         title={state.isEditing ? "Edit activity" : "Add activity"}
       >
-        <AddActivityForm
-          isPresetsVisible={isPresetsVisible}
-          setIsPresetsVisible={setIsPresetsVisible}
-        />
+        <AddActivityForm />
       </Modal>
       <Wrapper>
         <Header>

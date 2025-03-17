@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityDetailsContainer } from "@components/ActivityDetailsContainer/ActivityDetailsContainer"
 import { deleteActivityAction } from "@features/activities/activitiesActions"
 import {
-  removePreset,
   setActiveActivity,
   setCurrentlyEditedActivity,
   setIsActivityEventOpen,
@@ -29,7 +28,6 @@ export const ActivityHistory = () => {
 
       dispatch(setIsActivityEventOpen(false))
       dispatch(setActiveActivity({}))
-      dispatch(removePreset(activeEvent._id))
     }
   }
 
