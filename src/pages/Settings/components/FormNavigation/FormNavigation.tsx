@@ -17,7 +17,8 @@ export const FormNavigation = () => {
   const navigate = useNavigate()
 
   const [currentTab, setCurrentTab] = useState("")
-  const [hashTab, setHashTab] = useState(location.hash.slice(1))
+
+  const hashTab = location.hash.slice(1)
 
   const observerRef = useRef<IntersectionObserver | null>(null)
 
@@ -43,6 +44,7 @@ export const FormNavigation = () => {
             const elementName = entry.target.getAttribute("data-name")
             if (elementName) {
               setCurrentTab(elementName)
+              navigate(`#${elementName}`, { replace: true })
             }
           }
         })
@@ -57,15 +59,15 @@ export const FormNavigation = () => {
     return () => {
       sections.forEach((section) => observerRef.current?.unobserve(section))
     }
-  })
+  }, [navigate])
 
   useEffect(() => {
     if (hashTab) {
       const currentElement = document.querySelector(`#${hashTab}`)
       currentElement?.scrollIntoView()
-      setHashTab("")
     }
-  }, [hashTab])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Wrapper>
