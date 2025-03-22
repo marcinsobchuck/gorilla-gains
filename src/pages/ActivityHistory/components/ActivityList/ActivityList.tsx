@@ -15,7 +15,7 @@ import {
 import {
   setActiveActivity,
   setCurrentlyEditedActivity,
-  setIsActivityEventOpen,
+  setIsActivityDetailsOpen,
   setIsAddEditModalOpen,
   setIsEditing,
   setShouldFetchActivities,
@@ -129,7 +129,7 @@ export const ActivityList = () => {
           data={activity}
           popoverOptions={getPopoverOptions(activity._id, activity)}
           onClick={() => {
-            dispatch(setIsActivityEventOpen(true))
+            dispatch(setIsActivityDetailsOpen(true))
             dispatch(setActiveActivity({ activityId: activity._id, activities }))
           }}
         />

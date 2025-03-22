@@ -4,9 +4,17 @@ import { ToastContainer } from "react-toastify"
 
 import { setUpResponseInterceptor } from "@api/api.ts"
 import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
+import { ActivityDetailsContainer } from "@components/ActivityDetailsContainer/ActivityDetailsContainer.tsx"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
-import { setIsAddEditModalOpen, setIsEditing } from "@features/activities/activitiesSlice.ts"
+import { deleteActivityAction } from "@features/activities/activitiesActions.ts"
+import {
+  setActiveActivity,
+  setCurrentlyEditedActivity,
+  setIsActivityDetailsOpen,
+  setIsAddEditModalOpen,
+  setIsEditing,
+} from "@features/activities/activitiesSlice.ts"
 import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice.ts"
 import { Background } from "@styles/GlobalStyle.ts"
 
@@ -27,24 +35,48 @@ export const RootLayout = () => {
   setUpResponseInterceptor(navigate)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const activeActivity = useAppSelector((state) => state.activities.activeActivity)
+  const isActivityDetailsOpen = useAppSelector((state) => state.activities.isActivityDetailsOpen)
   const isActivityPresetsVisible = useAppSelector(
     (state) => state.activityPresets.isActivityPresetsVisible
   )
-  const state = useAppSelector((state) => state.activities)
+  const isAddEditModalOpen = useAppSelector((state) => state.activities.isAddEditModalOpen)
+  const isEditing = useAppSelector((state) => state.activities.isEditing)
   const dispatch = useAppDispatch()
+
+  const handleEditActivity = () => {
+    dispatch(setIsEditing(true))
+    dispatch(setIsAddEditModalOpen(true))
+    dispatch(setCurrentlyEditedActivity(activeActivity))
+  }
+
+  const handleRemoveActivity = async () => {
+    if (activeActivity) {
+      await dispatch(deleteActivityAction(activeActivity._id))
+
+      dispatch(setIsActivityDetailsOpen(false))
+      dispatch(setActiveActivity({}))
+    }
+  }
+
+  const handleOnClose = () => {
+    dispatch(setIsActivityDetailsOpen(false))
+    dispatch(setActiveActivity({}))
+  }
 
   return (
     <Background>
       <ToastContainer />
+
       <Modal
-        isVisible={state.isAddEditModalOpen}
+        isVisible={isAddEditModalOpen}
         lockScroll={isActivityPresetsVisible}
         onCloseButtonClick={() => {
           dispatch(setIsAddEditModalOpen(false))
           dispatch(setIsEditing(false))
           dispatch(setIsActivityPresetsVisible(false))
         }}
-        title={state.isEditing ? "Edit activity" : "Add activity"}
+        title={isEditing ? "Edit activity" : "Add activity"}
       >
         <AddActivityForm />
       </Modal>
@@ -73,6 +105,13 @@ export const RootLayout = () => {
         </Header>
         <MainContainer>
           <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+          <ActivityDetailsContainer
+            isOpen={isActivityDetailsOpen}
+            onClose={handleOnClose}
+            onEdit={handleEditActivity}
+            onRemove={handleRemoveActivity}
+            activeActivityEvent={activeActivity}
+          />
           <Outlet />
         </MainContainer>
       </Wrapper>

@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 interface WrapperProps {
   $isOpen: boolean
@@ -9,7 +10,7 @@ interface WrapperProps {
 
 export const Wrapper = styled.div<WrapperProps>`
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   right: 0;
   top: 0;
   height: 100%;
@@ -35,6 +36,14 @@ export const Wrapper = styled.div<WrapperProps>`
   }
   &::-webkit-scrollbar-thumb:hover {
     background: ${({ theme }) => theme.secondaryActive};
+  }
+
+  @media ${Breakpoints.MEDIUM} {
+    flex-grow: 0;
+    width: calc(100% - var(--sidebar-width-m) - var(--menu-width-m));
+  }
+  @media ${Breakpoints.LARGE} {
+    width: calc(100% - var(--sidebar-width-l) - var(--menu-width-l));
   }
 `
 

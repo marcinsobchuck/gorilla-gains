@@ -1,6 +1,6 @@
 import { Routes } from "@enums/routes.enum"
 
-import { ListItem } from "./Menu.types"
+import { ListItem, SettingOption } from "./Menu.types"
 
 export const listItems: ListItem[] = [
   {
@@ -22,5 +22,18 @@ export const listItems: ListItem[] = [
     name: "Exercises catalogue",
     icon: "collection",
     path: Routes.EXERCISES_CATALOGUE,
+  },
+]
+
+export const settingsOptions: SettingOption[] = [
+  {
+    icon: "account",
+    name: "Account",
+    to: `${Routes.SETTINGS}#account-information-section`,
+  },
+  {
+    icon: "privacy",
+    name: "Privacy",
+    to: `${Routes.SETTINGS}#user-settings-section`,
   },
 ]

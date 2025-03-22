@@ -1,14 +1,12 @@
 import { differenceInDays, parseISO } from "date-fns"
 import Skeleton from "react-loading-skeleton"
-import { useNavigate } from "react-router-dom"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { Routes } from "@enums/routes.enum"
-import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
+import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
@@ -21,7 +19,6 @@ import { NoDataMessage } from "../../DashboardGrid.styled"
 
 export const LastActivity = () => {
   const theme = useTheme()
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const lastActivity = useAppSelector((state) => state.activitiesSummary.lastActivity)
   const lastActivityStatus = useAppSelector(
@@ -62,9 +59,8 @@ export const LastActivity = () => {
         $bgColor={getDataForActivityType(lastActivity.type.type, theme).cardGradient}
         direction='column'
         onClick={() => {
-          navigate(Routes.ACTIVITY_HISTORY)
           dispatch(setActiveActivity({ activityId: lastActivity._id, activities: [lastActivity] }))
-          dispatch(setIsActivityEventOpen(true))
+          dispatch(setIsActivityDetailsOpen(true))
         }}
       >
         <MainContentWrapper align='center'>

@@ -10,8 +10,6 @@ export interface InitialState {
   eventsStatus: RequestStatuses
   eventsError?: string
   selectedDate: string
-  activeEvent?: ActivityEvent
-  isActiveEventOpen: boolean
 }
 
 export interface GetEventsForCurrentMonthParams extends GetActivitiesForCurrentUserParams {

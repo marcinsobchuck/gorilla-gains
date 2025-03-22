@@ -51,6 +51,7 @@ export const RightSideWrapper = styled.div`
 `
 export const MainContainer = styled.div`
   position: relative;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;

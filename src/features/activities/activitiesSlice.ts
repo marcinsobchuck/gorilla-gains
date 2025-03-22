@@ -27,7 +27,7 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
-  isActivityEventOpen: false,
+  isActivityDetailsOpen: false,
 }
 
 export const activitiesSlice = createSlice({
@@ -52,8 +52,8 @@ export const activitiesSlice = createSlice({
         )
       }
     },
-    setIsActivityEventOpen(state, action) {
-      state.isActivityEventOpen = action.payload
+    setIsActivityDetailsOpen(state, action) {
+      state.isActivityDetailsOpen = action.payload
     },
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
@@ -135,7 +135,7 @@ export const activitiesSlice = createSlice({
       state.deleteActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
-      state.isActivityEventOpen = false
+      state.isActivityDetailsOpen = false
       state.deleteActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = state.activitiesData?.filter(
         (activity) => activity._id !== action.payload._id
@@ -170,7 +170,7 @@ export const activitiesSlice = createSlice({
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
-      state.isActivityEventOpen = false
+      state.isActivityDetailsOpen = false
 
       if (state.selectedDate === newDate && isEditedActivityInThePast) {
         state.activitiesData = state.activitiesData.map((activity) =>
@@ -202,5 +202,5 @@ export const {
   setSelectedDate,
   setActiveActivity,
   setActivitiesData,
-  setIsActivityEventOpen,
+  setIsActivityDetailsOpen,
 } = activitiesSlice.actions

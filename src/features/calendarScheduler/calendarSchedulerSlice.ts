@@ -17,7 +17,6 @@ const initialState: InitialState = {
   eventsError: "",
   selectedDate: format(new Date(), "yyyy-MM-dd"),
   dayEvents: [],
-  isActiveEventOpen: false,
 }
 
 export const calendarSchedulerSlice = createSlice({
@@ -29,12 +28,6 @@ export const calendarSchedulerSlice = createSlice({
       state.dayEvents = state.events.filter((event) => {
         return format(parseISO(event.date as string), "yyyy-MM-dd") === action.payload
       })
-    },
-    setActiveEvent(state, action) {
-      state.activeEvent = state.dayEvents.find((dayEvent) => dayEvent._id === action.payload)
-    },
-    setIsActiveEventOpen(state, action) {
-      state.isActiveEventOpen = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -65,36 +58,27 @@ export const calendarSchedulerSlice = createSlice({
       }
     })
     builder.addCase(editActivityAction.fulfilled, (state, action) => {
-      state.isActiveEventOpen = false
+      const newDate = format(new Date(action.payload.date), "yyyy-MM-dd")
 
-      if (format(new Date(action.payload.date), "yyyy-MM-dd") !== state.selectedDate) {
-        state.dayEvents = state.dayEvents.filter(
-          (dayEvent) => dayEvent._id !== state.activeEvent?._id
-        )
-        state.events = state.events.filter((event) => event._id !== state.activeEvent?._id)
-        state.events = [...state.events, action.payload]
+      state.events = state.events.map((event) =>
+        event._id === action.payload._id ? action.payload : event
+      )
+
+      if (newDate !== state.selectedDate) {
+        state.dayEvents = state.dayEvents.filter((dayEvent) => dayEvent._id !== action.payload._id)
       } else {
         state.dayEvents = state.dayEvents.map((dayEvent) =>
           dayEvent._id === action.payload._id ? action.payload : dayEvent
         )
-        state.events = state.events.map((event) =>
-          event._id === action.payload._id ? action.payload : event
-        )
       }
-      state.activeEvent = undefined
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
-      state.isActiveEventOpen = false
       state.events = state.events.filter((event) => event._id !== action.payload._id)
-      if (action.payload._id === state.activeEvent?._id) {
-        state.activeEvent = undefined
-      }
       state.dayEvents = state.dayEvents?.filter((dayEvent) => dayEvent._id !== action.payload._id)
     })
   },
 })
 
-export const { setSelectedDate, setActiveEvent, setIsActiveEventOpen } =
-  calendarSchedulerSlice.actions
+export const { setSelectedDate } = calendarSchedulerSlice.actions
 
 export default calendarSchedulerSlice.reducer

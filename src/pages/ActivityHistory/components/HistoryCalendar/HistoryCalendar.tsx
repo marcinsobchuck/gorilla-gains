@@ -12,6 +12,7 @@ import {
   resetActivitiesData,
   setActivitiesData,
   setHasMore,
+  setIsActivityDetailsOpen,
   setSelectedDate,
 } from "@features/activities/activitiesSlice"
 import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
@@ -24,6 +25,7 @@ export const HistoryCalendar = () => {
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
+  const isActivityDetailsOpen = useAppSelector((state) => state.activities.isActivityDetailsOpen)
   const selectedDate = activities.selectedDate
   const limit = activities.limit
   const theme = useTheme()
@@ -33,6 +35,8 @@ export const HistoryCalendar = () => {
 
     dispatch(setSelectedDate(arg.dateStr))
     updateSelectedClass(arg.dateStr)
+
+    isActivityDetailsOpen && dispatch(setIsActivityDetailsOpen(false))
 
     const dayHasEvent = historyCalendar.events.some(
       (event) => format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")

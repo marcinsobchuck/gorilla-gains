@@ -19,7 +19,7 @@ import { useTheme } from "styled-components"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { setActiveActivity, setIsActivityEventOpen } from "@features/activities/activitiesSlice"
+import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
@@ -50,7 +50,7 @@ export const ActivitiesCharts = () => {
   const activeDotOnClick: Required<DotProps>["onClick"] = (_props, payload: any) => {
     const activity = activities.find((activity) => activity._id === payload.payload.activityId)
     if (activity) {
-      dispatch(setIsActivityEventOpen(true))
+      dispatch(setIsActivityDetailsOpen(true))
       dispatch(setActiveActivity({ activities, activityId: activity._id }))
     }
   }

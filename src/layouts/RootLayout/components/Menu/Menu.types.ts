@@ -13,3 +13,9 @@ export interface MenuProps {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+export interface SettingOption {
+  icon: IconName
+  name: string
+  to: string
+}
