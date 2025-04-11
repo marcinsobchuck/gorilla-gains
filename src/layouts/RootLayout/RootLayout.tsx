@@ -69,8 +69,9 @@ export const RootLayout = () => {
       <ToastContainer />
 
       <Modal
+        id='add-activity-modal'
         isVisible={isAddEditModalOpen}
-        lockScroll={isActivityPresetsVisible}
+        scrollToTop={isActivityPresetsVisible}
         onCloseButtonClick={() => {
           dispatch(setIsAddEditModalOpen(false))
           dispatch(setIsEditing(false))

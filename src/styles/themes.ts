@@ -1,5 +1,6 @@
 export const lightTheme = {
   backgroundColor: "#fafafa",
+  backgroundColorOpacity: "#fafafaD9",
   inputBackgroundColor: "#F3F6FB",
   nestedInputBackgroundColor: "#F6F9FE",
   selectBackgroundColor: "#EDEDED",
@@ -70,6 +71,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   backgroundColor: "#121212",
+  backgroundColorOpacity: "#121212D9",
   inputBackgroundColor: "#252730",
   nestedInputBackgroundColor: "#2D303C",
   selectBackgroundColor: "#2a2a2a",

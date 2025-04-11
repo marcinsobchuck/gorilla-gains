@@ -10,15 +10,20 @@ interface SidebarProps {
 }
 
 export const Wrapper = styled.div`
-  height: 100vh;
+  @media ${Breakpoints.SMALL} {
+    height: 100vh;
+  }
 `
 
 export const Header = styled.header`
-  position: sticky;
+  position: fixed;
+  width: 100%;
   z-index: ${ZIndex.HEADER};
   display: flex;
   height: var(--header-height);
+  background-color: ${({ theme }) => theme.backgroundColorOpacity};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  backdrop-filter: blur(3px);
 `
 
 export const LeftSideWrapper = styled.div`
@@ -27,7 +32,6 @@ export const LeftSideWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.backgroundColor};
 
   @media ${Breakpoints.MEDIUM} {
     justify-content: flex-start;
@@ -52,14 +56,13 @@ export const RightSideWrapper = styled.div`
 export const MainContainer = styled.div`
   position: relative;
   overflow: hidden;
-
+  top: var(--header-height);
   display: flex;
   flex-direction: column;
 
-  height: calc(100vh - var(--header-height));
-
   @media ${Breakpoints.MEDIUM} {
     flex-direction: row;
+    height: calc(100vh - var(--header-height));
   }
 `
 

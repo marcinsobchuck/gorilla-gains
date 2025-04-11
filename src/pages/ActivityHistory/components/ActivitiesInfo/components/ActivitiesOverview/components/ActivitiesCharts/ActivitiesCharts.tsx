@@ -106,7 +106,6 @@ export const ActivitiesCharts = () => {
             fontSize={14}
             tickLine={false}
             axisLine={false}
-            allowDuplicatedCategory={false}
           >
             <Label
               value={capitalizeFirstLetter(activeChartCombination.xAxis)}

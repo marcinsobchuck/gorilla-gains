@@ -20,6 +20,7 @@ import { Routes } from "@enums/routes.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
 import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
+import { useScrollLock } from "@hooks/useLockScroll"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import {
@@ -198,6 +199,8 @@ export const AddActivityForm = () => {
       reset(transformEditedActivity(currentlyEditedActivity))
     }
   }, [currentlyEditedActivity, isEditing, reset])
+
+  useScrollLock({ autoLock: isActivityPresetsVisible, lockTarget: "#add-activity-modal" })
 
   return (
     <FormProvider {...methods}>
