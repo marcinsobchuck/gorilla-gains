@@ -39,7 +39,7 @@ export const HealthMetrics = () => {
   const items = getItems({ BMI, BMR, TDEE, PAL })
 
   return (
-    <Wrapper justify='space-between'>
+    <Wrapper gap={12}>
       {items.map((el, index) => (
         <BasicCard
           key={index}

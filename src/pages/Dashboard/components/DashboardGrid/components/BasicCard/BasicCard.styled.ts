@@ -1,13 +1,19 @@
 import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled(FlexContainer)`
-  padding: 16px 9px;
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  width: 25%;
+  width: calc(50% - 6px);
   border-radius: 9px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  min-height: 100px;
+
+  @media ${Breakpoints.MEDIUM} {
+    width: 25%;
+    min-height: 60px;
+  }
 `
 
 export const ValueText = styled.p<{ $isNegative?: boolean }>`

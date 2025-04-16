@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 interface ActivityTypeBarProps {
   $width: number
@@ -13,7 +14,9 @@ interface ActivityTypeTextProps {
 }
 
 export const ActivitiesDistributionWrapper = styled(FlexContainer)`
-  grid-column: 1 / 3;
+  @media ${Breakpoints.MEDIUM} {
+    grid-column: 1 / 3;
+  }
 `
 
 export const HeadingWrapper = styled(FlexContainer)`
@@ -35,10 +38,14 @@ export const HeadingText = styled.p`
 export const BarWrapper = styled(FlexContainer)`
   overflow: hidden;
   position: relative;
-  height: 100%;
+  height: 42px;
   width: 100%;
   background-color: ${({ theme }) => theme.secondaryOpacity};
   border-radius: 9px;
+
+  @media ${Breakpoints.MEDIUM} {
+    height: 100%;
+  }
 `
 
 export const ActivityTypeBar = styled(FlexContainer)<ActivityTypeBarProps>`

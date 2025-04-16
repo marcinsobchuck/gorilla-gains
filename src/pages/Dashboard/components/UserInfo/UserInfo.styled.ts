@@ -3,19 +3,31 @@ import styled from "styled-components"
 import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled(FlexContainer)`
   height: 100%;
   border-radius: 9px;
-  padding: 18px;
 `
 export const UserInfoSection = styled.section`
   margin-bottom: 12px;
+  padding: 26px 18px;
+  border-radius: 9px;
+  background-color: ${({ theme }) => theme.backgroundColor};
+
+  @media ${Breakpoints.MEDIUM} {
+    pading: 18px;
+  }
 `
 
 export const UserInfoTitle = styled.p`
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 24px;
+
+  @media ${Breakpoints.MEDIUM} {
+    margin-bottom: 0;
+  }
 `
 export const UserInfoItems = styled.div`
   margin-top: 9px;

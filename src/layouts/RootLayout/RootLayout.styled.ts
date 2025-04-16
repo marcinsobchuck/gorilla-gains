@@ -5,18 +5,15 @@ import { Icon } from "@components/Icon/Icon"
 import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
-interface SidebarProps {
-  $padding?: string
-}
-
 export const Wrapper = styled.div`
-  @media ${Breakpoints.SMALL} {
+  @media ${Breakpoints.MEDIUM} {
     height: 100vh;
   }
 `
 
 export const Header = styled.header`
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
   z-index: ${ZIndex.HEADER};
   display: flex;
@@ -56,7 +53,6 @@ export const RightSideWrapper = styled.div`
 export const MainContainer = styled.div`
   position: relative;
   overflow: hidden;
-  top: var(--header-height);
   display: flex;
   flex-direction: column;
 
@@ -66,11 +62,10 @@ export const MainContainer = styled.div`
   }
 `
 
-export const Sidebar = styled.aside<SidebarProps>`
+export const Sidebar = styled.aside`
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  padding: ${({ $padding }) => ($padding ? $padding : "24px 14px")};
 
   h1 {
     color: ${({ theme }) => theme.primary};
@@ -84,17 +79,35 @@ export const Sidebar = styled.aside<SidebarProps>`
 
   @media ${Breakpoints.MEDIUM} {
     width: var(--sidebar-width-m);
-    padding: ${({ $padding }) => ($padding ? $padding : "24px")};
+    padding: 24px;
   }
 
   @media ${Breakpoints.LARGE} {
     width: var(--sidebar-width-l);
   }
+
+  &::-webkit-scrollbar {
+    width: 18px;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.navBackgroundColor};
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9px;
+    border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
+    background-clip: content-box;
+    background: ${({ theme }) => theme.secondary};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.secondaryActive};
+  }
 `
+
 export const MainContentWrapper = styled.main`
   overflow: hidden;
   position: relative;
   flex-grow: 1;
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   @media ${Breakpoints.MEDIUM} {
     flex-grow: 0;
