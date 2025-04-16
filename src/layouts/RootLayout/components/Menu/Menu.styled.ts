@@ -16,17 +16,16 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
   justify-content: space-between;
   padding: 64px 36px 44px 36px;
 
-  position: absolute;
+  position: fixed;
   z-index: ${ZIndex.MENU};
   left: 0;
   right: 0;
-  top: 0;
+  top: var(--header-height);
   bottom: 0;
+  height: calc(100vh - var(--header-height));
 
-  height: 100%;
-
-  background-color: ${({ theme }) => theme.navBackgroundColor};
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  background-color: ${({ theme }) => theme.backgroundColor};
+  box-shadow: ${({ theme }) => theme.menuBoxShadow};
 
   transform: ${({ $isOpen }) => ($isOpen ? `translateX(0)` : `translate(-100%)`)};
 

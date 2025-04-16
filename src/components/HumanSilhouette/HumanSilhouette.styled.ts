@@ -3,18 +3,20 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
-export const Wrapper = styled(FlexContainer)`
-  padding: 14px;
-  background-color: ${({ theme }) => theme.navBackgroundColor};
-  box-shadow: ${({ theme }) => theme.elevationBoxShadow};
-  border-radius: 9px;
+export const SkeletonWrapper = styled(FlexContainer)`
+  height: 80%;
+  width: 100%;
+  .silhouetteSkeleton {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    height: 80%;
+    width: 80%;
+    line-height: 0;
+  }
 `
 
 export const HumanModelSVG = styled(svg)`
-  width: 100%;
-  height: 326px;
-  flex-grow: 1;
-
   * > * {
     stroke: none !important;
   }
@@ -56,6 +58,10 @@ export const HumanModelSVG = styled(svg)`
   }
 
   .backLats {
+    fill: ${({ theme }) => theme.otherMusclesColor};
+  }
+
+  .lowerBack {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
 
@@ -109,6 +115,7 @@ export const HumanModelSVG = styled(svg)`
   .calves {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
+
   .foot {
     fill: ${({ theme }) => theme.otherMusclesColor};
   }
@@ -120,14 +127,6 @@ export const HumanModelSVG = styled(svg)`
   .active-primary {
     fill: ${({ theme }) => theme.primaryMusclesColor};
   }
-`
-
-export const Title = styled.h2`
-  margin-bottom: 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.primaryDisabled};
-  text-align: center;
 `
 
 export const LegendWrapper = styled(FlexContainer)`

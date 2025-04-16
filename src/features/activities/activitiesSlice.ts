@@ -11,7 +11,6 @@ import {
   editActivityAction,
   getActivitiesForCurrentUserAction,
   getActivitiesForSelectedDate,
-  getPresetsForCurrentUserAction,
 } from "./activitiesActions"
 import { InitialState } from "./activitiesSlice.types"
 
@@ -20,8 +19,6 @@ const initialState: InitialState = {
   createActivityStatus: RequestStatuses.IDLE,
   deleteActivityStatus: RequestStatuses.IDLE,
   editActivityStatus: RequestStatuses.IDLE,
-  presetsStatus: RequestStatuses.IDLE,
-  activitiesPage: 1,
   limit: 3,
   hasMore: true,
   isEditing: false,
@@ -30,24 +27,15 @@ const initialState: InitialState = {
   activitiesData: [],
   selectedDate: "",
   currentlyProcessedActivityId: null,
-  isActivityEventOpen: false,
+  isActivityDetailsOpen: false,
 }
 
 export const activitiesSlice = createSlice({
   name: "activities",
   initialState,
   reducers: {
-    removePreset(state, action) {
-      state.presetsData = state.presetsData?.filter((preset) => preset._id !== action.payload)
-    },
     setHasMore(state, action) {
       state.hasMore = action.payload
-    },
-    toggleIsPreset(state) {
-      state.activitiesData = state.activitiesData?.map((activity) => ({
-        ...activity,
-        isPreset: !activity.isPreset,
-      }))
     },
     setActivitiesData(state, action) {
       state.activitiesData = action.payload
@@ -64,8 +52,8 @@ export const activitiesSlice = createSlice({
         )
       }
     },
-    setIsActivityEventOpen(state, action) {
-      state.isActivityEventOpen = action.payload
+    setIsActivityDetailsOpen(state, action) {
+      state.isActivityDetailsOpen = action.payload
     },
     setSelectedDate(state, action) {
       state.selectedDate = action.payload
@@ -95,7 +83,7 @@ export const activitiesSlice = createSlice({
     })
     builder.addCase(getActivitiesForCurrentUserAction.fulfilled, (state, action) => {
       state.activitiesData = [...state.activitiesData, ...action.payload]
-      state.activitiesPage = state.activitiesPage + 1
+      state.hasMore = action.payload.length < state.limit ? false : true
       state.activitiesStatus = RequestStatuses.SUCCESS
     })
     builder.addCase(getActivitiesForCurrentUserAction.rejected, (state, action) => {
@@ -118,21 +106,6 @@ export const activitiesSlice = createSlice({
         state.activitiesError = action.payload
       }
     })
-
-    builder.addCase(getPresetsForCurrentUserAction.pending, (state) => {
-      state.presetsStatus = RequestStatuses.LOADING
-    })
-    builder.addCase(getPresetsForCurrentUserAction.fulfilled, (state, action) => {
-      state.presetsData = action.payload
-      state.presetsStatus = RequestStatuses.SUCCESS
-    })
-    builder.addCase(getPresetsForCurrentUserAction.rejected, (state, action) => {
-      state.presetsStatus = RequestStatuses.FAILED
-      if (action.payload) {
-        state.presetsError = action.payload
-      }
-    })
-
     builder.addCase(createActivityAction.pending, (state) => {
       state.createActivityStatus = RequestStatuses.LOADING
     })
@@ -162,7 +135,7 @@ export const activitiesSlice = createSlice({
       state.deleteActivityStatus = RequestStatuses.LOADING
     })
     builder.addCase(deleteActivityAction.fulfilled, (state, action) => {
-      state.isActivityEventOpen = false
+      state.isActivityDetailsOpen = false
       state.deleteActivityStatus = RequestStatuses.SUCCESS
       state.activitiesData = state.activitiesData?.filter(
         (activity) => activity._id !== action.payload._id
@@ -197,7 +170,7 @@ export const activitiesSlice = createSlice({
       }
       state.editActivityStatus = RequestStatuses.SUCCESS
       state.currentlyProcessedActivityId = null
-      state.isActivityEventOpen = false
+      state.isActivityDetailsOpen = false
 
       if (state.selectedDate === newDate && isEditedActivityInThePast) {
         state.activitiesData = state.activitiesData.map((activity) =>
@@ -219,9 +192,7 @@ export const activitiesSlice = createSlice({
 
 export default activitiesSlice.reducer
 export const {
-  removePreset,
   setHasMore,
-  toggleIsPreset,
   resetActivitiesData,
   setIsEditing,
   setShouldFetchActivities,
@@ -231,5 +202,5 @@ export const {
   setSelectedDate,
   setActiveActivity,
   setActivitiesData,
-  setIsActivityEventOpen,
+  setIsActivityDetailsOpen,
 } = activitiesSlice.actions

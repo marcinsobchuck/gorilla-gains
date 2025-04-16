@@ -1,13 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { format, parseISO } from "date-fns"
 import debounce from "lodash.debounce"
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 import { useLocation } from "react-router-dom"
 import { useTheme } from "styled-components"
 
 import { getActivityTypes } from "@api/activityTypesService"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { Checkbox } from "@components/Checkbox/Checkbox"
 import { Counter } from "@components/Counter/Counter"
 import { Datepicker } from "@components/Datepicker/Datepicker"
 import { FormError } from "@components/FormError/FormError"
@@ -17,7 +18,9 @@ import { Textarea } from "@components/Textarea/Textarea"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { Routes } from "@enums/routes.enum"
 import { createActivityAction, editActivityAction } from "@features/activities/activitiesActions"
+import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice"
 import { getActivityTypesAction } from "@features/activityTypes/activityTypesActions"
+import { useScrollLock } from "@hooks/useLockScroll"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import {
@@ -32,28 +35,23 @@ import {
   SubmitButton,
   SubmitButtonsWrapper,
 } from "./AddActivityForm.styled"
-import { ActivityType, AddActivityFormProps } from "./AddActivityForm.types"
+import { ActivityType } from "./AddActivityForm.types"
 import { ExerciseItem } from "./components/ExerciseItem/ExerciseItem"
 import { ExertionRating } from "./components/ExertionRating/ExertionRating"
 import { InputChangeWarning } from "./components/InputChangeWarning/InputChangeWarning"
 import { PresetsView } from "./components/PresetsView/PresetsView"
 import { addActivityFormSchema } from "./config"
 import { defaultExercise, exerciseField } from "./constants"
-import {
-  getDataToSubmit,
-  getSubmitButtonText,
-  transformActivityTypesIntoOption,
-  transformEditedActivity,
-} from "./utils"
+import { getDataToSubmit, transformActivityTypesIntoOption, transformEditedActivity } from "./utils"
 
-export const AddActivityForm: React.FC<AddActivityFormProps> = ({
-  isPresetsVisible,
-  setIsPresetsVisible,
-}) => {
+export const AddActivityForm = () => {
   const [isCustomTitle, setIsCustomTitle] = useState(false)
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
+  const isActivityPresetsVisible = useAppSelector(
+    (state) => state.activityPresets.isActivityPresetsVisible
+  )
   const creatingActionStatus = useAppSelector((state) => state.activities.createActivityStatus)
   const editingActionStatus = useAppSelector((state) => state.activities.editActivityStatus)
   const activityTypes = useAppSelector((state) => state.activityTypes)
@@ -145,9 +143,9 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     []
   )
 
-  const onSubmit = (isPreset?: boolean) =>
+  const onSubmit = () =>
     handleSubmit(async (values) => {
-      const dataToSubmit = getDataToSubmit(values, isPreset)
+      const dataToSubmit = getDataToSubmit(values)
 
       const submitEdit = async () => {
         if (currentlyEditedActivity) {
@@ -155,7 +153,6 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
             editActivityAction({
               activityId: currentlyEditedActivity._id,
               dataToEdit: dataToSubmit,
-              theme,
             })
           )
         }
@@ -164,7 +161,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
       const submitCreate = async () =>
         await dispatch(createActivityAction({ data: dataToSubmit, theme }))
 
-      isEditing && currentlyEditedActivity ? submitEdit() : submitCreate()
+      isEditing ? submitEdit() : submitCreate()
     })
 
   const activityTypeLabel = watch("activityType.label")
@@ -203,6 +200,8 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
     }
   }, [currentlyEditedActivity, isEditing, reset])
 
+  useScrollLock({ autoLock: isActivityPresetsVisible, lockTarget: "#add-activity-modal" })
+
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={onSubmit()}>
@@ -210,13 +209,11 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           buttonType='button'
           type='button'
           variant='primary'
-          onClick={() => setIsPresetsVisible(true)}
+          onClick={() => dispatch(setIsActivityPresetsVisible(true))}
         >
           Add from preset
         </PresetsButton>
-        {isPresetsVisible && (
-          <PresetsView setIsPresetsVisible={setIsPresetsVisible} setSelectValue={setSelectValue} />
-        )}
+        {isActivityPresetsVisible && <PresetsView setSelectValue={setSelectValue} />}
         <FieldsWrapper>
           <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} />
           <StyledSelect
@@ -276,7 +273,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
                 exerciseIndex={exerciseIndex}
                 lastExerciseIndex={lastExerciseIndex}
                 onRemoveExercise={handleRemoveExercise}
-                activityTypeId={currentActivityType.value}
+                activityType={currentActivityType.value}
               />
             )
           })}
@@ -305,20 +302,11 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({
           <ExertionRating />
         </FieldsWrapper>
 
-        <SubmitButtonsWrapper justify='center'>
-          <SubmitButton
-            buttonType='button'
-            type='submit'
-            onClick={(e) => {
-              e.preventDefault()
-              onSubmit(currentlyEditedActivity?.isPreset ? false : true)()
-            }}
-            width={240}
-          >
-            {getSubmitButtonText("preset", isEditing, currentlyEditedActivity?.isPreset)}
-          </SubmitButton>
-          <SubmitButton buttonType='button' type='submit' width={120}>
-            {getSubmitButtonText("addEdit", isEditing)}
+        <SubmitButtonsWrapper justify='space-between'>
+          <Checkbox name='makePresetFrom' label='Make preset from' />
+
+          <SubmitButton buttonType='button' type='submit' width={160}>
+            {isEditing ? "Edit" : "Add"}
           </SubmitButton>
           {(creatingActionStatus === RequestStatuses.LOADING ||
             editingActionStatus === RequestStatuses.LOADING) && (

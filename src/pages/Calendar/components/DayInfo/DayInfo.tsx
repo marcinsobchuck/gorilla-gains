@@ -7,13 +7,11 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { editActivityAction } from "@features/activities/activitiesActions"
 import {
   resetActivitiesData,
+  setActiveActivity,
+  setIsActivityDetailsOpen,
   setIsAddEditModalOpen,
   setShouldFetchActivities,
 } from "@features/activities/activitiesSlice"
-import {
-  setActiveEvent,
-  setIsActiveEventOpen,
-} from "@features/calendarScheduler/calendarSchedulerSlice"
 import { ActivityEvent } from "@features/types/types"
 
 import {
@@ -32,7 +30,7 @@ export const DayInfo = () => {
 
   const date = useAppSelector((state) => state.calendarScheduler.selectedDate)
   const dayEvents = useAppSelector((state) => state.calendarScheduler.dayEvents)
-  const activeEvent = useAppSelector((state) => state.calendarScheduler.activeEvent)
+  const activeActivity = useAppSelector((state) => state.activities.activeActivity)
   const loadingStatus = useAppSelector((state) => state.activities.editActivityStatus)
   const currentProcessedActivityId = useAppSelector(
     (state) => state.activities.currentlyProcessedActivityId
@@ -43,15 +41,15 @@ export const DayInfo = () => {
   const dayNumber = format(date ? new Date(date) : new Date(), "d")
 
   const handleEventClick = (event: ActivityEvent) => {
-    if (event._id === activeEvent?._id) {
-      dispatch(setIsActiveEventOpen(false))
-      dispatch(setActiveEvent(undefined))
+    if (event._id === activeActivity?._id) {
+      dispatch(setIsActivityDetailsOpen(false))
+      dispatch(setActiveActivity({}))
 
       return
     }
 
-    dispatch(setIsActiveEventOpen(true))
-    dispatch(setActiveEvent(event._id))
+    dispatch(setIsActivityDetailsOpen(true))
+    dispatch(setActiveActivity({ activityId: event._id, activities: dayEvents }))
   }
 
   const handleAddActivityButtonClick = () => dispatch(setIsAddEditModalOpen(true))
@@ -83,7 +81,7 @@ export const DayInfo = () => {
               <ActivityEventCard
                 key={dayEvent._id}
                 activity={dayEvent}
-                isActive={activeEvent?._id === dayEvent._id}
+                isActive={activeActivity?._id === dayEvent._id}
                 isLoading={
                   loadingStatus === RequestStatuses.LOADING &&
                   currentProcessedActivityId === dayEvent._id

@@ -11,6 +11,10 @@ export const TextareaWrapper = styled.div`
   transition: all 0.3s;
   transition-delay: 0.1s;
 
+  &:hover {
+    border-color: ${({ theme }) => theme.secondaryActive};
+  }
+
   &:focus-within {
     border-color: ${({ theme }) => theme.secondary};
     box-shadow: 0px 0px 0px 4px ${({ theme }) => theme.secondaryOpacity};

@@ -13,7 +13,7 @@ export const ItemLabel = styled.div`
   margin-bottom: 3px;
   font-weight: 500;
 
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.primaryMedium};
 `
 
 export const ItemText = styled.p`

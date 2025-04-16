@@ -1,16 +1,16 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
 
 import { useAppDispatch } from "@app/hooks"
 import gorillaPhoto from "@assets/gorillaPhoto.jpg"
 import { Button } from "@components/Button/Button"
-import { IconName } from "@components/Icon/Icon.types"
 import { Popover } from "@components/Popover/Popover"
 import { Switch } from "@components/Switch/Switch"
-import { Routes } from "@enums/routes.enum"
+import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { logout } from "@features/auth/authSlice"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
 
-import { listItems } from "./config"
+import { listItems, settingsOptions } from "./config"
 import {
   MenuWrapper,
   SettingsOptions,
@@ -24,31 +24,38 @@ import {
 } from "./Menu.styled"
 import { MenuProps } from "./Menu.types"
 
-interface SettingOption {
-  icon: IconName
-  name: string
-  to: string
-}
-
-const settingsOptions: SettingOption[] = [
-  {
-    icon: "account",
-    name: "Account",
-    to: `${Routes.SETTINGS}#account-information-section`,
-  },
-  {
-    icon: "privacy",
-    name: "Privacy",
-    to: `${Routes.SETTINGS}#user-settings-section`,
-  },
-]
-
 export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch()
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
+  const onLocationChange = useCallback(() => {
+    dispatch(setIsActivityDetailsOpen(false))
+    dispatch(setActiveActivity({}))
+  }, [dispatch])
+
+  const handleListItemClick = () => {
+    setIsOpen(false)
+    onLocationChange()
+  }
+  const handleSettingsItemClick = () => {
+    setIsPopoverOpen(false)
+    onLocationChange()
+  }
+
+  const handleLogoutButtonClick = () => {
+    dispatch(logout())
+    setIsPopoverOpen(false)
+    onLocationChange()
+  }
+
   const decodedToken = useJwtDecoded()
+
+  const location = useLocation()
+
+  useEffect(() => {
+    onLocationChange()
+  }, [dispatch, onLocationChange, location.pathname])
 
   return (
     <MenuWrapper $isOpen={isOpen}>
@@ -58,7 +65,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             key={item.name}
             buttonType='navLink'
             to={item.path}
-            onClick={() => setIsOpen(false)}
+            onClick={handleListItemClick}
             icon={item.icon}
             variant='tertiary'
           >
@@ -96,7 +103,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                     buttonType='navLink'
                     variant='tertiary'
                     icon={option.icon}
-                    onClick={() => setIsPopoverOpen(false)}
+                    onClick={handleSettingsItemClick}
                   >
                     {option.name}
                   </Button>
@@ -111,10 +118,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                 buttonType='button'
                 variant='tertiary'
                 icon='logout'
-                onClick={() => {
-                  dispatch(logout())
-                  setIsPopoverOpen(false)
-                }}
+                onClick={handleLogoutButtonClick}
               >
                 Logout
               </Button>

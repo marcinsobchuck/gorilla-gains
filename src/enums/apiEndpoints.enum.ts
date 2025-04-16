@@ -10,7 +10,10 @@ export enum ApiEndpoints {
   ACTIVITIES_SUMMARY = "/users/summary/activities",
 
   USER_ACTIVITIES = "/activity/user",
+  ACTIVITY_PRESETS = "/presets",
   ACTIVITIES = "/activity",
   ACTIVITIY_TYPES = "/activity-types",
   EXERCISES = "/exercises",
+  TOGGLE_FAVOURITE_EXERCISE = "/exercises/user",
+  FAVOURITE_EXERCISES = "/exercises/user/favourite-exercises",
 }

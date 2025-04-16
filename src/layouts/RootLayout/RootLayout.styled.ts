@@ -6,15 +6,21 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
 export const Wrapper = styled.div`
-  height: 100vh;
+  @media ${Breakpoints.MEDIUM} {
+    height: 100vh;
+  }
 `
 
 export const Header = styled.header`
   position: sticky;
+  top: 0;
+  width: 100%;
   z-index: ${ZIndex.HEADER};
   display: flex;
   height: var(--header-height);
+  background-color: ${({ theme }) => theme.backgroundColorOpacity};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
+  backdrop-filter: blur(3px);
 `
 
 export const LeftSideWrapper = styled.div`
@@ -23,7 +29,6 @@ export const LeftSideWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.backgroundColor};
 
   @media ${Breakpoints.MEDIUM} {
     justify-content: flex-start;
@@ -45,22 +50,22 @@ export const RightSideWrapper = styled.div`
     justify-content: flex-end;
   }
 `
-export const FlexContainer = styled.div`
+export const MainContainer = styled.div`
   position: relative;
-
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 
-  height: calc(100vh - var(--header-height));
-
   @media ${Breakpoints.MEDIUM} {
     flex-direction: row;
+    height: calc(100vh - var(--header-height));
   }
 `
 
 export const Sidebar = styled.aside`
+  position: relative;
+  overflow: auto;
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  padding: 24px 14px;
 
   h1 {
     color: ${({ theme }) => theme.primary};
@@ -80,15 +85,36 @@ export const Sidebar = styled.aside`
   @media ${Breakpoints.LARGE} {
     width: var(--sidebar-width-l);
   }
+
+  &::-webkit-scrollbar {
+    width: 18px;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.navBackgroundColor};
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9px;
+    border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
+    background-clip: content-box;
+    background: ${({ theme }) => theme.secondary};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.secondaryActive};
+  }
 `
+
 export const MainContentWrapper = styled.main`
   overflow: hidden;
   position: relative;
   flex-grow: 1;
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   @media ${Breakpoints.MEDIUM} {
     flex-grow: 0;
     width: calc(100% - var(--sidebar-width-m) - var(--menu-width-m));
+  }
+  @media ${Breakpoints.LARGE} {
+    width: calc(100% - var(--sidebar-width-l) - var(--menu-width-l));
   }
 `
 

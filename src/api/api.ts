@@ -1,4 +1,7 @@
 import axios from "axios"
+import { NavigateFunction } from "react-router-dom"
+
+import { Routes } from "@enums/routes.enum"
 
 const baseURL = import.meta.env.VITE_BASE_URL
 
@@ -20,3 +23,18 @@ privateApiService.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 )
+
+export const setUpResponseInterceptor = (navigate: NavigateFunction) => {
+  privateApiService.interceptors.response.use(
+    (response) => {
+      return response
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        navigate(Routes.LOGIN)
+        return Promise.reject(error)
+      }
+      return Promise.reject(error)
+    }
+  )
+}

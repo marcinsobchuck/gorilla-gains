@@ -3,16 +3,16 @@ import { useFormContext } from "react-hook-form"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
-import { Activity } from "@api/types/activitiesService.types"
+import { ActivityPreset } from "@api/types/activityPresets.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { Heading } from "@components/Modal/Modal.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import {
-  editActivityAction,
-  getPresetsForCurrentUserAction,
-} from "@features/activities/activitiesActions"
-import { removePreset } from "@features/activities/activitiesSlice"
+  deleteActivityPresetAction,
+  getActivityPresetsAction,
+} from "@features/activityPresets/activityPresetsActions"
+import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice"
 
 import { PresetsActivitiesWrapper, StyledIcon, Wrapper } from "./PresetsView.styled"
 import { PresetsViewProps } from "./PresetsView.types"
@@ -20,24 +20,22 @@ import { transformResponseExercises } from "./utils"
 import { AddActivityFormTypes } from "../../AddActivityForm.types"
 import { ActivityCard } from "../ActivityCard/ActivityCard"
 
-export const PresetsView: React.FC<PresetsViewProps> = ({
-  setIsPresetsVisible,
-  setSelectValue,
-}) => {
+export const PresetsView: React.FC<PresetsViewProps> = ({ setSelectValue }) => {
   const dispatch = useAppDispatch()
-  const state = useAppSelector((state) => state.activities)
+  const activityPresets = useAppSelector((state) => state.activityPresets.activityPresets)
+  const status = useAppSelector((state) => state.activityPresets.status)
+
   const { reset } = useFormContext<AddActivityFormTypes>()
 
   const theme = useTheme()
 
   const handleRemovePreset = async (id: string) => {
-    await dispatch(editActivityAction({ activityId: id, dataToEdit: { isPreset: false }, theme }))
-    dispatch(removePreset(id))
+    await dispatch(deleteActivityPresetAction(id))
   }
 
   const getPopoverOptions = (id: string) => [
     {
-      label: "Delete from presets",
+      label: "Delete preset",
       action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
         handleRemovePreset(id)
@@ -45,29 +43,28 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
     },
   ]
 
-  const handleActivityCardClick = (activity: Activity) => {
-    const activityType = { label: activity.type.type, value: activity._id }
+  const handleActivityCardClick = (activityPreset: ActivityPreset) => {
+    const activityType = { label: activityPreset.type.type, value: activityPreset._id }
     setSelectValue(activityType)
     reset({
-      title: activity.title,
+      title: activityPreset.title,
       activityType: {
-        label: activity.type.type,
-        value: activity.type._id,
+        label: activityPreset.type.type,
+        value: activityPreset.type._id,
       },
-      exertionRating: activity.exertionRating,
-      notes: activity.notes,
-      warmup: activity.warmup,
-      repeatExercisesCount: activity.repeatExercisesCount,
-      exercises: transformResponseExercises(activity.exercises),
+      exertionRating: activityPreset.exertionRating,
+      notes: activityPreset.notes,
+      warmup: activityPreset.warmup,
+      repeatExercisesCount: activityPreset.repeatExercisesCount,
+      exercises: transformResponseExercises(activityPreset.exercises),
     })
-    setIsPresetsVisible(false)
+    dispatch(setIsActivityPresetsVisible(false))
   }
 
   useEffect(() => {
     const getPresets = async () => {
-      await dispatch(getPresetsForCurrentUserAction())
+      await dispatch(getActivityPresetsAction())
     }
-
     getPresets()
   }, [dispatch])
 
@@ -76,24 +73,24 @@ export const PresetsView: React.FC<PresetsViewProps> = ({
       <StyledIcon
         name='leftArrow'
         onClick={() => {
-          setIsPresetsVisible(false)
+          dispatch(setIsActivityPresetsVisible(false))
         }}
         color={theme.secondary}
       />
       <Heading>Add from preset</Heading>
-      {state.presetsData?.length === 0 && state.presetsStatus !== RequestStatuses.LOADING && (
+      {activityPresets.length === 0 && status !== RequestStatuses.LOADING && (
         <div>
-          Currently you have no activities saved as presets. Go back, create one and save as preset
-          to see it here.
+          Currently you have no activities saved as presets. You can create new activity and save it
+          as preset or mark existing one as preset.
         </div>
       )}
       <div>
         <SkeletonTheme>
-          {state.presetsStatus === RequestStatuses.LOADING ? (
+          {status === RequestStatuses.LOADING ? (
             <Skeleton style={{ marginTop: "24px" }} height={102} count={5} />
           ) : (
             <PresetsActivitiesWrapper>
-              {state.presetsData?.map((activity) => {
+              {activityPresets?.map((activity) => {
                 return (
                   <ActivityCard
                     key={activity._id}

@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form"
 
 import { Input } from "@components/Input/Input"
+import { InputAsync } from "@components/InputAsync/InputAsync"
 
 import { accountInformationInputsData } from "./config"
 
@@ -16,22 +17,23 @@ export const Credentials = () => {
   const isCurrentPasswordValidating = validatingFields["currentPassword"]
 
   return accountInformationInputsData.map((input) => {
-    const { id, label, type } = input
-    const isCurrentPassword = input.id === "currentPassword"
+    const { id, label, type, isAsync } = input
     const isPasswordInvalid =
       !!errors["currentPassword"] || !currentPassword || isCurrentPasswordValidating
 
     const isDisabled = isPasswordInvalid && currentPasswordDependantInputs.includes(input.id)
 
-    return (
-      <Input
-        key={id}
-        id={id}
-        label={label}
-        type={type}
-        isAsync={isCurrentPassword}
-        isDisabled={isDisabled}
-      />
+    const commonProps = {
+      id,
+      label,
+      type,
+      isDisabled,
+    }
+
+    return isAsync ? (
+      <InputAsync key={id} withIcon={!isCurrentPasswordValidating} {...commonProps} />
+    ) : (
+      <Input key={id} {...commonProps} />
     )
   })
 }

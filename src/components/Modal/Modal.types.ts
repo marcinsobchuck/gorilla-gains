@@ -1,7 +1,8 @@
 export interface ModalProps {
+  id?: string
   children: React.ReactNode
   onCloseButtonClick: () => void
   title: string
   isVisible: boolean
-  lockScroll?: boolean
+  scrollToTop?: boolean
 }

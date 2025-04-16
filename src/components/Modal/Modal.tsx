@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 
+import { useScrollLock } from "@hooks/useLockScroll"
 import { useOnClickOutside } from "@hooks/useOnClickOutside"
 
 import {
@@ -17,17 +18,19 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   onCloseButtonClick,
   isVisible,
-  lockScroll = false,
+  scrollToTop = false,
+  id,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useOnClickOutside(ref, onCloseButtonClick)
+  useScrollLock({ autoLock: isVisible })
 
   useEffect(() => {
-    if (ref.current && lockScroll) {
+    if (ref.current && scrollToTop) {
       ref.current.scrollTop = 0
     }
-  }, [lockScroll])
+  }, [scrollToTop])
 
   if (!isVisible) {
     return null
@@ -35,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <ModalOverlay>
-      <ModalWrapper ref={ref} $lockScroll={lockScroll}>
+      <ModalWrapper ref={ref} id={id}>
         <ModalHeader>
           <Heading>{title}</Heading>
           <CloseIcon name='close' width={32} height={32} onClick={onCloseButtonClick} />

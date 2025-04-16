@@ -6,17 +6,17 @@ import { format, isSameMonth, parseISO } from "date-fns"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { getActivitiesForCurrentUserAction } from "@features/activities/activitiesActions"
 import {
   resetActivitiesData,
   setActivitiesData,
   setHasMore,
+  setIsActivityDetailsOpen,
   setSelectedDate,
 } from "@features/activities/activitiesSlice"
 import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar/historyCalendarActions"
-import { getActivityEventColor } from "@features/utils/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import { CalendarWrapper, EventDot } from "./HistoryCalendar.styled"
 import { updateSelectedClass } from "./utils"
@@ -25,6 +25,7 @@ export const HistoryCalendar = () => {
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
+  const isActivityDetailsOpen = useAppSelector((state) => state.activities.isActivityDetailsOpen)
   const selectedDate = activities.selectedDate
   const limit = activities.limit
   const theme = useTheme()
@@ -34,6 +35,8 @@ export const HistoryCalendar = () => {
 
     dispatch(setSelectedDate(arg.dateStr))
     updateSelectedClass(arg.dateStr)
+
+    isActivityDetailsOpen && dispatch(setIsActivityDetailsOpen(false))
 
     const dayHasEvent = historyCalendar.events.some(
       (event) => format(parseISO(event.date), "yyyy/MM/dd") === format(dateClicked, "yyyy/MM/dd")
@@ -98,10 +101,9 @@ export const HistoryCalendar = () => {
         eventContent={(event) => {
           return (
             <EventDot
-              color={getActivityEventColor(
-                event.event.extendedProps.type.type as ActivityTypes,
-                theme
-              )}
+              color={
+                getDataForActivityType(event.event.extendedProps.type.type, theme).primaryColor
+              }
             />
           )
         }}

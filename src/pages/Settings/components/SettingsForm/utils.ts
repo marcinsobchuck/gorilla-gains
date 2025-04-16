@@ -33,7 +33,7 @@ export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormVal
     weight,
     activityLevel,
     desiredWeight,
-    dueDateWeight: parseISO(dueDateWeight),
+    ...(dueDateWeight && { dueDateWeight: parseISO(dueDateWeight) }),
     goals,
   }
 }

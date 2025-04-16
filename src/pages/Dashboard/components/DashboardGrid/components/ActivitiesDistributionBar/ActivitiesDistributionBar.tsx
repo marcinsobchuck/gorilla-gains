@@ -1,43 +1,25 @@
 import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import { DefaultTheme, useTheme } from "styled-components"
+import { useTheme } from "styled-components"
 
 import { useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { Popover } from "@components/Popover/Popover"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
-import { ActivityTypes } from "@enums/activityTypes.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import { getActivityEventColor } from "@features/utils/utils"
+import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
   ActivitiesDistributionWrapper,
   ActivityTypeBar,
   ActivityTypeText,
   BarWrapper,
+  HeadingText,
   HeadingWrapper,
 } from "./ActivitiesDistributionBar.styled"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { BarChartTooltipWrapper } from "../ActivitiesBarChart/ActivitiesBarChart.styled"
-
-const getSecondaryColor = ({
-  activityType,
-  theme,
-}: {
-  activityType: ActivityTypes
-  theme: DefaultTheme
-}) => {
-  switch (activityType) {
-    case ActivityTypes.BALANCE:
-      return theme.balanceEventColorSecondary
-    case ActivityTypes.STRENGTH:
-      return theme.strengthEventColorSecondary
-    case ActivityTypes.ENDURANCE:
-      return theme.enduranceEventColorSecondary
-    case ActivityTypes.FLEXIBILITY:
-      return theme.flexibilityEventColorSecondary
-  }
-}
 
 export const ActivitiesDistributionBar = () => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
@@ -49,28 +31,47 @@ export const ActivitiesDistributionBar = () => {
   )
   const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
 
-  if (chartDataStatus === RequestStatuses.LOADING || !chartData) {
+  if (chartDataStatus === RequestStatuses.FAILED) {
     return (
-      <SkeletonTheme>
-        <Skeleton height='100%' />
-      </SkeletonTheme>
+      <ActivitiesDistributionWrapper>
+        <BarWrapper justify='center' align='center'>
+          <NoDataMessage>Failed to load the data.</NoDataMessage>
+        </BarWrapper>
+      </ActivitiesDistributionWrapper>
     )
   }
 
-  if (!chartData || chartDataStatus === RequestStatuses.FAILED) {
-    return <div>Something wrong happened</div>
+  if (chartDataStatus === RequestStatuses.LOADING) {
+    return (
+      <ActivitiesDistributionWrapper>
+        <SkeletonTheme>
+          <Skeleton height='100%' containerClassName='skeletonWrapper' />
+        </SkeletonTheme>
+      </ActivitiesDistributionWrapper>
+    )
   }
 
-  const totalActivitiesDone = chartData.totalDone
+  const totalActivitiesDone = chartData?.totalDone
+
+  if (!totalActivitiesDone) {
+    return (
+      <ActivitiesDistributionWrapper>
+        <BarWrapper justify='center' align='center'>
+          <NoDataMessage>No activities done.</NoDataMessage>
+        </BarWrapper>
+      </ActivitiesDistributionWrapper>
+    )
+  }
+
   let currentPosition = 0
 
   return (
     <ActivitiesDistributionWrapper direction='column'>
       <HeadingWrapper justify='space-between'>
-        <p>Activities done % distribution</p>
-        <p>
+        <HeadingText>Activities done % distribution</HeadingText>
+        <HeadingText>
           Total done<span>{totalActivitiesDone}</span>
-        </p>
+        </HeadingText>
       </HeadingWrapper>
       <BarWrapper ref={setAnchor}>
         {chartData.distributionPerActivityType.map((activityType, index) => {
@@ -82,21 +83,21 @@ export const ActivitiesDistributionBar = () => {
               key={index}
               $width={width}
               $left={left}
-              $color={getActivityEventColor(activityType.name, theme)}
+              $color={getDataForActivityType(activityType.name, theme).primaryColor}
               justify='center'
               align='center'
               onMouseEnter={() => setIsTooltipOpen(true)}
               onMouseLeave={() => setIsTooltipOpen(false)}
             >
               <Icon
-                name={activityType.name}
-                color={getSecondaryColor({ activityType: activityType.name, theme })}
+                name={getDataForActivityType(activityType.name).iconName}
+                color={getDataForActivityType(activityType.name, theme).secondaryColor}
                 width={18}
                 height={18}
               />
               {width > 6 && (
                 <ActivityTypeText
-                  $secondaryColor={getSecondaryColor({ activityType: activityType.name, theme })}
+                  $secondaryColor={getDataForActivityType(activityType.name, theme).secondaryColor}
                 >
                   {width.toFixed()}%
                 </ActivityTypeText>
@@ -116,10 +117,14 @@ export const ActivitiesDistributionBar = () => {
           <BarChartTooltipWrapper direction='column' gap={6}>
             {chartData.distributionPerActivityType.map((activityType) => (
               <FlexContainer justify='space-between' key={activityType.name}>
-                <ActivityTypeText $secondaryColor={getActivityEventColor(activityType.name, theme)}>
+                <ActivityTypeText
+                  $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}
+                >
                   {activityType.name}
                 </ActivityTypeText>
-                <ActivityTypeText $secondaryColor={getActivityEventColor(activityType.name, theme)}>
+                <ActivityTypeText
+                  $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}
+                >
                   {activityType.value}
                 </ActivityTypeText>
               </FlexContainer>

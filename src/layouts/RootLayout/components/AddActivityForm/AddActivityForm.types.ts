@@ -9,11 +9,6 @@ export type ExerciseFields = InferType<typeof exerciseFieldsSchema>
 
 export type AddActivityFormTypes = InferType<typeof addActivityFormSchema>
 
-export interface AddActivityFormProps {
-  isPresetsVisible: boolean
-  setIsPresetsVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 export interface Exercise {
   sets: ExerciseSet[]
   exercise: ExerciseFields

@@ -4,10 +4,6 @@ import { Icon } from "@components/Icon/Icon"
 import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
-interface ModalWrapperProps {
-  $lockScroll: boolean
-}
-
 export const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -21,7 +17,7 @@ export const ModalOverlay = styled.div`
   background-color: ${({ theme }) => theme.modalOverlayBackgroundColo};
   backdrop-filter: blur(3px);
 `
-export const ModalWrapper = styled.div<ModalWrapperProps>`
+export const ModalWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -32,7 +28,7 @@ export const ModalWrapper = styled.div<ModalWrapperProps>`
   border-radius: 9px;
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
-  overflow: ${({ $lockScroll }) => ($lockScroll ? "hidden" : "auto")};
+  overflow: auto;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 
@@ -68,6 +64,7 @@ export const Heading = styled.h1`
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.primary};
+  margin-bottom: 12px;
 
   @media ${Breakpoints.SMALL} {
     font-size: 24px;

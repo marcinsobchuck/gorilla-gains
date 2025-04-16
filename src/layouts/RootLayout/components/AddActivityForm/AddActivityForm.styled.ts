@@ -51,12 +51,10 @@ export const SubmitButtonsWrapper = styled(FlexContainer)`
   position: relative;
   width: 100%;
   gap: 12px;
-  padding: 0 9px;
+  padding-top: 24px;
   margin-bottom: 24px;
 
-  @media ${Breakpoints.SMALL} {
-    align-self: center;
-  }
+  border-top: 1px solid ${({ theme }) => theme.primaryDisabled};
 `
 
 export const StyledLoader = styled(LoaderSpinner)`
@@ -72,7 +70,6 @@ export const StyledLoader = styled(LoaderSpinner)`
 `
 
 export const SubmitButton = styled(Button)`
-  flex-basis: 50%;
   font-size: 14px;
   padding: 9px 24px;
 

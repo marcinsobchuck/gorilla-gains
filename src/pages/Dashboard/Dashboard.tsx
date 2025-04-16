@@ -1,13 +1,14 @@
-import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
+import { MainContentWrapper } from "@layouts/RootLayout/RootLayout.styled"
 
 import { DashboardGrid } from "./components/DashboardGrid/DashboardGrid"
 import { UserInfo } from "./components/UserInfo/UserInfo"
+import { StyledSidebar } from "./Dashboard.styled"
 export const Dashboard = () => {
   return (
     <>
-      <Sidebar>
+      <StyledSidebar>
         <UserInfo />
-      </Sidebar>
+      </StyledSidebar>
       <MainContentWrapper>
         <DashboardGrid />
       </MainContentWrapper>

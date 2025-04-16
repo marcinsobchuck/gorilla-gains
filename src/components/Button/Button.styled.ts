@@ -62,12 +62,15 @@ const variants = {
     align-items: center;
     font-size: 14px;
     font-weight: 600;
-
     color: ${({ theme }) => theme.secondaryText};
     background-color: transparent;
 
     svg {
       margin-right: 12px;
+    }
+
+    &:hover {
+      text-decoration: underline;
     }
   `,
   tertiary: css`

@@ -5,3 +5,6 @@ export const getClassesString = (arr: string[]) => {
 export const addClassToElements = (elements: NodeListOf<Element>, className: string) => {
   elements.forEach((el) => el.classList.add(className))
 }
+export const removeClassFromElements = (elements: NodeListOf<Element>, className: string) => {
+  elements.forEach((el) => el.classList.remove(className))
+}

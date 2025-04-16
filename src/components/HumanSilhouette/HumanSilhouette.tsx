@@ -1,10 +1,10 @@
+import { useCallback, useEffect } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
-import { useAppSelector } from "@app/hooks"
 import humanFrontBack from "@assets/humanFrontBack.svg"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
-import { RequestStatuses } from "@enums/requestStatuses.enum"
 
 import {
   HumanModelSVG,
@@ -12,17 +12,36 @@ import {
   LegendItem,
   LegendText,
   LegendWrapper,
-  Title,
-  Wrapper,
+  SkeletonWrapper,
 } from "./HumanSilhouette.styled"
-import { addClassToElements, getClassesString } from "./utils"
+import { HumanSilhouetteProps } from "./HumanSilhouette.types"
+import { addClassToElements, getClassesString, removeClassFromElements } from "./utils"
 
-export const HumanSilhouette = () => {
+const Loader = () => {
+  return (
+    <SkeletonWrapper justify='center' align='center' direction='column' gap={12}>
+      <SkeletonTheme>
+        <Skeleton
+          height='100%'
+          width='50%'
+          count={2}
+          containerClassName='silhouetteSkeleton'
+          borderRadius={18}
+          inline
+        />
+      </SkeletonTheme>
+    </SkeletonWrapper>
+  )
+}
+
+export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
+  musclesHit,
+  withLegend = true,
+  className,
+}) => {
   const theme = useTheme()
-  const musclesHit = useAppSelector((state) => state.activitiesSummary.musclesHit)
-  const status = useAppSelector((state) => state.activitiesSummary.weeklyActivitiesDataStatus)
 
-  const handleSVGLoad = () => {
+  const updateClasses = useCallback(() => {
     if (musclesHit) {
       const primaryClassesString = getClassesString(musclesHit.primary)
       const secondaryClassesString = getClassesString(musclesHit.secondary)
@@ -37,18 +56,19 @@ export const HumanSilhouette = () => {
         addClassToElements(secondaryClasses, "active-secondary")
       }
     }
-  }
+  }, [musclesHit])
 
-  if (status === RequestStatuses.LOADING) {
-    return (
-      <SkeletonTheme>
-        <Skeleton height='100%' />
-      </SkeletonTheme>
-    )
-  }
+  useEffect(() => {
+    const activeElements = document.querySelectorAll(".active-primary, .active-secondary")
+    removeClassFromElements(activeElements, "active-primary")
+    removeClassFromElements(activeElements, "active-secondary")
+
+    updateClasses()
+  }, [musclesHit, updateClasses])
 
   const renderLegend = () => {
     if (
+      !withLegend ||
       !musclesHit ||
       !!Object.entries(musclesHit).filter((entry) => {
         return entry[1].length < 0
@@ -79,10 +99,9 @@ export const HumanSilhouette = () => {
   }
 
   return (
-    <Wrapper direction='column' justify='center'>
-      <Title>Muscles hit past 7 days</Title>
-      <HumanModelSVG src={humanFrontBack} onLoad={handleSVGLoad} />
+    <FlexContainer direction='column' justify='center' align='center' className={className}>
+      <HumanModelSVG src={humanFrontBack} onLoad={updateClasses} loader={<Loader />} />
       {renderLegend()}
-    </Wrapper>
+    </FlexContainer>
   )
 }

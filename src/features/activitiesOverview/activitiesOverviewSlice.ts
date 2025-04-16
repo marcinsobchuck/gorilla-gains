@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import uniqBy from "lodash.uniqby"
 
 import { ExerciseSet } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
@@ -19,6 +20,7 @@ const initialState: InitialState = {
     xAxis: "",
     yAxis: "",
   },
+  chartFilters: [],
 }
 
 export const activitiesOverviewSlice = createSlice({
@@ -65,11 +67,22 @@ export const activitiesOverviewSlice = createSlice({
       state.activities = action.payload
 
       if (action.payload.length > 0) {
-        state.activeFilterExercise = action.payload[0].exercises[0].exercise._id
+        const exercisesNames = action.payload.flatMap((activity) =>
+          activity.exercises.map((ex) => {
+            return { value: ex.exercise._id, labelText: ex.exercise.name }
+          })
+        )
+
+        const chartFilters = uniqBy(exercisesNames, (ex) => ex.value).sort((a, b) =>
+          a.labelText.localeCompare(b.labelText)
+        )
+
+        state.chartFilters = chartFilters
+        state.activeFilterExercise = chartFilters[0].value
         state.activeChartCombination = {
           xAxis: "date",
           yAxis: getAvailableChartOptions(
-            getAvailableChartMetrics(action.payload, action.payload[0].exercises[0].exercise._id)
+            getAvailableChartMetrics(action.payload, chartFilters[0].value)
           )[0].value as keyof ExerciseSet,
         }
       }

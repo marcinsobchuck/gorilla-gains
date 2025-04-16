@@ -22,9 +22,11 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
         borderRadius: "9px",
         transition: "0.3s",
         transitionDelay: ".1s",
+        cursor: "text",
 
         "&:hover": {
-          borderColor: state.menuIsOpen || state.isFocused ? `${theme.secondary}` : "transparent",
+          borderColor:
+            state.menuIsOpen || state.isFocused ? `${theme.secondary}` : `${theme.secondaryActive}`,
         },
         "div[class*='singleValue']": {
           color: state.menuIsOpen ? "transparent" : `${theme.primary}`,
@@ -65,6 +67,8 @@ export const selectStyles = <T>(theme: DefaultTheme) => {
     }),
     menuList: (baseStyles) => ({
       ...baseStyles,
+      maxHeight: "220px",
+
       "::-webkit-scrollbar": {
         width: "18px",
       },

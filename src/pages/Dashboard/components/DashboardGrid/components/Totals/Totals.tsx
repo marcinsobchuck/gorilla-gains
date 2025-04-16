@@ -6,9 +6,9 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-import { TotalsWrapper } from "./Totals.styled"
+import { StyledBasicCard, TotalsWrapper, Wrapper } from "./Totals.styled"
 import { getTotals } from "./utils"
-import { BasicCard } from "../BasicCard/BasicCard"
+import { NoDataMessage } from "../../DashboardGrid.styled"
 import { LabelText, ValueText } from "../BasicCard/BasicCard.styled"
 
 export const Totals = () => {
@@ -23,11 +23,15 @@ export const Totals = () => {
     ? differenceInDays(parseISO(dueDateWeight), new Date())
     : "-"
 
-  if (
-    userInfoStatus === RequestStatuses.LOADING ||
-    totalsStatus === RequestStatuses.LOADING ||
-    !totals
-  ) {
+  if (totalsStatus === RequestStatuses.FAILED) {
+    return (
+      <TotalsWrapper justify='center' align='center'>
+        <NoDataMessage>Failed to load the data.</NoDataMessage>
+      </TotalsWrapper>
+    )
+  }
+
+  if (userInfoStatus === RequestStatuses.LOADING || totalsStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
         <Skeleton height='100%' />
@@ -35,8 +39,16 @@ export const Totals = () => {
     )
   }
 
+  if (!totals) {
+    return (
+      <TotalsWrapper justify='center' align='center'>
+        <NoDataMessage>No activities done.</NoDataMessage>
+      </TotalsWrapper>
+    )
+  }
+
   return (
-    <FlexContainer justify='space-between' gap={12}>
+    <Wrapper justify='space-between' gap={12}>
       <TotalsWrapper direction='column' justify='space-between'>
         {getTotals(totals).map((total) => (
           <FlexContainer justify='space-between' align='center' key={total.label}>
@@ -45,7 +57,11 @@ export const Totals = () => {
         ))}
       </TotalsWrapper>
 
-      <BasicCard label='Weight goal days left' withTooltip={false} value={daysLeftWeightGoal} />
-    </FlexContainer>
+      <StyledBasicCard
+        label='Weight goal days left'
+        withTooltip={false}
+        value={daysLeftWeightGoal}
+      />
+    </Wrapper>
   )
 }

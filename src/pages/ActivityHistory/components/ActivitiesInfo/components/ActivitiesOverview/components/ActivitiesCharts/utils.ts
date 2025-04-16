@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { intervalToDuration } from "date-fns"
+import { ValueType } from "recharts/types/component/DefaultTooltipContent"
 
 import { Activity, ResponseExercise } from "@api/types/activitiesService.types"
 import { Option } from "@components/Select/Select.types"
@@ -36,7 +37,7 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
     case "load": {
       const totalLoad = data.reduce((sum, exercise) => {
         const exerciseLoad = exercise.sets.reduce((setSum, set) => {
-          return setSum + (set.load || 0)
+          return setSum + (set.load || 0) * (set.reps || 1)
         }, 0)
         return sum + exerciseLoad
       }, 0)
@@ -44,10 +45,10 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
     }
     case "reps": {
       const totalReps = data.reduce((sum, exercise) => {
-        const exerciseLoad = exercise.sets.reduce((setSum, set) => {
+        const exerciseReps = exercise.sets.reduce((setSum, set) => {
           return setSum + (set.reps || 0)
         }, 0)
-        return sum + exerciseLoad
+        return sum + exerciseReps
       }, 0)
       return totalReps
     }
@@ -72,10 +73,13 @@ export const transformActivitiesIntoChartData = (
         return null
       }
 
+      const shouldAddLoad = getYAxisValue(filteredExercises, "load") > 0 && yAxisKey !== "load"
+
       return {
+        [yAxisKey]: getYAxisValue(filteredExercises, yAxisKey),
         date: new Date(activity.date).getTime(),
-        value: getYAxisValue(filteredExercises, yAxisKey),
         activityId: activity._id,
+        ...(shouldAddLoad && { load: getYAxisValue(filteredExercises, "load") }),
       }
     })
     .filter((item) => item !== null)
@@ -97,7 +101,9 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
     })
   })
 
-  const availableMetrics = Array.from(keys).filter((key) => key !== "break")
+  const availableMetrics = Array.from(keys).filter(
+    (key) => key !== "break" && key !== "repeatCount"
+  )
 
   return availableMetrics
 }
@@ -112,7 +118,7 @@ export const getAvailableChartOptions = (keysArr: string[]): Option[] => {
   return options
 }
 
-export const getFormattedDuration = (value: any) => {
+export const getFormattedDuration = (value: number) => {
   const duration = intervalToDuration({
     start: 0,
     end: value * 1000,
@@ -148,22 +154,25 @@ export const YAxisTickFormatter = (value: any, yAxis: YAxis) => {
 }
 
 interface ChartDataItem {
-  date: number
-  value: number
   activityId: string
+  date: number
+  distance?: number
+  duration?: number
+  load?: number
+  reps?: number
 }
 
 export const getExerciseUnit = (data: (ChartDataItem | null)[], yAxis: YAxis) => {
   if (yAxis === "duration") {
-    const values = data.filter((item) => item !== null).map((item) => item!.value)
+    const values = data.filter((item) => item !== null).map((item) => item.duration as number)
     if (values.length === 0) {
       return
     }
+
     const highestValue = Math.max(...values)
 
     return getFormattedDuration(highestValue).unit
   }
-
   if (yAxis === "distance") {
     return "km"
   }
@@ -177,18 +186,24 @@ export const getExerciseUnit = (data: (ChartDataItem | null)[], yAxis: YAxis) =>
   }
 }
 
-export const getTooltipValue = (value: any, yAxis: YAxis) => {
-  if (yAxis === "duration") {
+export const getTooltipValue = (value: ValueType, yAxis: YAxis) => {
+  if (yAxis === "duration" && typeof value === "number") {
     const duration = intervalToDuration({
       start: 0,
       end: value * 1000,
     })
 
     return {
-      days: duration.days,
-      hours: duration.hours,
-      minutes: duration.minutes,
-      seconds: duration.seconds,
+      days: {
+        value: duration.days,
+        unit: "d",
+      },
+      hours: {
+        value: duration.hours,
+        unit: "h",
+      },
+      minutes: { value: duration.minutes, unit: "m" },
+      seconds: { value: duration.seconds, unit: "s" },
     }
   }
   return value

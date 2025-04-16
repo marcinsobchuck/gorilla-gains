@@ -1,4 +1,6 @@
-import { Activity, CreateActivityData, ExerciseSet } from "@api/types/activitiesService.types"
+import uniqBy from "lodash.uniqby"
+
+import { Activity, CreateActivityData } from "@api/types/activitiesService.types"
 import { ActivityType } from "@api/types/activityTypesService.types"
 import { Exercise } from "@api/types/exercisesService.types"
 import { AsyncOption } from "@components/SelectAsync/SelectAsync.types"
@@ -16,17 +18,36 @@ export const transformActivityTypesIntoOption = (data?: ActivityType[]): AsyncOp
   }))
 }
 
-export const transformExerciseIntoOption = (data?: Exercise[]): AsyncOption[] => {
+export const transformExerciseIntoOption = ({
+  activityTypeId,
+  data,
+  inputValue,
+}: {
+  activityTypeId: string
+  data: Exercise[]
+  inputValue?: string
+}): AsyncOption[] => {
   if (!data) {
     return []
   }
 
-  return data.map((item) => ({
-    value: item._id,
-    label: item.name,
-    isStatic: item.isStatic,
-    additionalInfo: item.additionalInfo,
-  }))
+  const filteredData = data.filter((ex) => {
+    return (
+      activityTypeId.includes(ex.activityType._id) &&
+      ex.name.toLowerCase().includes(inputValue?.trim().toLowerCase() || "")
+    )
+  })
+
+  return uniqBy(
+    filteredData.map((item) => ({
+      value: item._id,
+      label: item.name,
+      isStatic: item.isStatic,
+      additionalInfo: item.additionalInfo,
+      isFavourite: item.isFavourite,
+    })),
+    (option) => option.value
+  )
 }
 
 export const transformEditedActivity = (activity: Activity) => {
@@ -60,56 +81,21 @@ export const transformEditedActivity = (activity: Activity) => {
   return transformedActivity
 }
 
-export const getDataToSubmit = (values: AddActivityFormTypes, isPreset?: boolean) => {
-  const {
-    title,
-    activityType,
-    date,
-    notes,
-    repeatExercisesCount,
-    warmup,
-    exercises,
-    exertionRating,
-  } = values
+export const getDataToSubmit = (values: AddActivityFormTypes) => {
+  const { activityType, exercises, ...rest } = values
 
   const transformedExercises = exercises?.map((exercise) => {
-    if (!exercise.withBreaks) {
-      exercise.sets.forEach((set: ExerciseSet) => delete set.break)
-    }
-
     return {
       ...exercise,
       exercise: exercise.exercise.value,
     }
   })
+
   const dataToSubmit: CreateActivityData = {
-    title,
+    ...rest,
     type: activityType.value,
-    date,
-    notes,
-    exertionRating,
-    warmup,
-    repeatExercisesCount,
     exercises: transformedExercises,
-    isPreset,
   }
 
   return dataToSubmit
-}
-
-export const getSubmitButtonText = (
-  buttonAction: "preset" | "addEdit",
-  isEditing: boolean,
-  isPreset?: boolean
-) => {
-  switch (buttonAction) {
-    case "preset":
-      if (isEditing) {
-        return isPreset ? "Delete from presets" : "Mark as preset"
-      } else {
-        return "Add and save"
-      }
-    case "addEdit":
-      return isEditing ? "Edit" : "Add"
-  }
 }
