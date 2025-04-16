@@ -6,10 +6,9 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-import { TotalsWrapper } from "./Totals.styled"
+import { StyledBasicCard, TotalsWrapper, Wrapper } from "./Totals.styled"
 import { getTotals } from "./utils"
 import { NoDataMessage } from "../../DashboardGrid.styled"
-import { BasicCard } from "../BasicCard/BasicCard"
 import { LabelText, ValueText } from "../BasicCard/BasicCard.styled"
 
 export const Totals = () => {
@@ -49,7 +48,7 @@ export const Totals = () => {
   }
 
   return (
-    <FlexContainer justify='space-between' gap={12}>
+    <Wrapper justify='space-between' gap={12}>
       <TotalsWrapper direction='column' justify='space-between'>
         {getTotals(totals).map((total) => (
           <FlexContainer justify='space-between' align='center' key={total.label}>
@@ -58,7 +57,11 @@ export const Totals = () => {
         ))}
       </TotalsWrapper>
 
-      <BasicCard label='Weight goal days left' withTooltip={false} value={daysLeftWeightGoal} />
-    </FlexContainer>
+      <StyledBasicCard
+        label='Weight goal days left'
+        withTooltip={false}
+        value={daysLeftWeightGoal}
+      />
+    </Wrapper>
   )
 }

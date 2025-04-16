@@ -55,7 +55,7 @@ export const UserInfo = () => {
   }, [dispatch, userInfo.data])
 
   return (
-    <Wrapper direction='column' justify='space-between'>
+    <Wrapper direction='column'>
       {unresolvedActivities && (
         <ManageActivities
           isOpen={isManagedListOpen}
@@ -64,34 +64,32 @@ export const UserInfo = () => {
           onBack={() => setIsManagedListOpen(false)}
         />
       )}
-      <div>
-        <UserInfoSection>
-          <UserInfoTitle>Basic info</UserInfoTitle>
-          <UserInfoItems>
-            {userItems.map((item) => {
-              return (
-                <UserInfoItem
-                  key={item.label}
-                  label={item.label}
-                  value={
-                    typeof item.value === "string"
-                      ? capitalizeFirstLetter(item.value) || "-"
-                      : item.value || "-"
-                  }
-                />
-              )
-            })}
-          </UserInfoItems>
-        </UserInfoSection>
-        <UserInfoSection>
-          <UserInfoTitle>Current focus</UserInfoTitle>
-          <GoalsWrapper>
-            {goals?.map((goal) => {
-              return <GoalTile key={goal}>{capitalizeFirstLetter(goal)}</GoalTile>
-            })}
-          </GoalsWrapper>
-        </UserInfoSection>
-      </div>
+      <UserInfoSection>
+        <UserInfoTitle>Basic info</UserInfoTitle>
+        <UserInfoItems>
+          {userItems.map((item) => {
+            return (
+              <UserInfoItem
+                key={item.label}
+                label={item.label}
+                value={
+                  typeof item.value === "string"
+                    ? capitalizeFirstLetter(item.value) || "-"
+                    : item.value || "-"
+                }
+              />
+            )
+          })}
+        </UserInfoItems>
+      </UserInfoSection>
+      <UserInfoSection>
+        <UserInfoTitle>Current focus</UserInfoTitle>
+        <GoalsWrapper>
+          {goals?.map((goal) => {
+            return <GoalTile key={goal}>{capitalizeFirstLetter(goal)}</GoalTile>
+          })}
+        </GoalsWrapper>
+      </UserInfoSection>
       <UserInfoSection>
         <UserInfoTitle>Manage</UserInfoTitle>
 

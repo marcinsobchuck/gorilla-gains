@@ -12,11 +12,13 @@ export const Wrapper = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
+  padding: 38px 9px 9px;
 
   grid-gap: 14px;
-  padding: 14px;
 
-  @media ${Breakpoints.SMALL} {
+  @media ${Breakpoints.MEDIUM} {
+    padding: 14px;
+
     grid-template-columns: 40% 1fr;
     grid-template-rows: 50px 140px 160px 1fr;
   }

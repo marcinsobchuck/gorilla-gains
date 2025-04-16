@@ -64,7 +64,7 @@ export const ActivitiesBarChart = () => {
   return (
     <Wrapper direction='column' justify='flex-end'>
       <Title>Activities per month</Title>
-      <ResponsiveContainer height='90%'>
+      <ResponsiveContainer height='100%'>
         <BarChart data={chartData}>
           <CartesianGrid vertical={false} strokeWidth={0.1} />
           <XAxis dataKey='name' interval={0} fontSize={12} />
