@@ -4,22 +4,16 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 import { MainContentWrapper, Sidebar } from "@layouts/RootLayout/RootLayout.styled"
 
 export const StyledSidebar = styled(Sidebar)`
-  padding: 0;
-`
+  padding: 24px 12px;
 
-export const MobileExerciseDetailsContainer = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 100%;
+  @media ${Breakpoints.MEDIUM} {
+    padding: 24px;
+  }
 `
 
 export const StyledMainContentWrapper = styled(MainContentWrapper)`
-  display: none;
-
+  padding-bottom: 64px;
   @media ${Breakpoints.MEDIUM} {
-    display: block;
+    padding-bottom: 0;
   }
 `

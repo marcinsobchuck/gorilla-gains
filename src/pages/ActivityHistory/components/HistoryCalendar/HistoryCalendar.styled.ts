@@ -1,12 +1,21 @@
 import styled, { css } from "styled-components"
 
+import { Breakpoints } from "@enums/breakpoints.enum"
+
 interface CalendarWrapperProps {
   $isLoading: boolean
+  $shouldDisplay: boolean
 }
 
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   width: 100%;
   margin-top: 24px;
+
+  display: ${({ $shouldDisplay }) => ($shouldDisplay ? "block" : "none")};
+
+  @media ${Breakpoints.MEDIUM} {
+    display: block;
+  }
 
   .fc .fc-toolbar-title {
     font-size: 18px;

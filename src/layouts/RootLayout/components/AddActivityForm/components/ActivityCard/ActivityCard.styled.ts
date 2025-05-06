@@ -38,10 +38,15 @@ export const HeaderWrapper = styled(FlexContainer)`
   margin-bottom: 6px;
 `
 export const Heading = styled.h3`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 12px;
   font-size: 14px;
   font-weight: 600;
 `
 export const StyledInteractiveIcon = styled(Icon)`
+  min-width: 32px;
   cursor: pointer;
   padding: 6px;
   fill: ${({ theme }) => theme.primaryMedium};
@@ -69,7 +74,7 @@ export const PopoverOptions = styled.div`
   border-radius: 9px;
   overflow: hidden;
 `
-export const PopoverOption = styled.div`
+export const PopoverOption = styled(FlexContainer)`
   cursor: pointer;
   color: ${({ theme }) => theme.primary};
   font-size: 14px;

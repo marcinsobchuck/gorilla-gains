@@ -34,6 +34,7 @@ export type IconName =
   | "collection"
   | "search"
   | "star"
+  | "preset"
 
 export interface IconProps extends SVGProps<SVGElement> {
   name: IconName

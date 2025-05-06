@@ -31,6 +31,8 @@ export const LabelText = styled.p`
 `
 
 export const TooltipContainer = styled.div`
+  border-radius: 9px;
+
   padding: 16px;
   width: 300px;
   background-color: ${({ theme }) => theme.popoverBackgroundColor};

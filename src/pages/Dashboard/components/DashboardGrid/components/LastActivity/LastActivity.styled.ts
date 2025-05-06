@@ -25,6 +25,7 @@ export const LastActivityCard = styled(FlexContainer)<LastActivityCardProps>`
 `
 
 export const LastActivityWrapper = styled(FlexContainer)`
+  overflow: hidden;
   background-color: ${({ theme }) => theme.navBackgroundColor};
   border-radius: 9px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};

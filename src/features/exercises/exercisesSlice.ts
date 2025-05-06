@@ -61,7 +61,7 @@ export const exercisesSlice = createSlice({
     })
     builder.addCase(getExercisesAction.fulfilled, (state, action) => {
       state.searchExercisesDataStatus = RequestStatuses.SUCCESS
-      state.hasMore = action.payload.length > 0
+      state.hasMore = action.payload.length >= state.limit
       state.searchExercisesData = [...state.searchExercisesData, ...action.payload]
     })
     builder.addCase(getExercisesAction.rejected, (state, action) => {

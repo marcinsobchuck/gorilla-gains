@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 import { ActivityEventCard } from "@components/ActivityEventCard/ActivityEventCard"
+import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
@@ -40,11 +41,13 @@ export const Title = styled.h3`
 
 export const ManagedActivitiesList = styled.div`
   margin-top: 12px;
-  padding: 0 24px;
-  height: 90%;
+  padding: 12px 24px;
+  height: 80%;
   overflow: auto;
 
   @media ${Breakpoints.MEDIUM} {
+    height: auto;
+
     &::-webkit-scrollbar {
       width: 18px;
     }
@@ -69,4 +72,8 @@ export const StyledActivityEventCard = styled(ActivityEventCard)`
   &:hover {
     border: none;
   }
+`
+
+export const StyledButton = styled(Button)`
+  align-self: flex-start;
 `

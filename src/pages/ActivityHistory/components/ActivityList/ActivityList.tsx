@@ -1,5 +1,5 @@
 import { format, parseISO } from "date-fns"
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTheme } from "styled-components"
 
@@ -22,12 +22,14 @@ import {
 } from "@features/activities/activitiesSlice"
 import { createActivityPresetAction } from "@features/activityPresets/activityPresetsActions"
 import { ActivityCard } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard"
+import { PopoverOption } from "@layouts/RootLayout/components/AddActivityForm/components/ActivityCard/ActivityCard.types"
 
 import { LoadMore, NoActivitiesWrapper, Wrapper } from "./ActivityList.styled"
+import { ActivityListProps } from "./ActivityList.types"
 import { useActivitiesInfiniteScroll } from "./hooks/useActivitiesInfiniteScroll"
 import { getCreateActivityPresetData } from "./utils"
 
-export const ActivityList = () => {
+export const ActivityList: React.FC<ActivityListProps> = ({ activeTab }) => {
   const state = useAppSelector((state) => state.activities)
   const shouldFetchActivities = state.shouldFetchActivities
   const dispatch = useAppDispatch()
@@ -47,13 +49,18 @@ export const ActivityList = () => {
     dispatch(setCurrentlyEditedActivity(activity))
   }
 
-  const getPopoverOptions = (id: string, activity: Activity) => [
+  const getPopoverOptions = (id: string, activity: Activity): PopoverOption[] => [
     {
       label: "Delete activity",
       action: async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
-        await dispatch(deleteActivityAction(id))
+        if (confirm(`Are sure you want to delete this activity? ${activity.title}`) === false) {
+          return
+        } else {
+          await dispatch(deleteActivityAction(id))
+        }
       },
+      icon: "remove",
     },
     {
       label: "Edit activity",
@@ -61,6 +68,7 @@ export const ActivityList = () => {
         e.stopPropagation()
         handleEditActivity(activity)
       },
+      icon: "edit",
     },
     {
       label: "Make preset from",
@@ -68,6 +76,7 @@ export const ActivityList = () => {
         e.stopPropagation()
         await dispatch(createActivityPresetAction(getCreateActivityPresetData(activity)))
       },
+      icon: "preset",
     },
   ]
 
@@ -98,7 +107,7 @@ export const ActivityList = () => {
     !shouldFetchActivities
   ) {
     return (
-      <Wrapper>
+      <Wrapper $shouldDisplay={activeTab === "activityHistory"}>
         <NoActivitiesWrapper>
           <p>
             {state.selectedDate
@@ -122,7 +131,7 @@ export const ActivityList = () => {
   }
 
   return (
-    <Wrapper ref={ref}>
+    <Wrapper ref={ref} $shouldDisplay={activeTab === "activityHistory"}>
       {activities.map((activity) => (
         <ActivityCard
           key={activity._id}

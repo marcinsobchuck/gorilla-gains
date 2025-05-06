@@ -3,6 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/react"
 import { format, isSameMonth, parseISO } from "date-fns"
+import React from "react"
 import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
@@ -19,9 +20,10 @@ import { getHistoryEventsForCurrentMonthAction } from "@features/historyCalendar
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import { CalendarWrapper, EventDot } from "./HistoryCalendar.styled"
+import { HistoryCalendarProps } from "./HistoryCalendar.types"
 import { updateSelectedClass } from "./utils"
 
-export const HistoryCalendar = () => {
+export const HistoryCalendar: React.FC<HistoryCalendarProps> = ({ activeTab }) => {
   const dispatch = useAppDispatch()
   const historyCalendar = useAppSelector((state) => state.historyCalendar)
   const activities = useAppSelector((state) => state.activities)
@@ -90,7 +92,10 @@ export const HistoryCalendar = () => {
   }
 
   return (
-    <CalendarWrapper $isLoading={historyCalendar.eventsStatus === RequestStatuses.LOADING}>
+    <CalendarWrapper
+      $isLoading={historyCalendar.eventsStatus === RequestStatuses.LOADING}
+      $shouldDisplay={activeTab === "activityHistory"}
+    >
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         events={historyCalendar.events}

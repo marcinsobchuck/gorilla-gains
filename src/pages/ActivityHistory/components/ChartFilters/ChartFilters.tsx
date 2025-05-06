@@ -1,9 +1,12 @@
+import React from "react"
+
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { setActiveFilterExercise } from "@features/activitiesOverview/activitiesOverviewSlice"
 
 import { StyledRadioButtonGroup, Wrapper } from "./ChartFilters.styled"
+import { ChartFiltersProps } from "./ChartFilters.types"
 
-export const ChartFilters = () => {
+export const ChartFilters: React.FC<ChartFiltersProps> = ({ activeTab }) => {
   const dispatch = useAppDispatch()
   const activities = useAppSelector((state) => state.activitiesOverview.activities)
   const activeFilterExercise = useAppSelector(
@@ -17,7 +20,7 @@ export const ChartFilters = () => {
   }))
 
   return (
-    <Wrapper>
+    <Wrapper $shouldDisplay={activeTab === "insights"}>
       {activities.length > 0 && (
         <StyledRadioButtonGroup
           items={items2}
@@ -27,7 +30,12 @@ export const ChartFilters = () => {
           justify='flex-start'
           direction='column'
           gap={14}
-          onChange={(e) => dispatch(setActiveFilterExercise(e.currentTarget.value))}
+          onChange={(e) => {
+            const activitiesOveriewElement = document.getElementById("activities-overview")
+
+            activitiesOveriewElement?.scrollIntoView({ behavior: "smooth" })
+            dispatch(setActiveFilterExercise(e.currentTarget.value))
+          }}
         />
       )}
     </Wrapper>

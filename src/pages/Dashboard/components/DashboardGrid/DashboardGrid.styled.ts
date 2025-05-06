@@ -22,6 +22,12 @@ export const Wrapper = styled.div`
     grid-template-columns: 40% 1fr;
     grid-template-rows: 50px 140px 160px 1fr;
   }
+
+  @media ${Breakpoints.LARGE_XXL} {
+    padding: 24px;
+
+    grid-template-rows: 80px 220px 220px 1fr;
+  }
 `
 
 export const NoDataMessage = styled.p`

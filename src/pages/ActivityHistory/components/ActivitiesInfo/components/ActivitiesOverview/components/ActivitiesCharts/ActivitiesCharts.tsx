@@ -18,9 +18,11 @@ import { useTheme } from "styled-components"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { LoaderSpinner } from "@components/LoaderSpinner/LoaderSpinner"
+import { Breakpoints } from "@enums/breakpoints.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
+import { useMediaQuery } from "@hooks/useMediaQuery"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import { Wrapper } from "./ActivitiesChart.styled"
@@ -39,6 +41,7 @@ export const ActivitiesCharts = () => {
     (state) => state.activitiesOverview.activeChartCombination
   )
   const theme = useTheme()
+  const isMediumDevice = useMediaQuery(Breakpoints.MEDIUM)
 
   const data = transformActivitiesIntoChartData(
     activities,
@@ -88,8 +91,8 @@ export const ActivitiesCharts = () => {
 
   return (
     <Wrapper justify='center' align='center'>
-      <ResponsiveContainer width='100%' height='90%'>
-        <ComposedChart data={data} {...{ overflow: "visible" }}>
+      <ResponsiveContainer width='100%' height={!isMediumDevice ? 560 : "90%"}>
+        <ComposedChart data={data} {...{ overflow: "visible" }} height={320}>
           <defs>
             <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
               <stop offset='5%' stopColor={theme.secondary} stopOpacity={0.3} />
@@ -103,7 +106,7 @@ export const ActivitiesCharts = () => {
             height={50}
             tickMargin={9}
             interval='equidistantPreserveStart'
-            fontSize={14}
+            fontSize={isMediumDevice ? 14 : 12}
             tickLine={false}
             axisLine={false}
           >
@@ -121,6 +124,8 @@ export const ActivitiesCharts = () => {
             fontSize={14}
             tickLine={false}
             axisLine={false}
+            width={40}
+            dx={6}
             tickFormatter={(value) => YAxisTickFormatter(value, activeChartCombination.yAxis)}
           >
             <Label
@@ -133,17 +138,28 @@ export const ActivitiesCharts = () => {
               opacity={0.5}
             />
           </YAxis>
-          <YAxis yAxisId={2} orientation='right' fontSize={14} tickLine={false} axisLine={false}>
-            <Label
-              value='Load'
-              angle={-90}
-              dx={12}
+          {shouldDisplayLoadBar && (
+            <YAxis
+              yAxisId={2}
+              orientation='right'
               fontSize={14}
-              stroke={theme.primaryDisabled}
-              strokeWidth={0.3}
-              opacity={0.5}
-            />
-          </YAxis>
+              tickLine={false}
+              axisLine={false}
+              width={40}
+              dx={-6}
+            >
+              <Label
+                value='Load (kg)'
+                angle={-90}
+                fontSize={14}
+                stroke={theme.primaryDisabled}
+                strokeWidth={0.3}
+                opacity={0.5}
+                position='insideRight'
+              />
+            </YAxis>
+          )}
+
           <Tooltip content={CustomTooltip} />
           <Legend verticalAlign='top' height={32} iconSize={12} wrapperStyle={{ fontSize: 14 }} />
 
@@ -155,7 +171,6 @@ export const ActivitiesCharts = () => {
               stroke={theme.secondaryText}
               fill='transparent'
               height={12}
-              fillOpacity={0.1}
             />
           )}
 
