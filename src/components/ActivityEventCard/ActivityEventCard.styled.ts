@@ -27,6 +27,7 @@ export const StatusButton = styled(Button)`
   justify-content: center;
   align-items: center;
   border-radius: 0;
+  background-color: transparent;
 
   &:hover:not(:disabled):not(:active) {
     background-color: transparent;
@@ -77,6 +78,7 @@ export const Wrapper = styled(FlexContainer)<WrapperProps>`
   position: relative;
   padding-left: 24px;
   overflow: hidden;
+
   background: ${({ theme, $isActive, $buttonState }) =>
     $isActive ? theme.activeBackgroundColor : getWrapperBackgroundColor(theme, $buttonState)};
   border-radius: 9px;
@@ -102,17 +104,21 @@ export const Wrapper = styled(FlexContainer)<WrapperProps>`
   }
 `
 
+export const IconTextContainer = styled(FlexContainer)`
+  overflow: hidden;
+`
+
 export const ActivityName = styled.p`
   font-size: 14px;
   font-weight: 500;
   text-transform: capitalize;
+  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 `
 
 export const PlannedIdicator = styled(FlexContainer)`
-  width: 60px;
+  min-width: 60px;
   font-weight: 700;
   font-size: 20px;
   color: ${({ theme }) => theme.plannedColor};

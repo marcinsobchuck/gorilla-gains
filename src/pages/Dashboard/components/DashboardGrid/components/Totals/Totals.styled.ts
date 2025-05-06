@@ -24,6 +24,10 @@ export const TotalsWrapper = styled(FlexContainer)`
   @media ${Breakpoints.MEDIUM} {
     gap: 0;
   }
+
+  @media ${Breakpoints.LARGE_XXL} {
+    justify-content: space-around;
+  }
 `
 
 export const StyledBasicCard = styled(BasicCard)`

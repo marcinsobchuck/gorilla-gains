@@ -2,18 +2,12 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { HumanSilhouette } from "@components/HumanSilhouette/HumanSilhouette"
-import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled(FlexContainer)`
   padding: 14px;
   background-color: ${({ theme }) => theme.navBackgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
   border-radius: 9px;
-  height: 420px;
-
-  @media ${Breakpoints.MEDIUM} {
-    height: auto;
-  }
 `
 
 export const StyledHumanSilhouette = styled(HumanSilhouette)`

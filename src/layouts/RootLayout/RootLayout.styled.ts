@@ -6,6 +6,8 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
 export const Wrapper = styled.div`
+  min-height: 100vh;
+
   @media ${Breakpoints.MEDIUM} {
     height: 100vh;
   }

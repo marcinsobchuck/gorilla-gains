@@ -9,6 +9,7 @@ import { Switch } from "@components/Switch/Switch"
 import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { logout } from "@features/auth/authSlice"
 import { useJwtDecoded } from "@hooks/useJwtDecoded"
+import { useScrollLock } from "@hooks/useLockScroll"
 
 import { listItems, settingsOptions } from "./config"
 import {
@@ -53,6 +54,8 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
 
   const location = useLocation()
 
+  useScrollLock({ autoLock: isOpen })
+
   useEffect(() => {
     onLocationChange()
   }, [dispatch, onLocationChange, location.pathname])
@@ -95,7 +98,7 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             placement='right-end'
           >
             <SettingsWrapper direction='column' justify='space-between'>
-              <SettingsOptions direction='column'>
+              <SettingsOptions direction='column' gap={9}>
                 {settingsOptions.map((option) => (
                   <Button
                     key={option.name}

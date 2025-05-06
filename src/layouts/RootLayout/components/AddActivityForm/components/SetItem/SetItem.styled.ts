@@ -90,6 +90,7 @@ export const StyledCounter = styled(Counter)`
     button {
       padding: 0;
       height: 28px;
+      background-color: transparent;
     }
 
     input {

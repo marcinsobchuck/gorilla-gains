@@ -67,7 +67,7 @@ export const ActivitiesBarChart = () => {
       <ResponsiveContainer height='100%'>
         <BarChart data={chartData}>
           <CartesianGrid vertical={false} strokeWidth={0.1} />
-          <XAxis dataKey='name' interval={0} fontSize={12} />
+          <XAxis dataKey='name' interval={0} fontSize={11} />
           <YAxis axisLine={false} tickLine={false} fontSize={12} width={30} />
           <Tooltip
             cursor={{

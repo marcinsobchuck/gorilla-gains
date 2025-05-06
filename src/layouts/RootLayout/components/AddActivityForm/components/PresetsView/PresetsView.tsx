@@ -19,6 +19,7 @@ import { PresetsViewProps } from "./PresetsView.types"
 import { transformResponseExercises } from "./utils"
 import { AddActivityFormTypes } from "../../AddActivityForm.types"
 import { ActivityCard } from "../ActivityCard/ActivityCard"
+import { PopoverOption } from "../ActivityCard/ActivityCard.types"
 
 export const PresetsView: React.FC<PresetsViewProps> = ({ setSelectValue }) => {
   const dispatch = useAppDispatch()
@@ -33,13 +34,14 @@ export const PresetsView: React.FC<PresetsViewProps> = ({ setSelectValue }) => {
     await dispatch(deleteActivityPresetAction(id))
   }
 
-  const getPopoverOptions = (id: string) => [
+  const getPopoverOptions = (id: string): PopoverOption[] => [
     {
       label: "Delete preset",
       action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
         handleRemovePreset(id)
       },
+      icon: "remove",
     },
   ]
 

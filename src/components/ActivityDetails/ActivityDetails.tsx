@@ -4,6 +4,8 @@ import { useTheme } from "styled-components"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
+import { Breakpoints } from "@enums/breakpoints.enum"
+import { useMediaQuery } from "@hooks/useMediaQuery"
 
 import {
   DescriptionText,
@@ -21,6 +23,8 @@ import { getDurationString, getExerciseMetrics } from "./utils"
 export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetails }) => {
   const theme = useTheme()
 
+  const isMedium = useMediaQuery(Breakpoints.MEDIUM)
+
   return (
     <>
       <HeadingContainer align='center'>
@@ -28,22 +32,28 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activityDetail
           activityType={activityDetails.type.type}
           title={activityDetails.title}
           subtitle={format(parseISO(activityDetails.date), "LLLL d, y")}
-          iconSize={32}
+          iconSize={isMedium ? 32 : 26}
           titleSize={20}
+          iconPadding={isMedium ? 16 : 14}
         />
-        {activityDetails.exertionRating && (
-          <ExertionRatingContainer direction='column'>
-            <FlexContainer justify='center'>
-              {Array.from({ length: activityDetails.exertionRating }).map((_, index) => (
-                <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
-              ))}
-            </FlexContainer>
-            <DescriptionText>perceived exertion</DescriptionText>
-          </ExertionRatingContainer>
-        )}
       </HeadingContainer>
       {activityDetails.notes && <Notes>{activityDetails.notes}</Notes>}
-      <ExercisesSectionHeading>Exercises</ExercisesSectionHeading>
+
+      <FlexContainer>
+        <ExercisesSectionHeading justify='space-between' align='flex-end'>
+          <p>Exercises</p>
+          {activityDetails.exertionRating && (
+            <ExertionRatingContainer direction='column'>
+              <FlexContainer justify='center'>
+                {Array.from({ length: activityDetails.exertionRating }).map((_, index) => (
+                  <Icon key={index} name='fire' color={theme.secondary} width={22} height={22} />
+                ))}
+              </FlexContainer>
+              <DescriptionText>perceived exertion</DescriptionText>
+            </ExertionRatingContainer>
+          )}
+        </ExercisesSectionHeading>
+      </FlexContainer>
       <ExercisesContainer>
         {activityDetails.exercises.map((exercise, index) => {
           const exerciseMetrics = getExerciseMetrics(exercise)

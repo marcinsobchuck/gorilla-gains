@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import Skeleton from "react-loading-skeleton"
 
 import { useAppDispatch, useAppSelector } from "@app/hooks"
+import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import {
@@ -75,18 +76,21 @@ export const FiltersBar = () => {
   }
 
   return (
-    <Wrapper>
-      {activityTypes?.map((tab) => (
-        <FilterTab
-          key={tab._id}
-          justify='center'
-          align='center'
-          onClick={() => handleTabClick(tab._id)}
-          $isActive={activeTab === tab._id}
-        >
-          <p>{capitalizeFirstLetter(tab.type)}</p>
-        </FilterTab>
-      ))}
+    <Wrapper direction='column'>
+      <FlexContainer>
+        {activityTypes?.map((tab) => (
+          <FilterTab
+            key={tab._id}
+            justify='center'
+            align='center'
+            onClick={() => handleTabClick(tab._id)}
+            $isActive={activeTab === tab._id}
+          >
+            <p>{capitalizeFirstLetter(tab.type)}</p>
+          </FilterTab>
+        ))}
+      </FlexContainer>
+
       {activities.length > 0 && (
         <StyledSelect
           name='availableCharts'

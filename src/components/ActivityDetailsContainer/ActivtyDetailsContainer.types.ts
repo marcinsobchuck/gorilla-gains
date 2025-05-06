@@ -4,6 +4,7 @@ export interface ActivityDetailsContainerProps {
   onClose: () => void
   onEdit: () => void
   onRemove: () => void
+  onPresetCreation: () => void
   activeActivityEvent?: ActivityEvent
   isOpen: boolean
 }

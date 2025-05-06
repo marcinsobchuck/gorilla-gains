@@ -5,7 +5,7 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 import { ZIndex } from "@enums/zIndex.enum"
 
 export const ModalOverlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -18,14 +18,15 @@ export const ModalOverlay = styled.div`
   backdrop-filter: blur(3px);
 `
 export const ModalWrapper = styled.div`
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
+  top: 0;
+  right: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 12px;
 
-  border-radius: 9px;
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
   overflow: auto;
@@ -36,13 +37,12 @@ export const ModalWrapper = styled.div`
     display: none; /* Safari and Chrome */
   }
 
-  @media ${Breakpoints.SMALL} {
+  @media ${Breakpoints.MEDIUM} {
+    position: relative;
+    border-radius: 9px;
+
     padding: 24px;
     height: 94vh;
-    width: 640px;
-  }
-
-  @media ${Breakpoints.MEDIUM} {
     width: 720px;
   }
 `

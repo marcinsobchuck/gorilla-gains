@@ -4,7 +4,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const HeadingContainer = styled(FlexContainer)`
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 `
 
 export const ExertionRatingContainer = styled(FlexContainer)`
@@ -30,14 +30,19 @@ export const Notes = styled.p`
   font-size: 14px;
   margin-top: 16px;
   margin-bottom: 32px;
+  padding: 12px;
+  border-radius: 9px;
+  background-color: ${({ theme }) => theme.backgroundColor};
 `
 
-export const ExercisesSectionHeading = styled.h2`
+export const ExercisesSectionHeading = styled(FlexContainer)`
+  width: 100%;
+  padding-bottom: 6px;
   font-size: 22px;
   font-weight: 500;
   color: ${({ theme }) => theme.primaryMedium};
-  padding-bottom: 12px;
   margin-bottom: 24px;
+
   border-bottom: 1px solid ${({ theme }) => theme.primaryDisabled};
 `
 
@@ -60,7 +65,7 @@ export const SetsTable = styled.table`
   background: ${({ theme }) => theme.backgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
   border-radius: 9px;
-  border-spacing: 16px;
+  border-spacing: 12px;
   table-layout: fixed;
   width: 100%;
 
@@ -90,5 +95,9 @@ export const SetsTable = styled.table`
   tbody tr td:first-child {
     width: 10%;
     word-break: break-all;
+  }
+
+  @media ${Breakpoints.MEDIUM} {
+    border-spacing: 16px;
   }
 `
