@@ -2,13 +2,13 @@ import { parseISO } from "date-fns"
 import { useState } from "react"
 import { useTheme } from "styled-components"
 
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
 import {
   ActivityName,
   ButtonsWrapper,
+  IconTextContainer,
   PlannedIdicator,
   StackedCard,
   StatusButton,
@@ -111,13 +111,13 @@ export const ActivityEventCard: React.FC<ActivityEventCardProps> = ({
         Array.from({ length: 2 })
           .fill(1)
           .map((_, i) => <StackedCard key={i} />)}
-      <FlexContainer gap={18}>
+      <IconTextContainer gap={18}>
         <Icon
           name={getDataForActivityType(activity.type.type).iconName}
           color={getDataForActivityType(activity.type.type, theme).primaryColor}
         />
         <ActivityName>{activity.title}</ActivityName>
-      </FlexContainer>
+      </IconTextContainer>
 
       {renderStatusChangeButton()}
     </Wrapper>

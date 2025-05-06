@@ -1,11 +1,10 @@
 import React from "react"
 import { useTheme } from "styled-components"
 
-import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
-import { IconWrapper, Subtitle, Title } from "./ActivityTypeBadge.styled"
+import { IconWrapper, Subtitle, Title, TitleWrapper, Wrapper } from "./ActivityTypeBadge.styled"
 import { ActivityTypeBadgeProps } from "./ActivityTypeBadge.types"
 
 export const ActivityTypeBadge: React.FC<ActivityTypeBadgeProps> = ({
@@ -19,7 +18,7 @@ export const ActivityTypeBadge: React.FC<ActivityTypeBadgeProps> = ({
 }) => {
   const theme = useTheme()
   return (
-    <FlexContainer align='center' gap={gap}>
+    <Wrapper align='center' gap={gap}>
       <IconWrapper
         justify='center'
         align='center'
@@ -34,11 +33,11 @@ export const ActivityTypeBadge: React.FC<ActivityTypeBadgeProps> = ({
         />
       </IconWrapper>
       {title && (
-        <div>
+        <TitleWrapper>
           <Title $titleSize={titleSize}>{title}</Title>
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
-        </div>
+        </TitleWrapper>
       )}
-    </FlexContainer>
+    </Wrapper>
   )
 }

@@ -2,9 +2,19 @@
 import { intervalToDuration } from "date-fns"
 import { ValueType } from "recharts/types/component/DefaultTooltipContent"
 
-import { Activity, ResponseExercise } from "@api/types/activitiesService.types"
+import { Activity, ExerciseSet, ResponseExercise } from "@api/types/activitiesService.types"
 import { Option } from "@components/Select/Select.types"
 import { YAxis } from "@features/activitiesOverview/activitiesOverview.types"
+
+const calculate1RM = (set: ExerciseSet) => {
+  if (!set.load || !set.reps) {
+    return 0
+  }
+
+  const oneRepMax = set.load * (1 + set.reps / 30)
+
+  return oneRepMax
+}
 
 const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
   switch (key) {
@@ -52,6 +62,18 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
       }, 0)
       return totalReps
     }
+    case "1RM": {
+      const oneRepExercisesMaxes = data.flatMap((exercise) => {
+        const oneRepSetsMaxes = exercise.sets.map((set) => {
+          return calculate1RM(set)
+        })
+        return Math.max(...oneRepSetsMaxes)
+      })
+
+      const oneRepMax = Math.max(...oneRepExercisesMaxes)
+
+      return oneRepMax
+    }
     default: {
       return 0
     }
@@ -73,7 +95,8 @@ export const transformActivitiesIntoChartData = (
         return null
       }
 
-      const shouldAddLoad = getYAxisValue(filteredExercises, "load") > 0 && yAxisKey !== "load"
+      const shouldAddLoad =
+        getYAxisValue(filteredExercises, "load") > 0 && yAxisKey !== "load" && yAxisKey !== "1RM"
 
       return {
         [yAxisKey]: getYAxisValue(filteredExercises, yAxisKey),
@@ -104,6 +127,10 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
   const availableMetrics = Array.from(keys).filter(
     (key) => key !== "break" && key !== "repeatCount"
   )
+
+  if (availableMetrics.includes("load")) {
+    return [...availableMetrics, "1RM"]
+  }
 
   return availableMetrics
 }
@@ -177,7 +204,7 @@ export const getExerciseUnit = (data: (ChartDataItem | null)[], yAxis: YAxis) =>
     return "km"
   }
 
-  if (yAxis === "load") {
+  if (yAxis === "load" || yAxis === "1RM") {
     return "kg"
   }
 

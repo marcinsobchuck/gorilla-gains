@@ -12,6 +12,7 @@ export const lightTheme = {
   notDoneGradient: "linear-gradient(to right, #ffffff,rgb(253, 219, 219))",
   plannedBackgroundGradient: "linear-gradient(to right, #ffffff, #fcf5eb)",
   plannedColor: "#fda63a",
+  mobileNav: "#ffffff",
 
   activeBackgroundColor: "#F5FCF3",
 
@@ -71,7 +72,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   backgroundColor: "#121212",
-  backgroundColorOpacity: "#121212D9",
+  backgroundColorOpacity: "#121212E6",
   inputBackgroundColor: "#252730",
   nestedInputBackgroundColor: "#2D303C",
   selectBackgroundColor: "#2a2a2a",
@@ -83,6 +84,7 @@ export const darkTheme = {
   notDoneGradient: "linear-gradient(to right, #000000, #170606)",
   plannedBackgroundGradient: "linear-gradient(to right, #000000,rgb(54, 35, 12))",
   plannedColor: "#fda63a",
+  mobileNav: "#000000",
 
   activeBackgroundColor: "#061602",
 

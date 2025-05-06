@@ -22,6 +22,7 @@ import logout from "@assets/logout.svg"
 import menu from "@assets/menu.svg"
 import minus from "@assets/minus.svg"
 import moon from "@assets/moon.svg"
+import preset from "@assets/preset.svg"
 import privacy from "@assets/privacy.svg"
 import remove from "@assets/remove.svg"
 import search from "@assets/search.svg"
@@ -85,6 +86,7 @@ export const Icon: React.FC<IconProps> = ({
     collection: <StyledIcon src={collection} {...SVGProps} />,
     search: <StyledIcon src={search} {...SVGProps} />,
     star: <StyledIcon src={star} {...SVGProps} />,
+    preset: <StyledIcon src={preset} {...SVGProps} />,
   }
 
   return icons[name]

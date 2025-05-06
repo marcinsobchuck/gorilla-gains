@@ -1,13 +1,19 @@
 import React from "react"
 import styled from "styled-components"
 
+import { Breakpoints } from "@enums/breakpoints.enum"
+
 const StyledIframe = styled.iframe`
   aspect-ratio: 16 / 9;
   height: 320px;
-  width: 60%;
+  width: 100%;
   max-width: 500px;
   border-radius: 9px;
   border: none;
+
+  @media ${Breakpoints.MEDIUM} {
+    width: 60%;
+  }
 `
 
 interface YoutubeVideoEmbedProps {

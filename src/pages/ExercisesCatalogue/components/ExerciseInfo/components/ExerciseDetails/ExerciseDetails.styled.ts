@@ -3,33 +3,55 @@ import styled from "styled-components"
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { HumanSilhouette } from "@components/HumanSilhouette/HumanSilhouette"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const InfoItemWrapper = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.navBackgroundColor};
-  border-radius: 9px;
   overflow: auto;
   box-shadow: ${({ theme }) => theme.boxShadow};
 
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+
   &::-webkit-scrollbar {
-    width: 18px;
+    display: none; /* Safari and Chrome */
   }
-  &::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.navBackgroundColor};
-  }
-  &::-webkit-scrollbar-thumb {
+
+  @media ${Breakpoints.MEDIUM} {
     border-radius: 9px;
-    border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
-    background-clip: content-box;
-    background: ${({ theme }) => theme.secondary};
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.secondaryActive};
+
+    &::-webkit-scrollbar {
+      width: 18px;
+    }
+    &::-webkit-scrollbar-track {
+      background: ${({ theme }) => theme.navBackgroundColor};
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 9px;
+      border: ${({ theme }) => `6px solid ${theme.backgroundColor}`};
+      background-clip: content-box;
+      background: ${({ theme }) => theme.secondary};
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: ${({ theme }) => theme.secondaryActive};
+    }
   }
 `
 
 export const HeadingWrapper = styled(FlexContainer)`
   padding: 9px 24px 24px 24px;
+
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media ${Breakpoints.SMALL} {
+    flex-direction: row;
+  }
+`
+
+export const FavouritesButtonWrapper = styled(FlexContainer)`
+  align-self: flex-end;
 `
 
 export const BackButton = styled(Button)`

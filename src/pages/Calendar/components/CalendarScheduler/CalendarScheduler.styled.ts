@@ -1,13 +1,19 @@
 import styled, { css } from "styled-components"
 
+import { Breakpoints } from "@enums/breakpoints.enum"
+
 interface CalendarWrapperProps {
   $isLoading: boolean
 }
 
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
-  padding: 24px;
+  padding: 24px 12px;
   height: 100%;
   width: 100%;
+
+  @media ${Breakpoints.MEDIUM} {
+    padding: 24px;
+  }
 
   .fc .fc-toolbar.fc-header-toolbar {
     padding-right: 12px;
@@ -105,7 +111,12 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   }
 
   .fc .fc-col-header-cell-cushion {
+    font-size: 12px;
     color: ${({ theme }) => theme.primaryDisabled};
+
+    @media ${Breakpoints.MEDIUM} {
+      font-size: 14px;
+    }
   }
 
   .fc .fc-daygrid-body {
@@ -169,8 +180,14 @@ export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     background-color: transparent;
     color: ${({ theme }) => theme.primary};
     font-weight: 600;
+    font-size: 14px;
+
     transition: background-color 0.3s;
     margin-bottom: 6px;
+
+    @media ${Breakpoints.MEDIUM} {
+      font-size: 16px;
+    }
   }
 
   .fc-day-selected .fc-daygrid-day-number {

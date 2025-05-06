@@ -1,5 +1,5 @@
 export enum ZIndex {
-  MODAL = 11,
-  HEADER = 10,
-  MENU = 9,
+  MODAL = 21,
+  HEADER = 13,
+  MENU = 20,
 }

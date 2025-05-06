@@ -3,14 +3,15 @@ import { useTheme } from "styled-components"
 
 import { Activity } from "@api/types/activitiesService.types"
 import { useAppDispatch, useAppSelector } from "@app/hooks"
-import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { editActivityAction } from "@features/activities/activitiesActions"
+import { useScrollLock } from "@hooks/useLockScroll"
 
 import {
   HeaderWrapper,
   ManagedActivitiesList,
   StyledActivityEventCard,
+  StyledButton,
   Title,
   Wrapper,
 } from "./ManageActivities.styled"
@@ -35,6 +36,8 @@ export const ManageActivities: React.FC<ManageActivitiesProps> = ({
     )
   }
 
+  useScrollLock({ autoLock: isOpen })
+
   useEffect(() => {
     if (activities.length === 0) {
       onBack()
@@ -44,7 +47,14 @@ export const ManageActivities: React.FC<ManageActivitiesProps> = ({
   return (
     <Wrapper $isOpen={isOpen}>
       <HeaderWrapper direction='column'>
-        <Icon name='leftArrow' onClick={onBack} color={theme.secondary} isInteractive />
+        <StyledButton
+          variant='tertiary'
+          buttonType='button'
+          icon='leftArrow'
+          onClick={onBack}
+          iconColor={theme.secondary}
+        />
+
         <Title>{title}</Title>
       </HeaderWrapper>
 

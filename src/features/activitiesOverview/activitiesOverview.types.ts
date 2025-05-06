@@ -1,7 +1,7 @@
 import { Activity, ExerciseSet } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-export type YAxis = keyof ExerciseSet | ""
+export type YAxis = keyof ExerciseSet | "1RM" | ""
 
 interface ChartCombination {
   xAxis: string

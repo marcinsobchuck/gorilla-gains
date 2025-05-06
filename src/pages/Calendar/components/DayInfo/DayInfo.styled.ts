@@ -2,16 +2,22 @@ import styled from "styled-components"
 
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled.div`
   background: ${({ theme }) => theme.secondaryOpacity};
   height: 100%;
-  border-radius: 12px;
+  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 18px;
   padding: 24px;
   padding-top: 36px;
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
 
   overflow: auto;
+
+  @media ${Breakpoints.MEDIUM} {
+    border-radius: 12px;
+  }
 
   &::-webkit-scrollbar {
     width: 18px;

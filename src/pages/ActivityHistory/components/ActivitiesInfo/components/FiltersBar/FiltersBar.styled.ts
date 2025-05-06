@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Select } from "@components/Select/Select"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
 interface FilterTabProps {
   $isActive: boolean
@@ -10,17 +11,22 @@ interface FilterTabProps {
 export const Wrapper = styled(FlexContainer)`
   background-color: ${({ theme }) => theme.navBackgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
-  height: 60px;
   width: 100%;
+
+  @media ${Breakpoints.MEDIUM} {
+    flex-direction: row;
+  }
 `
 
 export const FilterTab = styled(FlexContainer)<FilterTabProps>`
   cursor: pointer;
   padding: 0 18px;
-  height: 100%;
+  height: 60px;
+  flex-grow: 1;
   border-bottom: 3px solid
     ${({ theme, $isActive }) => ($isActive ? theme.secondary : "transparent")};
   transition: all 0.2s;
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   p {
     font-size: 14px;
@@ -32,6 +38,10 @@ export const FilterTab = styled(FlexContainer)<FilterTabProps>`
     border-bottom: 3px solid ${({ theme }) => theme.secondary};
     color: ${({ theme }) => theme.secondary};
   }
+
+  @media ${Breakpoints.MEDIUM} {
+    background-color: ${({ theme }) => theme.navBackgroundColor};
+  }
 `
 
 export const SkeletonWrapper = styled.div`
@@ -39,17 +49,27 @@ export const SkeletonWrapper = styled.div`
 `
 
 export const StyledSelect = styled(Select)`
-  margin-left: auto;
   margin-bottom: 0;
-  width: 220px;
+  width: 100%;
   cursor: pointer;
+  padding: 24px 12px;
+
+  @media ${Breakpoints.MEDIUM} {
+    width: 220px;
+    margin-left: auto;
+    padding: 0;
+  }
 
   div[class*="control"] {
     height: 100%;
-    background-color: transparent;
+    background-color: ${({ theme }) => theme.backgroundColor};
     font-size: 14px;
     font-weight: 500;
     border: none !important;
     box-shadow: none !important;
+
+    @media ${Breakpoints.MEDIUM} {
+      background-color: transparent;
+    }
   }
 `

@@ -1,9 +1,25 @@
 import styled from "styled-components"
 
 import { RadioButtonGroup } from "@components/RadioButtonGroup/RadioButtonGroup"
+import { Breakpoints } from "@enums/breakpoints.enum"
 
-export const Wrapper = styled.div`
+interface WrapperProps {
+  $shouldDisplay: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
   margin-top: 24px;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  padding: 18px 12px;
+  border-radius: 9px;
+
+  display: ${({ $shouldDisplay }) => ($shouldDisplay ? "block" : "none")};
+
+  @media ${Breakpoints.MEDIUM} {
+    padding: 0;
+    display: block;
+    background-color: transparent;
+  }
 `
 
 export const StyledRadioButtonGroup = styled(RadioButtonGroup)`

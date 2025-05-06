@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import { Button } from "@components/Button/Button"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled.div`
@@ -27,4 +28,8 @@ export const FormTitle = styled.h1`
   font-size: 22px;
   text-align: center;
   margin-bottom: 24px;
+`
+
+export const StyledButton = styled(Button)`
+  width: fit-content;
 `

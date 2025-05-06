@@ -16,7 +16,7 @@ export const UserInfoSection = styled.section`
   background-color: ${({ theme }) => theme.backgroundColor};
 
   @media ${Breakpoints.MEDIUM} {
-    pading: 18px;
+    padding: 18px;
   }
 `
 

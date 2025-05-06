@@ -4,7 +4,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Breakpoints } from "@enums/breakpoints.enum"
 
 export const Wrapper = styled(FlexContainer)`
-  padding: 14px;
+  padding: 14px 6px;
   background-color: ${({ theme }) => theme.navBackgroundColor};
   box-shadow: ${({ theme }) => theme.elevationBoxShadow};
   border-radius: 9px;

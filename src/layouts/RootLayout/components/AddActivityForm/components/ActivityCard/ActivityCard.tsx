@@ -44,81 +44,85 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     currentProcessedActivityId === data._id
 
   return (
-    <Wrapper
-      $bgGradient={getDataForActivityType(data.type.type, theme).cardGradient}
-      direction='column'
-      justify='center'
-      {...rest}
-    >
-      <HeaderWrapper justify='space-between' align='center'>
-        <Heading>{data.title}</Heading>
-        {hasAdditionalActions && (
-          <div
-            ref={setAnchor}
-            onClick={(e) => {
-              e.stopPropagation()
-              setIsPopoverOpen((prev) => !prev)
-            }}
-          >
-            <StyledInteractiveIcon name='threeDots' width={32} height={32} />
-          </div>
-        )}
-
-        {anchor && isPopoverOpen && (
-          <Popover
-            anchor={anchor}
-            placement='bottom-end'
-            offsetAway={-32}
-            onClickOutside={() => setIsPopoverOpen(false)}
-          >
-            <PopoverOptions>
-              {popoverOptions?.map((item, index) => (
-                <PopoverOption
-                  key={index}
-                  onClick={(e) => {
-                    setIsPopoverOpen(false)
-                    item.action(e)
-                  }}
-                >
-                  {item.label}
-                </PopoverOption>
-              ))}
-            </PopoverOptions>
-          </Popover>
-        )}
-      </HeaderWrapper>
-      <FlexContainer align='center' justify='space-between'>
-        <ActivityTypeBadge
-          activityType={data.type.type}
-          title={
-            <>
-              {capitalizeFirstLetter(data?.type?.type)} <span>&#8226;</span> {numberOfExercises}{" "}
-              {numberOfExercises === 1 ? "exercise" : "exercises"}
-            </>
-          }
-          subtitle={"date" in data ? format(parseISO(data.date), "LLLL do, y") : undefined}
-          iconSize={30}
-        />
-
-        <ExertionRatingContainer align='flex-end' direction='column'>
-          <FlexContainer>
-            {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
-              <Icon
+    <>
+      {anchor && isPopoverOpen && (
+        <Popover
+          anchor={anchor}
+          placement='bottom-end'
+          offsetAway={-32}
+          onClickOutside={() => setIsPopoverOpen(false)}
+        >
+          <PopoverOptions>
+            {popoverOptions?.map((item, index) => (
+              <PopoverOption
                 key={index}
-                name='fire'
-                color={getDataForActivityType(data.type.type, theme).secondaryColor}
-                width={22}
-                height={22}
-              />
+                align='center'
+                onClick={(e) => {
+                  setIsPopoverOpen(false)
+                  item.action(e)
+                }}
+                gap={9}
+              >
+                <Icon name={item.icon} />
+                {item.label}
+              </PopoverOption>
             ))}
-          </FlexContainer>
-        </ExertionRatingContainer>
-      </FlexContainer>
-      {isLoading && (
-        <LoaderOverlay>
-          <LoaderSpinner />
-        </LoaderOverlay>
+          </PopoverOptions>
+        </Popover>
       )}
-    </Wrapper>
+      <Wrapper
+        $bgGradient={getDataForActivityType(data.type.type, theme).cardGradient}
+        direction='column'
+        justify='center'
+        {...rest}
+      >
+        <HeaderWrapper justify='space-between' align='center'>
+          <Heading>{data.title}</Heading>
+          {hasAdditionalActions && (
+            <div
+              ref={setAnchor}
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsPopoverOpen((prev) => !prev)
+              }}
+            >
+              <StyledInteractiveIcon name='threeDots' width={32} height={32} />
+            </div>
+          )}
+        </HeaderWrapper>
+        <FlexContainer align='center' justify='space-between'>
+          <ActivityTypeBadge
+            activityType={data.type.type}
+            title={
+              <>
+                {capitalizeFirstLetter(data?.type?.type)} <span>&#8226;</span> {numberOfExercises}{" "}
+                {numberOfExercises === 1 ? "exercise" : "exercises"}
+              </>
+            }
+            subtitle={"date" in data ? format(parseISO(data.date), "LLLL do, y") : undefined}
+            iconSize={30}
+          />
+
+          <ExertionRatingContainer align='flex-end' direction='column'>
+            <FlexContainer>
+              {Array.from({ length: data.exertionRating || 0 }).map((_, index) => (
+                <Icon
+                  key={index}
+                  name='fire'
+                  color={getDataForActivityType(data.type.type, theme).secondaryColor}
+                  width={22}
+                  height={22}
+                />
+              ))}
+            </FlexContainer>
+          </ExertionRatingContainer>
+        </FlexContainer>
+        {isLoading && (
+          <LoaderOverlay>
+            <LoaderSpinner />
+          </LoaderOverlay>
+        )}
+      </Wrapper>
+    </>
   )
 }

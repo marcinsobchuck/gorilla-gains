@@ -15,7 +15,9 @@ import {
   setIsAddEditModalOpen,
   setIsEditing,
 } from "@features/activities/activitiesSlice.ts"
+import { createActivityPresetAction } from "@features/activityPresets/activityPresetsActions.ts"
 import { setIsActivityPresetsVisible } from "@features/activityPresets/activityPresetsSlice.ts"
+import { getCreateActivityPresetData } from "@pages/ActivityHistory/components/ActivityList/utils.ts"
 import { Background } from "@styles/GlobalStyle.ts"
 
 import { AddActivityForm } from "./components/AddActivityForm/AddActivityForm.tsx"
@@ -62,6 +64,12 @@ export const RootLayout = () => {
   const handleOnClose = () => {
     dispatch(setIsActivityDetailsOpen(false))
     dispatch(setActiveActivity({}))
+  }
+
+  const handleCreatePreset = async () => {
+    if (activeActivity) {
+      await dispatch(createActivityPresetAction(getCreateActivityPresetData(activeActivity)))
+    }
   }
 
   return (
@@ -111,6 +119,7 @@ export const RootLayout = () => {
             onClose={handleOnClose}
             onEdit={handleEditActivity}
             onRemove={handleRemoveActivity}
+            onPresetCreation={handleCreatePreset}
             activeActivityEvent={activeActivity}
           />
           <Outlet />

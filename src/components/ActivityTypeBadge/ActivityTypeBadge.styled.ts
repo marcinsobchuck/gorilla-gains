@@ -11,16 +11,28 @@ interface TitleProps {
   $titleSize: number
 }
 
+export const Wrapper = styled(FlexContainer)`
+  overflow: hidden;
+`
+
 export const IconWrapper = styled(FlexContainer)<IconWrapperProps>`
   background-color: ${({ theme, $bgColor }) => ($bgColor ? $bgColor : theme.secondaryOpacity)};
   padding: ${({ $padding }) => $padding && `${$padding}px`};
   border-radius: 9px;
 `
 
+export const TitleWrapper = styled.div`
+  overflow: hidden;
+`
+
 export const Title = styled.h2<TitleProps>`
   font-size: ${({ $titleSize }) => $titleSize && `${$titleSize}px`};
   font-weight: 500;
   text-align: left;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `
 
 export const Subtitle = styled.p`

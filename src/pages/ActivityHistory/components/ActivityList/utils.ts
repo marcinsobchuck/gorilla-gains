@@ -1,7 +1,7 @@
-import { Activity } from "@api/types/activitiesService.types"
 import { CreateActivityPresetData } from "@api/types/activityPresets.types"
+import { ActivityEvent } from "@features/types/types"
 
-export const getCreateActivityPresetData = (activity: Activity): CreateActivityPresetData => {
+export const getCreateActivityPresetData = (activity: ActivityEvent): CreateActivityPresetData => {
   const {
     exercises: responseExercises,
     repeatExercisesCount,

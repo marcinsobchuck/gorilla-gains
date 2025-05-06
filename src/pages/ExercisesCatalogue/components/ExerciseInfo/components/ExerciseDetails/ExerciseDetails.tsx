@@ -4,13 +4,16 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { ActivityTypeBadge } from "@components/ActivityTypeBadge/ActivityTypeBadge"
 import { Button } from "@components/Button/Button"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
+import { Breakpoints } from "@enums/breakpoints.enum"
 import { toggleFavouriteExerciseAction } from "@features/exercises/exercisesActions"
 import { setActiveExercise } from "@features/exercises/exercisesSlice"
+import { useMediaQuery } from "@hooks/useMediaQuery"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
 import {
   BackButton,
   FavouriteExerciseInfo,
+  FavouritesButtonWrapper,
   HeadingWrapper,
   InfoItemWrapper,
   MusclesGroupWrapper,
@@ -27,6 +30,8 @@ export const ExerciseDetails = () => {
   const dispatch = useAppDispatch()
   const activeExercise = useAppSelector((state) => state.exercises.activeExercise)
   const favouriteExercises = useAppSelector((state) => state.exercises.favouriteExercises)
+
+  const isMedium = useMediaQuery(Breakpoints.MEDIUM)
 
   if (!activeExercise) return null
 
@@ -60,9 +65,9 @@ export const ExerciseDetails = () => {
           iconSize={32}
           title={name}
           subtitle={type}
-          titleSize={24}
+          titleSize={isMedium ? 24 : 18}
         />
-        <FlexContainer direction='column' align='center'>
+        <FavouritesButtonWrapper direction='column' align='center'>
           <Button
             variant='tertiary'
             buttonType='button'
@@ -77,7 +82,7 @@ export const ExerciseDetails = () => {
           <FavouriteExerciseInfo>
             Favourite exercises will appear first when creating activity
           </FavouriteExerciseInfo>
-        </FlexContainer>
+        </FavouritesButtonWrapper>
       </HeadingWrapper>
       {shouldRenderHumanSilhouette && (
         <StyledSection>

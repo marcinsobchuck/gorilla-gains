@@ -1,9 +1,24 @@
 import styled from "styled-components"
 
-export const Wrapper = styled.div`
-  padding: 24px;
-  height: var(--activity-list-container-height);
+import { Breakpoints } from "@enums/breakpoints.enum"
+
+interface WrapperProps {
+  $shouldDisplay: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
   overflow: auto;
+  padding: 24px 14px;
+
+  display: ${({ $shouldDisplay }) => ($shouldDisplay ? "block" : "none")};
+
+  @media ${Breakpoints.MEDIUM} {
+    padding: 24px;
+
+    margin-bottom: 0;
+    height: var(--activity-list-container-height);
+    display: block;
+  }
 
   &::-webkit-scrollbar {
     width: 18px;
