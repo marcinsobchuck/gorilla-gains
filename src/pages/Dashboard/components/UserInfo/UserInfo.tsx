@@ -90,40 +90,40 @@ export const UserInfo = () => {
           })}
         </GoalsWrapper>
       </UserInfoSection>
-      <UserInfoSection>
-        <UserInfoTitle>Manage</UserInfoTitle>
 
-        <UserInfoItems>
-          {unresolvedActivities && unresolvedActivities.length > 0 && (
-            <FlexContainer direction='column' gap={unresolvedActivities.length > 1 ? 6 : 0}>
-              <UserInfoItem label='Unresolved' value={unresolvedActivities.length} />
-              <CardStackingContext direction='column' gap={6}>
-                <StyledEventCard
-                  activity={unresolvedActivities[0]}
-                  withButton={false}
-                  stacked={unresolvedActivities.length > 1}
-                />
-                <ManageButton
-                  variant='secondary'
-                  buttonType='button'
-                  onClick={() => setIsManagedListOpen(true)}
-                >
-                  Manage
-                </ManageButton>
-              </CardStackingContext>
-            </FlexContainer>
-          )}
-          {plannedActivities && plannedActivities.length > 0 && (
-            <>
-              <UserInfoItem label='Upcoming next' value={plannedActivities?.length} />
+      {unresolvedActivities && unresolvedActivities.length > 0 && (
+        <UserInfoSection>
+          <UserInfoTitle>Manage unresolved</UserInfoTitle>
 
-              <CardStackingContext direction='column' gap={6}>
-                <StyledEventCard activity={plannedActivities[0]} withButton={false} />
-              </CardStackingContext>
-            </>
-          )}
-        </UserInfoItems>
-      </UserInfoSection>
+          <FlexContainer direction='column' gap={unresolvedActivities.length > 1 ? 6 : 0}>
+            <UserInfoItem label='Unresolved' value={unresolvedActivities.length} />
+            <CardStackingContext direction='column' gap={6}>
+              <StyledEventCard
+                activity={unresolvedActivities[0]}
+                withButton={false}
+                stacked={unresolvedActivities.length > 1}
+              />
+              <ManageButton
+                variant='secondary'
+                buttonType='button'
+                onClick={() => setIsManagedListOpen(true)}
+              >
+                Manage
+              </ManageButton>
+            </CardStackingContext>
+          </FlexContainer>
+        </UserInfoSection>
+      )}
+      {plannedActivities && plannedActivities.length > 0 && (
+        <UserInfoSection>
+          <UserInfoTitle>Planned activities</UserInfoTitle>
+          <UserInfoItem label='Upcoming next' value={plannedActivities?.length} />
+
+          <CardStackingContext direction='column' gap={6}>
+            <StyledEventCard activity={plannedActivities[0]} withButton={false} />
+          </CardStackingContext>
+        </UserInfoSection>
+      )}
     </Wrapper>
   )
 }

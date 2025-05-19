@@ -19,4 +19,5 @@ export interface InitialState {
     value: string
     labelText: string
   }[]
+  shouldRefetchActivitiesForActivityType: boolean
 }

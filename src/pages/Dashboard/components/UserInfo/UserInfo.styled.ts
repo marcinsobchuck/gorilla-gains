@@ -26,7 +26,7 @@ export const UserInfoTitle = styled.p`
   margin-bottom: 24px;
 
   @media ${Breakpoints.MEDIUM} {
-    margin-bottom: 0;
+    margin-bottom: 3px;
   }
 `
 export const UserInfoItems = styled.div`
@@ -36,7 +36,7 @@ export const UserInfoItems = styled.div`
 export const GoalsWrapper = styled(FlexContainer)`
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 9px;
+  padding: 6px 0;
 `
 
 export const GoalTile = styled.div`

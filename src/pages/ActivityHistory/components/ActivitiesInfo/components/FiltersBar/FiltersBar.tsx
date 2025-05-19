@@ -46,6 +46,9 @@ export const FiltersBar = () => {
       const options = getAvailableChartOptions(
         getAvailableChartMetrics(activities, activeFilterExercise)
       )
+
+      if (options.length === 0) return
+
       dispatch(
         setActiveChartCombination({
           xAxis: "date",

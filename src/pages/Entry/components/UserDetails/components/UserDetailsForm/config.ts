@@ -54,6 +54,7 @@ export const userDetailsSchema = yup.object().shape({
       "At least one goal must be selected",
       (value) => value && value.length > 0
     ),
+  isOnboardingComplete: yup.boolean(),
 })
 
 type UserDetailsSchema = yup.InferType<typeof userDetailsSchema>

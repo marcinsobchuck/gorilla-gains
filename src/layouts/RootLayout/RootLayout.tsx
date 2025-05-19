@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Navigate, Outlet, useNavigate } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
 import { setUpResponseInterceptor } from "@api/api.ts"
@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks.ts"
 import { ActivityDetailsContainer } from "@components/ActivityDetailsContainer/ActivityDetailsContainer.tsx"
 import { Logo } from "@components/Logo/Logo.tsx"
 import { Modal } from "@components/Modal/Modal.tsx"
+import { Routes } from "@enums/routes.enum.ts"
 import { deleteActivityAction } from "@features/activities/activitiesActions.ts"
 import {
   setActiveActivity,
@@ -44,6 +45,7 @@ export const RootLayout = () => {
   )
   const isAddEditModalOpen = useAppSelector((state) => state.activities.isAddEditModalOpen)
   const isEditing = useAppSelector((state) => state.activities.isEditing)
+  const userData = useAppSelector((state) => state.user.data)
   const dispatch = useAppDispatch()
 
   const handleEditActivity = () => {
@@ -72,6 +74,10 @@ export const RootLayout = () => {
     }
   }
 
+  if (userData && !userData.isOnboardingComplete) {
+    return <Navigate to={Routes.USER_DETAILS} />
+  }
+
   return (
     <Background>
       <ToastContainer />
@@ -92,7 +98,7 @@ export const RootLayout = () => {
       <Wrapper>
         <Header>
           <LeftSideWrapper>
-            <Logo />
+            <Logo onClick={() => navigate(Routes.DASHBOARD)} />
           </LeftSideWrapper>
           <RightSideWrapper>
             <StyledButton

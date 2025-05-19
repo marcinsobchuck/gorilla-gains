@@ -11,6 +11,7 @@ export interface User {
   height: number
   dueDateWeight: string
   goals: string[]
+  isOnboardingComplete: boolean
 }
 
 export interface ChangeUserInfoData {
@@ -26,6 +27,7 @@ export interface ChangeUserInfoData {
   dueDateWeight?: Date | null
   activityLevel?: string
   goals?: string[]
+  isOnboardingComplete?: boolean
 }
 
 export interface ChangeUserPasswordData {

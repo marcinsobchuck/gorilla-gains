@@ -48,7 +48,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     try {
       const dob = values.dob.toISOString()
 
-      await dispatch(changeUserInfoAction({ ...values, dob })).unwrap()
+      await dispatch(changeUserInfoAction({ ...values, dob, isOnboardingComplete: true })).unwrap()
       navigate(Routes.DASHBOARD)
     } catch (err) {
       console.error(err)

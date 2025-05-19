@@ -142,6 +142,7 @@ export const getAvailableChartOptions = (keysArr: string[]): Option[] => {
       label: `${key}/date`,
     }
   })
+
   return options
 }
 
@@ -150,6 +151,7 @@ export const getFormattedDuration = (value: number) => {
     start: 0,
     end: value * 1000,
   })
+
   if (duration.hours) {
     const hours = Math.ceil(value / 3600).toFixed()
     return {
@@ -197,7 +199,6 @@ export const getExerciseUnit = (data: (ChartDataItem | null)[], yAxis: YAxis) =>
     }
 
     const highestValue = Math.max(...values)
-
     return getFormattedDuration(highestValue).unit
   }
   if (yAxis === "distance") {
@@ -213,7 +214,10 @@ export const getExerciseUnit = (data: (ChartDataItem | null)[], yAxis: YAxis) =>
   }
 }
 
-export const getTooltipValue = (value: ValueType, yAxis: YAxis) => {
+type DurationValue = Record<string, { value?: number; unit: string }>
+export type TooltipValue = ValueType | DurationValue
+
+export const getTooltipValue = (value: ValueType, yAxis: YAxis): TooltipValue => {
   if (yAxis === "duration" && typeof value === "number") {
     const duration = intervalToDuration({
       start: 0,

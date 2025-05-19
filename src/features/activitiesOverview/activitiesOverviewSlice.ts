@@ -1,8 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import uniqBy from "lodash.uniqby"
 
 import { ExerciseSet } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
+import {
+  createActivityAction,
+  deleteActivityAction,
+  editActivityAction,
+} from "@features/activities/activitiesActions"
 import {
   getAvailableChartMetrics,
   getAvailableChartOptions,
@@ -21,6 +26,7 @@ const initialState: InitialState = {
     yAxis: "",
   },
   chartFilters: [],
+  shouldRefetchActivitiesForActivityType: true,
 }
 
 export const activitiesOverviewSlice = createSlice({
@@ -29,6 +35,7 @@ export const activitiesOverviewSlice = createSlice({
   reducers: {
     setActiveFilterTab(state, action) {
       state.activeFilterTab = action.payload
+      state.shouldRefetchActivitiesForActivityType = true
     },
     setActiveFilterExercise(state, action) {
       state.activeFilterExercise = action.payload
@@ -56,6 +63,9 @@ export const activitiesOverviewSlice = createSlice({
     },
     deleteChartActivity(state, action) {
       state.activities = state.activities.filter((activity) => activity._id !== action.payload)
+    },
+    setShouldRefetchActivitiesForActivityType(state, action) {
+      state.shouldRefetchActivitiesForActivityType = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -93,6 +103,25 @@ export const activitiesOverviewSlice = createSlice({
         state.activitiesError = action.payload
       }
     })
+    builder.addMatcher(
+      isAnyOf(
+        createActivityAction.fulfilled,
+        deleteActivityAction.fulfilled,
+        editActivityAction.fulfilled
+      ),
+      (state, action) => {
+        if (action.payload.type._id === state.activeFilterTab) {
+          state.shouldRefetchActivitiesForActivityType = true
+          state.activeFilterExercise = state.chartFilters[0].value
+          state.activeChartCombination = {
+            xAxis: "date",
+            yAxis: getAvailableChartOptions(
+              getAvailableChartMetrics(state.activities, state.chartFilters[0].value)
+            )[0].value as keyof ExerciseSet,
+          }
+        }
+      }
+    )
   },
 })
 
@@ -103,5 +132,6 @@ export const {
   addChartActivity,
   editChartActivity,
   deleteChartActivity,
+  setShouldRefetchActivitiesForActivityType,
 } = activitiesOverviewSlice.actions
 export default activitiesOverviewSlice.reducer

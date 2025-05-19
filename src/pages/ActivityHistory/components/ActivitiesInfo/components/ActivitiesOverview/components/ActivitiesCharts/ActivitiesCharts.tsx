@@ -22,6 +22,7 @@ import { Breakpoints } from "@enums/breakpoints.enum"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { getActivitiesForActivityTypeAction } from "@features/activitiesOverview/activitiesOverviewActions"
+import { setShouldRefetchActivitiesForActivityType } from "@features/activitiesOverview/activitiesOverviewSlice"
 import { useMediaQuery } from "@hooks/useMediaQuery"
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter"
 
@@ -39,6 +40,9 @@ export const ActivitiesCharts = () => {
   )
   const activeChartCombination = useAppSelector(
     (state) => state.activitiesOverview.activeChartCombination
+  )
+  const shouldRefetchActivitiesForActivityType = useAppSelector(
+    (state) => state.activitiesOverview.shouldRefetchActivitiesForActivityType
   )
   const theme = useTheme()
   const isMediumDevice = useMediaQuery(Breakpoints.MEDIUM)
@@ -65,10 +69,11 @@ export const ActivitiesCharts = () => {
           type,
         })
       )
-    if (type) {
+    if (type && shouldRefetchActivitiesForActivityType) {
       fetchActivities()
+      dispatch(setShouldRefetchActivitiesForActivityType(false))
     }
-  }, [dispatch, type])
+  }, [dispatch, shouldRefetchActivitiesForActivityType, type])
 
   if (status === RequestStatuses.LOADING) {
     return (
@@ -177,6 +182,7 @@ export const ActivitiesCharts = () => {
           {shouldDisplayLoadBar && (
             <Bar
               dataKey='load'
+              unit='kg'
               yAxisId={2}
               barSize={30}
               fill={theme.strengthColor}
