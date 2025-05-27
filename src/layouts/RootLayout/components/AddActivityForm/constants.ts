@@ -37,6 +37,7 @@ export const enduranceExerciseFields = {
 
 export const flexibilityExerciseFields = {
   duration: durationField,
+  reps: "",
   break: null,
   repeatCount: 1,
 }
