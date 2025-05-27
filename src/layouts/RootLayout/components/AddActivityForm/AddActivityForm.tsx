@@ -215,7 +215,13 @@ export const AddActivityForm = () => {
         </PresetsButton>
         {isActivityPresetsVisible && <PresetsView setSelectValue={setSelectValue} />}
         <FieldsWrapper>
-          <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} />
+          <Input
+            id='title'
+            label='Title'
+            type='text'
+            onChange={() => setIsCustomTitle(true)}
+            autoFocus
+          />
           <StyledSelect
             name='activityType'
             labelText='Activity type'

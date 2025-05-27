@@ -91,7 +91,7 @@ export const transformActivitiesIntoChartData = (
         (exercise) => exercise.exercise._id === exerciseId
       )
 
-      if (filteredExercises.length === 0) {
+      if (filteredExercises.length === 0 || getYAxisValue(filteredExercises, yAxisKey) === 0) {
         return null
       }
 
@@ -237,5 +237,10 @@ export const getTooltipValue = (value: ValueType, yAxis: YAxis): TooltipValue =>
       seconds: { value: duration.seconds, unit: "s" },
     }
   }
+
+  if (typeof value === "number") {
+    return Number.isInteger(value) ? value : value.toFixed(2)
+  }
+
   return value
 }
