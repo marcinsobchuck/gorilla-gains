@@ -113,11 +113,13 @@ export const activitiesOverviewSlice = createSlice({
         if (action.payload.type._id === state.activeFilterTab) {
           state.shouldRefetchActivitiesForActivityType = true
           state.activeFilterExercise = state.chartFilters[0].value
-          state.activeChartCombination = {
-            xAxis: "date",
-            yAxis: getAvailableChartOptions(
-              getAvailableChartMetrics(state.activities, state.chartFilters[0].value)
-            )[0].value as keyof ExerciseSet,
+          if (state.activities.length > 0) {
+            state.activeChartCombination = {
+              xAxis: "date",
+              yAxis: getAvailableChartOptions(
+                getAvailableChartMetrics(state.activities, state.chartFilters[0].value)
+              )[0].value as keyof ExerciseSet,
+            }
           }
         }
       }

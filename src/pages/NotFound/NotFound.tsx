@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom"
-
 import notFound from "@assets/notFound.png"
+import { Button } from "@components/Button/Button"
 import { Routes } from "@enums/routes.enum"
 
 import { ContentWrapper, NotFoundImage, Wrapper } from "./NotFound.styled"
@@ -12,7 +11,9 @@ export const NotFound = () => {
         <NotFoundImage src={notFound} />
         <div>
           <h1>Page not found!</h1>
-          <Link to={Routes.DASHBOARD}>Go home</Link>
+          <Button buttonType='navLink' to={Routes.DASHBOARD} variant='secondary'>
+            Go home
+          </Button>
         </div>
       </ContentWrapper>
     </Wrapper>

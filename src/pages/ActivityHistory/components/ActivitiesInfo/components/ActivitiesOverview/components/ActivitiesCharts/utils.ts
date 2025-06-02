@@ -135,8 +135,8 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
   return availableMetrics
 }
 
-export const getAvailableChartOptions = (keysArr: string[]): Option[] => {
-  const options = keysArr.map((key) => {
+export const getAvailableChartOptions = (availableMetrics: string[]): Option[] => {
+  const options = availableMetrics.map((key) => {
     return {
       value: key,
       label: `${key}/date`,
