@@ -49,6 +49,7 @@ export const MenuWrapper = styled.nav<MenuWrapperProps>`
 `
 
 export const StyledButton = styled(Button)`
+  width: 100%;
   margin-bottom: 6px;
 
   svg {

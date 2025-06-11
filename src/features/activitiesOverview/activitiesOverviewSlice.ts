@@ -112,8 +112,8 @@ export const activitiesOverviewSlice = createSlice({
       (state, action) => {
         if (action.payload.type._id === state.activeFilterTab) {
           state.shouldRefetchActivitiesForActivityType = true
-          state.activeFilterExercise = state.chartFilters[0].value
-          if (state.activities.length > 0) {
+          if (state.activities.length > 0 && state.chartFilters.length > 0) {
+            state.activeFilterExercise = state.chartFilters[0].value
             state.activeChartCombination = {
               xAxis: "date",
               yAxis: getAvailableChartOptions(

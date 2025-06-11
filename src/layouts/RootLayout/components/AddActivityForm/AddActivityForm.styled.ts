@@ -59,11 +59,11 @@ export const SubmitButtonsWrapper = styled(FlexContainer)`
 
 export const StyledLoader = styled(LoaderSpinner)`
   position: absolute;
-  bottom: 38px;
-  left: calc(50% - 13px);
+  bottom: -30px;
+  right: calc(50% - 13px);
 
   @media ${Breakpoints.SMALL} {
-    bottom: 0;
+    bottom: -36px;
     right: 0;
     left: auto;
   }
