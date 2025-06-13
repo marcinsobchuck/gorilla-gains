@@ -74,7 +74,7 @@ If you don't want to go through the process of creating an account (credentials 
 
 #### Activity creation
 
-![Activity creation](https://res.cloudinary.com/dlqowgnyr/image/upload/v1749719769/activity_creation_gif_echeqm.gif)
+![Activity creation](https://res.cloudinary.com/dlqowgnyr/image/upload/v1749824317/activity-creation-gif-compressed_fkflbx.gif)
 
 #### Dashboard
 
