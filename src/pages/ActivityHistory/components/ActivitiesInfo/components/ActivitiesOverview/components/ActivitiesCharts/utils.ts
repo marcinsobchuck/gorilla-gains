@@ -21,7 +21,7 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
     case "distance": {
       const totalDistance = data.reduce((sum, exercise) => {
         const exerciseDistance = exercise.sets.reduce((setSum, set) => {
-          return setSum + (set.distance || 0)
+          return setSum + (set.distance || 0) * (set.repeatCount || 1)
         }, 0)
 
         return sum + exerciseDistance
@@ -32,11 +32,12 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
       const totalDuration = data.reduce((sum, exercise) => {
         const exerciseDuration = exercise.sets.reduce(
           (acc, currSet) =>
-            acc +
-            (currSet.break || 0) +
-            (currSet.duration?.seconds || 0) +
-            (currSet.duration?.minutes || 0) * 60 +
-            (currSet.duration?.hours || 0) * 60 * 60,
+            (acc +
+              (currSet.break || 0) +
+              (currSet.duration?.seconds || 0) +
+              (currSet.duration?.minutes || 0) * 60 +
+              (currSet.duration?.hours || 0) * 60 * 60) *
+            (currSet.repeatCount || 1),
           0
         )
         return sum + exerciseDuration
@@ -44,19 +45,39 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
 
       return totalDuration
     }
+    case "averageLoad": {
+      const totalLoad = data.reduce((sum, exercise) => {
+        const exerciseInfo = exercise.sets.reduce(
+          (setSum, set) => {
+            return {
+              exerciseLoad: setSum.exerciseLoad + (set.load || 0) * (set.reps || 1) * (set.repeatCount || 1),
+              exerciseReps: (set.reps || 1) * (set.repeatCount || 1),
+            }
+          },
+          { exerciseLoad: 0, exerciseReps: 0 }
+        )
+
+        const averageLoadLifted = exerciseInfo.exerciseLoad / exerciseInfo.exerciseReps
+
+        return sum + averageLoadLifted
+      }, 0)
+      return totalLoad / data.length
+    }
     case "load": {
       const totalLoad = data.reduce((sum, exercise) => {
-        const exerciseLoad = exercise.sets.reduce((setSum, set) => {
-          return setSum + (set.load || 0) * (set.reps || 1)
+        const summedExercise = exercise.sets.reduce((setSum, set) => {
+          return setSum + (set.load || 0) * (set.reps || 1) * (set.repeatCount || 1)
         }, 0)
-        return sum + exerciseLoad
+
+        return sum + summedExercise
       }, 0)
+
       return totalLoad
     }
     case "reps": {
       const totalReps = data.reduce((sum, exercise) => {
         const exerciseReps = exercise.sets.reduce((setSum, set) => {
-          return setSum + (set.reps || 0)
+          return setSum + (set.reps || 0) * (set.repeatCount || 1)
         }, 0)
         return sum + exerciseReps
       }, 0)
@@ -80,29 +101,22 @@ const getYAxisValue = (data: ResponseExercise[], key: YAxis) => {
   }
 }
 
-export const transformActivitiesIntoChartData = (
-  data: Activity[],
-  exerciseId: string,
-  yAxisKey: YAxis
-) => {
+export const transformActivitiesIntoChartData = (data: Activity[], exerciseId: string, yAxisKey: YAxis) => {
   const chartData = data
     .map((activity) => {
-      const filteredExercises = activity.exercises.filter(
-        (exercise) => exercise.exercise._id === exerciseId
-      )
+      const filteredExercises = activity.exercises.filter((exercise) => exercise.exercise._id === exerciseId)
 
       if (filteredExercises.length === 0 || getYAxisValue(filteredExercises, yAxisKey) === 0) {
         return null
       }
 
-      const shouldAddLoad =
-        getYAxisValue(filteredExercises, "load") > 0 && yAxisKey !== "load" && yAxisKey !== "1RM"
+      const shouldAddAverageLoad = getYAxisValue(filteredExercises, "averageLoad") > 0
 
       return {
         [yAxisKey]: getYAxisValue(filteredExercises, yAxisKey),
         date: new Date(activity.date).getTime(),
         activityId: activity._id,
-        ...(shouldAddLoad && { load: getYAxisValue(filteredExercises, "load") }),
+        ...(shouldAddAverageLoad && { averageLoad: getYAxisValue(filteredExercises, "averageLoad") }),
       }
     })
     .filter((item) => item !== null)
@@ -124,9 +138,7 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
     })
   })
 
-  const availableMetrics = Array.from(keys).filter(
-    (key) => key !== "break" && key !== "repeatCount"
-  )
+  const availableMetrics = Array.from(keys).filter((key) => key !== "break" && key !== "repeatCount")
 
   if (availableMetrics.includes("load")) {
     return [...availableMetrics, "1RM"]

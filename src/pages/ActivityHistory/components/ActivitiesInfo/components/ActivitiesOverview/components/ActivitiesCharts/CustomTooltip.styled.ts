@@ -3,12 +3,22 @@ import styled from "styled-components"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 
 export const TooltipWrapper = styled(FlexContainer)`
-  width: 180px;
+  width: 240px;
   min-height: 120px;
-  padding: 9px;
+  padding: 12px;
   border-radius: 9px;
   box-shadow: ${({ theme }) => theme.popperBoxShadow};
   background-color: ${({ theme }) => theme.navBackgroundColor};
+`
+
+export const ValuesWrapper = styled(FlexContainer)`
+  padding: 6px;
+`
+
+export const ValueDescriptor = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primaryMedium};
 `
 
 export const ValueText = styled.p`
@@ -25,7 +35,7 @@ export const ValueText = styled.p`
 export const DateWrapper = styled(FlexContainer)`
   padding: 9px;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.selectBackgroundColor};
+  background-color: ${({ theme }) => theme.backgroundColor};
   font-size: 12px;
   margin-top: 18px;
 

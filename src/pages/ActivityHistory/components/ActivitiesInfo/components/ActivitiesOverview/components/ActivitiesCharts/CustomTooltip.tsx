@@ -5,15 +5,13 @@ import { NameType, ValueType } from "recharts/types/component/DefaultTooltipCont
 
 import { useAppSelector } from "@app/hooks"
 
-import { DateWrapper, TooltipWrapper, ValueText } from "./CustomTooltip.styled"
+import { DateWrapper, TooltipWrapper, ValueDescriptor, ValueText, ValuesWrapper } from "./CustomTooltip.styled"
 import { TooltipValue, getTooltipValue } from "./utils"
 
 export const CustomTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-  const activeChartCombination = useAppSelector(
-    (state) => state.activitiesOverview.activeChartCombination
-  )
+  const activeChartCombination = useAppSelector((state) => state.activitiesOverview.activeChartCombination)
   if (active && payload && payload.length && payload[0].value) {
-    const renderDurationValue = (value: TooltipValue) => {
+    const renderValue = (value: TooltipValue) => {
       if (typeof value !== "object") return value
 
       return Object.entries(value).map(([key, durationValue]) => {
@@ -31,23 +29,25 @@ export const CustomTooltip = ({ active, payload }: TooltipProps<ValueType, NameT
     const renderPayloadValues = () =>
       payload.map((item, index) => {
         if (!item.value) return null
-
         const tooltipValue = getTooltipValue(item.value, activeChartCombination.yAxis)
         const isDuration = activeChartCombination.yAxis === "duration"
 
         return (
-          <ValueText key={index}>
-            {renderDurationValue(tooltipValue)}
-            {!isDuration && <span>{item.unit}</span>}
-          </ValueText>
+          <ValuesWrapper justify='space-between' align='center' key={index}>
+            <ValueDescriptor>{item.dataKey}</ValueDescriptor>
+            <ValueText>
+              {renderValue(tooltipValue)}
+              {!isDuration && <span>{item.unit}</span>}
+            </ValueText>
+          </ValuesWrapper>
         )
       })
 
     const formattedDate = format(payload[0].payload.date, "yyyy/MM/dd")
 
     return (
-      <TooltipWrapper direction='column' justify='flex-end'>
-        {renderPayloadValues()}
+      <TooltipWrapper direction='column' justify='flex-end' gap={12}>
+        <div>{renderPayloadValues()}</div>
         <DateWrapper justify='space-between'>
           <p>Date</p>
           <span>{formattedDate}</span>

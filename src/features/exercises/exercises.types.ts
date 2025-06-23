@@ -7,7 +7,7 @@ export interface InitialState {
   selectInputError?: string
   hasMore: boolean
   limit: number
-  activeActivityTypeFilter: string | string[]
+  activeActivityTypeFilter: string[]
   searchExercisesInputValue: string
   searchExercisesData: Exercise[]
   searchExercisesDataStatus: RequestStatuses

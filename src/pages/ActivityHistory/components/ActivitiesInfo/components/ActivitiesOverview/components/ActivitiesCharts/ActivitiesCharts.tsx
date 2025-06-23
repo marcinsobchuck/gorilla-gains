@@ -35,23 +35,15 @@ export const ActivitiesCharts = () => {
   const status = useAppSelector((state) => state.activitiesOverview.activitiesStatus)
   const type = useAppSelector((state) => state.activitiesOverview.activeFilterTab)
   const activities = useAppSelector((state) => state.activitiesOverview.activities)
-  const activeFilterExercise = useAppSelector(
-    (state) => state.activitiesOverview.activeFilterExercise
-  )
-  const activeChartCombination = useAppSelector(
-    (state) => state.activitiesOverview.activeChartCombination
-  )
+  const activeFilterExercise = useAppSelector((state) => state.activitiesOverview.activeFilterExercise)
+  const activeChartCombination = useAppSelector((state) => state.activitiesOverview.activeChartCombination)
   const shouldRefetchActivitiesForActivityType = useAppSelector(
     (state) => state.activitiesOverview.shouldRefetchActivitiesForActivityType
   )
   const theme = useTheme()
   const isMediumDevice = useMediaQuery(Breakpoints.MEDIUM)
 
-  const data = transformActivitiesIntoChartData(
-    activities,
-    activeFilterExercise,
-    activeChartCombination.yAxis
-  )
+  const data = transformActivitiesIntoChartData(activities, activeFilterExercise, activeChartCombination.yAxis)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const activeDotOnClick: Required<DotProps>["onClick"] = (_props, payload: any) => {
@@ -91,8 +83,7 @@ export const ActivitiesCharts = () => {
     )
   }
 
-  const shouldDisplayLoadBar =
-    data.some((item) => item.load) && activeChartCombination.yAxis !== "load"
+  const shouldDisplayAverageLoadBar = data.some((item) => item.averageLoad)
 
   return (
     <Wrapper justify='center' align='center'>
@@ -141,20 +132,13 @@ export const ActivitiesCharts = () => {
               stroke={theme.primaryDisabled}
               strokeWidth={0.3}
               opacity={0.5}
+              dx={-6}
             />
           </YAxis>
-          {shouldDisplayLoadBar && (
-            <YAxis
-              yAxisId={2}
-              orientation='right'
-              fontSize={14}
-              tickLine={false}
-              axisLine={false}
-              width={40}
-              dx={-6}
-            >
+          {shouldDisplayAverageLoadBar && (
+            <YAxis yAxisId={2} orientation='right' fontSize={14} tickLine={false} axisLine={false} width={40} dx={-6}>
               <Label
-                value='Load (kg)'
+                value='Avg. Load (kg)'
                 angle={-90}
                 fontSize={14}
                 stroke={theme.primaryDisabled}
@@ -179,9 +163,9 @@ export const ActivitiesCharts = () => {
             />
           )}
 
-          {shouldDisplayLoadBar && (
+          {shouldDisplayAverageLoadBar && (
             <Bar
-              dataKey='load'
+              dataKey='averageLoad'
               unit='kg'
               yAxisId={2}
               barSize={30}
