@@ -76,6 +76,14 @@ If you don't want to go through the process of creating an account (credentials 
 
 ![Activity creation](https://res.cloudinary.com/dlqowgnyr/image/upload/v1749824317/activity-creation-gif-compressed_fkflbx.gif)
 
+#### Activities managing
+
+![Activities managing](https://res.cloudinary.com/dlqowgnyr/image/upload/v1751316201/managing-activities-gif-compressed_pt8dxm.gif)
+
+#### Charts
+
+![Charts](https://res.cloudinary.com/dlqowgnyr/image/upload/v1751315553/charts-gif_sd33cy.gif)
+      
 #### Dashboard
 
 ![Dashboard light](https://res.cloudinary.com/dlqowgnyr/image/upload/v1749822384/dashboard-light_tstalg.png)
