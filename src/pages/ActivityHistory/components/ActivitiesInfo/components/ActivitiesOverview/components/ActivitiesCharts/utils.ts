@@ -6,7 +6,7 @@ import { Activity, ExerciseSet, ResponseExercise } from "@api/types/activitiesSe
 import { Option } from "@components/Select/Select.types"
 import { YAxis } from "@features/activitiesOverview/activitiesOverview.types"
 
-const calculate1RM = (set: ExerciseSet) => {
+export const calculate1RM = (set: ExerciseSet) => {
   if (!set.load || !set.reps) {
     return 0
   }
@@ -139,10 +139,6 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
   })
 
   const availableMetrics = Array.from(keys).filter((key) => key !== "break" && key !== "repeatCount")
-
-  if (availableMetrics.includes("load")) {
-    return [...availableMetrics, "1RM"]
-  }
 
   if (availableMetrics.includes("load")) {
     return [...availableMetrics, "1RM"]
