@@ -20,8 +20,8 @@ import { NotFound } from "../pages/NotFound/NotFound"
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<RootLayout />}>
-        <Route element={<PrivateRoute />}>
+      <Route element={<PrivateRoute />}>
+        <Route element={<RootLayout />}>
           <Route index element={<Navigate to={Routes.DASHBOARD} />} />
           <Route path={Routes.DASHBOARD} element={<Dashboard />} />
           <Route path={Routes.ACTIVITY_HISTORY} element={<ActivityHistory />} />
@@ -30,6 +30,7 @@ export const router = createBrowserRouter(
           <Route path={Routes.SETTINGS} element={<Settings />} />
         </Route>
       </Route>
+
       <Route path={Routes.ENTRY} element={<EntryLayout />}>
         <Route index element={<Login />} />
         <Route path={Routes.LOGIN} element={<Login />} />
