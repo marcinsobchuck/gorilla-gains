@@ -10,5 +10,9 @@ export const PrivateRoute = () => {
 
   const accessToken = useAppSelector((state) => state.auth.accessToken)
 
-  return accessToken ? <Outlet /> : <Navigate to={Routes.LOGIN} />
+  if (!accessToken) {
+    return <Navigate to={Routes.LOGIN} replace={true} />
+  }
+
+  return <Outlet />
 }

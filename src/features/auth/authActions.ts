@@ -33,29 +33,26 @@ export const registerUserAction = createAppAsyncThunk(
   }
 )
 
-export const loginUserAction = createAppAsyncThunk(
-  "auth/login",
-  async (data: LoginUserData, { rejectWithValue }) => {
-    try {
-      const response = await authService.loginUser(data)
+export const loginUserAction = createAppAsyncThunk("auth/login", async (data: LoginUserData, { rejectWithValue }) => {
+  try {
+    const response = await authService.loginUser(data)
 
-      const accessToken = response.data
-      saveToLocalStorage(LocalStorageKeys.ACCESS_TOKEN, accessToken)
+    const accessToken = response.data
+    saveToLocalStorage(LocalStorageKeys.ACCESS_TOKEN, accessToken)
 
-      return accessToken
-    } catch (error) {
-      if (isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          return rejectWithValue(error.response?.data)
-        } else {
-          return rejectWithValue("Something went wrong")
-        }
+    return accessToken
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        return rejectWithValue(error.response?.data)
       } else {
-        return rejectWithValue("Something went really wrong")
+        return rejectWithValue("Something went wrong")
       }
+    } else {
+      return rejectWithValue("Something went really wrong")
     }
   }
-)
+})
 
 export const forgotPasswordAction = createAppAsyncThunk(
   "auth/forgotPassword",
