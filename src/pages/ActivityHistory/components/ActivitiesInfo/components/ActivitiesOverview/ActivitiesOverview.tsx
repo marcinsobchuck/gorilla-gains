@@ -21,6 +21,7 @@ export const ActivitiesOverview = () => {
           {exercise?.labelText}: {combination.yAxis}/{combination.xAxis}
         </ChartTitle>
       )}
+
       <ActivitiesCharts />
     </Wrapper>
   )

@@ -144,6 +144,10 @@ export const getAvailableChartMetrics = (data: Activity[], exerciseId: string) =
     return [...availableMetrics, "1RM"]
   }
 
+  if (availableMetrics.includes("load")) {
+    return [...availableMetrics, "1RM"]
+  }
+
   return availableMetrics
 }
 

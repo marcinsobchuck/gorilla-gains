@@ -139,6 +139,7 @@ export const ActivitiesCharts = () => {
             <YAxis yAxisId={2} orientation='right' fontSize={14} tickLine={false} axisLine={false} width={40} dx={-6}>
               <Label
                 value='Avg. Load (kg)'
+
                 angle={-90}
                 fontSize={14}
                 stroke={theme.primaryDisabled}
@@ -148,7 +149,6 @@ export const ActivitiesCharts = () => {
               />
             </YAxis>
           )}
-
           <Tooltip content={CustomTooltip} />
           <Legend verticalAlign='top' height={32} iconSize={12} wrapperStyle={{ fontSize: 14 }} />
 
