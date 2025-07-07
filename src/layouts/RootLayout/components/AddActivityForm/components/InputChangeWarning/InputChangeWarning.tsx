@@ -18,7 +18,7 @@ export const InputChangeWarning: React.FC<InputChangeWarningProps> = ({
           This change will reset all exercises. <b>Are you sure?</b>
         </p>
 
-        <FlexContainer>
+        <FlexContainer gap={6}>
           <Button buttonType='button' variant='tertiary' onClick={onAccept}>
             Yes
           </Button>

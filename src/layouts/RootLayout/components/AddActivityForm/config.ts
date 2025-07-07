@@ -90,7 +90,8 @@ export const strengthExerciseSchema = baseExerciseSchema.shape({
               .number()
               .transform(handleIsNaN)
               .required("Required")
-              .positive("Must be positive"),
+              .positive("Must be positive")
+              .integer("Must be integer"),
           })
         ),
     }),
@@ -115,6 +116,11 @@ export const flexibilityExerciseSchema = baseExerciseSchema.shape({
     .of(
       baseSetSchema.shape({
         duration: durationSchema,
+        reps: yup
+          .number()
+          .transform(handleIsNaN)
+          .positive("Must be positive")
+          .integer("Must be integer"),
       })
     ),
 })
@@ -129,8 +135,6 @@ export const balanceExerciseSchema = baseExerciseSchema.shape({
       })
     ),
 })
-
-// balance, flexibility set fields will potentially change thus two seperate objects
 
 export const addActivityFormSchema = yup.object().shape({
   title: yup.string().required("Required"),

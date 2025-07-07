@@ -29,12 +29,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ filterText, setFilterText 
   const theme = useTheme()
 
   const dispatch = useAppDispatch()
-  const searchExerciseInputValue = useAppSelector(
-    (state) => state.exercises.searchExercisesInputValue
-  )
-  const activeActivityTypeFilter = useAppSelector(
-    (state) => state.exercises.activeActivityTypeFilter
-  )
+  const searchExerciseInputValue = useAppSelector((state) => state.exercises.searchExercisesInputValue)
+  const activeActivityTypeFilter = useAppSelector((state) => state.exercises.activeActivityTypeFilter)
 
   const limit = useAppSelector((state) => state.exercises.limit)
   const activityTypes = useAppSelector((state) => state.activityTypes.data)

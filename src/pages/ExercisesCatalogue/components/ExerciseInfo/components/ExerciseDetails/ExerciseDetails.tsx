@@ -67,7 +67,7 @@ export const ExerciseDetails = () => {
           subtitle={type}
           titleSize={isMedium ? 24 : 18}
         />
-        <FavouritesButtonWrapper direction='column' align='center'>
+        <FavouritesButtonWrapper direction='column' align='center' gap={3}>
           <Button
             variant='tertiary'
             buttonType='button'
@@ -84,6 +84,12 @@ export const ExerciseDetails = () => {
           </FavouriteExerciseInfo>
         </FavouritesButtonWrapper>
       </HeadingWrapper>
+      {description && (
+        <StyledSection>
+          <h3>Description</h3>
+          <p>{description}</p>
+        </StyledSection>
+      )}
       {shouldRenderHumanSilhouette && (
         <StyledSection>
           <h3>Muscle groups</h3>
@@ -117,12 +123,6 @@ export const ExerciseDetails = () => {
                 : "No data"}
             </div>
           </FlexContainer>
-        </StyledSection>
-      )}
-      {description && (
-        <StyledSection>
-          <h3>Description</h3>
-          <p>{description}</p>
         </StyledSection>
       )}
 

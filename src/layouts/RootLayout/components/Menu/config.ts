@@ -33,7 +33,7 @@ export const settingsOptions: SettingOption[] = [
   },
   {
     icon: "privacy",
-    name: "Privacy",
+    name: "User details",
     to: `${Routes.SETTINGS}#user-settings-section`,
   },
 ]

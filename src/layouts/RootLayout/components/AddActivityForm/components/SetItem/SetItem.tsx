@@ -99,6 +99,20 @@ export const SetItem: React.FC<SetItemProps> = ({
           </>
         )
       case "flexibility":
+        return (
+          <>
+            <StyledDurationInput
+              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.duration`}
+            />
+            <X name='cross' height={12} width={12} />
+            <NestedInput
+              id={`exercises.${exerciseIndex}.sets.${setOfExerciseIndex}.reps`}
+              type='number'
+              label='reps'
+              withIcon={false}
+            />
+          </>
+        )
       case "balance":
         return (
           <StyledDurationInput

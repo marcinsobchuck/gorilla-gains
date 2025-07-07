@@ -71,6 +71,7 @@ export const Input: React.FC<InputProps> = ({
       <StyledInput
         id={id}
         type={type}
+        step='any'
         {...register(id, {
           ...(type === "number" && {
             setValueAs: (v) => (v === "" ? "" : +v),

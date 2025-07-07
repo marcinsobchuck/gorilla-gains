@@ -1,16 +1,11 @@
-import { useNavigate } from "react-router-dom"
-
-import { Routes } from "@enums/routes.enum"
+import React from "react"
 
 import { LogoSVG, LogoText, LogoWrapper } from "./Logo.styled"
+import { LogoProps } from "./Logo.types"
 
-export const Logo = () => {
-  const navigate = useNavigate()
-
-  const handleLogoClick = () => navigate(Routes.DASHBOARD)
-
+export const Logo: React.FC<LogoProps> = ({ onClick }) => {
   return (
-    <LogoWrapper onClick={handleLogoClick}>
+    <LogoWrapper onClick={onClick}>
       <LogoSVG name='gorilla' width={32} height={32} />
       <LogoText>Gorilla Gains</LogoText>
     </LogoWrapper>

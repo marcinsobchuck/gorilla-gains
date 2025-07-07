@@ -1,7 +1,7 @@
 import { Activity, ExerciseSet } from "@api/types/activitiesService.types"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-export type YAxis = keyof ExerciseSet | "1RM" | ""
+export type YAxis = keyof ExerciseSet | "1RM" | "averageLoad" | ""
 
 interface ChartCombination {
   xAxis: string
@@ -19,4 +19,5 @@ export interface InitialState {
     value: string
     labelText: string
   }[]
+  shouldRefetchActivitiesForActivityType: boolean
 }
