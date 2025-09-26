@@ -11,8 +11,8 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/setupTests.ts']
+    environment: "jsdom",
+    setupFiles: ["./src/setupTests.ts"],
   },
   resolve: {
     alias: {
@@ -24,6 +24,7 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "src/assets"),
       "@enums": path.resolve(__dirname, "src/enums"),
       "@features": path.resolve(__dirname, "src/features"),
+      "@fixtures": path.resolve(__dirname, "src/fixtures"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@styles": path.resolve(__dirname, "src/styles"),
       "@utils": path.resolve(__dirname, "src/utils"),

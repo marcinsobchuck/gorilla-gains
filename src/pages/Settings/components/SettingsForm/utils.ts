@@ -9,19 +9,8 @@ export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormVal
 
   const otherValues = { currentPassword: "", passwordConfirmation: "", password: "" }
 
-  const {
-    email,
-    name,
-    surname,
-    dob,
-    gender,
-    height,
-    weight,
-    activityLevel,
-    desiredWeight,
-    dueDateWeight,
-    goals,
-  } = currentUser
+  const { email, name, surname, dob, gender, height, weight, activityLevel, desiredWeight, dueDateWeight, goals } =
+    currentUser
   return {
     ...otherValues,
     email,
@@ -38,15 +27,12 @@ export const getFormValuesFromCurrentUser = (currentUser: User): SettingsFormVal
   }
 }
 
-export const getEditedData = (
-  formValues: SettingsFormValues,
-  dirtyFields: (string | undefined)[]
-) => {
+export const getEditedData = (formValues: SettingsFormValues, dirtyFields: (string | undefined)[]) => {
   const editedFields = Object.entries(formValues).reduce<{
-    [key in keyof typeof formValues]?: (typeof formValues)[keyof typeof formValues]
+    [key in keyof SettingsFormValues]?: SettingsFormValues[keyof SettingsFormValues]
   }>((acc, [key, value]) => {
     if (dirtyFields.includes(key)) {
-      acc[key as keyof typeof formValues] = value
+      acc[key as keyof SettingsFormValues] = value
     }
     return acc
   }, {})

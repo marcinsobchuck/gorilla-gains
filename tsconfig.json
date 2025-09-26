@@ -27,6 +27,7 @@
       "@assets/*": ["assets/*"],
       "@enums/*": ["enums/*"],
       "@features/*": ["features/*"],
+      "@fixtures/*": ["fixtures/*"],
       "@hooks/*": ["hooks/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
