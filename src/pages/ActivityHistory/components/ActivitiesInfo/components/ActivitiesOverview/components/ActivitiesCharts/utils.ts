@@ -131,7 +131,6 @@ export const transformActivitiesIntoChartData = (data: Activity[], exerciseId: s
     .filter(Boolean)
     .sort((a, b) => a!.date - b!.date)
 
-  console.log(chartData)
   return chartData
 }
 
