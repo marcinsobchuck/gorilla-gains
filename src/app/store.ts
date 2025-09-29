@@ -33,10 +33,17 @@ const rootReducer = (state: RootState | undefined, action: AnyAction) => {
   return combinedReducer(state, action)
 }
 
-const store = configureStore({
-  reducer: rootReducer,
-})
+export function setupStore(preloadedState?: Partial<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  })
+}
+
+const store = setupStore()
 
 export default store
+
+export type AppStore = ReturnType<typeof setupStore>
 export type RootState = ReturnType<typeof combinedReducer>
 export type AppDispatch = typeof store.dispatch
