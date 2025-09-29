@@ -111,20 +111,20 @@ describe("transformActivitiesIntoChartData", () => {
 
   it("returns correctly formatted chart data for valid activities", () => {
     expect(transformActivitiesIntoChartData([getMockActivity()], "1", "load")).toEqual([
-      { averageLoad: 50, load: 600, date: 1757368800000, activityId: "123" },
+      { averageLoad: 50, load: 600, date: 1759104000000, activityId: "123" },
     ])
   })
 
   it("returns sorted results by date ascending", () => {
     expect(
       transformActivitiesIntoChartData(
-        [getMockActivity(), getMockActivity({ date: "08/08/2025", _id: "456" })],
+        [getMockActivity(), getMockActivity({ date: "2025-09-28", _id: "456" })],
         "1",
         "load"
       )
     ).toEqual([
-      { averageLoad: 50, load: 600, date: 1754604000000, activityId: "456" },
-      { averageLoad: 50, load: 600, date: 1757368800000, activityId: "123" },
+      { averageLoad: 50, load: 600, date: 1759017600000, activityId: "456" },
+      { averageLoad: 50, load: 600, date: 1759104000000, activityId: "123" },
     ])
   })
 })

@@ -31,7 +31,7 @@ export const getMockActivity = (overrides: Partial<Activity> = {}): Activity => 
       _id: "123",
       type: ActivityTypes.STRENGTH,
     },
-    date: "09/09/2025",
+    date: "2025-09-29",
     exercises: [getMockExercise()],
     notes: "test note",
     warmup: true,
