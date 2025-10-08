@@ -7,10 +7,7 @@ import { useAppDispatch, useAppSelector } from "@app/hooks"
 import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { Icon } from "@components/Icon/Icon"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
-import {
-  getExercisesForActivityTypeAction,
-  getFavouriteExercisesAction,
-} from "@features/exercises/exercisesActions"
+import { getExercisesForActivityTypeAction, getFavouriteExercisesAction } from "@features/exercises/exercisesActions"
 
 import { CustomOptionLabel } from "./CustomOptionLabel"
 import {

@@ -204,7 +204,6 @@ export const AddActivityForm = () => {
           buttonType='button'
           type='button'
           variant='primary'
-          data-testid='presets-button'
           onClick={() => dispatch(setIsActivityPresetsVisible(true))}
         >
           Add from preset
@@ -297,7 +296,7 @@ export const AddActivityForm = () => {
         <SubmitButtonsWrapper justify='space-between'>
           <Checkbox name='makePresetFrom' label='Make preset from' />
 
-          <SubmitButton buttonType='button' type='submit' width={160}>
+          <SubmitButton buttonType='button' type='submit' width={160} data-testid='submit-button'>
             {isEditing ? "Edit" : "Add"}
           </SubmitButton>
           {(creatingActionStatus === RequestStatuses.LOADING || editingActionStatus === RequestStatuses.LOADING) && (

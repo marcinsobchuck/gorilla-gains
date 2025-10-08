@@ -2,6 +2,8 @@ import "@testing-library/jest-dom/vitest"
 
 import { vi } from "vitest"
 
+window.HTMLElement.prototype.scrollIntoView = function () {}
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   enumerable: true,
