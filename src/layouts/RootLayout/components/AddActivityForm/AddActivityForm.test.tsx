@@ -133,7 +133,7 @@ describe("AddActivityForm", () => {
     await user.type(screen.getByLabelText(/title/i), "test title")
     await user.click(screen.getByLabelText(/activity type/i))
     await user.click(await screen.findByRole("option", { name: /strength/i }))
-    await user.type(screen.getByLabelText(/date/i), "08/10/2025")
+    await user.type(screen.getByLabelText(/date/i), "2025-10-09")
     await user.click(await screen.findByRole("combobox", { name: /exercise/i }))
     await screen.findByRole("option", { name: /bench press/i })
     await user.click(screen.getByRole("option", { name: /bench press/i }))
@@ -151,7 +151,7 @@ describe("AddActivityForm", () => {
             sets: expect.arrayContaining([expect.objectContaining({ reps: 12 })]),
           }),
         ]),
-        date: "2025-10-07T22:00:00.000Z",
+        date: "2025-10-09T00:00:00.000Z",
         warmup: false,
       })
     )
