@@ -8,12 +8,10 @@ import { renderWithProviders } from "@utils/test-utils"
 
 import { AddActivityForm } from "./AddActivityForm"
 
-const baseURL = import.meta.env.VITE_BASE_URL
-
 const submitResponseResolver = vi.fn()
 
 export const handlers = [
-  http.get(`${baseURL}${ApiEndpoints.ACTIVITIY_TYPES}`, async () => {
+  http.get(`${ApiEndpoints.ACTIVITIY_TYPES}`, async () => {
     await delay(150)
     return HttpResponse.json([
       {
@@ -26,11 +24,11 @@ export const handlers = [
       },
     ])
   }),
-  http.get(`${baseURL}${ApiEndpoints.FAVOURITE_EXERCISES}`, async () => {
+  http.get(`${ApiEndpoints.FAVOURITE_EXERCISES}`, async () => {
     await delay(150)
     return HttpResponse.json([])
   }),
-  http.get(`${baseURL}${ApiEndpoints.EXERCISES}`, async ({ request }) => {
+  http.get(`${ApiEndpoints.EXERCISES}`, async ({ request }) => {
     await delay(150)
 
     const url = new URL(request.url)
@@ -55,7 +53,7 @@ export const handlers = [
       ])
     }
   }),
-  http.post(`${baseURL}${ApiEndpoints.ACTIVITIES}`, async ({ request }) => {
+  http.post(`${ApiEndpoints.ACTIVITIES}`, async ({ request }) => {
     const json = await request.json()
     submitResponseResolver(json)
     return HttpResponse.json({ ok: true })
