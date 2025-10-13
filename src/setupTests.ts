@@ -6,6 +6,8 @@ process.env.TZ = "UTC"
 
 window.HTMLElement.prototype.scrollIntoView = function () {}
 
+vi.mock("react-inlinesvg")
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   enumerable: true,

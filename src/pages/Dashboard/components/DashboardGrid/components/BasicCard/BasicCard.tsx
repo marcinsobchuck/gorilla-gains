@@ -23,7 +23,7 @@ export const BasicCard: React.FC<BasicCardProps> = ({
   const theme = useTheme()
 
   return (
-    <Wrapper direction='column' align='center' justify='center' className={className}>
+    <Wrapper direction='column' align='center' justify='center' className={className} data-testid='basic-card'>
       <ValueText $isNegative={isValueNegative(+value)}>{value}</ValueText>
       <LabelText>{label}</LabelText>
 
