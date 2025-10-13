@@ -190,3 +190,15 @@ export const mockActivitiesInYear = [
     name: "Oct",
   },
 ]
+
+export const mockActivitiesStatistics = {
+  activitiesCount: 10,
+  daysSinceLastActivity: 13,
+  averageActivitiesPerWeek: 2,
+  mostCommonExercise: {
+    maxCount: 6,
+    mostCommonExercise: "test exercise",
+  },
+  unresolvedActivities: [],
+  plannedActivities: [],
+}

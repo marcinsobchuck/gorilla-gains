@@ -6,14 +6,11 @@ import { renderWithProviders } from "@utils/test-utils"
 
 import { LastActivity } from "./LastActivity"
 
-describe("Totals", () => {
+describe("LastActivity", () => {
   it("should render loading skeleton when data is fetching", async () => {
     renderWithProviders(<LastActivity />, {
       preloadedState: {
-        activitiesSummary: {
-          ...mockActivitiesSummary,
-          weeklyActivitiesDataStatus: RequestStatuses.LOADING,
-        },
+        activitiesSummary: mockActivitiesSummary,
       },
     })
     expect(screen.getByTestId("skeleton-loader")).toBeInTheDocument()
