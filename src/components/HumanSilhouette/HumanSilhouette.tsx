@@ -34,11 +34,7 @@ const Loader = () => {
   )
 }
 
-export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
-  musclesHit,
-  withLegend = true,
-  className,
-}) => {
+export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({ musclesHit, withLegend = true, className }) => {
   const theme = useTheme()
 
   const updateClasses = useCallback(() => {
@@ -79,8 +75,7 @@ export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
     if (Object.entries(musclesHit)) {
       const legendItems = Object.entries(musclesHit).map(([key, value]) => {
         if (value.length > 0) {
-          const legendColor =
-            key === "primary" ? theme.primaryMusclesColorText : theme.secondaryMusclesColorText
+          const legendColor = key === "primary" ? theme.primaryMusclesColorText : theme.secondaryMusclesColorText
           return (
             <LegendItem key={key} align='center' justify='center'>
               <LegendDot $color={legendColor} />
@@ -99,7 +94,13 @@ export const HumanSilhouette: React.FC<HumanSilhouetteProps> = ({
   }
 
   return (
-    <FlexContainer direction='column' justify='center' align='center' className={className}>
+    <FlexContainer
+      data-testid='human-silhouette'
+      direction='column'
+      justify='center'
+      align='center'
+      className={className}
+    >
       <HumanModelSVG src={humanFrontBack} onLoad={updateClasses} loader={<Loader />} />
       {renderLegend()}
     </FlexContainer>
