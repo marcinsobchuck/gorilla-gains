@@ -20,6 +20,7 @@ interface ActivityInYear {
   [ActivityTypes.STRENGTH]?: number
   [ActivityTypes.FLEXIBILITY]?: number
   [ActivityTypes.BALANCE]?: number
+  unresolved?: number
   fullMonthName?: string
 }
 
