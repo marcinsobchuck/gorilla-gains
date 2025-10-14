@@ -5,11 +5,7 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { SkeletonTheme } from "@components/SkeletonTheme/SkeletonTheme"
 import { RequestStatuses } from "@enums/requestStatuses.enum"
 
-import {
-  ActivitiesStatisticsWrapper,
-  CardsWrapper,
-  StyledBasicCard,
-} from "./ActivitiesStatistics.styled"
+import { ActivitiesStatisticsWrapper, CardsWrapper, StyledBasicCard } from "./ActivitiesStatistics.styled"
 import { getActivitiesStatisticsItems } from "./utils"
 import { NoDataMessage } from "../../DashboardGrid.styled"
 
@@ -17,14 +13,12 @@ export const ActivitiesStatistics = () => {
   const activitiesStatistics = useAppSelector(
     (state) => state.activitiesSummary.activitiesSummaryData?.activitiesStatistics
   )
-  const activitiesStatisticsStatus = useAppSelector(
-    (state) => state.activitiesSummary.activitiesSummaryStatus
-  )
+  const activitiesStatisticsStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
 
   if (activitiesStatisticsStatus === RequestStatuses.FAILED) {
     return (
       <ActivitiesStatisticsWrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data.</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
       </ActivitiesStatisticsWrapper>
     )
   }
@@ -32,7 +26,7 @@ export const ActivitiesStatistics = () => {
   if (activitiesStatisticsStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }
@@ -49,12 +43,7 @@ export const ActivitiesStatistics = () => {
     <FlexContainer gap={12}>
       <CardsWrapper gap={12}>
         {getActivitiesStatisticsItems(activitiesStatistics).map((stat) => (
-          <StyledBasicCard
-            key={stat.label}
-            value={stat.value}
-            label={stat.label}
-            withTooltip={false}
-          />
+          <StyledBasicCard key={stat.label} value={stat.value} label={stat.label} withTooltip={false} />
         ))}
       </CardsWrapper>
     </FlexContainer>

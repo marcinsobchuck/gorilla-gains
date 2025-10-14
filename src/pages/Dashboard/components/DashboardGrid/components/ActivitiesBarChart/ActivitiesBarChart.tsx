@@ -1,14 +1,5 @@
 import Skeleton from "react-loading-skeleton"
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { useTheme } from "styled-components"
 
 import { useAppSelector } from "@app/hooks"
@@ -24,23 +15,19 @@ import { NoDataMessage } from "../../DashboardGrid.styled"
 export const ActivitiesBarChart = () => {
   const theme = useTheme()
 
-  const chartData = useAppSelector(
-    (state) => state.activitiesSummary.activitiesSummaryData?.activitiesInYear
-  )
+  const chartData = useAppSelector((state) => state.activitiesSummary.activitiesSummaryData?.activitiesInYear)
   const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
 
   const activityTypes = [
     ...new Set(
-      chartData?.flatMap((obj) =>
-        Object.keys(obj).filter((key) => !["value", "name", "fullMonthName"].includes(key))
-      )
+      chartData?.flatMap((obj) => Object.keys(obj).filter((key) => !["value", "name", "fullMonthName"].includes(key)))
     ),
   ]
 
   if (chartDataStatus === RequestStatuses.FAILED) {
     return (
       <Wrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data.</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
       </Wrapper>
     )
   }
@@ -48,7 +35,7 @@ export const ActivitiesBarChart = () => {
   if (chartDataStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }
