@@ -9,26 +9,19 @@ import { RequestStatuses } from "@enums/requestStatuses.enum"
 import { setActiveActivity, setIsActivityDetailsOpen } from "@features/activities/activitiesSlice"
 import { getDataForActivityType } from "@utils/getDataForActivityType"
 
-import {
-  CardHeading,
-  LastActivityCard,
-  LastActivityWrapper,
-  MainContentWrapper,
-} from "./LastActivity.styled"
+import { CardHeading, LastActivityCard, LastActivityWrapper, MainContentWrapper } from "./LastActivity.styled"
 import { NoDataMessage } from "../../DashboardGrid.styled"
 
 export const LastActivity = () => {
   const theme = useTheme()
   const dispatch = useAppDispatch()
   const lastActivity = useAppSelector((state) => state.activitiesSummary.lastActivity)
-  const lastActivityStatus = useAppSelector(
-    (state) => state.activitiesSummary.weeklyActivitiesDataStatus
-  )
+  const lastActivityStatus = useAppSelector((state) => state.activitiesSummary.weeklyActivitiesDataStatus)
 
   if (lastActivityStatus === RequestStatuses.FAILED) {
     return (
       <LastActivityWrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data.</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
       </LastActivityWrapper>
     )
   }
@@ -36,7 +29,7 @@ export const LastActivity = () => {
   if (lastActivityStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }

@@ -49,16 +49,12 @@ export const AddActivityForm = () => {
   const [selectValue, setSelectValue] = useState<AsyncOption | null>(null)
   const [isWarningVisible, setIsWarningVisible] = useState(false)
 
-  const isActivityPresetsVisible = useAppSelector(
-    (state) => state.activityPresets.isActivityPresetsVisible
-  )
+  const isActivityPresetsVisible = useAppSelector((state) => state.activityPresets.isActivityPresetsVisible)
   const creatingActionStatus = useAppSelector((state) => state.activities.createActivityStatus)
   const editingActionStatus = useAppSelector((state) => state.activities.editActivityStatus)
   const activityTypes = useAppSelector((state) => state.activityTypes)
   const isEditing = useAppSelector((state) => state.activities.isEditing)
-  const currentlyEditedActivity = useAppSelector(
-    (state) => state.activities.currentlyEditedActivity
-  )
+  const currentlyEditedActivity = useAppSelector((state) => state.activities.currentlyEditedActivity)
   const selectedDate = useAppSelector((state) => state.calendarScheduler.selectedDate)
   const dispatch = useAppDispatch()
   const addExerciseButtonRef = useRef<HTMLButtonElement>(null)
@@ -158,8 +154,7 @@ export const AddActivityForm = () => {
         }
       }
 
-      const submitCreate = async () =>
-        await dispatch(createActivityAction({ data: dataToSubmit, theme }))
+      const submitCreate = async () => await dispatch(createActivityAction({ data: dataToSubmit, theme }))
 
       isEditing ? submitEdit() : submitCreate()
     })
@@ -215,13 +210,7 @@ export const AddActivityForm = () => {
         </PresetsButton>
         {isActivityPresetsVisible && <PresetsView setSelectValue={setSelectValue} />}
         <FieldsWrapper>
-          <Input
-            id='title'
-            label='Title'
-            type='text'
-            onChange={() => setIsCustomTitle(true)}
-            autoFocus
-          />
+          <Input id='title' label='Title' type='text' onChange={() => setIsCustomTitle(true)} autoFocus />
           <StyledSelect
             name='activityType'
             labelText='Activity type'
@@ -300,22 +289,17 @@ export const AddActivityForm = () => {
 
           <StyledCheckbox name='warmup' label='Warmup done' />
 
-          <Textarea
-            label='Notes'
-            name='notes'
-            placeholder='Comments, reflections, or reminders...'
-          />
+          <Textarea label='Notes' name='notes' placeholder='Comments, reflections, or reminders...' />
           <ExertionRating />
         </FieldsWrapper>
 
         <SubmitButtonsWrapper justify='space-between'>
           <Checkbox name='makePresetFrom' label='Make preset from' />
 
-          <SubmitButton buttonType='button' type='submit' width={160}>
+          <SubmitButton buttonType='button' type='submit' width={160} data-testid='submit-button'>
             {isEditing ? "Edit" : "Add"}
           </SubmitButton>
-          {(creatingActionStatus === RequestStatuses.LOADING ||
-            editingActionStatus === RequestStatuses.LOADING) && (
+          {(creatingActionStatus === RequestStatuses.LOADING || editingActionStatus === RequestStatuses.LOADING) && (
             <StyledLoader width={26} height={26} />
           )}
         </SubmitButtonsWrapper>

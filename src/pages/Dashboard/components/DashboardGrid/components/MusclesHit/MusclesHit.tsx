@@ -14,7 +14,7 @@ export const MusclesHit = () => {
   if (status === RequestStatuses.FAILED) {
     return (
       <Wrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data.</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
       </Wrapper>
     )
   }
@@ -22,7 +22,7 @@ export const MusclesHit = () => {
   if (status === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }

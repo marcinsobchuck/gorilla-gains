@@ -27,11 +27,12 @@
       "@assets/*": ["assets/*"],
       "@enums/*": ["enums/*"],
       "@features/*": ["features/*"],
+      "@fixtures/*": ["fixtures/*"],
       "@hooks/*": ["hooks/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
     },
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "msw"]
   },
 
   "include": ["src"],

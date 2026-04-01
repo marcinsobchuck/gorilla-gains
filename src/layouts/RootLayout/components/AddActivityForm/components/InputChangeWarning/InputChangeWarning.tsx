@@ -6,14 +6,10 @@ import { FlexContainer } from "@components/FlexContainer/FlexContainer.styled"
 import { InputChangeWarningProps } from "./InputChangeWarning.types"
 import { InputWarning } from "../../AddActivityForm.styled"
 
-export const InputChangeWarning: React.FC<InputChangeWarningProps> = ({
-  isVisible,
-  onAccept,
-  onDecline,
-}) => {
+export const InputChangeWarning: React.FC<InputChangeWarningProps> = ({ isVisible, onAccept, onDecline }) => {
   return (
     isVisible && (
-      <InputWarning align='center' justify='space-between'>
+      <InputWarning align='center' justify='space-between' data-testid='input-warning'>
         <p>
           This change will reset all exercises. <b>Are you sure?</b>
         </p>

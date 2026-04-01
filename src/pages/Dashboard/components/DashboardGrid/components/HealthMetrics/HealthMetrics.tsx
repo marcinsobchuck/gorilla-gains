@@ -17,7 +17,7 @@ export const HealthMetrics = () => {
   if (status === RequestStatuses.FAILED) {
     return (
       <NoDataWrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data</NoDataMessage>
       </NoDataWrapper>
     )
   }
@@ -25,7 +25,7 @@ export const HealthMetrics = () => {
   if (status === RequestStatuses.LOADING || !userInfo) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }
@@ -41,13 +41,7 @@ export const HealthMetrics = () => {
   return (
     <Wrapper gap={12}>
       {items.map((el, index) => (
-        <BasicCard
-          key={index}
-          label={el.label}
-          value={el.value}
-          tooltipInfo={el.tooltipInfo}
-          source={el.source}
-        />
+        <BasicCard key={index} label={el.label} value={el.value} tooltipInfo={el.tooltipInfo} source={el.source} />
       ))}
     </Wrapper>
   )

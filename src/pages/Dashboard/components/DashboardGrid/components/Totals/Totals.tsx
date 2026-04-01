@@ -19,14 +19,12 @@ export const Totals = () => {
 
   const dueDateWeight = userState.data?.dueDateWeight
 
-  const daysLeftWeightGoal = dueDateWeight
-    ? differenceInDays(parseISO(dueDateWeight), new Date())
-    : "-"
+  const daysLeftWeightGoal = dueDateWeight ? differenceInDays(parseISO(dueDateWeight), new Date()) : "-"
 
   if (totalsStatus === RequestStatuses.FAILED) {
     return (
       <TotalsWrapper justify='center' align='center'>
-        <NoDataMessage>Failed to load the data.</NoDataMessage>
+        <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
       </TotalsWrapper>
     )
   }
@@ -34,7 +32,7 @@ export const Totals = () => {
   if (userInfoStatus === RequestStatuses.LOADING || totalsStatus === RequestStatuses.LOADING) {
     return (
       <SkeletonTheme>
-        <Skeleton height='100%' />
+        <Skeleton height='100%' containerTestId='skeleton-loader' />
       </SkeletonTheme>
     )
   }
@@ -57,11 +55,7 @@ export const Totals = () => {
         ))}
       </TotalsWrapper>
 
-      <StyledBasicCard
-        label='Weight goal days left'
-        withTooltip={false}
-        value={daysLeftWeightGoal}
-      />
+      <StyledBasicCard label='Weight goal days left' withTooltip={false} value={daysLeftWeightGoal} />
     </Wrapper>
   )
 }

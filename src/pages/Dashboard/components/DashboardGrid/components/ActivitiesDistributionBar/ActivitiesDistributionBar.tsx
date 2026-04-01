@@ -26,16 +26,14 @@ export const ActivitiesDistributionBar = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
   const theme = useTheme()
-  const chartData = useAppSelector(
-    (state) => state.activitiesSummary.activitiesSummaryData?.activityTypeDistribution
-  )
+  const chartData = useAppSelector((state) => state.activitiesSummary.activitiesSummaryData?.activityTypeDistribution)
   const chartDataStatus = useAppSelector((state) => state.activitiesSummary.activitiesSummaryStatus)
 
   if (chartDataStatus === RequestStatuses.FAILED) {
     return (
       <ActivitiesDistributionWrapper>
         <BarWrapper justify='center' align='center'>
-          <NoDataMessage>Failed to load the data.</NoDataMessage>
+          <NoDataMessage role='alert'>Failed to load the data.</NoDataMessage>
         </BarWrapper>
       </ActivitiesDistributionWrapper>
     )
@@ -45,7 +43,7 @@ export const ActivitiesDistributionBar = () => {
     return (
       <ActivitiesDistributionWrapper>
         <SkeletonTheme>
-          <Skeleton height='100%' containerClassName='skeletonWrapper' />
+          <Skeleton height='100%' containerClassName='skeletonWrapper' containerTestId='skeleton-loader' />
         </SkeletonTheme>
       </ActivitiesDistributionWrapper>
     )
@@ -81,6 +79,7 @@ export const ActivitiesDistributionBar = () => {
           return (
             <ActivityTypeBar
               key={index}
+              data-testid='activity-type-bar'
               $width={width}
               $left={left}
               $color={getDataForActivityType(activityType.name, theme).primaryColor}
@@ -96,9 +95,7 @@ export const ActivitiesDistributionBar = () => {
                 height={18}
               />
               {width > 6 && (
-                <ActivityTypeText
-                  $secondaryColor={getDataForActivityType(activityType.name, theme).secondaryColor}
-                >
+                <ActivityTypeText $secondaryColor={getDataForActivityType(activityType.name, theme).secondaryColor}>
                   {width.toFixed()}%
                 </ActivityTypeText>
               )}
@@ -117,14 +114,10 @@ export const ActivitiesDistributionBar = () => {
           <BarChartTooltipWrapper direction='column' gap={6}>
             {chartData.distributionPerActivityType.map((activityType) => (
               <FlexContainer justify='space-between' key={activityType.name}>
-                <ActivityTypeText
-                  $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}
-                >
+                <ActivityTypeText $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}>
                   {activityType.name}
                 </ActivityTypeText>
-                <ActivityTypeText
-                  $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}
-                >
+                <ActivityTypeText $secondaryColor={getDataForActivityType(activityType.name, theme).primaryColor}>
                   {activityType.value}
                 </ActivityTypeText>
               </FlexContainer>

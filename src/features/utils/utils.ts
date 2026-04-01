@@ -9,6 +9,7 @@ export const getActivityEvents = (activities: Activity[], theme: DefaultTheme) =
     const {
       type: { type },
     } = activity
+
     return {
       ...activity,
       color: getDataForActivityType(type, theme).primaryColor,

@@ -19,12 +19,11 @@ interface ReactDatePickerInputProps {
 
 const ReactDatePickerInput = forwardRef<
   HTMLInputElement,
-  ReactDatePickerInputProps &
-    React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+  ReactDatePickerInputProps & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 >(({ errors, id, label, withError = "true", ...props }, ref) => {
   return (
     <>
-      <input ref={ref} {...props} />
+      <input id={id} ref={ref} {...props} />
       <label htmlFor={id}>{label}</label>
       <Icon height={20} width={20} name='calendar' />
       {withError && <FormError errors={errors} name={id} />}
@@ -46,10 +45,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name, label, ...props })
       control={control}
       render={({ field: { value, ref, ...field } }) => {
         return (
-          <DatePickerWrapper
-            $isCalendarOpen={isCalendarOpen}
-            $isFloating={isCalendarOpen || Boolean(value)}
-          >
+          <DatePickerWrapper $isCalendarOpen={isCalendarOpen} $isFloating={isCalendarOpen || Boolean(value)}>
             <ReactDatePicker
               id={name}
               ref={(elem) => {
@@ -57,9 +53,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({ name, label, ...props })
                 //  eslint-disable-next-line @typescript-eslint/no-explicit-any
                 elem && ref((elem as any).input)
               }}
-              customInput={
-                <ReactDatePickerInput id={name} ref={ref} label={label} errors={errors} />
-              }
+              customInput={<ReactDatePickerInput id={name} ref={ref} label={label} errors={errors} />}
               selected={value}
               onCalendarOpen={toggleCalendarOpen}
               dateFormat='dd/MM/yyyy'
